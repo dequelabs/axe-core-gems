@@ -1,3 +1,5 @@
+require 'rspec/matchers'
+
 RSpec::Matchers.define :be_accessible do |scope|
   match do |page|
     run_test_for(scope)
