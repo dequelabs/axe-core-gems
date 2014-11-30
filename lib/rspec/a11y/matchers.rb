@@ -2,7 +2,7 @@ require 'rspec/matchers'
 
 RSpec::Matchers.define :be_accessible do |scope|
   match do |page|
-    run_test_for(scope)
+    RSpec::Matchers::Custom::A11yHelper.run_test_for(page,scope)
     results = get_test_results
     results['violations'].count == 0
   end
@@ -26,10 +26,6 @@ RSpec::Matchers.define :be_accessible do |scope|
   end
 
   private
-
-  def run_test_for(scope)
-    page.execute_script("dqre.a11yCheck('#{scope || 'body'}', null, function(result){window.dqreResult = JSON.stringify(result);});")
-  end
 
   def get_test_results
     json_result = page.evaluate_script("dqreReturn();")
