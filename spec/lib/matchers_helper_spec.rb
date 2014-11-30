@@ -7,14 +7,26 @@ module RSpec
 
         describe "#run_test_for" do
 
-          it "should execute the test script on the page" do
-            scope = "body"
+          before :each do
             script = "dqre.a11yCheck('#{scope}', null, function(result){window.dqreResult = JSON.stringify(result);});"
+            @page = double("page")
+            expect(@page).to receive(:execute_script) { script }
+          end
 
-            page = double("page")
-            expect(page).to receive(:execute_script) { script }
+          context "default scope" do
+            let(:scope) { "body" }
 
-            RSpec::Matchers::Custom::A11yHelper.run_test_for(page, scope)
+            it "should execute the test script for body" do
+              RSpec::Matchers::Custom::A11yHelper.run_test_for(@page)
+            end
+          end
+
+          context "custom scope" do
+            let(:scope) { "#custom" }
+
+            it "should execute the test script for defined scope" do
+              RSpec::Matchers::Custom::A11yHelper.run_test_for(@page, scope)
+            end
           end
         end
       end

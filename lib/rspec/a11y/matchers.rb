@@ -2,7 +2,7 @@ require 'rspec/matchers'
 
 RSpec::Matchers.define :be_accessible do |scope|
   match do |page|
-    RSpec::Matchers::Custom::A11yHelper.run_test_for(page,scope)
+    RSpec::Matchers::Custom::A11yHelper.run_test_for(page, scope)
     results = get_test_results
     results['violations'].count == 0
   end

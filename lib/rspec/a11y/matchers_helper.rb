@@ -3,7 +3,8 @@ module RSpec
     module Custom
       module A11yHelper
 
-        def self.run_test_for(page, scope="body")
+        def self.run_test_for(page, scope)
+          scope = scope || "body"
           script = "dqre.a11yCheck('#{scope}', null, function(result){window.dqreResult = JSON.stringify(result);});"
           self.execute_script(page, script)
         end
