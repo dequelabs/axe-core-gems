@@ -5,7 +5,7 @@ module RSpec
 
         def self.run_test_for(page, scope=nil)
           scope = scope || "body"
-          script = "dqre.a11yCheck('#{scope}', null, function(result){window.dqreResult = JSON.stringify(result);});"
+          script = "dqre.a11yCheck('#{scope}', null, function(result){dqre.rspecResult = JSON.stringify(result);});"
           self.execute_script(page, script)
         end
 
