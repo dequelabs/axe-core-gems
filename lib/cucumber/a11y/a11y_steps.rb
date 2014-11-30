@@ -7,9 +7,9 @@ Then(/^the page should not be accessible$/) do
 end
 
 Then(/^"(.*?)" should be accessible$/) do |scope|
-  expect(page).to be_accessible(scope)
+  expect(page).to be_accessible_within(scope)
 end
 
 Then(/^"(.*?)" should not be accessible$/) do |scope|
-  expect(page).to_not be_accessible(scope)
+  expect(page).to_not be_accessible_within(scope)
 end
