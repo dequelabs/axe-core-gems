@@ -1,3 +1,2 @@
-require "rspec/a11y/version"
-require "rspec/a11y/matchers"
+require "rspec/a11y"
 require "cucumber/a11y/a11y_steps"
