@@ -4,7 +4,7 @@ Defines custom RSpec matchers and Cucumber steps for testing page accessibility 
 
 ## Prerequisites
 
-Make sure that the Kensington JS file has been downloaded from Deque and is being loaded on the page within the test environment.
+Make sure that the `kensington.min.js` file has been downloaded from Deque and is being loaded on the page within the test environment.
 
 ## Installation
 
@@ -34,4 +34,12 @@ Require the custom steps in Cucumber's `env` file:
 
 ## Usage
 
-TODO: Write usage instructions here
+### RSpec
+
+    expect(page).to be_accessible
+    expect(page).to be_accessible_within("#id")
+
+### Cucumber
+
+    Then the page should be accessible
+    Then "#id" should be accessible
