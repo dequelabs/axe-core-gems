@@ -9,19 +9,6 @@ RSpec::Matchers.define :be_accessible do |scope|
 
   failure_message do |page|
     results = JSON.parse(RSpec::Matchers::Custom::A11yHelper.get_test_results(page))
-    violation_count = results['violations'].count
-
-    message = "Found #{violation_count} accessibility #{violation_count == 1 ? 'violation' : 'violations'}:\n"
-    results['violations'].each do |v|
-      message += "  #{v['help']}: #{v['helpUrl']}\n"
-      v['nodes'].each do |n|
-        message += "    #{n['html']}\n"
-        n['target'].each do |t|
-          message += "    #{t}\n"
-        end
-        message += "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
-      end
-    end
-    message
+    RSpec::Matchers::Custom::A11yHelper.message_for_results(results)
   end
 end

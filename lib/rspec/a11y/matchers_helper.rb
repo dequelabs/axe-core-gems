@@ -14,6 +14,22 @@ module RSpec
           self.evaluate_script(page, script)
         end
 
+        def self.message_for_results(results)
+          violation_count = results['violations'].count
+          message = "Found #{violation_count} accessibility #{violation_count == 1 ? 'violation' : 'violations'}:\n"
+          results['violations'].each do |v|
+            message += "  #{v['help']}: #{v['helpUrl']}\n"
+            v['nodes'].each do |n|
+              message += "    #{n['html']}\n"
+              n['target'].each do |t|
+                message += "    #{t}\n"
+              end
+              message += "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
+            end
+          end
+          message
+        end
+
         private
 
         def self.execute_script(page, script)

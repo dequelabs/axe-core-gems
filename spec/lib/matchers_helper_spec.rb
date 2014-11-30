@@ -68,6 +68,62 @@ module RSpec
             end
           end
         end
+
+        describe "#message_for_results" do
+          it "should return formatted error message for violations" do
+            results = {
+              "violations" => [
+                {
+                  "help" => "Help for Violation 1",
+                  "nodes" => [
+                    {
+                      "target" => ["#target-1-1"],
+                      "html" => "<input id=\"target-1-1\" type=\"text\">",
+                      "failureSummary" => "Fix these for target-1-1"
+                    },
+                    {
+                      "target" => ["#target-1-2","#target-1-2-2"],
+                      "html" => "<input id=\"target-1-2\" type=\"text\">",
+                      "failureSummary" => "Fix these for target-1-2"
+                    }
+                  ],
+                  "helpUrl" => "https://dequeuniversity.com/violation-1"
+                },
+                {
+                  "help" => "Help for Violation 2",
+                  "nodes" => [
+                    {
+                      "target" => ["#target-2-1"],
+                      "html" => "<input id=\"target-2-1\" type=\"text\">",
+                      "failureSummary" => "Fix these for target-2-1"
+                    },
+                    {
+                      "target" => ["#target-2-2","#target-2-2-2"],
+                      "html" => "<input id=\"target-2-2\" type=\"text\">",
+                      "failureSummary" => "Fix these for target-2-2"
+                    }
+                  ],
+                  "helpUrl" => "https://dequeuniversity.com/violation-2"
+                }
+              ]
+            }
+
+            message = RSpec::Matchers::Custom::A11yHelper.message_for_results(results)
+
+            expect(message).to include("Found 2 accessibility violations")
+            results['violations'].each do |v|
+              expect(message).to include(v['help'])
+              expect(message).to include(v['helpUrl'])
+              v['nodes'].each do |n|
+                expect(message).to include(n['html'])
+                expect(message).to include(n['failureSummary'])
+                n['target'].each do |t|
+                  expect(message).to include(t)
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
