@@ -10,7 +10,7 @@ module RSpec
         end
 
         def self.get_test_results(page)
-          script = "dqreReturn();"
+          script = "(function(){return dqre.rspecResult;})()"
           self.evaluate_script(page, script)
         end
 

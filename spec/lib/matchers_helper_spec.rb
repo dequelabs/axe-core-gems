@@ -35,7 +35,7 @@ module RSpec
 
           before :each do
             @page = double("page")
-            @script = "dqreReturn();"
+            @script = "(function(){return dqre.rspecResult;})()"
           end
 
           context "capybara style" do
