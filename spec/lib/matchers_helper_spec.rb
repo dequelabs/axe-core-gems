@@ -9,13 +9,14 @@ module RSpec
         describe "#run_test_for" do
 
           before :each do
-            script = "dqre.a11yCheck('#{scope}', null, function(result){window.dqreResult = JSON.stringify(result);});"
+            script = "dqre.a11yCheck('#{scope}', #{options.to_json}, function(result){dqre.rspecResult = JSON.stringify(result);});"
             @page = double("page")
-            expect(@page).to receive(:execute_script) { script }
+            expect(@page).to receive(:execute_script).with(script)
           end
 
           context "default scope" do
             let(:scope) { "body" }
+            let(:options) { nil }
 
             it "should execute the test script for body" do
               RSpec::Matchers::Custom::A11yHelper.run_test_for(@page)
@@ -24,9 +25,19 @@ module RSpec
 
           context "custom scope" do
             let(:scope) { "#custom" }
+            let(:options) { nil }
 
             it "should execute the test script for defined scope" do
               RSpec::Matchers::Custom::A11yHelper.run_test_for(@page, scope)
+            end
+          end
+
+          context "custom options" do
+            let(:scope) { "body" }
+            let(:options) { {runOnly: {type: "tag", values: ["wcag2a"]}} }
+
+            it "should execute the test script with options" do
+              RSpec::Matchers::Custom::A11yHelper.run_test_for(@page, scope, options)
             end
           end
         end

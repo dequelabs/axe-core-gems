@@ -13,3 +13,19 @@ end
 Then(/^"(.*?)" should not be accessible$/) do |scope|
   expect(page).to_not be_accessible_within(scope)
 end
+
+Then(/^the page should be accessible for tag "(.*?)"$/) do |tag|
+  expect(page).to be_accessible_for_tag(tag)
+end
+
+Then(/^the page should not be accessible for tag "(.*?)"$/) do |tag|
+  expect(page).to_not be_accessible_for_tag(tag)
+end
+
+Then(/^the page should be accessible for rule "(.*?)"$/) do |rule|
+  expect(page).to be_accessible_for_rule(rule)
+end
+
+Then(/^the page should not be accessible for tag "(.*?)"$/) do |rule|
+  expect(page).to_not be_accessible_for_rule(rule)
+end
