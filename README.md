@@ -38,8 +38,12 @@ Require the custom steps in Cucumber's `env` file:
 
     expect(page).to be_accessible
     expect(page).to be_accessible_within("#id")
+    expect(page).to be_accessible_for_tag("wcag2a")
+    expect(page).to be_accessible_for_rule("label")
 
 ### Cucumber
 
     Then the page should be accessible
     Then "#id" should be accessible
+    Then the page should be accessible for tag "wcag2a"
+    Then the page should be accessible for rule "label"
