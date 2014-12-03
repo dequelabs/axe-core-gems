@@ -14,8 +14,8 @@ module CustomA11yMatchers
 
     def failure_message
       message = "Found #{violations_count} accessibility #{violations_count == 1 ? 'violation' : 'violations'}:\n"
-      @results['violations'].each do |v|
-        message += "  #{v['help']}: #{v['helpUrl']}\n"
+      @results['violations'].each_with_index do |v, i|
+        message += "  #{i+1}) #{v['help']}: #{v['helpUrl']}\n"
         v['nodes'].each do |n|
           message += "    #{n['html']}\n"
           n['target'].each do |t|
