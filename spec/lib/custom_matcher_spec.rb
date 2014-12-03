@@ -112,6 +112,18 @@ module CustomA11yMatchers
       end
     end
 
+    describe "#within" do
+
+      before :each do
+        allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
+      end
+
+      it "should set the scope of the test script" do
+        expect(@page).to receive(:execute_script).with(script_for_execute("#selector"))
+        @matcher.within("#selector").matches?(@page)
+      end
+    end
+
     private
 
     def script_for_execute(context=nil, options=nil)

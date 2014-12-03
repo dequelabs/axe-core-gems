@@ -27,14 +27,23 @@ module CustomA11yMatchers
       message
     end
 
+    def within(scope)
+      @scope = scope
+      self
+    end
+
     private
 
     def execute_test_script
       @page.execute_script(script_for_execute)
     end
 
+    def scope_for_execute
+      @scope ? "'#{@scope}'" : "document"
+    end
+
     def script_for_execute
-      "dqre.a11yCheck(document, null, function(result){dqre.rspecResult = JSON.stringify(result);});"
+      "dqre.a11yCheck(#{scope_for_execute}, null, function(result){dqre.rspecResult = JSON.stringify(result);});"
     end
 
     def evaluate_test_results
