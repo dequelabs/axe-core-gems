@@ -50,26 +50,36 @@ The simplest use case is to perform an accessibility check for the whole page:
 
 #### Limiting the context of the test
 
-To check only a portion of the page, pass a CSS selector to `within()`:
+To check only a portion of the page, pass a CSS selector to `within`:
 
     expect(page).to be_accessible.within("#testme")
 
-To exclude a portion of the page from the check, pass a CSS selector or selectors to `excluding()`:
+To exclude a portion of the page from the check, pass a CSS selector or selectors to `excluding`:
 
     expect(page).to be_accessible.excluding(".excludeme")
     expect(page).to be_accessible.excluding(".exclude1,.exclude2")
     expect(page).to be_accessible.excluding([".exclude1",".exclude2"])
 
 
-The `within()` and `excluding()` methods can be used together:
+The `within` and `excluding` methods can be used together:
 
     expect(page).to be_accessible.within("#testme").excluding(".excludeme")
 
+#### Running only certain tests
+
+To perform a check for a tagged set of rules, pass a tag to `for_tag`:
+
+    expect(page).to be_accessible.for_tag("wcag2a")
+
+The `for_tag` method can be used in combination with `within` and/or `excluding`.
+
 #### Passing custom options
 
-To perform checks that are more complex than what's provided, pass a string containing your javascript options to `with_options()`:
+To perform checks that are more complex than `for_tag` or `for_rule`, pass a string containing your javascript options to `with_options`:
 
     expect(page).to be_accessible.with_options('{rules:{"ruleId1":{enabled:false},"ruleId2":{enabled: false}}}')
+
+The `with_options` method can be used in combination with `within` and/or `excluding`.
 
 ## Cucumber Usage
 
@@ -92,8 +102,26 @@ These limiters can be used together:
 
     Then the page should be accessible within "#testme" excluding ".excludeme"
 
+#### Running only certain tests
+
+To perform a check for a tagged set of rules:
+
+    Then the page should be accessible for tag "wcag2a"
+
+Tagged sets of rules can also be checked against portions of the page:
+
+    Then the page should be accessible within "#testme" for tag "wcag2a"
+    Then the page should be accessible excluding ".excludeme" for tag "wcag2a"
+    Then the page should be accessible within "#testme" excluding ".excludeme" for tag "wcag2a"
+
 #### Passing custom options
 
 To perform checks that are more complex than what's built in to the matchers:
 
     Then the page should be accessible with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
+
+Custom options can also be checked against portions of the page:
+
+    Then the page should be accessible within "#testme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
+    Then the page should be accessible excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
+    Then the page should be accessible within "#testme" excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"

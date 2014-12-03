@@ -37,6 +37,11 @@ module CustomA11yMatchers
       self
     end
 
+    def for_tag(tag)
+      @options = "{runOnly:{type:\"tag\",values:{\"#{tag}\"}}}"
+      self
+    end
+
     def with_options(options)
       @options = options
       self

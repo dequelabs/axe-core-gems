@@ -16,6 +16,22 @@ Then(/^the page should be accessible within "(.*?)" excluding "(.*?)"$/) do |inc
   expect(page).to be_accessible.within(inclusion).excluding(exclusion)
 end
 
+Then(/^the page should be accessible for tag "(.*?)"$/) do |tag|
+  expect(page).to be_accessible.for_tag(tag)
+end
+
+Then(/^the page should be accessible within "(.*?)" for tag "(.*?)"$/) do |inclusion, tag|
+  expect(page).to be_accessible.within(inclusion).for_tag(tag)
+end
+
+Then(/^the page should be accessible excluding "(.*?)" for tag "(.*?)"$/) do |exclusion, tag|
+  expect(page).to be_accessible.excluding(exclusion).for_tag(tag)
+end
+
+Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for tag "(.*?)"$/) do |inclusion, exclusion, tag|
+  expect(page).to be_accessible.within(inclusion).excluding(exclusion).for_tag(tag)
+end
+
 Then(/^the page should be accessible with options "(.*?)"$/) do |options|
   expect(page).to be_accessible.with_options(options)
 end
