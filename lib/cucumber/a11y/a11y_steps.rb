@@ -1,30 +1,20 @@
 include CustomA11yMatchers
 
-# Full page
-
 Then(/^the page should be accessible$/) do
   expect(page).to be_accessible
 end
-
-# Within
 
 Then(/^the page should be accessible within "(.*?)"$/) do |inclusion|
   expect(page).to be_accessible.within(inclusion)
 end
 
-# Excluding
-
 Then(/^the page should be accessible excluding "(.*?)"$/) do |exclusion|
   expect(page).to be_accessible.excluding(exclusion)
 end
 
-# Include/Exclude
-
 Then(/^the page should be accessible within "(.*?)" excluding "(.*?)"$/) do |inclusion, exclusion|
   expect(page).to be_accessible.within(inclusion).excluding(exclusion)
 end
-
-# With Options
 
 Then(/^the page should be accessible with options "(.*?)"$/) do |options|
   expect(page).to be_accessible.with_options(options)
