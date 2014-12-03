@@ -26,9 +26,19 @@ Require the custom matchers in Rspec's `spec_helper` file:
 
     require 'rspec/a11y'
 
+Then include the custom matchers in the spec files where you need them with
+
+    include CustomA11yMatchers
+
+or include the custom matchers globally in a `spec_helper` file with
+
+    RSpec::configure do |config|
+      config.include(CustomA11yMatchers)
+    end
+
 ### Cucumber
 
-Require the custom steps in Cucumber's `env` file:
+Require the custom step definitions in Cucumber's `env` file:
 
     require 'cucumber/a11y'
 
@@ -37,9 +47,9 @@ Require the custom steps in Cucumber's `env` file:
 ### RSpec
 
     expect(page).to be_accessible
-    expect(page).to be_accessible_within("#id")
-    expect(page).to be_accessible_for_tag("wcag2a")
-    expect(page).to be_accessible_for_rule("label")
+    expect(page).to be_accessible.within("#id")
+    expect(page).to be_accessible.for_tag("wcag2a")
+    expect(page).to be_accessible.for_rule("label")
 
 ### Cucumber
 
