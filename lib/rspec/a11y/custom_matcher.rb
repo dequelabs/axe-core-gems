@@ -27,8 +27,13 @@ module CustomA11yMatchers
       message
     end
 
-    def within(scope)
-      @scope = scope
+    def within(inclusion)
+      @inclusion = inclusion
+      self
+    end
+
+    def excluding(exclusion)
+      @exclusion = exclusion
       self
     end
 
@@ -38,12 +43,26 @@ module CustomA11yMatchers
       @page.execute_script(script_for_execute)
     end
 
-    def scope_for_execute
-      @scope ? "'#{@scope}'" : "document"
+    def script_for_execute
+      "dqre.a11yCheck(#{context_for_execute}, null, function(result){dqre.rspecResult = JSON.stringify(result);});"
     end
 
-    def script_for_execute
-      "dqre.a11yCheck(#{scope_for_execute}, null, function(result){dqre.rspecResult = JSON.stringify(result);});"
+    def context_for_execute
+      return formatted_include if @exclusion.nil?
+      return formatted_exclude if @inclusion.nil?
+      formatted_include_exclude
+    end
+
+    def formatted_include
+      @inclusion ? "'#{@inclusion}'" : "document"
+    end
+
+    def formatted_exclude
+      "{include:document,exclude:[[\"#{@exclusion}\"]]}"
+    end
+
+    def formatted_include_exclude
+      "{include:[[\"#{@inclusion}\"]],exclude:[[\"#{@exclusion}\"]]}"
     end
 
     def evaluate_test_results

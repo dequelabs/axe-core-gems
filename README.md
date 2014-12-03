@@ -50,14 +50,19 @@ The simplest use case is to perform an accessibility check for the whole page:
 
     expect(page).to be_accessible
 
-To perform this check for only a portion of the page:
+#### Limiting the context of the test
 
-    expect(page).to be_accessible.within("#id")
+To check only a portion of the page, pass a CSS selector to `within()`:
 
-TODO
+    expect(page).to be_accessible.within("#testme")
 
-    expect(page).to be_accessible.for_tag("wcag2a")
-    expect(page).to be_accessible.for_rule("label")
+To exclude a portion of the page from the check, pass a CSS selector to `excluding()`:
+
+    expect(page).to be_accessible.excluding(".excludeme")
+
+The `within()` and `excluding()` methods can be used together:
+
+    expect(page).to be_accessible.within("#testme").excluding(".excludeme")
 
 ### Cucumber
 
@@ -65,11 +70,16 @@ The simplest use case is to perform an accessibility check for the whole page:
 
     Then the page should be accessible
 
-To perform this check for only a portion of the page:
+#### Limiting the context of the test
 
-    Then the page should be accessible within "#id"
+To check only a portion of the page:
 
-TODO
+    Then the page should be accessible within "#testme"
 
-    Then the page should be accessible for tag "wcag2a"
-    Then the page should be accessible for rule "label"
+To exclude a portion of the page from the check:
+
+    Then the page should be accessible excluding ".excludeme"
+
+These limiters can be used together:
+
+    Then the page should be accessible within "#testme" excluding ".excludeme"

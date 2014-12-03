@@ -118,17 +118,32 @@ module CustomA11yMatchers
         allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
       end
 
-      it "should set the scope of the test script" do
-        expect(@page).to receive(:execute_script).with(script_for_execute("#selector"))
+      it "should set the context of the test script" do
+        expect(@page).to receive(:execute_script).with(script_for_execute("'#selector'"))
         @matcher.within("#selector").matches?(@page)
+      end
+    end
+
+    describe "#excluding" do
+
+      before :each do
+        allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
+      end
+
+      it "should set the include/exclude context of the test script" do
+        expect(@page).to receive(:execute_script).with(script_for_execute('{include:[["#this"]],exclude:[["#other"]]}'))
+        @matcher.within("#this").excluding("#other").matches?(@page)
+      end
+
+      it "should default to document as include" do
+        expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[["#other"]]}'))
+        @matcher.excluding("#other").matches?(@page)
       end
     end
 
     private
 
-    def script_for_execute(context=nil, options=nil)
-      context = context ? "'#{context}'" : "document"
-      options = options ? options.to_json : 'null'
+    def script_for_execute(context='document', options='null')
       "dqre.a11yCheck(#{context}, #{options}, function(result){dqre.rspecResult = JSON.stringify(result);});"
     end
 
