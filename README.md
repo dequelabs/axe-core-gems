@@ -46,14 +46,30 @@ Require the custom step definitions in Cucumber's `env` file:
 
 ### RSpec
 
+The simplest use case is to perform an accessibility check for the whole page:
+
     expect(page).to be_accessible
+
+To perform this check for only a portion of the page:
+
     expect(page).to be_accessible.within("#id")
+
+TODO
+
     expect(page).to be_accessible.for_tag("wcag2a")
     expect(page).to be_accessible.for_rule("label")
 
 ### Cucumber
 
+The simplest use case is to perform an accessibility check for the whole page:
+
     Then the page should be accessible
-    Then "#id" should be accessible
+
+To perform this check for only a portion of the page:
+
+    Then the page should be accessible within "#id"
+
+TODO
+
     Then the page should be accessible for tag "wcag2a"
     Then the page should be accessible for rule "label"
