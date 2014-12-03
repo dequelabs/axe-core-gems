@@ -17,10 +17,10 @@ module CustomA11yMatchers
       @results['violations'].each_with_index do |v, i|
         message += "  #{i+1}) #{v['help']}: #{v['helpUrl']}\n"
         v['nodes'].each do |n|
-          message += "    #{n['html']}\n"
           n['target'].each do |t|
             message += "    #{t}\n"
           end
+          message += "    #{n['html']}\n"
           message += "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
         end
       end
