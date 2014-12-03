@@ -13,15 +13,15 @@ module CustomA11yMatchers
     end
 
     def failure_message
-      message = "Found #{violations_count} accessibility #{violations_count == 1 ? 'violation' : 'violations'}:\n"
+      message =         "Found #{violations_count} accessibility #{violations_count == 1 ? 'violation' : 'violations'}:\n"
       @results['violations'].each_with_index do |v, i|
-        message += "  #{i+1}) #{v['help']}: #{v['helpUrl']}\n"
+        message +=      "  #{i+1}) #{v['help']}: #{v['helpUrl']}\n"
         v['nodes'].each do |n|
           n['target'].each do |t|
-            message += "    #{t}\n"
+            message +=  "    #{t}\n"
           end
-          message += "    #{n['html']}\n"
-          message += "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
+          message +=    "    #{n['html']}\n"
+          message +=    "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
         end
       end
       message
@@ -41,6 +41,13 @@ module CustomA11yMatchers
       @options = "{runOnly:{type:\"tag\",values:{\"#{tag}\"}}}"
       self
     end
+
+    def for_rule(rule)
+      rules = rule.is_a?(Array) ? rule : rule.split(/, ?/)
+      @options = "{runOnly:{type:\"rule\",values:#{rules.to_json}}}"
+      self
+    end
+    alias :for_rules :for_rule
 
     def with_options(options)
       @options = options

@@ -142,6 +142,29 @@ module CustomA11yMatchers
         end
       end
 
+      describe "#for_rule" do
+
+        it "should pass the rule options to the script" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"rule",values:["label"]}}'))
+          @matcher.for_rule("label").matches?(@page)
+        end
+
+        it "should accept comma-separated rules" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"rule",values:["label","blink","list"]}}'))
+          @matcher.for_rule("label,blink, list").matches?(@page)
+        end
+
+        it "should accept an array of rules" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"rule",values:["label","blink","list"]}}'))
+          @matcher.for_rule(["label","blink", "list"]).matches?(@page)
+        end
+
+        it "should be usable as plural" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"rule",values:["label","blink","list"]}}'))
+          @matcher.for_rules("label,blink, list").matches?(@page)
+        end
+      end
+
       describe "#with_options" do
 
         it "should pass the options string to the script" do

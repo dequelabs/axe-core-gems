@@ -71,7 +71,13 @@ To perform a check for a tagged set of rules, pass a tag to `for_tag`:
 
     expect(page).to be_accessible.for_tag("wcag2a")
 
-The `for_tag` method can be used in combination with `within` and/or `excluding`.
+To perform a check for a specific rule or rules, pass them to `for_rule`:
+
+    expect(page).to be_accessible.for_rule("label")
+    expect(page).to be_accessible.for_rules("label,blink")
+    expect(page).to be_accessible.for_rules(["label","blink"])
+
+The `for_tag` or `for_rule` methods can be used in combination with `within` and/or `excluding`.
 
 #### Passing custom options
 
@@ -113,6 +119,17 @@ Tagged sets of rules can also be checked against portions of the page:
     Then the page should be accessible within "#testme" for tag "wcag2a"
     Then the page should be accessible excluding ".excludeme" for tag "wcag2a"
     Then the page should be accessible within "#testme" excluding ".excludeme" for tag "wcag2a"
+
+To perform a check for a specific rule or rules:
+
+    Then the page should be accessible for rule "label"
+    Then the page should be accessible for rules "label,blink"
+
+Specific rules can also be checked against portions of the page:
+
+    Then the page should be accessible within "#testme" for rule "label"
+    Then the page should be accessible excluding ".excludeme" for rule "label"
+    Then the page should be accessible within "#testme" excluding ".excludeme" for rules "label,blink"
 
 #### Passing custom options
 
