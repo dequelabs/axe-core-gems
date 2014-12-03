@@ -37,6 +37,11 @@ module CustomA11yMatchers
       self
     end
 
+    def with_options(options)
+      @options = options
+      self
+    end
+
     private
 
     def execute_test_script
@@ -44,7 +49,7 @@ module CustomA11yMatchers
     end
 
     def script_for_execute
-      "dqre.a11yCheck(#{context_for_execute}, null, function(result){dqre.rspecResult = JSON.stringify(result);});"
+      "dqre.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){dqre.rspecResult = JSON.stringify(result);});"
     end
 
     def context_for_execute
@@ -68,6 +73,10 @@ module CustomA11yMatchers
     def wrapped_inexclusion(input)
       input = input.split(/, ?/) if input.is_a?(String)
       input.map { |n| Array(n).to_s }.join(",")
+    end
+
+    def options_for_execute
+      @options || 'null'
     end
 
     def evaluate_test_results

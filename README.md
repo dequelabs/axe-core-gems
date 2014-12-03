@@ -42,9 +42,7 @@ Require the custom step definitions in Cucumber's `env` file:
 
     require 'cucumber/a11y'
 
-## Usage
-
-### RSpec
+## RSpec Usage
 
 The simplest use case is to perform an accessibility check for the whole page:
 
@@ -67,7 +65,13 @@ The `within()` and `excluding()` methods can be used together:
 
     expect(page).to be_accessible.within("#testme").excluding(".excludeme")
 
-### Cucumber
+#### Passing custom options
+
+To perform checks that are more complex than what's provided, pass a string containing your javascript options to `with_options()`:
+
+    expect(page).to be_accessible.with_options('{rules:{"ruleId1":{enabled:false},"ruleId2":{enabled: false}}}')
+
+## Cucumber Usage
 
 The simplest use case is to perform an accessibility check for the whole page:
 
@@ -87,3 +91,9 @@ To exclude a portion or portions of the page from the check:
 These limiters can be used together:
 
     Then the page should be accessible within "#testme" excluding ".excludeme"
+
+#### Passing custom options
+
+To perform checks that are more complex than what's built in to the matchers:
+
+    Then the page should be accessible with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"

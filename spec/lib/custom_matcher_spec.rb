@@ -151,6 +151,19 @@ module CustomA11yMatchers
       end
     end
 
+    describe "#with_options" do
+
+      before :each do
+        allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
+      end
+
+      it "should pass the options string to the script" do
+        test_options = '{these:{are:{my:"options"}}}'
+        expect(@page).to receive(:execute_script).with(script_for_execute('document', test_options))
+        @matcher.with_options(test_options).matches?(@page)
+      end
+    end
+
     private
 
     def script_for_execute(context='document', options='null')
