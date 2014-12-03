@@ -139,6 +139,16 @@ module CustomA11yMatchers
         expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[["#other"]]}'))
         @matcher.excluding("#other").matches?(@page)
       end
+
+      it "should accept comma-separated values" do
+        expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
+        @matcher.excluding(".exclude1,.exclude2, .exclude3").matches?(@page)
+      end
+
+      it "should accept an array of values" do
+        expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
+        @matcher.excluding([".exclude1",".exclude2",".exclude3"]).matches?(@page)
+      end
     end
 
     private

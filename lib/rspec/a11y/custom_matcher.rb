@@ -58,11 +58,16 @@ module CustomA11yMatchers
     end
 
     def formatted_exclude
-      "{include:document,exclude:[[\"#{@exclusion}\"]]}"
+      "{include:document,exclude:[#{wrapped_inexclusion(@exclusion)}]}"
     end
 
     def formatted_include_exclude
-      "{include:[[\"#{@inclusion}\"]],exclude:[[\"#{@exclusion}\"]]}"
+      "{include:[[\"#{@inclusion}\"]],exclude:[#{wrapped_inexclusion(@exclusion)}]}"
+    end
+
+    def wrapped_inexclusion(input)
+      input = input.split(/, ?/) if input.is_a?(String)
+      input.map { |n| Array(n).to_s }.join(",")
     end
 
     def evaluate_test_results

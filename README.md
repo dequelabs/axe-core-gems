@@ -56,9 +56,12 @@ To check only a portion of the page, pass a CSS selector to `within()`:
 
     expect(page).to be_accessible.within("#testme")
 
-To exclude a portion of the page from the check, pass a CSS selector to `excluding()`:
+To exclude a portion of the page from the check, pass a CSS selector or selectors to `excluding()`:
 
     expect(page).to be_accessible.excluding(".excludeme")
+    expect(page).to be_accessible.excluding(".exclude1,.exclude2")
+    expect(page).to be_accessible.excluding([".exclude1",".exclude2"])
+
 
 The `within()` and `excluding()` methods can be used together:
 
@@ -76,9 +79,10 @@ To check only a portion of the page:
 
     Then the page should be accessible within "#testme"
 
-To exclude a portion of the page from the check:
+To exclude a portion or portions of the page from the check:
 
     Then the page should be accessible excluding ".excludeme"
+    Then the page should be accessible excluding ".exclude1,.exclude2"
 
 These limiters can be used together:
 
