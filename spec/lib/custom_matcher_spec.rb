@@ -109,6 +109,16 @@ module CustomA11yMatchers
           expect(@page).to receive(:execute_script).with(script_for_execute("'#selector'"))
           @matcher.within("#selector").matches?(@page)
         end
+
+        it "should accept comma-separated values" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],[".include3"]]}'))
+          @matcher.within(".include1,.include2, .include3").matches?(@page)
+        end
+
+        it "should accept an array of values" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],[".include3"]]}'))
+          @matcher.within([".include1",".include2",".include3"]).matches?(@page)
+        end
       end
 
       describe "#excluding" do

@@ -73,7 +73,11 @@ module CustomA11yMatchers
     end
 
     def formatted_include
-      @inclusion ? "'#{@inclusion}'" : "document"
+      if @inclusion.is_a?(Array) || (@inclusion.is_a?(String) && @inclusion.include?(","))
+        "{include:[#{wrapped_inexclusion(@inclusion)}]}"
+      else
+        @inclusion ? "'#{@inclusion}'" : "document"
+      end
     end
 
     def formatted_exclude
@@ -81,7 +85,7 @@ module CustomA11yMatchers
     end
 
     def formatted_include_exclude
-      "{include:[[\"#{@inclusion}\"]],exclude:[#{wrapped_inexclusion(@exclusion)}]}"
+      "{include:[#{wrapped_inexclusion(@inclusion)}],exclude:[#{wrapped_inexclusion(@exclusion)}]}"
     end
 
     def wrapped_inexclusion(input)

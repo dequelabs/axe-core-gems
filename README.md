@@ -50,9 +50,11 @@ The simplest use case is to perform an accessibility check for the whole page:
 
 #### Limiting the context of the test
 
-To check only a portion of the page, pass a CSS selector to `within`:
+To check only a portion of the page, pass a CSS selector or selectors to `within`:
 
     expect(page).to be_accessible.within("#testme")
+    expect(page).to be_accessible.within("#testme,#testme2")
+    expect(page).to be_accessible.within(["#testme","#testme2"])
 
 To exclude a portion of the page from the check, pass a CSS selector or selectors to `excluding`:
 
