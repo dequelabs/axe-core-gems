@@ -16,35 +16,35 @@ Then(/^the page should be accessible within "(.*?)" excluding "(.*?)"$/) do |inc
   expect(page).to be_accessible.within(inclusion).excluding(exclusion)
 end
 
-Then(/^the page should be accessible for tag "(.*?)"$/) do |tag|
+Then(/^the page should be accessible for tags? "(.*?)"$/) do |tag|
   expect(page).to be_accessible.for_tag(tag)
 end
 
-Then(/^the page should be accessible within "(.*?)" for tag "(.*?)"$/) do |inclusion, tag|
+Then(/^the page should be accessible within "(.*?)" for tags? "(.*?)"$/) do |inclusion, tag|
   expect(page).to be_accessible.within(inclusion).for_tag(tag)
 end
 
-Then(/^the page should be accessible excluding "(.*?)" for tag "(.*?)"$/) do |exclusion, tag|
+Then(/^the page should be accessible excluding "(.*?)" for tags? "(.*?)"$/) do |exclusion, tag|
   expect(page).to be_accessible.excluding(exclusion).for_tag(tag)
 end
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for tag "(.*?)"$/) do |inclusion, exclusion, tag|
+Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for tags? "(.*?)"$/) do |inclusion, exclusion, tag|
   expect(page).to be_accessible.within(inclusion).excluding(exclusion).for_tag(tag)
 end
 
-Then(/^the page should be accessible for rule(s?) "(.*?)"$/) do |rule|
+Then(/^the page should be accessible for rules? "(.*?)"$/) do |rule|
   expect(page).to be_accessible.for_rule(rule)
 end
 
-Then(/^the page should be accessible within "(.*?)" for rule(s?) "(.*?)"$/) do |inclusion, rule|
+Then(/^the page should be accessible within "(.*?)" for rules? "(.*?)"$/) do |inclusion, rule|
   expect(page).to be_accessible.within(inclusion).for_rule(rule)
 end
 
-Then(/^the page should be accessible excluding "(.*?)" for rule(s?) "(.*?)"$/) do |exclusion, rule|
+Then(/^the page should be accessible excluding "(.*?)" for rules? "(.*?)"$/) do |exclusion, rule|
   expect(page).to be_accessible.excluding(exclusion).for_rule(rule)
 end
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for rule(s?) "(.*?)"$/) do |inclusion, exclusion, rule|
+Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for rules? "(.*?)"$/) do |inclusion, exclusion, rule|
   expect(page).to be_accessible.within(inclusion).excluding(exclusion).for_rule(rule)
 end
 

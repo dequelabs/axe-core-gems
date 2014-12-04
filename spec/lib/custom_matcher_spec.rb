@@ -9,7 +9,7 @@ module CustomA11yMatchers
       allow(@page).to receive(:execute_script)
     end
 
-    context "default Capybara style" do
+    context "default (Capybara style)" do
 
       before :each do
         allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
@@ -140,6 +140,21 @@ module CustomA11yMatchers
           expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:["wcag2a"]}}'))
           @matcher.for_tag("wcag2a").matches?(@page)
         end
+
+        it "should accept comma-separated rules" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:["wcag2a","wcag2aa","section508"]}}'))
+          @matcher.for_tag("wcag2a,wcag2aa, section508").matches?(@page)
+        end
+
+        it "should accept an array of rules" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:["wcag2a","wcag2aa","section508"]}}'))
+          @matcher.for_tag(["wcag2a","wcag2aa", "section508"]).matches?(@page)
+        end
+
+        it "should be usable as plural" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:["wcag2a","wcag2aa","section508"]}}'))
+          @matcher.for_tags("wcag2a,wcag2aa, section508").matches?(@page)
+        end
       end
 
       describe "#for_rule" do
@@ -175,7 +190,7 @@ module CustomA11yMatchers
       end
     end
 
-    context "alternate Watir style" do
+    context "alternate (Watir style)" do
 
       describe "#matches?" do
 

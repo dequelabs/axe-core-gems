@@ -67,9 +67,10 @@ The `within` and `excluding` methods can be used together:
 
 #### Running only certain tests
 
-To perform a check for a tagged set of rules, pass a tag to `for_tag`:
+To perform a check for a tagged set or sets of rules, pass the tags to `for_tag`:
 
     expect(page).to be_accessible.for_tag("wcag2a")
+    expect(page).to be_accessible.for_tags("wcag2a,section508")
 
 To perform a check for a specific rule or rules, pass them to `for_rule`:
 
@@ -110,15 +111,16 @@ These limiters can be used together:
 
 #### Running only certain tests
 
-To perform a check for a tagged set of rules:
+To perform a check for a tagged set or sets of rules:
 
     Then the page should be accessible for tag "wcag2a"
+    Then the page should be accessible for tags "wcag2a,section508"
 
 Tagged sets of rules can also be checked against portions of the page:
 
     Then the page should be accessible within "#testme" for tag "wcag2a"
     Then the page should be accessible excluding ".excludeme" for tag "wcag2a"
-    Then the page should be accessible within "#testme" excluding ".excludeme" for tag "wcag2a"
+    Then the page should be accessible within "#testme" excluding ".excludeme" for tags "wcag2a,section508"
 
 To perform a check for a specific rule or rules:
 

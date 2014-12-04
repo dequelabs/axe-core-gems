@@ -38,9 +38,11 @@ module CustomA11yMatchers
     end
 
     def for_tag(tag)
-      @options = "{runOnly:{type:\"tag\",values:[\"#{tag}\"]}}"
+      tags = tag.is_a?(Array) ? tag : tag.split(/, ?/)
+      @options = "{runOnly:{type:\"tag\",values:#{tags.to_json}}}"
       self
     end
+    alias :for_tags :for_tag
 
     def for_rule(rule)
       rules = rule.is_a?(Array) ? rule : rule.split(/, ?/)
