@@ -119,6 +119,11 @@ module CustomA11yMatchers
           expect(@page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],[".include3"]]}'))
           @matcher.within([".include1",".include2",".include3"]).matches?(@page)
         end
+
+        it "should accept nested arrays without rewrapping" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],["#frame1",".include3"]]}'))
+          @matcher.within([[".include1"],[".include2"],["#frame1",".include3"]]).matches?(@page)
+        end
       end
 
       describe "#excluding" do
@@ -141,6 +146,11 @@ module CustomA11yMatchers
         it "should accept an array of values" do
           expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
           @matcher.excluding([".exclude1",".exclude2",".exclude3"]).matches?(@page)
+        end
+
+        it "should accept nested arrays without rewrapping" do
+          expect(@page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],["#frame1",".exclude3"]]}'))
+          @matcher.excluding([[".exclude1"],[".exclude2"],["#frame1",".exclude3"]]).matches?(@page)
         end
       end
 

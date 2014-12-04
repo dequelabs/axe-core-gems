@@ -90,7 +90,7 @@ module CustomA11yMatchers
 
     def wrapped_inexclusion(input)
       input = input.split(/, ?/) if input.is_a?(String)
-      input.map { |n| Array(n).to_s }.join(",")
+      input.map { |n| Array(n).to_json }.join(",")
     end
 
     def options_for_execute
