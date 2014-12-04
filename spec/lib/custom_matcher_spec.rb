@@ -137,7 +137,7 @@ module CustomA11yMatchers
       describe "#for_tag" do
 
         it "should pass the tag options to the script" do
-          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:{"wcag2a"}}}'))
+          expect(@page).to receive(:execute_script).with(script_for_execute('document', '{runOnly:{type:"tag",values:["wcag2a"]}}'))
           @matcher.for_tag("wcag2a").matches?(@page)
         end
       end
