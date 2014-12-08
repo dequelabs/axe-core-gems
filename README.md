@@ -146,3 +146,11 @@ Custom options can also be checked against portions of the page:
     Then the page should be accessible within "#testme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
     Then the page should be accessible excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
     Then the page should be accessible within "#testme" excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
+
+## Development and Testing
+
+This repository includes two sets of tests:
+
+1. RSpec unit tests that confirm the proper behavior of the RSpec matcher module. These are located in the `spec` directory and may be run with `rspec spec`.
+
+2. Cucumber feature tests exist under the `features` directory that run against a simple Sinatra application loaded from `features/fixtures`. This can be used to try out Cucumber matchers against a simple application.
