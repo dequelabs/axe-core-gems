@@ -27,6 +27,10 @@ module CustomA11yMatchers
       message
     end
 
+    def failure_message_when_negated
+      "Expected to find accessibility violations. None were detected."
+    end
+
     def within(inclusion)
       @inclusion = inclusion
       self
