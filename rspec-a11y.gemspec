@@ -10,9 +10,11 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{RSpec and Cucumber matchers for use with Deque accessibility testing API.}
   spec.homepage      = "http://www.deque.com/"
   # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
-  spec.metadata      = { 'allowed_push_host' => '' }
+  if (Gem::Specification.method_defined? :metadata) then
+	  spec.metadata      = { 'allowed_push_host' => '' }
+  end
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  spec.files         = Dir["{lib}/**/*.rb", "LICENSE.txt", "*.md"]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
