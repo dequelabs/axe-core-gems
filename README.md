@@ -4,7 +4,7 @@ Defines custom RSpec matchers and Cucumber steps for testing page accessibility 
 
 ## Prerequisites
 
-Make sure that the `kensington.min.js` file has been downloaded from Deque and is being loaded on the page within the test environment.
+Ensure that the Worldspace Web API's Javascript is being injected into the application being tested.
 
 ## Installation
 
@@ -147,16 +147,10 @@ Custom options can also be checked against portions of the page:
     Then the page should be accessible excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
     Then the page should be accessible within "#testme" excluding ".excludeme" with options "{rules:{'ruleId1':{enabled:false},'ruleId2':{enabled: false}}}"
 
-## Development and Testing
+#### Sample Usage
 
-This repository includes two sets of tests:
+Sample tests exist under the `features` directory that run against a simple Sinatra application loaded from `features/fixtures`. This can be used to try out Cucumber matchers against a simple application.
 
-#### RSpec Unit Tests
+If you're using Bundler, use `bundle` to install the needed dependencies, and then `cucumber` to run the tests; for illustrative purposes, one of the tests will fail, to display the expected output of a failure.
+ 
 
-These confirm the proper behavior of the RSpec matcher module. These are located in the `spec` directory and may be run with `rspec spec`.
-
-#### Cucumber Feature Tests
-
-These exist under the `features` directory that run against a simple Sinatra application loaded from `features/fixtures`. This can be used to try out Cucumber matchers against a simple application.
-
-**Note:** Running these Cucumber tests requires first installing a copy of `kensington.min.js` into the directory at `features/fixtures/public`
