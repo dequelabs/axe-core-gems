@@ -1,0 +1,10 @@
+{
+  "name": "ks-testdouble",
+  "version": "0.1.0",
+  "authors": [
+    "Mike Kozlowski <mike.kozlowski@deque.com>"
+  ],
+  "description": "Rspec-a11y gem",
+  "license": "Commercial",
+  "ignore": []
+}
