@@ -70,7 +70,7 @@ module CustomA11yMatchers
     end
 
     def script_for_execute
-      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){#{RESULTS_IDENTIFIER} = JSON.stringify(result);});"
+      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(results){#{RESULTS_IDENTIFIER} = results;});"
     end
 
     def context_for_execute
@@ -106,8 +106,7 @@ module CustomA11yMatchers
 
     def evaluate_test_results
       # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-      results = @page.respond_to?(:evaluate_script) ? @page.evaluate_script(script_for_evaluate) : @page.execute_script(script_for_evaluate)
-      @results = JSON.parse(results)
+      @results = @page.respond_to?(:evaluate_script) ? @page.evaluate_script(script_for_evaluate) : @page.execute_script(script_for_evaluate)
     end
 
     def script_for_evaluate
