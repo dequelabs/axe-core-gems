@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://www.deque.com/"
   # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
   if (Gem::Specification.method_defined? :metadata) then
-	  spec.metadata      = { 'allowed_push_host' => '' }
+    spec.metadata      = { 'allowed_push_host' => '' }
   end
 
   spec.files         = Dir["{lib}/**/*.rb", "LICENSE.txt", "*.md"]
