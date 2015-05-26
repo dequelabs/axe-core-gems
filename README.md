@@ -6,5 +6,8 @@
 
 # RSpec Unit Tests
 
-These confirm the proper behavior of the RSpec matcher module. These are located in the `spec` directory and may be run with `rspec spec`.
+These confirm the proper behavior of the RSpec matcher module. These are located in the `spec` directory and may be run with `rake spec` or `rspec spec`.
 
+# Rake Tasks
+
+Rake is the standard task runner. For a list of configured tasks, rune `rake -T`
