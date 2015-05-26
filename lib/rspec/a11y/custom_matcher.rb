@@ -5,6 +5,18 @@ module CustomA11yMatchers
   LIBRARY_IDENTIFIER = "dqre"
   RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
+  module WebDriverUtils
+    module_function
+
+    def wait_until
+      Timeout.timeout(3) do
+        sleep(0.1) until value = yield
+        value
+      end
+    end
+
+  end
+
   class BeAccessible
 
     def matches?(page)
@@ -105,15 +117,8 @@ module CustomA11yMatchers
       @options || 'null'
     end
 
-    def wait_until
-      Timeout.timeout(3) do
-        sleep(0.1) until value = yield
-        value
-      end
-    end
-
     def get_audit_results
-      @results = wait_until { audit_results }
+      @results = WebDriverUtils.wait_until { audit_results }
     end
 
     def audit_results
