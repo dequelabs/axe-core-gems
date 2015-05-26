@@ -2,6 +2,7 @@ require 'json'
 
 module CustomA11yMatchers
   LIBRARY_IDENTIFIER = "dqre"
+  RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
   class BeAccessible
 
@@ -69,7 +70,7 @@ module CustomA11yMatchers
     end
 
     def script_for_execute
-      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){#{LIBRARY_IDENTIFIER}.rspecResult = JSON.stringify(result);});"
+      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){#{RESULTS_IDENTIFIER} = JSON.stringify(result);});"
     end
 
     def context_for_execute
@@ -110,7 +111,7 @@ module CustomA11yMatchers
     end
 
     def script_for_evaluate
-      LIBRARY_IDENTIFIER + ".rspecResult"
+      RESULTS_IDENTIFIER
     end
 
     def violations_count
