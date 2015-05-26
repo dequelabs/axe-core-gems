@@ -108,7 +108,7 @@ module CustomA11yMatchers
     end
 
     def script_for_evaluate
-      "(function(){return dqre.rspecResult;})()"
+      "dqre.rspecResult"
     end
 
     def violations_count
