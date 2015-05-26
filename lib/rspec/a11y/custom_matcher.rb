@@ -105,12 +105,13 @@ module CustomA11yMatchers
     end
 
     def evaluate_test_results
-      # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-      @results = @page.respond_to?(:evaluate_script) ? @page.evaluate_script(script_for_evaluate) : @page.execute_script(script_for_evaluate)
+      @results = evaluate_script(RESULTS_IDENTIFIER)
     end
 
-    def script_for_evaluate
-      RESULTS_IDENTIFIER
+    # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
+    def evaluate_script(expression)
+      eval_or_exec = @page.respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
+      @page.send(eval_or_exec, expression)
     end
 
     def violations_count
