@@ -8,6 +8,12 @@ module CustomA11yMatchers
   module WebDriverUtils
     module_function
 
+    # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
+    def evaluate_script(expression, page)
+      eval_or_exec = page.respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
+      page.send(eval_or_exec, expression)
+    end
+
     def wait_until
       Timeout.timeout(3) do
         sleep(0.1) until value = yield
@@ -122,14 +128,7 @@ module CustomA11yMatchers
     end
 
     def audit_results
-      evaluate_script(RESULTS_IDENTIFIER)
-    end
-
-
-    # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-    def evaluate_script(expression)
-      eval_or_exec = @page.respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
-      @page.send(eval_or_exec, expression)
+      WebDriverUtils.evaluate_script(RESULTS_IDENTIFIER, @page)
     end
 
     def violations_count
