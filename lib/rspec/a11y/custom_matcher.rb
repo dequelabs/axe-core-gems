@@ -104,9 +104,19 @@ module CustomA11yMatchers
       @options || 'null'
     end
 
-    def get_audit_results
-      @results = evaluate_script(RESULTS_IDENTIFIER)
+    def wait_until
+      sleep(0.1) until value = yield
+      value
     end
+
+    def get_audit_results
+      @results = wait_until { audit_results }
+    end
+
+    def audit_results
+      evaluate_script(RESULTS_IDENTIFIER)
+    end
+
 
     # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
     def evaluate_script(expression)
