@@ -1,3 +1,4 @@
+require 'timeout'
 require 'rspec/a11y/custom_matcher'
 
 module CustomA11yMatchers
@@ -40,6 +41,11 @@ module CustomA11yMatchers
           nil_invocations = Array.new(10, nil)
           allow(@page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
           expect( @matcher.matches?(@page) ).to be true
+        end
+
+        it "should timeout if results aren't ready after some time" do
+          allow(@page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
+          expect { @matcher.matches?(@page) }.to raise_error(Timeout::Error)
         end
       end
 
