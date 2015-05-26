@@ -5,7 +5,7 @@ module RSpecA11ySteps
   class FakeApp < Sinatra::Application
 
     get '/' do
-      slim :index
+      send_file File.join(settings.public_folder, 'index.html')
     end
 
     # start the server if ruby file executed directly
