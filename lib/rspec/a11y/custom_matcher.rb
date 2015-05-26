@@ -10,7 +10,7 @@ module CustomA11yMatchers
       @page = page
 
       run_accessibility_audit
-      evaluate_test_results
+      get_audit_results
 
       violations_count == 0
     end
@@ -104,7 +104,7 @@ module CustomA11yMatchers
       @options || 'null'
     end
 
-    def evaluate_test_results
+    def get_audit_results
       @results = evaluate_script(RESULTS_IDENTIFIER)
     end
 
