@@ -1,4 +1,5 @@
 require 'json'
+require 'timeout'
 
 module CustomA11yMatchers
   LIBRARY_IDENTIFIER = "dqre"
@@ -105,8 +106,10 @@ module CustomA11yMatchers
     end
 
     def wait_until
-      sleep(0.1) until value = yield
-      value
+      Timeout.timeout(3) do
+        sleep(0.1) until value = yield
+        value
+      end
     end
 
     def get_audit_results
