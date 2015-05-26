@@ -35,6 +35,12 @@ module CustomA11yMatchers
           allow(@page).to receive(:evaluate_script).and_return('violations' => [{}])
           expect( @matcher.matches?(@page) ).to eq(false)
         end
+
+        it "should retry until the a11yCheck results are ready" do
+          nil_invocations = Array.new(10, nil)
+          allow(@page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
+          expect( @matcher.matches?(@page) ).to be true
+        end
       end
 
       describe "#failure_message" do
