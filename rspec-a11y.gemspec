@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "rspec-a11y"
   spec.version       = Rspec::A11y::VERSION
   spec.authors       = ["Deque Systems, Inc."]
-  spec.summary       = %q{RSpec and Cucumber matchers for use with Deque accessibility testing API.}
+  spec.summary       = %q{RSpec matchers and Cucumber step definitions for use with Deque accessibility testing API.}
   spec.homepage      = "http://www.deque.com/"
   # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
   if (Gem::Specification.method_defined? :metadata) then
