@@ -1,6 +1,8 @@
 require 'json'
 
 module CustomA11yMatchers
+  LIBRARY_IDENTIFIER = "dqre"
+
   class BeAccessible
 
     def matches?(page)
@@ -67,7 +69,7 @@ module CustomA11yMatchers
     end
 
     def script_for_execute
-      "dqre.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){dqre.rspecResult = JSON.stringify(result);});"
+      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){#{LIBRARY_IDENTIFIER}.rspecResult = JSON.stringify(result);});"
     end
 
     def context_for_execute
@@ -108,7 +110,7 @@ module CustomA11yMatchers
     end
 
     def script_for_evaluate
-      "dqre.rspecResult"
+      LIBRARY_IDENTIFIER + ".rspecResult"
     end
 
     def violations_count
