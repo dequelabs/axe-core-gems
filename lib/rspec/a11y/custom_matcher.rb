@@ -1,3 +1,4 @@
+require 'delegate'
 require 'json'
 require 'timeout'
 
@@ -5,13 +6,12 @@ module CustomA11yMatchers
   LIBRARY_IDENTIFIER = "dqre"
   RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
-  module WebDriverUtils
-    module_function
+  class WebDriver < SimpleDelegator
 
     # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-    def evaluate_script(expression, page)
-      eval_or_exec = page.respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
-      page.send(eval_or_exec, expression)
+    def evaluate(expression)
+      eval_or_exec = respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
+      send(eval_or_exec, expression)
     end
 
     def wait_until
@@ -26,7 +26,7 @@ module CustomA11yMatchers
   class BeAccessible
 
     def matches?(page)
-      @page = page
+      @page = WebDriver.new(page)
 
       run_accessibility_audit
       get_audit_results
@@ -124,11 +124,11 @@ module CustomA11yMatchers
     end
 
     def get_audit_results
-      @results = WebDriverUtils.wait_until { audit_results }
+      @results = @page.wait_until { audit_results }
     end
 
     def audit_results
-      WebDriverUtils.evaluate_script(RESULTS_IDENTIFIER, @page)
+      @page.evaluate(RESULTS_IDENTIFIER)
     end
 
     def violations_count
