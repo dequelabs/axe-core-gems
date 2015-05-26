@@ -1,5 +1,4 @@
 require "sinatra"
-require "slim"
 
 module RSpecA11ySteps
   class FakeApp < Sinatra::Application
