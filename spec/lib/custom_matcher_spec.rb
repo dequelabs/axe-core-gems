@@ -29,12 +29,12 @@ module CustomA11yMatchers
         end
 
         it "should return true if there are no violations" do
-          expect( @matcher.matches?(@page) ).to eq(true)
+          expect( @matcher.matches?(@page) ).to be true
         end
 
         it "should return false if there are violations" do
           allow(@page).to receive(:evaluate_script).and_return('violations' => [{}])
-          expect( @matcher.matches?(@page) ).to eq(false)
+          expect( @matcher.matches?(@page) ).to be false
         end
 
         it "should retry until the a11yCheck results are ready" do
@@ -45,7 +45,7 @@ module CustomA11yMatchers
 
         it "should timeout if results aren't ready after some time" do
           allow(@page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
-          expect { @matcher.matches?(@page) }.to raise_error(Timeout::Error)
+          expect { @matcher.matches?(@page) }.to raise_error Timeout::Error
         end
       end
 
