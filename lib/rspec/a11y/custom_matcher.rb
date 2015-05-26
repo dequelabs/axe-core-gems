@@ -6,7 +6,7 @@ module CustomA11yMatchers
     def matches?(page)
       @page = page
 
-      execute_test_script
+      run_accessibility_audit
       evaluate_test_results
 
       violations_count == 0
@@ -62,7 +62,7 @@ module CustomA11yMatchers
 
     private
 
-    def execute_test_script
+    def run_accessibility_audit
       @page.execute_script(script_for_execute)
     end
 
