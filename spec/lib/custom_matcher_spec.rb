@@ -1,5 +1,5 @@
 require 'timeout'
-require 'rspec/a11y/custom_matcher'
+require 'rspec/a11y/be_accessible'
 
 module A11yMatchers
   describe "BeAccessible" do
