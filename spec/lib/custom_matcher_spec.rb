@@ -1,7 +1,7 @@
 require 'timeout'
 require 'rspec/a11y/custom_matcher'
 
-module CustomA11yMatchers
+module A11yMatchers
   describe "BeAccessible" do
 
     before :each do

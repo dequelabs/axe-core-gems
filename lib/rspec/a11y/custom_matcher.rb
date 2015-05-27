@@ -1,7 +1,7 @@
 require 'json'
 require_relative 'web_driver'
 
-module CustomA11yMatchers
+module A11yMatchers
   LIBRARY_IDENTIFIER = "dqre"
   RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
