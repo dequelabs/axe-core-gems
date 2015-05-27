@@ -1,3 +1,4 @@
+require 'timeout'
 require 'rspec/a11y/custom_matcher'
 
 module CustomA11yMatchers
@@ -12,7 +13,7 @@ module CustomA11yMatchers
     context "default (Capybara style)" do
 
       before :each do
-        allow(@page).to receive(:evaluate_script).and_return('{"violations":[]}')
+        allow(@page).to receive(:evaluate_script).and_return('violations' => [])
       end
 
       describe "#matches?" do
@@ -28,12 +29,23 @@ module CustomA11yMatchers
         end
 
         it "should return true if there are no violations" do
-          expect( @matcher.matches?(@page) ).to eq(true)
+          expect( @matcher.matches?(@page) ).to be true
         end
 
         it "should return false if there are violations" do
-          allow(@page).to receive(:evaluate_script).and_return('{"violations":[{}]}')
-          expect( @matcher.matches?(@page) ).to eq(false)
+          allow(@page).to receive(:evaluate_script).and_return('violations' => [{}])
+          expect( @matcher.matches?(@page) ).to be false
+        end
+
+        it "should retry until the a11yCheck results are ready" do
+          nil_invocations = Array.new(5, nil)
+          allow(@page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
+          expect( @matcher.matches?(@page) ).to be true
+        end
+
+        it "should timeout if results aren't ready after some time" do
+          allow(@page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
+          expect { @matcher.matches?(@page) }.to raise_error Timeout::Error
         end
       end
 
@@ -76,7 +88,7 @@ module CustomA11yMatchers
               }
             ]
           }
-          allow(@page).to receive(:evaluate_script).and_return(@results.to_json)
+          allow(@page).to receive(:evaluate_script).and_return(@results)
         end
 
         it "should return formatted error message" do
@@ -215,7 +227,7 @@ module CustomA11yMatchers
       describe "#matches?" do
 
         it "should evaluate the test results" do
-          expect(@page).to receive(:execute_script).with(script_for_evaluate).and_return('{"violations":[]}')
+          expect(@page).to receive(:execute_script).with(script_for_evaluate).and_return('violations' => [])
           @matcher.matches?(@page)
         end
       end
@@ -224,11 +236,11 @@ module CustomA11yMatchers
     private
 
     def script_for_execute(context='document', options='null')
-      "dqre.a11yCheck(#{context}, #{options}, function(result){dqre.rspecResult = JSON.stringify(result);});"
+      "dqre.a11yCheck(#{context}, #{options}, function(results){dqre.rspecResult = results;});"
     end
 
     def script_for_evaluate
-      "(function(){return dqre.rspecResult;})()"
+      "dqre.rspecResult"
     end
   end
 end

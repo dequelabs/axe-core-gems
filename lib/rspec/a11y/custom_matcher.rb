@@ -1,13 +1,17 @@
 require 'json'
+require 'timeout'
 
 module CustomA11yMatchers
+  LIBRARY_IDENTIFIER = "dqre"
+  RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
+
   class BeAccessible
 
     def matches?(page)
       @page = page
 
-      execute_test_script
-      evaluate_test_results
+      run_accessibility_audit
+      get_audit_results
 
       violations_count == 0
     end
@@ -62,12 +66,12 @@ module CustomA11yMatchers
 
     private
 
-    def execute_test_script
+    def run_accessibility_audit
       @page.execute_script(script_for_execute)
     end
 
     def script_for_execute
-      "dqre.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(result){dqre.rspecResult = JSON.stringify(result);});"
+      "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(results){#{RESULTS_IDENTIFIER} = results;});"
     end
 
     def context_for_execute
@@ -101,14 +105,26 @@ module CustomA11yMatchers
       @options || 'null'
     end
 
-    def evaluate_test_results
-      # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-      results = @page.respond_to?(:evaluate_script) ? @page.evaluate_script(script_for_evaluate) : @page.execute_script(script_for_evaluate)
-      @results = JSON.parse(results)
+    def wait_until
+      Timeout.timeout(3) do
+        sleep(0.1) until value = yield
+        value
+      end
     end
 
-    def script_for_evaluate
-      "(function(){return dqre.rspecResult;})()"
+    def get_audit_results
+      @results = wait_until { audit_results }
+    end
+
+    def audit_results
+      evaluate_script(RESULTS_IDENTIFIER)
+    end
+
+
+    # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
+    def evaluate_script(expression)
+      eval_or_exec = @page.respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
+      @page.send(eval_or_exec, expression)
     end
 
     def violations_count
