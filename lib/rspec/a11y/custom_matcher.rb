@@ -10,8 +10,7 @@ module CustomA11yMatchers
 
     # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
     def evaluate(expression)
-      eval_or_exec = respond_to?(:evaluate_script) ? :evaluate_script : :execute_script
-      __send__(eval_or_exec, expression)
+      respond_to?(:evaluate_script) ? evaluate_script(expression) : execute_script(expression)
     end
 
     def wait_until
