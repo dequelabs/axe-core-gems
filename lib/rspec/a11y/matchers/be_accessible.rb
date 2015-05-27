@@ -1,5 +1,5 @@
 require 'json'
-require_relative 'web_driver'
+require_relative '../web_driver'
 
 module RSpec
   module A11y
