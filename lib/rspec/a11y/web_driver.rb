@@ -1,21 +1,23 @@
 require 'delegate'
 require 'timeout'
 
-module A11y
-  class WebDriver < SimpleDelegator
+module RSpec
+  module A11y
+    class WebDriver < SimpleDelegator
 
-    # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
-    def evaluate(expression)
-      respond_to?(:evaluate_script) ? evaluate_script(expression) : execute_script(expression)
-    end
-
-    def wait_until
-      # TODO make the timeout limit configurable
-      ::Timeout.timeout(3) do
-        sleep(0.1) until value = yield
-        value
+      # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
+      def evaluate(expression)
+        respond_to?(:evaluate_script) ? evaluate_script(expression) : execute_script(expression)
       end
-    end
 
+      def wait_until
+        # TODO make the timeout limit configurable
+        ::Timeout.timeout(3) do
+          sleep(0.1) until value = yield
+          value
+        end
+      end
+
+    end
   end
 end

@@ -1,4 +1,4 @@
-include A11y::Matchers
+include RSpec::A11y::Matchers
 
 Then(/^the page should be accessible$/) do
   expect(page).to be_accessible

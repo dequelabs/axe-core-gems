@@ -5,7 +5,7 @@ require 'rspec/a11y/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rspec-a11y"
-  spec.version       = A11y::VERSION
+  spec.version       = RSpec::A11y::VERSION
   spec.authors       = ["Deque Systems, Inc."]
   spec.summary       = %q{RSpec matchers and Cucumber step definitions for use with Deque accessibility testing API.}
   spec.homepage      = "http://www.deque.com/"
