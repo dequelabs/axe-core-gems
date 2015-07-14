@@ -12,3 +12,4 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
     Examples:
       | webdriver | browser |
       | capybara | webkit |
+      | capybara | firefox |

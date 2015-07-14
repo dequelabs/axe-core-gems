@@ -11,6 +11,8 @@ Given /^I am using (.*?) to drive (.*?)$/ do |webdriver, browser|
     when 'webkit'
       require 'capybara-webkit'
       Capybara.current_driver = :webkit
+    when 'firefox'
+      Capybara.current_driver = :selenium
     end
   end
 
