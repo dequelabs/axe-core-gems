@@ -15,4 +15,6 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
       | capybara  | poltergeist      |
       | capybara  | selenium_firefox |
       | capybara  | selenium_chrome  |
+      # requires SafariDriver extension: http://selenium-release.storage.googleapis.com/2.45/SafariDriver.safariextz
+      | capybara  | selenium_safari  |
       | watir     | firefox          |
