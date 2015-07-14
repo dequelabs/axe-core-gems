@@ -1,17 +1,14 @@
-@javascript
-Feature: Test page
+Feature: aXe cucumber steps can be run against multiple webdrivers
 
-Background:
-Given I am a visitor
+  Scenario Outline: Test whole page
+    Given I am using <webdriver>
 
-Scenario: Test whole page
-  When I visit "/"
-  Then the page should not be accessible
+    When I visit "/"
 
-  Scenario:
-  When I visit "/"
-  Then the page should be accessible within "#working"
+    Then the page should not be accessible
+    And the page should be accessible within "#working"
+    And the page should not be accessible within "#broken"
 
-  Scenario:
-  When I visit "/"
-  Then the page should not be accessible within "#broken"
+    Examples:
+      | webdriver |
+      | capybara_webkit |
