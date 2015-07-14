@@ -5,6 +5,10 @@ module RSpec
   module A11y
     class AxeCore
 
+      def inject_into(page)
+        page.evaluate(source)
+      end
+
       def source
         axe_lib.read
       end
