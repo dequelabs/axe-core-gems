@@ -5,7 +5,8 @@ module RSpec
   module A11y
     class WebDriver < SimpleDelegator
 
-      # Tries #evaluate_script for Capybara, falls back to #execute_script for Watir
+      # Tries #evaluate_script for Capybara,
+      # falls back to #execute_script for WebDriver API (Selenium, Watir)
       def evaluate(expression)
         respond_to?(:evaluate_script) ? evaluate_script(expression) : execute_script(expression)
       end
