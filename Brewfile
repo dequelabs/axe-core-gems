@@ -1,1 +1,2 @@
 brew 'phantomjs'
+brew 'chromedriver'

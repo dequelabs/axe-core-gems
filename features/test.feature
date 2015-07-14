@@ -14,4 +14,5 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
       | capybara  | webkit           |
       | capybara  | poltergeist      |
       | capybara  | selenium_firefox |
+      | capybara  | selenium_chrome  |
       | watir     | firefox          |
