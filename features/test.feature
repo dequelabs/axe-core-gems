@@ -10,7 +10,8 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
     # And the page should not be accessible within "#broken"
 
     Examples:
-      | webdriver | browser |
-      | capybara | webkit |
-      | capybara | selenium_firefox |
-      | watir | firefox |
+      | webdriver | browser          |
+      | capybara  | webkit           |
+      | capybara  | poltergeist      |
+      | capybara  | selenium_firefox |
+      | watir     | firefox          |

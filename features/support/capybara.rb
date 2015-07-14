@@ -1,6 +1,7 @@
 require 'capybara'
 require 'capybara-webkit'
 require 'selenium-webdriver'
+require 'capybara/poltergeist'
 
 # register drivers to match the 'browser' step argument
 
