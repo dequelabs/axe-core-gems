@@ -6,7 +6,7 @@ module RSpec
     class AxeCore
 
       def inject_into(page)
-        page.execute_script(source)
+        page.execute source
       end
 
       def source

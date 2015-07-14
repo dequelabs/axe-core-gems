@@ -15,7 +15,7 @@ module RSpec
         end
 
         def matches?(page)
-          @page = WebDriver.new(page)
+          @page = Page.new(page)
 
           load_axe
           run_accessibility_audit
@@ -79,7 +79,7 @@ module RSpec
         end
 
         def run_accessibility_audit
-          @page.execute_script(script_for_execute)
+          @page.execute(script_for_execute)
         end
 
         def script_for_execute
