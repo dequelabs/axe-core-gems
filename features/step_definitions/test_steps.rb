@@ -1,14 +1,16 @@
-module WatirDSL
-  def page
-    @browser
-  end
+module Watir
+  module DSL
+    def page
+      @browser
+    end
 
-  def visit(url)
-    @browser.goto url
-  end
+    def visit(url)
+      @browser.goto url
+    end
 
-  def quit
-    @browser.close
+    def quit
+      @browser.close
+    end
   end
 end
 
@@ -22,7 +24,6 @@ Given /^I am using (.*?) to drive (.*?)$/ do |webdriver, browser|
 
   when 'capybara'
     require 'capybara'
-    Capybara.app = A11yTestPage
     self.extend(Capybara::DSL)
 
     case browser
@@ -36,12 +37,12 @@ Given /^I am using (.*?) to drive (.*?)$/ do |webdriver, browser|
 
   when 'watir'
     require 'watir-webdriver'
+    self.extend(Watir::DSL)
 
     case browser
     when 'firefox'
       @browser = Watir::Browser.new
 
-      self.extend(WatirDSL)
     end
   end
 
