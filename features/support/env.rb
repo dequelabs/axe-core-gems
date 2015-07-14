@@ -4,31 +4,9 @@ require File.dirname(__FILE__) + "/fixtures/a11y_test_page"
 
 require 'cucumber/a11y'
 
-module Watir
-  module DSL
-    def page
-      @browser
-    end
-
-    def visit(url)
-      @browser.goto url
-    end
-
-    def quit
-      @browser.close
-    end
-  end
-end
-
-# autoclose watir browsers
-After do
-  quit
-end
-
 require 'capybara'
 require 'capybara-webkit'
 require 'selenium-webdriver'
-require 'watir-webdriver'
 
 Capybara.register_driver :selenium_firefox do |app|
   Capybara::Selenium::Driver.new(app, :browser => :firefox)
