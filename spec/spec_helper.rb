@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/its'
 require 'rspec/a11y'
 
 # Requires supporting files with custom matchers and macros, etc,
