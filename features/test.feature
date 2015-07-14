@@ -1,7 +1,7 @@
 Feature: aXe cucumber steps can be run against multiple webdrivers
 
   Scenario Outline: Test whole page
-    Given I am using <webdriver>
+    Given I am using <webdriver> to drive <browser>
 
     When I visit "/"
 
@@ -10,5 +10,5 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
     And the page should not be accessible within "#broken"
 
     Examples:
-      | webdriver |
-      | capybara_webkit |
+      | webdriver | browser |
+      | capybara | webkit |
