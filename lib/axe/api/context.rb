@@ -1,9 +1,12 @@
-require 'json'
+require 'forwardable'
 
 module Axe
   module API
     class Context
+      extend Forwardable
+
       attr_reader :inclusion, :exclusion
+      def_delegator :context_parameter, :to_json
 
       def initialize
         @inclusion = []
@@ -16,10 +19,6 @@ module Axe
 
       def exclude(selector)
         @exclusion.concat to_array(selector)
-      end
-
-      def to_js
-        JSON.generate context_parameter
       end
 
       private

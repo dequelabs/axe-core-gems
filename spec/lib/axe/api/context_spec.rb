@@ -75,18 +75,18 @@ module Axe::API
       end
     end
 
-    describe "#to_js" do
+    describe "#to_json" do
       context "without an inclusion" do
         context "without an exclusion" do
           it "should emit only the exclude array" do
-            expect(subject.to_js).to eq '{"exclude":[]}'
+            expect(subject.to_json).to eq '{"exclude":[]}'
           end
         end
         context "with exclusions" do
           before(:each) { subject.exclude ".ignore" }
 
           it "should only list exclusions" do
-            expect(subject.to_js).to eq '{"exclude":[[".ignore"]]}'
+            expect(subject.to_json).to eq '{"exclude":[[".ignore"]]}'
           end
         end
       end
@@ -96,14 +96,14 @@ module Axe::API
 
         context "without an exclusion" do
           it "should default to the document" do
-            expect(subject.to_js).to eq '{"include":[[".check"]],"exclude":[]}'
+            expect(subject.to_json).to eq '{"include":[[".check"]],"exclude":[]}'
           end
         end
         context "with exclusions" do
           before(:each) { subject.exclude ".ignore" }
 
           it "should default inclusion to document, list exclusions" do
-            expect(subject.to_js).to eq '{"include":[[".check"]],"exclude":[[".ignore"]]}'
+            expect(subject.to_json).to eq '{"include":[[".check"]],"exclude":[[".ignore"]]}'
           end
         end
       end
