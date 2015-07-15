@@ -1,7 +1,7 @@
 require 'axe/api/context'
 
 module Axe::API
-  describe Context, :focus => true do
+  describe Context do
 
     describe "#include" do
       it "should return self for chaining" do
