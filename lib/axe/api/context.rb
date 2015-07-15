@@ -15,10 +15,12 @@ module Axe
 
       def include(selector)
         @inclusion.concat to_array(selector)
+        self
       end
 
       def exclude(selector)
         @exclusion.concat to_array(selector)
+        self
       end
 
       private
