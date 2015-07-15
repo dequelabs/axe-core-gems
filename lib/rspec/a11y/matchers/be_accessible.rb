@@ -1,6 +1,6 @@
 require 'json'
 require 'rspec/a11y/axe_core'
-require 'rspec/a11y/web_driver'
+require 'rspec/a11y/page'
 
 module RSpec
   module A11y
