@@ -19,5 +19,5 @@ end
 
 # autoclose watir browsers
 After do
-  quit
+  quit if respond_to?(:quit)
 end

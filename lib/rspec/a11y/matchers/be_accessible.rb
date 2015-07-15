@@ -1,17 +1,23 @@
 require 'json'
-require_relative '../web_driver'
+require 'rspec/a11y/axe_core'
+require 'rspec/a11y/page'
 
 module RSpec
   module A11y
     module Matchers
-      LIBRARY_IDENTIFIER = "dqre"
+      LIBRARY_IDENTIFIER = "axe"
       RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
       class BeAccessible
 
-        def matches?(page)
-          @page = WebDriver.new(page)
+        def initialize
+          @axe_core = AxeCore.new
+        end
 
+        def matches?(page)
+          @page = Page.new(page)
+
+          load_axe
           run_accessibility_audit
           get_audit_results
 
@@ -68,8 +74,12 @@ module RSpec
 
         private
 
+        def load_axe
+          @axe_core.inject_into @page
+        end
+
         def run_accessibility_audit
-          @page.execute_script(script_for_execute)
+          @page.execute(script_for_execute)
         end
 
         def script_for_execute
