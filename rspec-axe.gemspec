@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "rspec-axe"
   spec.version       = Axe::VERSION
   spec.platform      = Gem::Platform::RUBY
+  spec.license       = "MPL-2.0"
   spec.authors       = ["Deque Systems, Inc."]
   spec.homepage      = "http://www.deque.com/"
   spec.summary       = "RSpec matchers and Cucumber step definitions for use with Deque accessibility testing API, aXe-core."
@@ -16,7 +17,7 @@ Gem::Specification.new do |spec|
     spec.metadata      = { 'allowed_push_host' => '' }
   end
 
-  spec.files         = Dir.glob('lib/**/*') + %w(node_modules/axe-core/axe.min.js LICENSE README.md)
+  spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path  = 'lib'
 
   spec.add_dependency             'rspec', '>= 2.0.0'
