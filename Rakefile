@@ -14,4 +14,14 @@ namespace :npm do
   task :install do
     sh "npm install --silent"
   end
+
+  desc "Update npm dependencies to latest version allowed by package.json"
+  task :update do
+    sh "npm update --silent"
+  end
+
+  desc "Upgrade axe-core dependency to latest version available, overwriting package.json"
+  task :upgrade do
+    sh "npm install --silent --save axe-core"
+  end
 end
