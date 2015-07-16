@@ -30,7 +30,7 @@ module Axe
       end
 
       it "should ensure the page is webdriver-esque" do
-        page.unstub(:execute_script)
+        class << page; undef execute_script end
         expect { subject.page("foo") }.to raise_error(Axe::Cucumber::WebDriverError)
       end
     end
