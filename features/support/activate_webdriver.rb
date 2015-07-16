@@ -13,12 +13,12 @@ module ActivateWebDriver
 
   def selenium(browser)
     self.extend(Selenium::DSL)
-    @browser = Selenium::WebDriver.for browser
+    Axe::Cucumber.configuration.page = @browser = Selenium::WebDriver.for browser
   end
 
   def watir(browser)
     self.extend(Watir::DSL)
-    @browser = Watir::Browser.new browser
+    Axe::Cucumber.configuration.page = @browser = Watir::Browser.new browser
   end
 
 end
