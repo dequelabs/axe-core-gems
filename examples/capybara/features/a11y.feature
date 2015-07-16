@@ -8,10 +8,10 @@ Feature: Example using default Capybara setup
     When I visit "http://abcdcomputech.dequecloud.com/"
 
   Scenario: Test whole page (should fail)
-    # Then the page should not be accessible
+    Then the page should not be accessible
 
   Scenario: Test working sub-tree (should pass)
-    # Then the page should be accessible within "#working"
+    Then the page should be accessible within "#working"
 
   Scenario: Test broken sub-tree (should fail)
-    # Then the page should not be accessible within "#broken"
+    Then the page should not be accessible within "#broken"
