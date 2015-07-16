@@ -2,4 +2,4 @@ require 'cucumber/formatter/unicode' # Remove this line if you don't want Cucumb
 
 require File.dirname(__FILE__) + "/fixtures/a11y_test_page"
 
-require 'cucumber/a11y'
+require 'axe/cucumber'

@@ -16,8 +16,3 @@ module Watir
     end
   end
 end
-
-# autoclose watir browsers
-After do
-  quit if respond_to?(:quit)
-end

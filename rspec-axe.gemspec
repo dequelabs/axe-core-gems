@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rspec/a11y/version'
+require 'axe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rspec-a11y"
-  spec.version       = RSpec::A11y::VERSION
+  spec.name          = "rspec-axe"
+  spec.version       = Axe::VERSION
   spec.authors       = ["Deque Systems, Inc."]
   spec.summary       = %q{RSpec matchers and Cucumber step definitions for use with Deque accessibility testing API.}
   spec.homepage      = "http://www.deque.com/"

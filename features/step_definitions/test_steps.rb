@@ -1,3 +1,8 @@
+# watir/selenium don't auto-close like capybara
+After do
+  quit if respond_to?(:quit)
+end
+
 Transform /^(.*?)$/ do |string|
   string.to_sym
 end

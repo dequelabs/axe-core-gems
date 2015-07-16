@@ -1,7 +1,7 @@
 require 'timeout'
-require 'rspec/a11y/matchers/be_accessible'
+require 'axe/rspec/matchers/be_accessible'
 
-module RSpec::A11y::Matchers
+module Axe::RSpec::Matchers
   describe BeAccessible do
     let(:page) { spy('page') }
 
@@ -35,13 +35,13 @@ module RSpec::A11y::Matchers
         expect( subject.matches?(page) ).to be false
       end
 
-      it "should retry until the a11yCheck results are ready" do
+      it "should retry until the a11yCheck results are ready", :slow do
         nil_invocations = Array.new(5, nil)
         allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
         expect( subject.matches?(page) ).to be true
       end
 
-      it "should timeout if results aren't ready after some time" do
+      it "should timeout if results aren't ready after some time", :slow do
         allow(page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
         expect { subject.matches?(page) }.to raise_error Timeout::Error
       end
