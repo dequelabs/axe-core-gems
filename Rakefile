@@ -25,3 +25,8 @@ namespace :npm do
     sh "npm install --silent --save axe-core"
   end
 end
+
+desc "alias for npm:install"
+task :npm do
+  Rake::Task['npm:install'].invoke
+end
