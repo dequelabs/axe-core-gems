@@ -6,27 +6,27 @@ require 'watir-webdriver'
 require 'axe/cucumber'
 
 
-# instantiate new browser instance (defaults to firefox)
-@page = Watir::Browser.new
-
-
 # give rspec-axe a handle on the browser/page instance
 Axe::Cucumber.configure do |c|
-  c.page = @page
+  c.page = :@page
 
-  # if the watir driver instance isn't available yet (perhaps it's
-  # instantiated within a step), Axe::Cucumber can be configured via just the
-  # name of the future instance variable:
-  #
-  #   c.page = :@page
+  # rspec-axe can also be given the actual browser/page instance if it's available
+  #   c.page = @page
 end
 
-# see watir-webdriver's documentation: http://watirwebdriver.com/ for
-# using other browsers
+# instantiate new browser instance (defaults to firefox) before scenarios
+Before do
+  @page = Watir::Browser.new
+end
+
+# close browser when done
+After do
+  @page.close
+end
+
+
+# for using other browsers, see watir-webdriver's documentation:
+# http://watirwebdriver.com/
 #
-# rspec-axe is known to work with watir-webdriver using the following browsers:
-# - chrome
-# - firefox
-# - internet explorer
-# - phantomjs
-# - safari
+# rspec-axe is known to work with watir-webdriver using:
+# chrome, firefox, internet explorer, phantomjs, safari
