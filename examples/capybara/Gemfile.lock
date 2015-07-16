@@ -1,8 +1,8 @@
 GIT
   remote: git@bitbucket.org:dmusser/ks-testdouble.git
-  revision: cbcebdad18dd664c89dbd5d5a04b3688ca585319
+  revision: 06b841d0bb9d6801a5b07a6da432999dd45f4cbe
   specs:
-    rspec-a11y (0.1.0)
+    rspec-axe (0.1.0)
       rspec (>= 2.0.0)
 
 GEM
@@ -43,12 +43,12 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
-    rspec-core (3.3.1)
+    rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
-    rspec-expectations (3.3.0)
+    rspec-expectations (3.3.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
-    rspec-mocks (3.3.1)
+    rspec-mocks (3.3.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
@@ -68,7 +68,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   cucumber
-  rspec-a11y!
+  rspec-axe!
   selenium-webdriver
 
 BUNDLED WITH
