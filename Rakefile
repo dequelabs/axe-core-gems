@@ -3,7 +3,7 @@ require "bundler/gem_tasks"
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
-CLOBBER.include 'pkg'
+CLOBBER.include 'pkg', 'node_modules'
 
 Cucumber::Rake::Task.new(:cucumber)
 
