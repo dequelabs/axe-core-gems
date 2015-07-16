@@ -1,4 +1,4 @@
-Feature: Example using minimal Watir-Webdriver setup (using firefox)
+Feature: Example using minimal Selenium-Webdriver setup (using firefox)
 
   Background:
     Given I am a visitor

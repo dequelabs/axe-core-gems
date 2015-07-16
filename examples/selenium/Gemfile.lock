@@ -45,8 +45,6 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    watir-webdriver (0.8.0)
-      selenium-webdriver (>= 2.46.2)
     websocket (1.2.2)
 
 PLATFORMS
@@ -55,7 +53,7 @@ PLATFORMS
 DEPENDENCIES
   cucumber
   rspec-axe!
-  watir-webdriver
+  selenium-webdriver
 
 BUNDLED WITH
    1.10.5
