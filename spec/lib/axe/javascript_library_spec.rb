@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'rspec/a11y/axe_core'
+require 'axe/javascript_library'
 
-module RSpec::A11y
-  describe AxeCore do
+module Axe
+  describe JavaScriptLibrary do
 
     its(:source) { should start_with "/*! aXe" }
 
@@ -13,5 +13,6 @@ module RSpec::A11y
         expect(page).to have_received(:execute).with(subject.source)
       end
     end
+
   end
 end

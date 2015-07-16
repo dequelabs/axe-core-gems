@@ -1,9 +1,9 @@
 require 'json'
-require 'rspec/a11y/axe_core'
-require 'rspec/a11y/page'
+require 'axe/javascript_library'
+require 'axe/page'
 
-module RSpec
-  module A11y
+module Axe
+  module RSpec
     module Matchers
       LIBRARY_IDENTIFIER = "axe"
       RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
@@ -11,7 +11,7 @@ module RSpec
       class BeAccessible
 
         def initialize
-          @axe_core = AxeCore.new
+          @js_lib = JavaScriptLibrary.new
         end
 
         def matches?(page)
@@ -75,7 +75,7 @@ module RSpec
         private
 
         def load_axe
-          @axe_core.inject_into @page
+          @js_lib.inject_into @page
         end
 
         def run_accessibility_audit

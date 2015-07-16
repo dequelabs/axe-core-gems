@@ -1,6 +1,6 @@
-require 'rspec/a11y/page'
+require 'axe/page'
 
-module RSpec::A11y
+module Axe
   describe Page do
     let(:subject) { described_class.new browser }
     let(:browser) { double('browser') }
