@@ -1,3 +1,9 @@
+# this Axe::Cucumber module definition *ought* to be defined in axe/cucumber
+# However, because axe/cucumber requires the step definitions, anything
+# that requires axe/cucumber must pull in and extend the entire cucumber dsl.
+# That's not desirable for our specs, so we defined Axe::Cucumber.* here,
+# so spec/lib/axe/cucumber_spec can just require this file. (instead of
+# requiring axe/cucumber and pulling along the step_defs and cucumber dsl with it)
 module Axe
   module Cucumber
     def self.configuration
@@ -15,7 +21,11 @@ module Axe
     end
 
     class WebDriverError < TypeError; end
+  end
+end
 
+module Axe
+  module Cucumber
     class Configuration
       attr_accessor :page
 
