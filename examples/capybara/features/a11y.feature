@@ -7,6 +7,8 @@ Feature: Example using default Capybara setup
     Given I am a visitor
     When I visit "http://abcdcomputech.dequecloud.com/"
 
+  # The steps for the following scenarios are provided by the rspec-axe gem
+
   Scenario: Test whole page (should fail)
     Then the page should not be accessible
 
