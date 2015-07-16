@@ -12,7 +12,7 @@ require 'selenium-webdriver'
 require 'watir-webdriver'
 
 module Axe
-  describe Page do
+  describe Page, :integration, :slow do
     let(:subject) { described_class.new driver }
 
     context "Capybara" do
