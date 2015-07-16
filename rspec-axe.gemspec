@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
     spec.metadata      = { 'allowed_push_host' => '' }
   end
 
-  spec.files         = Dir.glob('lib/**/*') + %w(LICENSE README.md)
+  spec.files         = Dir.glob('lib/**/*') + %w(node_modules/axe-core/axe.min.js LICENSE README.md)
   spec.require_path  = 'lib'
 
   spec.add_dependency             'rspec', '>= 2.0.0'
