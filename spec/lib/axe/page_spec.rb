@@ -1,57 +1,65 @@
 require 'axe/page'
 
+# capybara (with webkit)
+require 'capybara'
+require 'capybara-webkit'
+Capybara.current_driver = :webkit
+
+# selenium
+require 'selenium-webdriver'
+
+# watir
+require 'watir-webdriver'
+
 module Axe
   describe Page do
-    let(:subject) { described_class.new browser }
-    let(:browser) { double('browser') }
+    let(:subject) { described_class.new driver }
 
-    context "Capybara-like API" do
-      before :each do
-        allow(browser).to receive(:evaluate_script)
-        allow(browser).to receive(:execute_script)
-      end
+    context "Capybara" do
+      let(:driver) { Capybara.current_session }
 
       describe "#evaluate" do
         it "should delegate directly to the browser/webdriver" do
-          expect(browser).to receive(:evaluate_script).with("foo").and_return("bar")
+          expect(driver).to receive(:evaluate_script).with("foo").and_return("bar")
           expect(subject.evaluate("foo")).to eq("bar")
         end
       end
 
       describe "#execute" do
         it "should delegate directly to the browser/webdriver" do
-          expect(browser).to receive(:execute_script).with("foo").and_return("bar")
+          expect(driver).to receive(:execute_script).with("foo").and_return("bar")
           expect(subject.execute("foo")).to eq("bar")
         end
       end
     end
 
-    context "WebDriver-like API" do
-      before :each do
-        allow(browser).to receive(:execute_script).and_return("bar")
-      end
-
+    shared_examples "a webdriver" do
       describe "#evaluate" do
         it "should wrap in return and delegate to execute_script" do
-          subject.evaluate("foo")
-          expect(browser).to have_received(:execute_script).with("return foo")
-        end
-
-        it "should return value" do
+          expect(driver).to receive(:execute_script).with("return foo").and_return("bar")
           expect(subject.evaluate("foo")).to eq("bar")
         end
       end
 
       describe "#execute" do
-        it "should delegate directly to execute_script" do
-          subject.execute("foo")
-          expect(browser).to have_received(:execute_script).with("foo")
-        end
-
-        it "should not return value" do
+        it "should delegate directly to execute_script but not return anything" do
+          expect(driver).to receive(:execute_script).with("foo").and_return("bar")
           expect(subject.execute("foo")).to be_nil
         end
       end
     end
+
+    context "Selenium" do
+      it_behaves_like "a webdriver" do
+        let(:driver) { Selenium::WebDriver.for :phantomjs }
+      end
+    end
+
+    context "Watir" do
+      it_behaves_like "a webdriver" do
+        let(:driver) { Watir::Browser.new :phantomjs }
+      end
+    end
+
   end
 end
