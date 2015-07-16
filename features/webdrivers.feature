@@ -20,3 +20,4 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
       | watir     | firefox            |
       | watir     | chrome             |
       | watir     | safari             |
+      | watir     | phantomjs          |
