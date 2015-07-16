@@ -9,11 +9,11 @@ Feature: Example using default Capybara setup
 
   # The steps for the following scenarios are provided by the rspec-axe gem
 
-  Scenario: Test whole page (should fail)
-    Then the page should not be accessible
+  Scenario: Test whole page (known to be inaccessible, should fail)
+    Then the page should be accessible
 
   Scenario: Test working sub-tree (should pass)
     Then the page should be accessible within "#working"
 
-  Scenario: Test broken sub-tree (should fail)
+  Scenario: Test broken sub-tree (known to be inaccessible)
     Then the page should not be accessible within "#broken"
