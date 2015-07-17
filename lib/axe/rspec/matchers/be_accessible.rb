@@ -1,6 +1,7 @@
 require 'json'
 require 'axe/javascript_library'
 require 'axe/page'
+require 'axe/api'
 require 'ostruct'
 
 module Axe
@@ -10,24 +11,6 @@ module Axe
       RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
       class BeAccessible
-
-        def to_openstruct(v)
-
-          if v.is_a? Hash
-            v.each do |key, value|
-              v[key] = to_openstruct(value)
-            end
-            OpenStruct.new v
-          elsif v.is_a? Array
-            v.map {|value| to_openstruct(value) }
-          else
-            v
-          end
-        end
-
-
-
-
 
         def initialize
           @js_lib = JavaScriptLibrary.new
@@ -44,22 +27,7 @@ module Axe
         end
 
         def failure_message
-
-          # puts JSON.pretty_generate @results
-
-          results = to_openstruct @results
-
-          "Found #{violations_count} accessibility #{violations_count == 1 ? 'violation' : 'violations'}:\n" +
-          results.violations.each_with_index.flat_map { |violation, index|
-            [
-              "  #{index+1}) #{violation.help}: #{violation.helpUrl}",
-
-              violation.nodes.flat_map {|node| [
-                "     #{node.target.join(',')}",
-                "     #{node.html}"
-              ]}
-            ]
-          }.join("\n")
+          @r.message
         end
 
         def failure_message_when_negated
@@ -142,6 +110,7 @@ module Axe
 
         def get_audit_results
           @results = @page.wait_until { audit_results }
+          @r = API::Results.from_hash @results.dup
         end
 
         def audit_results
