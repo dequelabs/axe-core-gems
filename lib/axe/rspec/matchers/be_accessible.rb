@@ -1,6 +1,9 @@
 require 'json'
+require 'forwardable'
 require 'axe/javascript_library'
 require 'axe/page'
+require 'axe/api'
+require 'ostruct'
 
 module Axe
   module RSpec
@@ -9,6 +12,10 @@ module Axe
       RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
       class BeAccessible
+        extend Forwardable
+
+        def_delegator :@results, :failure_message
+        def_delegator :@results, :failure_message, :failure_message_when_negated
 
         def initialize
           @js_lib = JavaScriptLibrary.new
@@ -17,30 +24,11 @@ module Axe
         def matches?(page)
           @page = Page.new(page)
 
-          load_axe
+          inject_axe_lib
           run_accessibility_audit
-          get_audit_results
+          parse_audit_results
 
-          violations_count == 0
-        end
-
-        def failure_message
-          message =         "Found #{violations_count} accessibility #{violations_count == 1 ? 'violation' : 'violations'}:\n"
-          @results['violations'].each_with_index do |v, i|
-            message +=      "  #{i+1}) #{v['help']}: #{v['helpUrl']}\n"
-            v['nodes'].each do |n|
-              n['target'].each do |t|
-                message +=  "    #{t}\n"
-              end
-              message +=    "    #{n['html']}\n"
-              message +=    "    #{n['failureSummary'].gsub(/\n/, "\n    ")}\n"
-            end
-          end
-          message
-        end
-
-        def failure_message_when_negated
-          "Expected to find accessibility violations. None were detected."
+          @results.passed?
         end
 
         def within(inclusion)
@@ -74,7 +62,7 @@ module Axe
 
         private
 
-        def load_axe
+        def inject_axe_lib
           @js_lib.inject_into @page
         end
 
@@ -117,16 +105,12 @@ module Axe
           @options || 'null'
         end
 
-        def get_audit_results
-          @results = @page.wait_until { audit_results }
+        def parse_audit_results
+          @results = API::Results.from_hash audit_results
         end
 
         def audit_results
-          @page.evaluate(RESULTS_IDENTIFIER)
-        end
-
-        def violations_count
-          @results['violations'].count
+          @page.wait_until { @page.evaluate(RESULTS_IDENTIFIER) }
         end
       end
 
