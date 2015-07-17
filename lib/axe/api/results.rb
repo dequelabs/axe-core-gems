@@ -22,7 +22,8 @@ module Axe
         MSG
       end
 
-      # nested because the 'rule' concept is different outside of Results
+      # nested because the 'rule' concept is different when outside of Results
+
       class Rule < OpenStruct
         # :description, :help, :help_url, :id, :impact, :tags, :nodes
 
@@ -42,6 +43,7 @@ module Axe
       end
 
       class Node < OpenStruct
+        # :html, :impact, :target, :any, :all, :none
 
         def self.from_hash(node)
           new node

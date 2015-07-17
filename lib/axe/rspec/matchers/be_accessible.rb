@@ -21,13 +21,13 @@ module Axe
 
           load_axe
           run_accessibility_audit
-          get_audit_results
+          parse_audit_results
 
-          violations_count == 0
+          @results.passed?
         end
 
         def failure_message
-          @r.message
+          @results.message
         end
 
         def failure_message_when_negated
@@ -108,17 +108,12 @@ module Axe
           @options || 'null'
         end
 
-        def get_audit_results
-          @results = @page.wait_until { audit_results }
-          @r = API::Results.from_hash @results.dup
+        def parse_audit_results
+          @results = API::Results.from_hash audit_results
         end
 
         def audit_results
-          @page.evaluate(RESULTS_IDENTIFIER)
-        end
-
-        def violations_count
-          @results['violations'].count
+          @page.wait_until { @page.evaluate(RESULTS_IDENTIFIER) }
         end
       end
 
