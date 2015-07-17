@@ -6,10 +6,10 @@ module Axe
       # :url, :timestamp, :passes, :violations
 
       def self.from_hash(results)
-        new(results.dup.tap do |r|
+        new(results.dup.tap {|r|
           r['passes'] = r.fetch('passes', []).map { |p| Rule.from_hash p }
           r['violations'] = r.fetch('violations', []).map { |v| Rule.from_hash v }
-        end)
+        })
       end
 
       def passed?
@@ -33,9 +33,10 @@ module Axe
         # :description, :help, :help_url, :id, :impact, :tags, :nodes
 
         def self.from_hash(rule)
-          rule['help_url'] = rule.delete('helpUrl')
-          rule['nodes'] = rule.fetch('nodes', []).map { |n| Node.from_hash n }
-          new rule
+          new(rule.dup.tap {|r|
+            r['help_url'] = r.delete('helpUrl')
+            r['nodes'] = r.fetch('nodes', []).map { |n| Node.from_hash n }
+          })
         end
 
         def message(index)
