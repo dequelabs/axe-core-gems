@@ -6,9 +6,10 @@ module Axe
       # :url, :timestamp, :passes, :violations
 
       def self.from_hash(results)
-        results['passes'] = results.fetch('passes', []).map { |p| Rule.from_hash p }
-        results['violations'] = results.fetch('violations', []).map { |v| Rule.from_hash v }
-        new results
+        new(results.dup.tap do |r|
+          r['passes'] = r.fetch('passes', []).map { |p| Rule.from_hash p }
+          r['violations'] = r.fetch('violations', []).map { |v| Rule.from_hash v }
+        end)
       end
 
       def passed?
