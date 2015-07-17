@@ -48,67 +48,44 @@ module Axe::RSpec::Matchers
     end
 
     describe "#failure_message" do
-
       before :each do
-        @results = {
-          "violations" => [
-            {
-              "help" => "Help for Violation 1",
-              "nodes" => [
-                {
-                  "target" => ["#target-1-1"],
-                  "html" => "<input id=\"target-1-1\" type=\"text\">",
-                  "failureSummary" => "Fix these for target-1-1"
-                },
-                {
-                  "target" => ["#target-1-2","#target-1-2-2"],
-                  "html" => "<input id=\"target-1-2\" type=\"text\">",
-                  "failureSummary" => "Fix these for target-1-2"
-                }
-              ],
-              "helpUrl" => "https://dequeuniversity.com/violation-1"
-            },
-            {
-              "help" => "Help for Violation 2",
-              "nodes" => [
-                {
-                  "target" => ["#target-2-1"],
-                  "html" => "<input id=\"target-2-1\" type=\"text\">",
-                  "failureSummary" => "Fix these for target-2-1"
-                },
-                {
-                  "target" => ["#target-2-2","#target-2-2-2"],
-                  "html" => "<input id=\"target-2-2\" type=\"text\">",
-                  "failureSummary" => "Fix these for target-2-2"
-                }
-              ],
-              "helpUrl" => "https://dequeuniversity.com/violation-2"
-            }
-          ]
-        }
-        allow(page).to receive(:evaluate_script).and_return(@results)
+        allow(page).to receive(:evaluate_script).and_return(results)
       end
+
+      let(:results) { {
+        "violations" => [ {
+          "help" => "V1 help",
+          "helpUrl" => "V1 url",
+          "nodes" => [ {
+            "target" => ["#target-1-1"],
+            "html" => "V1 html",
+            "any" => [ { "message" => "Fix from any 1" } ],
+            "all" => [ { "message" => "Fix from all 1" } ]
+          } ]
+        }, {
+          "help" => "V2 help",
+          "helpUrl" => "V2 url",
+          "nodes" => [ {
+            "target" => ["#target-2-1", "#target-2-2"],
+            "html" => "V2 html",
+            "any" => [ { "message" => "Fix from any 2" } ],
+            "all" => [ { "message" => "Fix from all 2" } ]
+          } ]
+        } ]
+      } }
 
       it "should return formatted error message" do
         subject.matches?(page)
-        message = subject.failure_message
+        subject.failure_message.tap do |message|
+          expect(message).to include("Found 2 accessibility violations")
 
-        expect(message).to include("Found 2 accessibility violations")
+          expect(message).to include "V1 help", "V2 help"
+          expect(message).to include "V1 url", "V2 url"
 
-        @results['violations'].each do |v|
+          expect(message).to include "V1 html", "V2 html"
+          expect(message).to include "#target-1-1", "#target-2-1, #target-2-2"
 
-          expect(message).to include(v['help'])
-          expect(message).to include(v['helpUrl'])
-
-          v['nodes'].each do |n|
-
-            expect(message).to include(n['html'])
-            expect(message).to include(n['failureSummary'])
-
-            n['target'].each do |t|
-              expect(message).to include(t)
-            end
-          end
+          expect(message).to include "Fix from any 1", "Fix from all 1", "Fix from any 2", "Fix from all 2"
         end
       end
     end
