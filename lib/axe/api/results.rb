@@ -15,11 +15,15 @@ module Axe
         violations.count == 0
       end
 
-      def message
-        <<-MSG.gsub(/^\s*/,'')
-        Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}:
-        #{ violations.each_with_index.map(&:message).join("\n") }
-        MSG
+      def failure_message
+        if passed?
+          "Expected to find accessibility violations. None were detected."
+        else
+          <<-MSG.gsub(/^\s*/,'')
+          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}:
+          #{ violations.each_with_index.map(&:message).join("\n") }
+          MSG
+        end
       end
 
       # nested because the 'rule' concept is different when outside of Results

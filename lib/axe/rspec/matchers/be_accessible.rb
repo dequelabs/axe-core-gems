@@ -1,4 +1,5 @@
 require 'json'
+require 'forwardable'
 require 'axe/javascript_library'
 require 'axe/page'
 require 'axe/api'
@@ -11,6 +12,10 @@ module Axe
       RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
 
       class BeAccessible
+        extend Forwardable
+
+        def_delegator :@results, :failure_message
+        def_delegator :@results, :failure_message, :failure_message_when_negated
 
         def initialize
           @js_lib = JavaScriptLibrary.new
@@ -19,19 +24,11 @@ module Axe
         def matches?(page)
           @page = Page.new(page)
 
-          load_axe
+          inject_axe_lib
           run_accessibility_audit
           parse_audit_results
 
           @results.passed?
-        end
-
-        def failure_message
-          @results.message
-        end
-
-        def failure_message_when_negated
-          "Expected to find accessibility violations. None were detected."
         end
 
         def within(inclusion)
@@ -65,7 +62,7 @@ module Axe
 
         private
 
-        def load_axe
+        def inject_axe_lib
           @js_lib.inject_into @page
         end
 
