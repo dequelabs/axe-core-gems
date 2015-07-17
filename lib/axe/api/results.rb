@@ -6,8 +6,8 @@ module Axe
       # :url, :timestamp, :passes, :violations
 
       def self.from_hash(results)
-        results['passes'] = results['passes'].map { |p| Rule.from_hash p }
-        results['violations'] = results['violations'].map { |v| Rule.from_hash v }
+        results['passes'] = results.fetch('passes', []).map { |p| Rule.from_hash p }
+        results['violations'] = results.fetch('violations', []).map { |v| Rule.from_hash v }
         new results
       end
 
@@ -33,7 +33,7 @@ module Axe
 
         def self.from_hash(rule)
           rule['help_url'] = rule.delete('helpUrl')
-          rule['nodes'] = rule['nodes'].map { |n| Node.from_hash n }
+          rule['nodes'] = rule.fetch('nodes', []).map { |n| Node.from_hash n }
           new rule
         end
 
