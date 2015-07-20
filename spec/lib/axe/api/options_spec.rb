@@ -5,6 +5,7 @@ module Axe::API
   describe Options do
     before :each do
       allow(subject.rules).to receive(:by_tag)
+      allow(subject.rules).to receive(:run_only)
       allow(subject.rules).to receive(:run)
       allow(subject.rules).to receive(:skip)
     end
@@ -13,6 +14,13 @@ module Axe::API
       it "should be delegated to @rules.by_tag" do
         subject.rules_by_tag(:foo)
         expect(subject.rules).to have_received(:by_tag).with(:foo)
+      end
+    end
+
+    describe "#run_only_rules" do
+      it "should be delegated to @rules.run_only" do
+        subject.run_only_rules(:foo)
+        expect(subject.rules).to have_received(:run_only).with(:foo)
       end
     end
 
