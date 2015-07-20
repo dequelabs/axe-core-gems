@@ -6,7 +6,6 @@ module Axe
       extend Forwardable
 
       attr_reader :inclusion, :exclusion
-      def_delegator :context_parameter, :to_json
 
       def initialize
         @inclusion = []
@@ -21,6 +20,18 @@ module Axe
       def exclude(selector)
         @exclusion.concat to_array(selector)
         self
+      end
+
+      def to_json
+        if @inclusion.empty?
+          if @exclusion.empty?
+            "document"
+          else
+            %Q({"include":document,"exclude":#{@exclusion.to_json}})
+          end
+        else
+          context_parameter.to_json
+        end
       end
 
       private
