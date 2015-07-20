@@ -26,6 +26,7 @@ module Axe
 
       def to_json
         {
+          runOnly: { type: "tag", values: @tags },
           rules: Hash[@included.product([enabled: true]) + @excluded.product([enabled: false])]
         }.to_json
       end
