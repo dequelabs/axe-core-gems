@@ -93,7 +93,7 @@ module Axe::RSpec::Matchers
     describe "#within" do
 
       it "should set the context of the test script" do
-        expect(page).to receive(:execute_script).with(script_for_execute("'#selector'"))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[["#selector"]],"exclude":[]}'))
         subject.within("#selector").matches?(page)
       end
 
