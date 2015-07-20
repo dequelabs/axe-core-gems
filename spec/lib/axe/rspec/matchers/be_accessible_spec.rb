@@ -93,22 +93,22 @@ module Axe::RSpec::Matchers
     describe "#within" do
 
       it "should set the context of the test script" do
-        expect(page).to receive(:execute_script).with(script_for_execute("'#selector'"))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[["#selector"]],"exclude":[]}'))
         subject.within("#selector").matches?(page)
       end
 
       it "should accept comma-separated values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],[".include3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[[".include1"],[".include2"],[".include3"]],"exclude":[]}'))
         subject.within(".include1,.include2, .include3").matches?(page)
       end
 
       it "should accept an array of values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],[".include3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[[".include1"],[".include2"],[".include3"]],"exclude":[]}'))
         subject.within([".include1",".include2",".include3"]).matches?(page)
       end
 
       it "should accept nested arrays without rewrapping" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:[[".include1"],[".include2"],["#frame1",".include3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[[".include1"],[".include2"],["#frame1",".include3"]],"exclude":[]}'))
         subject.within([[".include1"],[".include2"],["#frame1",".include3"]]).matches?(page)
       end
     end
@@ -116,27 +116,27 @@ module Axe::RSpec::Matchers
     describe "#excluding" do
 
       it "should set the include/exclude context of the test script" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:[["#this"]],exclude:[["#other"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[["#this"]],"exclude":[["#other"]]}'))
         subject.within("#this").excluding("#other").matches?(page)
       end
 
       it "should default to document as include" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[["#other"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[["#other"]]}'))
         subject.excluding("#other").matches?(page)
       end
 
       it "should accept comma-separated values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
         subject.excluding(".exclude1,.exclude2, .exclude3").matches?(page)
       end
 
       it "should accept an array of values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
         subject.excluding([".exclude1",".exclude2",".exclude3"]).matches?(page)
       end
 
       it "should accept nested arrays without rewrapping" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{include:document,exclude:[[".exclude1"],[".exclude2"],["#frame1",".exclude3"]]}'))
+        expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[[".exclude1"],[".exclude2"],["#frame1",".exclude3"]]}'))
         subject.excluding([[".exclude1"],[".exclude2"],["#frame1",".exclude3"]]).matches?(page)
       end
     end

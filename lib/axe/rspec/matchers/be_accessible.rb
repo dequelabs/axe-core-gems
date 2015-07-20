@@ -19,6 +19,7 @@ module Axe
 
         def initialize
           @js_lib = JavaScriptLibrary.new
+          @context = API::Context.new
         end
 
         def matches?(page)
@@ -32,12 +33,12 @@ module Axe
         end
 
         def within(inclusion)
-          @inclusion = inclusion
+          @context.include inclusion
           self
         end
 
         def excluding(exclusion)
-          @exclusion = exclusion
+          @context.exclude exclusion
           self
         end
 
@@ -71,34 +72,7 @@ module Axe
         end
 
         def script_for_execute
-          "#{LIBRARY_IDENTIFIER}.a11yCheck(#{context_for_execute}, #{options_for_execute}, function(results){#{RESULTS_IDENTIFIER} = results;});"
-        end
-
-        def context_for_execute
-          return formatted_include if @exclusion.nil?
-          return formatted_exclude if @inclusion.nil?
-          formatted_include_exclude
-        end
-
-        def formatted_include
-          if @inclusion.is_a?(Array) || (@inclusion.is_a?(String) && @inclusion.include?(","))
-            "{include:[#{wrapped_inexclusion(@inclusion)}]}"
-          else
-            @inclusion ? "'#{@inclusion}'" : "document"
-          end
-        end
-
-        def formatted_exclude
-          "{include:document,exclude:[#{wrapped_inexclusion(@exclusion)}]}"
-        end
-
-        def formatted_include_exclude
-          "{include:[#{wrapped_inexclusion(@inclusion)}],exclude:[#{wrapped_inexclusion(@exclusion)}]}"
-        end
-
-        def wrapped_inexclusion(input)
-          input = input.split(/, ?/) if input.is_a?(String)
-          input.map { |n| Array(n).to_json }.join(",")
+          "#{LIBRARY_IDENTIFIER}.a11yCheck(#{@context.to_json}, #{options_for_execute}, function(results){#{RESULTS_IDENTIFIER} = results;});"
         end
 
         def options_for_execute
