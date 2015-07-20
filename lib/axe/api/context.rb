@@ -50,17 +50,7 @@ module Axe
       end
 
       def to_array(selector)
-        Array(make_arrayable(selector)).map { |s| Array(s) }
-      end
-
-      def make_arrayable(selector)
-        selector.extend(ToArray)
-      end
-
-      module ToArray
-        def to_a
-          self.split(/,\s*/)
-        end
+        Array(selector).map { |s| Array(s) }
       end
 
     end

@@ -97,11 +97,6 @@ module Axe::RSpec::Matchers
         subject.within("#selector").matches?(page)
       end
 
-      it "should accept comma-separated values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{"include":[[".include1"],[".include2"],[".include3"]],"exclude":[]}'))
-        subject.within(".include1,.include2, .include3").matches?(page)
-      end
-
       it "should accept an array of values" do
         expect(page).to receive(:execute_script).with(script_for_execute('{"include":[[".include1"],[".include2"],[".include3"]],"exclude":[]}'))
         subject.within([".include1",".include2",".include3"]).matches?(page)
@@ -123,11 +118,6 @@ module Axe::RSpec::Matchers
       it "should default to document as include" do
         expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[["#other"]]}'))
         subject.excluding("#other").matches?(page)
-      end
-
-      it "should accept comma-separated values" do
-        expect(page).to receive(:execute_script).with(script_for_execute('{"include":document,"exclude":[[".exclude1"],[".exclude2"],[".exclude3"]]}'))
-        subject.excluding(".exclude1,.exclude2, .exclude3").matches?(page)
       end
 
       it "should accept an array of values" do
