@@ -9,6 +9,12 @@ Cucumber::Rake::Task.new(:cucumber)
 
 RSpec::Core::RakeTask.new(:spec)
 
+namespace :spec do
+  RSpec::Core::RakeTask.new(:ci) do |t|
+    t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
+  end
+end
+
 namespace :npm do
   desc "Install npm dependencies"
   task :install do
