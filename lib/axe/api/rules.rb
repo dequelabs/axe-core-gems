@@ -1,11 +1,17 @@
 module Axe
   module API
     class Rules
-      attr_reader :included, :excluded
+      attr_reader :tags, :included, :excluded
 
       def initialize
+        @tags = []
         @included = []
         @excluded = []
+      end
+
+      def by_tag(*tags)
+        @tags += tags.flatten
+        self
       end
 
       def run(*rules)

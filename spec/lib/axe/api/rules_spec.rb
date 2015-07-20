@@ -4,6 +4,32 @@ require 'axe/api/rules'
 module Axe::API
   describe Rules, :focus do
 
+    describe "#by_tag" do
+      it "adds tags to list of tags for which to run rules" do
+        subject.by_tag "foo"
+        expect(subject.tags).to include "foo"
+      end
+
+      it "should accept single tag" do
+        subject.by_tag "foo"
+        expect(subject.tags).to include "foo"
+      end
+
+      it "should accept variadic tag" do
+        subject.by_tag "foo", "bar"
+        expect(subject.tags).to include "foo", "bar"
+      end
+
+      it "should accept array of tags" do
+        subject.by_tag ["foo", "bar"]
+        expect(subject.tags).to include "foo", "bar"
+      end
+
+      it "should return self for chaining" do
+        expect(subject.by_tag).to be subject
+      end
+    end
+
     describe "#run" do
       it "adds rules to list of included rules" do
         subject.run "foo"
