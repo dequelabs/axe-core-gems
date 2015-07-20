@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'axe/api/rules'
 
 module Axe::API
-  describe Rules, :focus do
+  describe Rules do
 
     describe "#by_tag" do
       it "adds tags to list of tags for which to run rules" do
@@ -82,18 +82,24 @@ module Axe::API
       end
     end
 
-    describe "#to_json" do
+    describe "#to_hash" do
       context "with tags" do
         it "should list rules to run only for given tags" do
-          subject.by_tag("foo")
-          expect(subject.to_json).to eq '{"runOnly":{"type":"tag","values":["foo"]},"rules":{}}'
+          subject.by_tag(:foo)
+          expect(subject.to_hash).to eq runOnly: { type: :tag, values: [:foo] }, rules: {}
         end
       end
 
       context "with explicit rules to run and skip" do
         it "should have run rules enabled, skip rules disabled" do
-          subject.run("foo", "bar").skip("baz", "qux")
-          expect(subject.to_json).to eq '{"runOnly":{"type":"tag","values":[]},"rules":{"foo":{"enabled":true},"bar":{"enabled":true},"baz":{"enabled":false},"qux":{"enabled":false}}}'
+          subject.run(:foo, :bar).skip(:baz, :qux)
+          expect(subject.to_hash).to eq runOnly: { type: :tag, values: [] },
+          :rules => {
+            foo: { enabled: true },
+            bar: { enabled:true },
+            baz: { enabled:false },
+            qux: { enabled:false }
+          }
         end
       end
     end

@@ -24,11 +24,11 @@ module Axe
         self
       end
 
-      def to_json
+      def to_hash
         {
-          runOnly: { type: "tag", values: @tags },
+          runOnly: { type: :tag, values: @tags },
           rules: Hash[@included.product([enabled: true]) + @excluded.product([enabled: false])]
-        }.to_json
+        }
       end
     end
   end
