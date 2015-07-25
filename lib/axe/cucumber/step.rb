@@ -4,140 +4,116 @@ module Axe
 
       # base
 
-      def be_accessible
-
+      def accessible
+        expect(Axe::Cucumber.page(self)).to be_accessible
       end
 
-      def be_inaccessible
-
+      def inaccessible
+        expect(Axe::Cucumber.page(self)).to_not be_accessible
       end
 
-      def be_accessible_within
-
+      def accessible_within(inclusion)
+        expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion)
       end
 
-      def be_inaccessible_within
-
+      def inaccessible_within(inclusion)
+        expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion)
       end
 
-      def be_accessible_excluding
-
+      def accessible_excluding(exclusion)
+        expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion)
       end
 
-      def be_inaccessible_excluding
-
+      def inaccessible_excluding(exclusion)
+        expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion)
       end
 
-      def be_accessible_within_but_excluding
-
+      def accessible_within_but_excluding(inclusion, exclusion)
+        expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion)
       end
 
-      def be_inaccessible_within_but_excluding
-
+      def inaccessible_within_but_excluding(inclusion, exclusion)
+        expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion)
       end
 
 
       # checking preset rules for given tag
 
-      def be_accessible_according_to
-
+      def accessible_according_to
       end
 
-      def be_inaccessible_according_to
-
+      def inaccessible_according_to
       end
 
-      def be_accessible_within_according_to
-
+      def accessible_within_according_to
       end
 
-      def be_inaccessible_within_according_to
-
+      def inaccessible_within_according_to
       end
 
-      def be_accessible_excluding_according_to
-
+      def accessible_excluding_according_to
       end
 
-      def be_inaccessible_excluding_according_to
-
+      def inaccessible_excluding_according_to
       end
 
-      def be_accessible_within_but_excluding_according_to
-
+      def accessible_within_but_excluding_according_to
       end
 
-      def be_inaccessible_within_but_excluding_according_to
-
+      def inaccessible_within_but_excluding_according_to
       end
 
 
       # checking given rules
 
-      def be_accessible_checking
-
+      def accessible_checking
       end
 
-      def be_inaccessible_checking
-
+      def inaccessible_checking
       end
 
-      def be_accessible_within_checking
-
+      def accessible_within_checking
       end
 
-      def be_inaccessible_within_checking
-
+      def inaccessible_within_checking
       end
 
-      def be_accessible_excluding_checking
-
+      def accessible_excluding_checking
       end
 
-      def be_inaccessible_excluding_checking
-
+      def inaccessible_excluding_checking
       end
 
-      def be_accessible_within_but_excluding_checking
-
+      def accessible_within_but_excluding_checking
       end
 
-      def be_inaccessible_within_but_excluding_checking
-
+      def inaccessible_within_but_excluding_checking
       end
 
       # with custom options
 
-      def be_accessible_custom
-
+      def accessible_custom
       end
 
-      def be_inaccessible_custom
-
+      def inaccessible_custom
       end
 
-      def be_accessible_within_custom
-
+      def accessible_within_custom
       end
 
-      def be_inaccessible_within_custom
-
+      def inaccessible_within_custom
       end
 
-      def be_accessible_excluding_custom
-
+      def accessible_excluding_custom
       end
 
-      def be_inaccessible_excluding_custom
-
+      def inaccessible_excluding_custom
       end
 
-      def be_accessible_within_but_excluding_custom
-
+      def accessible_within_but_excluding_custom
       end
 
-      def be_inaccessible_within_but_excluding_custom
-
+      def inaccessible_within_but_excluding_custom
       end
 
     end

@@ -1,36 +1,20 @@
 require 'axe/cucumber'
 
-Then(/^the page should be accessible$/) do
-  expect(Axe::Cucumber.page(self)).to be_accessible
-end
+Then "the page should be accessible", :accessible
 
-Then(/^the page should not be accessible$/) do
-  expect(Axe::Cucumber.page(self)).to_not be_accessible
-end
+Then "the page should not be accessible", :inaccessible
 
-Then(/^the page should be accessible within "(.*?)"$/) do |inclusion|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion)
-end
+Then "the page should be accessible within $selector", :accessible_within
 
-Then(/^the page should not be accessible within "(.*?)"$/) do |inclusion|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion)
-end
+Then "the page should not be accessible within $selector", :inaccessible_within
 
-Then(/^the page should be accessible excluding "(.*?)"$/) do |exclusion|
-  expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion)
-end
+Then "the page should be accessible excluding $selector", :accessible_excluding
 
-Then(/^the page should not be accessible excluding "(.*?)"$/) do |exclusion|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion)
-end
+Then "the page should not be accessible excluding $selector", :inaccessible_excluding
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)"$/) do |inclusion, exclusion|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion)
-end
+Then "the page should be accessible within $selector excluding $selector", :accessible_within_but_excluding
 
-Then(/^the page should not be accessible within "(.*?)" excluding "(.*?)"$/) do |inclusion, exclusion|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion)
-end
+Then "the page should not be accessible within $selector excluding $selector", :inaccessible_within_but_excluding
 
 Then(/^the page should be accessible for tags? "(.*?)"$/) do |tag|
   expect(Axe::Cucumber.page(self)).to be_accessible.for_tag(tag)
