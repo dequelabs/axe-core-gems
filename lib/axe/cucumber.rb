@@ -1,13 +1,21 @@
-require 'axe/rspec/matchers'
 require 'axe/cucumber/configuration'
 require 'axe/cucumber/steps'
 require 'axe/cucumber/step_definitions'
 
-# expose rspec matchers to cucumber steps
-World(Axe::RSpec::Matchers)
+# this module is exposed to Cucumber World to expose #axe_steps
+# which returns an object that has all the axe_steps available on it
+
+module Axe
+  module Cucumber
+    module BadWolf
+
+      def axe_steps
+        Steps.new Axe::Cucumber.page(self)
+      end
+
+    end
+  end
+end
 
 # register module of step procs for step definitions
-World(Axe::Cucumber::Steps::Base)
-World(Axe::Cucumber::Steps::AccordingToTag)
-World(Axe::Cucumber::Steps::CheckingRule)
-World(Axe::Cucumber::Steps::WithOptions)
+World(Axe::Cucumber::BadWolf)

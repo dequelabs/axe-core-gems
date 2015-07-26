@@ -1,37 +1,37 @@
 module Axe
   module Cucumber
-    module Steps
+    class Steps
       module Base
         def accessible
-          expect(Axe::Cucumber.page(self)).to be_accessible
+          assert accessibility
         end
 
         def inaccessible
-          expect(Axe::Cucumber.page(self)).to_not be_accessible
+          refute accessibility
         end
 
         def accessible_within(inclusion)
-          expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion)
+          assert accessibility.within(inclusion)
         end
 
         def inaccessible_within(inclusion)
-          expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion)
+          refute accessibility.within(inclusion)
         end
 
         def accessible_excluding(exclusion)
-          expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion)
+          assert accessibility.excluding(exclusion)
         end
 
         def inaccessible_excluding(exclusion)
-          expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion)
+          refute accessibility.excluding(exclusion)
         end
 
         def accessible_within_but_excluding(inclusion, exclusion)
-          expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion)
+          assert accessibility.within(inclusion).excluding(exclusion)
         end
 
         def inaccessible_within_but_excluding(inclusion, exclusion)
-          expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion)
+          refute accessibility.within(inclusion).excluding(exclusion)
         end
       end
     end
