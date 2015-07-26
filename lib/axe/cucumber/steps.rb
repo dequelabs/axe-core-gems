@@ -36,37 +36,23 @@ Then "the page should not be accessible within $selector but excluding $selector
 
 
 
-Then(/^the page should be accessible for rules? "(.*?)"$/) do |rule|
-  expect(Axe::Cucumber.page(self)).to be_accessible.for_rule(rule)
-end
+Then "the page should be accessible checking $rule", :accessible_checking
 
-Then(/^the page should not be accessible for rules? "(.*?)"$/) do |rule|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.for_rule(rule)
-end
+Then "the page should not be accessible checking $rule", :inaccessible_checking
 
-Then(/^the page should be accessible within "(.*?)" for rules? "(.*?)"$/) do |inclusion, rule|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).for_rule(rule)
-end
+Then "the page should be accessible within $selector checking $rule", :accessible_within_checking
 
-Then(/^the page should not be accessible within "(.*?)" for rules? "(.*?)"$/) do |inclusion, rule|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).for_rule(rule)
-end
+Then "the page should not be accessible within $selector checking $rule", :inaccessible_within_checking
 
-Then(/^the page should be accessible excluding "(.*?)" for rules? "(.*?)"$/) do |exclusion, rule|
-  expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion).for_rule(rule)
-end
+Then "the page should be accessible excluding $selector checking $rule", :accessible_excluding_checking
 
-Then(/^the page should not be accessible excluding "(.*?)" for rules? "(.*?)"$/) do |exclusion, rule|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion).for_rule(rule)
-end
+Then "the page should not be accessible excluding $selector checking $rule", :inaccessible_excluding_checking
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for rules? "(.*?)"$/) do |inclusion, exclusion, rule|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion).for_rule(rule)
-end
+Then "the page should be accessible within $selector but excluding $selector checking $rule", :accessible_within_but_excluding_checking
 
-Then(/^the page should not be accessible within "(.*?)" excluding "(.*?)" for rules? "(.*?)"$/) do |inclusion, exclusion, rule|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion).for_rule(rule)
-end
+Then "the page should not be accessible within $selector but excluding $selector checking $rule", :inaccessible_within_but_excluding_checking
+
+
 
 Then(/^the page should be accessible with options "(.*?)"$/) do |options|
   expect(Axe::Cucumber.page(self)).to be_accessible.with_options(options)
