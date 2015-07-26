@@ -1,7 +1,7 @@
 require 'timeout'
-require 'axe/rspec/matchers/be_accessible'
+require 'axe/matchers/be_accessible'
 
-module Axe::RSpec::Matchers
+module Axe::Matchers
   describe BeAccessible do
     let(:page) { spy('page') }
 

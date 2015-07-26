@@ -1,4 +1,4 @@
-require 'axe/rspec/matchers'
+require 'axe/matchers/be_accessible'
 require 'axe/cucumber/steps/base'
 require 'axe/cucumber/steps/according_to_tag'
 require 'axe/cucumber/steps/checking_rule'
@@ -30,7 +30,7 @@ module Axe
       attr_reader :page
 
       def accessibility
-        RSpec::Matchers::BeAccessible.new
+        Matchers::BeAccessible.new
       end
 
       def assert(matcher)
