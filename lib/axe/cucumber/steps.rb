@@ -40,48 +40,32 @@ Then "the page should be accessible checking $rule", :accessible_checking
 
 Then "the page should not be accessible checking $rule", :inaccessible_checking
 
-Then "the page should be accessible within $selector checking $rule", :accessible_within_checking
+Then "the page should be accessible within $inclusion_selector checking $rule", :accessible_within_checking
 
-Then "the page should not be accessible within $selector checking $rule", :inaccessible_within_checking
+Then "the page should not be accessible within $inclusion_selector checking $rule", :inaccessible_within_checking
 
-Then "the page should be accessible excluding $selector checking $rule", :accessible_excluding_checking
+Then "the page should be accessible excluding $exclusion_selector checking $rule", :accessible_excluding_checking
 
-Then "the page should not be accessible excluding $selector checking $rule", :inaccessible_excluding_checking
+Then "the page should not be accessible excluding $exclusion_selector checking $rule", :inaccessible_excluding_checking
 
-Then "the page should be accessible within $selector but excluding $selector checking $rule", :accessible_within_but_excluding_checking
+Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector checking $rule", :accessible_within_but_excluding_checking
 
-Then "the page should not be accessible within $selector but excluding $selector checking $rule", :inaccessible_within_but_excluding_checking
+Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector checking $rule", :inaccessible_within_but_excluding_checking
 
 
 
-Then(/^the page should be accessible with options "(.*?)"$/) do |options|
-  expect(Axe::Cucumber.page(self)).to be_accessible.with_options(options)
-end
+Then "the page should be accessible with options $options", :accessible_custom
 
-Then(/^the page should not be accessible with options "(.*?)"$/) do |options|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.with_options(options)
-end
+Then "the page should not be accessible with options $options", :inaccessible_custom
 
-Then(/^the page should be accessible within "(.*?)" with options "(.*?)"$/) do |inclusion, options|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).with_options(options)
-end
+Then "the page should be accessible within $inclusion_selector with options $options", :accessible_within_custom
 
-Then(/^the page should not be accessible within "(.*?)" with options "(.*?)"$/) do |inclusion, options|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).with_options(options)
-end
+Then "the page should not be accessible within $inclusion_selector with options $options", :inaccessible_within_custom
 
-Then(/^the page should be accessible excluding "(.*?)" with options "(.*?)"$/) do |exclusion, options|
-  expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion).with_options(options)
-end
+Then "the page should be accessible excluding $exclusion_selector with options $options", :accessible_excluding_custom
 
-Then(/^the page should not be accessible excluding "(.*?)" with options "(.*?)"$/) do |exclusion, options|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion).with_options(options)
-end
+Then "the page should not be accessible excluding $exclusion_selector with options $options", :inaccessible_excluding_custom
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" with options "(.*?)"$/) do |inclusion, exclusion, options|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion).with_options(options)
-end
+Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector with options $options", :accessible_within_but_excluding_custom
 
-Then(/^the page should not be accessible within "(.*?)" excluding "(.*?)" with options "(.*?)"$/) do |inclusion, exclusion, options|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion).with_options(options)
-end
+Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector with options $options", :inaccessible_within_but_excluding_custom
