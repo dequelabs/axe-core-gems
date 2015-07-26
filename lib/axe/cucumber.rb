@@ -1,21 +1,21 @@
 require 'axe/cucumber/configuration'
-require 'axe/cucumber/steps'
-require 'axe/cucumber/step_definitions'
-
-# this module is exposed to Cucumber World to expose #axe_steps
-# which returns an object that has all the axe_steps available on it
 
 module Axe
   module Cucumber
-    module BadWolf
-
-      def axe_steps
-        Steps.new Axe::Cucumber.page(self)
-      end
-
+    def self.configuration
+      @configuration ||= Axe::Cucumber::Configuration.new
     end
+
+    def self.configure
+      yield configuration if block_given?
+    end
+
+    def self.page(world)
+      configuration.page_from(world).tap do |page|
+        raise WebDriverError, "Configured page must implement #execute_script"  unless page.respond_to?(:execute_script)
+      end
+    end
+
+    class WebDriverError < TypeError; end
   end
 end
-
-# register module of step procs for step definitions
-World(Axe::Cucumber::BadWolf)

@@ -1,3 +1,8 @@
+require 'axe/cucumber/world'
+
+# register module to expose #axe_steps to cucumber World
+World(Axe::Cucumber::World)
+
 Then "the page should be accessible", :accessible, on: -> { axe_steps }
 
 Then "the page should not be accessible", :inaccessible, on: -> { axe_steps }

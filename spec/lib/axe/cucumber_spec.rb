@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'axe/cucumber/configuration'
+require 'axe/cucumber'
 
 module Axe
   describe Cucumber do
