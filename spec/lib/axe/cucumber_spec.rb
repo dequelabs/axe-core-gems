@@ -13,6 +13,24 @@ module Axe
       end
     end
 
+    describe "#steps", :focus do
+      let(:world) { double('world') }
+
+      before :each do
+        allow(Axe::Cucumber).to receive(:build_steps_for)
+      end
+
+      it "should be a lambda" do
+        expect(Axe::Cucumber.steps).to be_a Proc
+        expect(Axe::Cucumber.steps).to be_lambda
+      end
+
+      it "should build steps for its world (self)" do
+        world.instance_exec(&Axe::Cucumber.steps)
+        expect(Axe::Cucumber).to have_received(:build_steps_for).with(world)
+      end
+    end
+
     describe "#build_steps_for" do
       let(:page) { double('page') }
       let(:steps) { double('steps') }
