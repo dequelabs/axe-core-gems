@@ -12,41 +12,29 @@ Then "the page should be accessible excluding $selector", :accessible_excluding
 
 Then "the page should not be accessible excluding $selector", :inaccessible_excluding
 
-Then "the page should be accessible within $selector excluding $selector", :accessible_within_but_excluding
+Then "the page should be accessible within $selector but excluding $selector", :accessible_within_but_excluding
 
-Then "the page should not be accessible within $selector excluding $selector", :inaccessible_within_but_excluding
+Then "the page should not be accessible within $selector but excluding $selector", :inaccessible_within_but_excluding
 
-Then(/^the page should be accessible for tags? "(.*?)"$/) do |tag|
-  expect(Axe::Cucumber.page(self)).to be_accessible.for_tag(tag)
-end
 
-Then(/^the page should not be accessible for tags? "(.*?)"$/) do |tag|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.for_tag(tag)
-end
 
-Then(/^the page should be accessible within "(.*?)" for tags? "(.*?)"$/) do |inclusion, tag|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).for_tag(tag)
-end
+Then "the page should be accessible according to $tag", :accessible_according_to
 
-Then(/^the page should not be accessible within "(.*?)" for tags? "(.*?)"$/) do |inclusion, tag|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).for_tag(tag)
-end
+Then "the page should not be accessible according to $tag", :inaccessible_according_to
 
-Then(/^the page should be accessible excluding "(.*?)" for tags? "(.*?)"$/) do |exclusion, tag|
-  expect(Axe::Cucumber.page(self)).to be_accessible.excluding(exclusion).for_tag(tag)
-end
+Then "the page should be accessible within $selector according to $tag", :accessible_within_according_to
 
-Then(/^the page should not be accessible excluding "(.*?)" for tags? "(.*?)"$/) do |exclusion, tag|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.excluding(exclusion).for_tag(tag)
-end
+Then "the page should not be accessible within $selector according to $tag", :inaccessible_within_according_to
 
-Then(/^the page should be accessible within "(.*?)" excluding "(.*?)" for tags? "(.*?)"$/) do |inclusion, exclusion, tag|
-  expect(Axe::Cucumber.page(self)).to be_accessible.within(inclusion).excluding(exclusion).for_tag(tag)
-end
+Then "the page should be accessible excluding $selector according to $tag", :accessible_excluding_according_to
 
-Then(/^the page should not be accessible within "(.*?)" excluding "(.*?)" for tags? "(.*?)"$/) do |inclusion, exclusion, tag|
-  expect(Axe::Cucumber.page(self)).to_not be_accessible.within(inclusion).excluding(exclusion).for_tag(tag)
-end
+Then "the page should not be accessible excluding $selector according to $tag", :inaccessible_excluding_according_to
+
+Then "the page should be accessible within $selector but excluding $selector according to $tag", :accessible_within_but_excluding_according_to
+
+Then "the page should not be accessible within $selector but excluding $selector according to $tag", :inaccessible_within_but_excluding_according_to
+
+
 
 Then(/^the page should be accessible for rules? "(.*?)"$/) do |rule|
   expect(Axe::Cucumber.page(self)).to be_accessible.for_rule(rule)
