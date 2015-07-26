@@ -4,17 +4,17 @@ Then "the page should be accessible", :accessible
 
 Then "the page should not be accessible", :inaccessible
 
-Then "the page should be accessible within $selector", :accessible_within
+Then "the page should be accessible within $inclusion_selector", :accessible_within
 
-Then "the page should not be accessible within $selector", :inaccessible_within
+Then "the page should not be accessible within $inclusion_selector", :inaccessible_within
 
-Then "the page should be accessible excluding $selector", :accessible_excluding
+Then "the page should be accessible excluding $exclusion_selector", :accessible_excluding
 
-Then "the page should not be accessible excluding $selector", :inaccessible_excluding
+Then "the page should not be accessible excluding $exclusion_selector", :inaccessible_excluding
 
-Then "the page should be accessible within $selector but excluding $selector", :accessible_within_but_excluding
+Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector", :accessible_within_but_excluding
 
-Then "the page should not be accessible within $selector but excluding $selector", :inaccessible_within_but_excluding
+Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector", :inaccessible_within_but_excluding
 
 
 
@@ -22,17 +22,17 @@ Then "the page should be accessible according to $tag", :accessible_according_to
 
 Then "the page should not be accessible according to $tag", :inaccessible_according_to
 
-Then "the page should be accessible within $selector according to $tag", :accessible_within_according_to
+Then "the page should be accessible within $inclusion_selector according to $tag", :accessible_within_according_to
 
-Then "the page should not be accessible within $selector according to $tag", :inaccessible_within_according_to
+Then "the page should not be accessible within $inclusion_selector according to $tag", :inaccessible_within_according_to
 
-Then "the page should be accessible excluding $selector according to $tag", :accessible_excluding_according_to
+Then "the page should be accessible excluding $exclusion_selector according to $tag", :accessible_excluding_according_to
 
-Then "the page should not be accessible excluding $selector according to $tag", :inaccessible_excluding_according_to
+Then "the page should not be accessible excluding $exclusion_selector according to $tag", :inaccessible_excluding_according_to
 
-Then "the page should be accessible within $selector but excluding $selector according to $tag", :accessible_within_but_excluding_according_to
+Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector according to $tag", :accessible_within_but_excluding_according_to
 
-Then "the page should not be accessible within $selector but excluding $selector according to $tag", :inaccessible_within_but_excluding_according_to
+Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector according to $tag", :inaccessible_within_but_excluding_according_to
 
 
 
