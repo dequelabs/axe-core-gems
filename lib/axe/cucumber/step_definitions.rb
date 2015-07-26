@@ -1,23 +1,20 @@
-require 'axe/cucumber/world'
+require 'axe/cucumber'
 
-# register module to expose #axe_steps to cucumber World
-World(Axe::Cucumber::World)
+Then "the page should be accessible", :accessible, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should be accessible", :accessible, on: -> { axe_steps }
+Then "the page should not be accessible", :inaccessible, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should not be accessible", :inaccessible, on: -> { axe_steps }
+Then "the page should be accessible within $inclusion_selector", :accessible_within, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should be accessible within $inclusion_selector", :accessible_within, on: -> { axe_steps }
+Then "the page should not be accessible within $inclusion_selector", :inaccessible_within, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should not be accessible within $inclusion_selector", :inaccessible_within, on: -> { axe_steps }
+Then "the page should be accessible excluding $exclusion_selector", :accessible_excluding, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should be accessible excluding $exclusion_selector", :accessible_excluding, on: -> { axe_steps }
+Then "the page should not be accessible excluding $exclusion_selector", :inaccessible_excluding, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should not be accessible excluding $exclusion_selector", :inaccessible_excluding, on: -> { axe_steps }
+Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector", :accessible_within_but_excluding, on: -> { Axe::Cucumber.steps(self) }
 
-Then "the page should be accessible within $inclusion_selector but excluding $exclusion_selector", :accessible_within_but_excluding, on: -> { axe_steps }
-
-Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector", :inaccessible_within_but_excluding, on: -> { axe_steps }
+Then "the page should not be accessible within $inclusion_selector but excluding $exclusion_selector", :inaccessible_within_but_excluding, on: -> { Axe::Cucumber.steps(self) }
 
 
 
