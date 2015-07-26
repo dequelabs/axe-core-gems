@@ -13,7 +13,7 @@ module Axe
       end
     end
 
-    describe "#steps" do
+    describe "#build_steps_for" do
       let(:page) { double('page') }
       let(:steps) { double('steps') }
 
@@ -24,17 +24,17 @@ module Axe
       end
 
       it "should instantiate Steps with the page from the given Cucumber World" do
-        expect(subject.steps("world")).to eq(steps)
+        expect(subject.build_steps_for("world")).to eq(steps)
       end
 
       it "should provide a Cucumber World in which to resolve the page" do
-        subject.steps("world")
+        subject.build_steps_for("world")
         expect(subject.configuration).to have_received(:page_from).with("world")
       end
 
       it "should ensure the page is webdriver-esque" do
         class << page; undef execute_script end
-        expect { subject.steps("foo") }.to raise_error(Axe::Cucumber::WebDriverError)
+        expect { subject.build_steps_for("foo") }.to raise_error(Axe::Cucumber::WebDriverError)
       end
     end
   end

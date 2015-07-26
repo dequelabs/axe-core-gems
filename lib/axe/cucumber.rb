@@ -11,7 +11,12 @@ module Axe
       yield configuration if block_given?
     end
 
-    def self.steps(world)
+    def self.steps
+      # evaled against cucumber World
+      -> { Axe::Cucumber.build_steps_for(self) }
+    end
+
+    def self.build_steps_for(world)
       Steps.new page_from(world)
     end
 
