@@ -1,6 +1,5 @@
 require 'json'
 require 'forwardable'
-require 'axe/page'
 require 'axe/api'
 
 module Axe
@@ -17,9 +16,7 @@ module Axe
       end
 
       def matches?(page)
-        @page = Page.new(page)
-
-        @results = API::Audit.new(@page).run(context: @context, options: @options)
+        @results = API::Audit.new(page).run(context: @context, options: @options)
 
         @results.passed?
       end

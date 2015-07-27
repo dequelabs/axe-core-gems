@@ -2,6 +2,7 @@ require 'axe/api'
 require 'axe/api/a11y_check'
 require 'axe/api/results'
 require 'axe/javascript_library'
+require 'axe/page'
 
 module Axe
   module API
@@ -9,7 +10,7 @@ module Axe
     class Audit
 
       def initialize(page)
-        @page = page
+        @page = Page.new(page)
       end
 
       def run(params)
