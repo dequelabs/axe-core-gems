@@ -13,12 +13,12 @@ module Axe
       end
 
       def include(selector)
-        @inclusion.concat to_array(selector)
+        @inclusion.concat ensure_nested_array(selector)
         self
       end
 
       def exclude(selector)
-        @exclusion.concat to_array(selector)
+        @exclusion.concat ensure_nested_array(selector)
         self
       end
 
@@ -49,7 +49,7 @@ module Axe
         end
       end
 
-      def to_array(selector)
+      def ensure_nested_array(selector)
         Array(selector).map { |s| Array(s) }
       end
 
