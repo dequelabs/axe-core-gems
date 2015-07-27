@@ -5,8 +5,8 @@ module Axe
     #TODO test this class
     class A11yCheck
       def initialize(params)
-        @context = params.fetch('context', Context.new)
-        @options = params.fetch('options', Options.new)
+        @context = params.fetch('context')
+        @options = params.fetch('options')
       end
 
       def to_js

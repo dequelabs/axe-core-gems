@@ -11,34 +11,33 @@ module Axe
       def_delegator :@results, :failure_message, :failure_message_when_negated
 
       def initialize
-        @context = API::Context.new
-        @options = API::Options.new
+        @audit = API::Audit.new
       end
 
       def matches?(page)
-        @results = API::Audit.new(page).run(context: @context, options: @options)
+        @results = @audit.run_against(page)
 
         @results.passed?
       end
 
       def within(inclusion)
-        @context.include inclusion
+        @audit.include inclusion
         self
       end
 
       def excluding(exclusion)
-        @context.exclude exclusion
+        @audit.exclude exclusion
         self
       end
 
       def for_tag(*tags)
-        @options.rules_by_tags(tags.flatten)
+        @audit.rules_by_tags(tags.flatten)
         self
       end
       alias :for_tags :for_tag
 
       def for_rule(*rules)
-        @options.run_only_rules(rules.flatten)
+        @audit.run_only_rules(rules.flatten)
         self
       end
       alias :for_rules :for_rule

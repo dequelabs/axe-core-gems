@@ -1,5 +1,9 @@
+require 'forwardable'
+
 require 'axe/api'
 require 'axe/api/a11y_check'
+require 'axe/api/context'
+require 'axe/api/options'
 require 'axe/api/results'
 require 'axe/javascript_library'
 require 'axe/page'
@@ -8,14 +12,21 @@ module Axe
   module API
     #TODO test this class
     class Audit
+      extend Forwardable
 
-      def initialize(page)
-        @page = Page.new(page)
+      def_delegators :@context, :include, :exclude
+      def_delegators :@options, :rules_by_tags, :run_only_rules
+
+      def initialize
+        @context = Context.new
+        @options = Options.new
       end
 
-      def run(params)
+      def run_against(page)
+        @page = Page.new(page)
+
         inject_axe_lib
-        run_audit(params)
+        run_audit
         parse_results
       end
 
@@ -25,8 +36,8 @@ module Axe
         JavaScriptLibrary.new.inject_into @page
       end
 
-      def run_audit(params)
-        @page.execute A11yCheck.new(params).to_js
+      def run_audit
+        @page.execute A11yCheck.new(context: @context, options: @options).to_js
       end
 
       def parse_results

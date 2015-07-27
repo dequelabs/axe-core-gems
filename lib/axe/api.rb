@@ -6,13 +6,3 @@ module Axe
 end
 
 require 'axe/api/audit'
-
-# method
-require 'axe/api/a11y_check'
-
-# parameters
-require 'axe/api/context'
-require 'axe/api/options'
-
-# results
-require 'axe/api/results'
