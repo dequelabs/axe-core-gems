@@ -30,20 +30,19 @@ module Axe
       end
 
       def for_tag(*tags)
-        @audit.rules_by_tags(tags.flatten)
+        @audit.rules_by_tags tags.flatten
         self
       end
       alias :for_tags :for_tag
 
       def for_rule(*rules)
-        @audit.run_only_rules(rules.flatten)
+        @audit.run_only_rules rules.flatten
         self
       end
       alias :for_rules :for_rule
 
-      #TODO this needs passed through to @audit
       def with_options(options)
-        @options = options
+        @audit.custom_options options
         self
       end
     end

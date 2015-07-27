@@ -117,22 +117,12 @@ module Axe::Matchers
       end
     end
 
-    xdescribe "#with_options" do
-      it "should pass the options string to the script" do
-        test_options = '{these:{are:{my:"options"}}}'
-        expect(page).to receive(:execute_script).with(script_for_execute('document', test_options))
-        subject.with_options(test_options).matches?(page)
+    describe "#with_options",:focus do
+      it "should be delegated to @audit" do
+        subject.with_options(:foo)
+        expect(audit).to have_received(:custom_options)
       end
     end
 
-    private
-
-    def script_for_execute(context='document', options={})
-      "axe.a11yCheck(#{context}, #{options}, function(results){axe.rspecResult = results;});"
-    end
-
-    def script_for_evaluate
-      "axe.rspecResult"
-    end
   end
 end
