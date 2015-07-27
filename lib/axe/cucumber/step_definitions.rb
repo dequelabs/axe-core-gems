@@ -18,21 +18,21 @@ Then 'the page should not be accessible within "$inclusion_selector" but excludi
 
 
 
-Then 'the page should be accessible according to $tag', :accessible_according_to, on: Axe::Cucumber.steps
+Then 'the page should be accessible according to: $tag', :accessible_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should not be accessible according to $tag', :inaccessible_according_to, on: Axe::Cucumber.steps
+Then 'the page should not be accessible according to: $tag', :inaccessible_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should be accessible within "$inclusion_selector" according to $tag', :accessible_within_according_to, on: Axe::Cucumber.steps
+Then 'the page should be accessible within "$inclusion_selector" according to: $tag', :accessible_within_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should not be accessible within "$inclusion_selector" according to $tag', :inaccessible_within_according_to, on: Axe::Cucumber.steps
+Then 'the page should not be accessible within "$inclusion_selector" according to: $tag', :inaccessible_within_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should be accessible excluding "$exclusion_selector" according to $tag', :accessible_excluding_according_to, on: Axe::Cucumber.steps
+Then 'the page should be accessible excluding "$exclusion_selector" according to: $tag', :accessible_excluding_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should not be accessible excluding "$exclusion_selector" according to $tag', :inaccessible_excluding_according_to, on: Axe::Cucumber.steps
+Then 'the page should not be accessible excluding "$exclusion_selector" according to: $tag', :inaccessible_excluding_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should be accessible within "$inclusion_selector" but excluding "$exclusion_selector" according to $tag', :accessible_within_but_excluding_according_to, on: Axe::Cucumber.steps
+Then 'the page should be accessible within "$inclusion_selector" but excluding "$exclusion_selector" according to: $tag', :accessible_within_but_excluding_according_to, on: Axe::Cucumber.steps
 
-Then 'the page should not be accessible within "$inclusion_selector" but excluding "$exclusion_selector" according to $tag', :inaccessible_within_but_excluding_according_to, on: Axe::Cucumber.steps
+Then 'the page should not be accessible within "$inclusion_selector" but excluding "$exclusion_selector" according to: $tag', :inaccessible_within_but_excluding_according_to, on: Axe::Cucumber.steps
 
 
 
