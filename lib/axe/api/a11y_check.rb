@@ -1,12 +1,22 @@
+require 'forwardable'
+require 'json'
+
 require 'axe/api'
+require 'axe/api/context'
+require 'axe/api/options'
 
 module Axe
   module API
     #TODO test this class
     class A11yCheck
-      def initialize(params)
-        @context = params.fetch('context')
-        @options = params.fetch('options')
+      extend Forwardable
+
+      def_delegators :@context, :include, :exclude
+      def_delegators :@options, :rules_by_tags, :run_only_rules
+
+      def initialize
+        @context = Context.new
+        @options = Options.new
       end
 
       def to_js

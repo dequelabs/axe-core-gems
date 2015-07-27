@@ -2,8 +2,6 @@ require 'forwardable'
 
 require 'axe/api'
 require 'axe/api/a11y_check'
-require 'axe/api/context'
-require 'axe/api/options'
 require 'axe/api/results'
 require 'axe/javascript_library'
 require 'axe/page'
@@ -14,12 +12,10 @@ module Axe
     class Audit
       extend Forwardable
 
-      def_delegators :@context, :include, :exclude
-      def_delegators :@options, :rules_by_tags, :run_only_rules
+      def_delegators :@a11y_check, :include, :exclude, :rules_by_tags, :run_only_rules
 
       def initialize
-        @context = Context.new
-        @options = Options.new
+        @a11y_check = A11yCheck.new
       end
 
       def run_against(page)
@@ -37,7 +33,7 @@ module Axe
       end
 
       def run_audit
-        @page.execute A11yCheck.new(context: @context, options: @options).to_js
+        @page.execute @a11y_check.to_js
       end
 
       def parse_results

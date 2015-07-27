@@ -1,6 +1,5 @@
-require 'json'
 require 'forwardable'
-require 'axe/api'
+require 'axe/api/audit'
 
 module Axe
   module Matchers
@@ -42,6 +41,7 @@ module Axe
       end
       alias :for_rules :for_rule
 
+      #TODO this needs passed through to @audit
       def with_options(options)
         @options = options
         self
