@@ -1,3 +1,5 @@
+require 'yaml'
+
 require 'axe/matchers/be_accessible'
 require 'axe/cucumber/steps/base'
 require 'axe/cucumber/steps/according_to_tag'
@@ -39,6 +41,10 @@ module Axe
 
       def split(string)
         string.split(/,\s*/)
+      end
+
+      def to_hash(string)
+        YAML.load string
       end
 
       def assert(matcher)
