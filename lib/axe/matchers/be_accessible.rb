@@ -5,9 +5,6 @@ require 'axe/api'
 
 module Axe
   module Matchers
-    LIBRARY_IDENTIFIER = "axe"
-    RESULTS_IDENTIFIER = LIBRARY_IDENTIFIER + ".rspecResult"
-
     class BeAccessible
       extend Forwardable
 
@@ -22,8 +19,7 @@ module Axe
       def matches?(page)
         @page = Page.new(page)
 
-        API::Audit.new(@page).run
-        run_accessibility_audit
+        API::Audit.new(@page).run(context: @context, options: @options)
         parse_audit_results
 
         @results.passed?
@@ -58,16 +54,12 @@ module Axe
 
       private
 
-      def run_accessibility_audit
-        @page.execute(API::A11yCheck.new(context: @context, options: @options).to_js)
-      end
-
       def parse_audit_results
         @results = API::Results.from_hash audit_results
       end
 
       def audit_results
-        @page.wait_until { @page.evaluate(RESULTS_IDENTIFIER) }
+        @page.wait_until { @page.evaluate(API::RESULTS_IDENTIFIER) }
       end
     end
 
