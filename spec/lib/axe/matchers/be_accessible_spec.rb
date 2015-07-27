@@ -91,7 +91,6 @@ module Axe::Matchers
     end
 
     describe "#within" do
-
       it "should set the context of the test script" do
         expect(page).to receive(:execute_script).with(script_for_execute('{"include":[["#selector"]],"exclude":[]}'))
         subject.within("#selector").matches?(page)
@@ -109,7 +108,6 @@ module Axe::Matchers
     end
 
     describe "#excluding" do
-
       it "should set the include/exclude context of the test script" do
         expect(page).to receive(:execute_script).with(script_for_execute('{"include":[["#this"]],"exclude":[["#other"]]}'))
         subject.within("#this").excluding("#other").matches?(page)
@@ -132,7 +130,6 @@ module Axe::Matchers
     end
 
     describe "#for_tag" do
-
       it "should pass the tag options to the script" do
         expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"tag","values":["wcag2a"]}}'))
         subject.for_tag("wcag2a").matches?(page)
@@ -150,16 +147,9 @@ module Axe::Matchers
     end
 
     describe "#for_rule" do
-
       it "should pass the rule options to the script" do
         expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"rule","values":["label"]}}'))
         subject.for_rule("label").matches?(page)
-      end
-
-      #TODO comma-separated in cucumber step
-      xit "should accept comma-separated rules" do
-        expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"rule","values":["label","blink","list"]}}'))
-        subject.for_rule("label,blink, list").matches?(page)
       end
 
       it "should accept an array of rules" do
@@ -174,7 +164,6 @@ module Axe::Matchers
     end
 
     xdescribe "#with_options" do
-
       it "should pass the options string to the script" do
         test_options = '{these:{are:{my:"options"}}}'
         expect(page).to receive(:execute_script).with(script_for_execute('document', test_options))
