@@ -60,7 +60,8 @@ module Axe::API
     describe "#to_json" do
       context "without an inclusion" do
         context "without an exclusion" do
-          xit "should emit only the exclude array" do
+          it "should emit only the exclude array" do
+            pending "blocked until axe-core 1.1.0, which handles missing `include`"
             expect(subject.to_json).to eq '{"exclude":[]}'
           end
           #TODO: when 1.1.0 drops, kill this test and make ^above^ test active
@@ -71,7 +72,8 @@ module Axe::API
         context "with exclusions" do
           before(:each) { subject.exclude ".ignore" }
 
-          xit "should only list exclusions" do
+          it "should only list exclusions" do
+            pending "blocked until axe-core 1.1.0, which handles missing `include`"
             expect(subject.to_json).to eq '{"exclude":[[".ignore"]]}'
           end
           #TODO: when 1.1.0 drops, kill this test and make ^above^ test active
