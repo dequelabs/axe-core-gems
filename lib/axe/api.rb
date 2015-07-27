@@ -5,6 +5,8 @@ module Axe
   end
 end
 
+require 'axe/api/audit'
+
 # method
 require 'axe/api/a11y_check'
 

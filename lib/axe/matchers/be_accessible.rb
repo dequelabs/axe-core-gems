@@ -1,6 +1,5 @@
 require 'json'
 require 'forwardable'
-require 'axe/javascript_library'
 require 'axe/page'
 require 'axe/api'
 
@@ -16,7 +15,6 @@ module Axe
       def_delegator :@results, :failure_message, :failure_message_when_negated
 
       def initialize
-        @js_lib = JavaScriptLibrary.new
         @context = API::Context.new
         @options = API::Options.new
       end
@@ -24,7 +22,7 @@ module Axe
       def matches?(page)
         @page = Page.new(page)
 
-        inject_axe_lib
+        API::Audit.new(@page).run
         run_accessibility_audit
         parse_audit_results
 
@@ -59,10 +57,6 @@ module Axe
       end
 
       private
-
-      def inject_axe_lib
-        @js_lib.inject_into @page
-      end
 
       def run_accessibility_audit
         @page.execute(API::A11yCheck.new(context: @context, options: @options).to_js)
