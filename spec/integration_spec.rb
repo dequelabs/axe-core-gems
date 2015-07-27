@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'capybara/rspec'
+require 'axe/matchers'
 
 RSpec.configure do |c|
-  c.include Axe::RSpec::Matchers
+  c.include Axe::Matchers
 end
 
 feature "BeAccessible", :integration, :slow do
