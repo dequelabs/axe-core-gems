@@ -19,8 +19,7 @@ module Axe
       def matches?(page)
         @page = Page.new(page)
 
-        API::Audit.new(@page).run(context: @context, options: @options)
-        parse_audit_results
+        @results = API::Audit.new(@page).run(context: @context, options: @options)
 
         @results.passed?
       end
@@ -50,16 +49,6 @@ module Axe
       def with_options(options)
         @options = options
         self
-      end
-
-      private
-
-      def parse_audit_results
-        @results = API::Results.from_hash audit_results
-      end
-
-      def audit_results
-        @page.wait_until { @page.evaluate(API::RESULTS_IDENTIFIER) }
       end
     end
 
