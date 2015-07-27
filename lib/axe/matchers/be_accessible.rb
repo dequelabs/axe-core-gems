@@ -19,6 +19,7 @@ module Axe
       def initialize
         @js_lib = JavaScriptLibrary.new
         @context = API::Context.new
+        @options = API::Options.new
       end
 
       def matches?(page)
@@ -41,16 +42,14 @@ module Axe
         self
       end
 
-      def for_tag(tag)
-        tags = tag.is_a?(Array) ? tag : tag.split(/, ?/)
-        @options = "{runOnly:{type:\"tag\",values:#{tags.to_json}}}"
+      def for_tag(*tags)
+        @options.rules_by_tag(tags.flatten)
         self
       end
       alias :for_tags :for_tag
 
-      def for_rule(rule)
-        rules = rule.is_a?(Array) ? rule : rule.split(/, ?/)
-        @options = "{runOnly:{type:\"rule\",values:#{rules.to_json}}}"
+      def for_rule(*rules)
+        @options.run_only_rules(rules.flatten)
         self
       end
       alias :for_rules :for_rule
@@ -71,11 +70,7 @@ module Axe
       end
 
       def script_for_execute
-        "#{LIBRARY_IDENTIFIER}.a11yCheck(#{@context.to_json}, #{options_for_execute}, function(results){#{RESULTS_IDENTIFIER} = results;});"
-      end
-
-      def options_for_execute
-        @options || 'null'
+        "#{LIBRARY_IDENTIFIER}.a11yCheck(#{@context.to_json}, #{@options.to_json}, function(results){#{RESULTS_IDENTIFIER} = results;});"
       end
 
       def parse_audit_results
