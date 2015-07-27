@@ -13,7 +13,7 @@ module Axe
       end
     end
 
-    describe "#steps", :focus do
+    describe "#steps" do
       let(:world) { double('world') }
 
       before :each do
