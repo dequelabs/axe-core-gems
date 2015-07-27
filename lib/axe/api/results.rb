@@ -6,6 +6,8 @@ module Axe
     class Results < OpenStruct
       # :url, :timestamp, :passes, :violations
 
+      attr_accessor :invocation
+
       def self.from_hash(results)
         new(results.dup.tap {|r|
           r['passes'] = r.fetch('passes', []).map { |p| Rule.from_hash p }
@@ -19,11 +21,15 @@ module Axe
 
       def failure_message
         if passed?
-          "Expected to find accessibility violations. None were detected."
+          <<-MSG.gsub(/^\s*/,'')
+          Expected to find accessibility violations. None were detected.
+          Invocation: #{invocation}
+          MSG
         else
           <<-MSG.gsub(/^\s*/,'')
-          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}:
-          #{ violations.each_with_index.map(&:failure_message).join("\n") }
+          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
+          Invocation: #{invocation}
+          #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
           MSG
         end
       end

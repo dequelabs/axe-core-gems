@@ -60,6 +60,16 @@ module Axe::API
           expect(message).to include "Fix from any 1", "Fix from all 1", "Fix from any 2", "Fix from all 2"
         end
       end
+
+      it "should prepend the original invocation" do
+        subject.invocation = "foo()"
+
+        subject.failure_message.tap do |message|
+          expect(message).to include("Found 2 accessibility violations")
+
+          expect(message).to include "Invocation: foo()"
+        end
+      end
     end
 
   end
