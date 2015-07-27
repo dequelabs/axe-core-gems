@@ -34,7 +34,11 @@ module Axe
       end
 
       def selector(selector)
-        selector.split(/,\s*/)
+        split(selector)
+      end
+
+      def split(string)
+        string.split(/,\s*/)
       end
 
       def assert(matcher)

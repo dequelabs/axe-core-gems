@@ -138,13 +138,7 @@ module Axe::Matchers
         subject.for_tag("wcag2a").matches?(page)
       end
 
-      #TODO comma-separated in cucumber step
-      xit "should accept comma-separated rules" do
-        expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"tag","values":["wcag2a","wcag2aa","section508"]}}'))
-        subject.for_tag("wcag2a,wcag2aa, section508").matches?(page)
-      end
-
-      it "should accept an array of rules" do
+      it "should accept an array of tags" do
         expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"tag","values":["wcag2a","wcag2aa","section508"]}}'))
         subject.for_tag(["wcag2a","wcag2aa", "section508"]).matches?(page)
       end
