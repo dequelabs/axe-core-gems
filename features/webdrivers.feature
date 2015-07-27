@@ -8,6 +8,7 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
     Then the page should not be accessible
     And the page should be accessible within "#top_bar"
     And the page should not be accessible within "#header"
+    And the page should be accessible within "#header" according to: wcag2a, section508, best-practice
 
     Examples:
       | webdriver | browser            |
