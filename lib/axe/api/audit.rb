@@ -36,7 +36,9 @@ module Axe
       end
 
       def parse_results
-        Results.from_hash audit_results
+        Results.from_hash(audit_results).tap do |results|
+          results.invocation = @a11y_check.to_js
+        end
       end
 
       def audit_results

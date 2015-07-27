@@ -37,6 +37,7 @@ module Axe::API
 
     describe "#run_against" do
       let(:page) { spy('page') }
+      let(:results) { spy('results') }
 
       before :each do
         allow(a11y_check).to receive(:to_js).and_return("a11yCheck()")
@@ -54,16 +55,21 @@ module Axe::API
       end
 
       it "should parse and return the results" do
-        expect(Results).to receive(:from_hash).with('violations' => []).and_return :results
-        expect(subject.run_against(page)).to be :results
+        expect(Results).to receive(:from_hash).with('violations' => []).and_return results
+        expect(subject.run_against(page)).to be results
+      end
+
+      it "should save the original invocation on the results" do
+        expect_any_instance_of(Results).to receive(:invocation=).with("a11yCheck()")
+        subject.run_against(page)
       end
 
       it "should retry until the a11yCheck results are ready", :slow do
         nil_invocations = Array.new(5, nil)
         allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
-        expect(Results).to receive(:from_hash).with('violations' => []).and_return :results
+        expect(Results).to receive(:from_hash).with('violations' => []).and_return results
 
-        expect(subject.run_against(page)).to be :results
+        expect(subject.run_against(page)).to be results
       end
 
       it "should timeout if results aren't ready after some time", :slow do
