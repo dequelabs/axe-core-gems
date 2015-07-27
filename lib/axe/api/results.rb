@@ -2,6 +2,7 @@ require 'ostruct'
 
 module Axe
   module API
+    #TODO maybe switch to Struct so field names can be defined/fixed
     class Results < OpenStruct
       # :url, :timestamp, :passes, :violations
 
