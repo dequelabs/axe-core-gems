@@ -3,7 +3,6 @@ require 'forwardable'
 require 'axe/javascript_library'
 require 'axe/page'
 require 'axe/api'
-require 'ostruct'
 
 module Axe
   module Matchers
@@ -66,11 +65,7 @@ module Axe
       end
 
       def run_accessibility_audit
-        @page.execute(script_for_execute)
-      end
-
-      def script_for_execute
-        "#{LIBRARY_IDENTIFIER}.a11yCheck(#{@context.to_json}, #{@options.to_json}, function(results){#{RESULTS_IDENTIFIER} = results;});"
+        @page.execute(API::A11yCheck.new(context: @context, options: @options).to_js)
       end
 
       def parse_audit_results
