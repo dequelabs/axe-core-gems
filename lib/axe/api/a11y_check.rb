@@ -7,7 +7,6 @@ require 'axe/api/options'
 
 module Axe
   module API
-    #TODO test this class
     class A11yCheck
       extend Forwardable
 
