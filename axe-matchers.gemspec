@@ -20,8 +20,6 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path  = 'lib'
 
-  spec.add_dependency             'rspec', '>= 2.0.0'
-
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.2.0'
