@@ -3,4 +3,4 @@ source "https://rubygems.org"
 gem "cucumber"
 gem "watir-webdriver"
 
-gem "axe-matchers", :git => "git@bitbucket.org:dmusser/ks-testdouble.git"
+gem "axe-matchers", :path => "../../"
