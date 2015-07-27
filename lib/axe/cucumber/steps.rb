@@ -36,7 +36,7 @@ module Axe
       end
 
       def selector(selector)
-        split(selector)
+        split(selector.to_s)
       end
 
       def split(string)
