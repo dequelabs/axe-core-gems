@@ -54,12 +54,20 @@ module Axe::Matchers
         subject.within(:foo)
         expect(audit).to have_received(:include).with(:foo)
       end
+
+      it "should return self for chaining" do
+        expect(subject.within(:foo)).to be subject
+      end
     end
 
     describe "#excluding" do
       it "should be delegated to @audit" do
         subject.excluding(:foo)
         expect(audit).to have_received(:exclude).with(:foo)
+      end
+
+      it "should return self for chaining" do
+        expect(subject.excluding(:foo)).to be subject
       end
     end
 
@@ -82,6 +90,10 @@ module Axe::Matchers
       it "should accept an array of tags" do
         subject.for_tag([:foo, :bar])
         expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
+      end
+
+      it "should return self for chaining" do
+        expect(subject.for_tag(:foo)).to be subject
       end
 
       it "should have the plural form #for_tags" do
@@ -111,16 +123,24 @@ module Axe::Matchers
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
+      it "should return self for chaining" do
+        expect(subject.for_rule(:foo)).to be subject
+      end
+
       it "should have the plural form #for_rules" do
         subject.for_rules(:foo, :bar)
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
     end
 
-    describe "#with_options",:focus do
+    describe "#with_options" do
       it "should be delegated to @audit" do
         subject.with_options(:foo)
         expect(audit).to have_received(:custom_options)
+      end
+
+      it "should return self for chaining" do
+        expect(subject.with_options(:foo)).to be subject
       end
     end
 
