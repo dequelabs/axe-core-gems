@@ -36,11 +36,11 @@ module Axe
       end
 
       def selector(selector)
-        split(selector.to_s)
+        split(selector)
       end
 
       def split(string)
-        string.split(/,\s*/)
+        string.to_s.split(/,\s*/)
       end
 
       def to_hash(string)
