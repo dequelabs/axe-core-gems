@@ -140,7 +140,12 @@ module Axe::Matchers
         subject.for_tag(["wcag2a","wcag2aa", "section508"]).matches?(page)
       end
 
-      it "should be usable as plural" do
+      it "should accept variadic arguments" do
+        expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"tag","values":["wcag2a","wcag2aa","section508"]}}'))
+        subject.for_tag("wcag2a","wcag2aa", "section508").matches?(page)
+      end
+
+      it "should have a plural alias" do
         expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"tag","values":["wcag2a","wcag2aa","section508"]}}'))
         subject.for_tags("wcag2a","wcag2aa", "section508").matches?(page)
       end
@@ -157,7 +162,12 @@ module Axe::Matchers
         subject.for_rule(["label","blink", "list"]).matches?(page)
       end
 
-      it "should be usable as plural" do
+      it "should accept variadic args" do
+        expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"rule","values":["label","blink","list"]}}'))
+        subject.for_rule("label","blink", "list").matches?(page)
+      end
+
+      it "should have an plural alias" do
         expect(page).to receive(:execute_script).with(script_for_execute('document', '{"runOnly":{"type":"rule","values":["label","blink","list"]}}'))
         subject.for_rules("label","blink", "list").matches?(page)
       end

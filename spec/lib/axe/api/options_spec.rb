@@ -4,37 +4,37 @@ require 'axe/api/options'
 module Axe::API
   describe Options do
     before :each do
-      allow(subject.rules).to receive(:by_tag)
+      allow(subject.rules).to receive(:by_tags)
       allow(subject.rules).to receive(:run_only)
       allow(subject.rules).to receive(:run)
       allow(subject.rules).to receive(:skip)
     end
 
-    describe "#rules_by_tag" do
+    describe "#rules_by_tags" do
       it "should be delegated to @rules.by_tag" do
-        subject.rules_by_tag(:foo)
-        expect(subject.rules).to have_received(:by_tag).with(:foo)
+        subject.rules_by_tags([:foo])
+        expect(subject.rules).to have_received(:by_tags).with([:foo])
       end
     end
 
     describe "#run_only_rules" do
       it "should be delegated to @rules.run_only" do
-        subject.run_only_rules(:foo)
-        expect(subject.rules).to have_received(:run_only).with(:foo)
+        subject.run_only_rules([:foo])
+        expect(subject.rules).to have_received(:run_only).with([:foo])
       end
     end
 
     describe "#run_rules" do
       it "should be delegated to @rules.run" do
-        subject.run_rules(:foo)
-        expect(subject.rules).to have_received(:run).with(:foo)
+        subject.run_rules([:foo])
+        expect(subject.rules).to have_received(:run).with([:foo])
       end
     end
 
     describe "#skip_rules" do
       it "should be delegated to @rules.skip" do
-        subject.skip_rules(:foo)
-        expect(subject.rules).to have_received(:skip).with(:foo)
+        subject.skip_rules([:foo])
+        expect(subject.rules).to have_received(:skip).with([:foo])
       end
     end
 

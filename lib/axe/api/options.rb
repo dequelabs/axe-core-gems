@@ -6,7 +6,7 @@ module Axe
     class Options
       extend Forwardable
 
-      def_delegator :@rules, :by_tag, :rules_by_tag
+      def_delegator :@rules, :by_tags, :rules_by_tags
       def_delegator :@rules, :run_only, :run_only_rules
       def_delegator :@rules, :run, :run_rules
       def_delegator :@rules, :skip, :skip_rules

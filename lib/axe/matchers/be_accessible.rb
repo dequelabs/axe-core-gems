@@ -43,7 +43,7 @@ module Axe
       end
 
       def for_tag(*tags)
-        @options.rules_by_tag(tags.flatten)
+        @options.rules_by_tags(tags.flatten)
         self
       end
       alias :for_tags :for_tag
