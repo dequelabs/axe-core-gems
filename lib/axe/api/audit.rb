@@ -8,7 +8,6 @@ require 'axe/page'
 
 module Axe
   module API
-    #TODO test this class
     class Audit
       extend Forwardable
 
