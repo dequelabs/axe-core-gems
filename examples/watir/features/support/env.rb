@@ -1,9 +1,9 @@
 # load watir-webdriver
 require 'watir-webdriver'
 
-# Requiring 'axe/cucumber' makes all of the axe-matchers cucumber step
+# Requiring 'axe/cucumber/step_definitions' makes all of the axe-matchers cucumber step
 # definitions available to be used directly in your cucumber features.
-require 'axe/cucumber'
+require 'axe/cucumber/step_definitions'
 
 
 # give axe-matchers a handle on the browser/page instance

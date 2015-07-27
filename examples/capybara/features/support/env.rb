@@ -5,9 +5,9 @@
 # is in the Gemfile.
 require 'capybara/cucumber'
 
-# Requiring 'axe/cucumber' makes all of the axe-matchers cucumber step
+# Requiring 'axe/cucumber/step_definitions' makes all of the axe-matchers cucumber step
 # definitions available to be used directly in your cucumber features.
-require 'axe/cucumber'
+require 'axe/cucumber/step_definitions'
 
 
 # axe-matchers works with capybara out of the box, using the `page` helper as
