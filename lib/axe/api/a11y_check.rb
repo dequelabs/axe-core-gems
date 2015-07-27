@@ -11,7 +11,7 @@ module Axe
       extend Forwardable
 
       def_delegators :@context, :include, :exclude
-      def_delegators :@options, :rules_by_tags, :run_only_rules
+      def_delegators :@options, :rules_by_tags, :run_only_rules, :custom_options
 
       def initialize
         @context = Context.new

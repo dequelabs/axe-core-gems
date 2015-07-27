@@ -10,7 +10,7 @@ module Axe
       def_delegator :@rules, :run_only, :run_only_rules
       def_delegator :@rules, :run, :run_rules
       def_delegator :@rules, :skip, :skip_rules
-      def_delegator :@custom, :merge!, :add
+      def_delegator :@custom, :merge!, :custom_options
 
       attr_reader :rules, :custom
 

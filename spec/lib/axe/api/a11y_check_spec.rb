@@ -10,12 +10,12 @@ module Axe::API
         subject.instance_variable_set :@context, context
       end
 
-      it "should be delegated :include" do
+      it "should be delegated #include" do
         subject.include "foo"
         expect(context).to have_received(:include).with("foo")
       end
 
-      it "should be delegated :exclude" do
+      it "should be delegated #exclude" do
         subject.exclude "foo"
         expect(context).to have_received(:exclude).with("foo")
       end
@@ -27,14 +27,19 @@ module Axe::API
         subject.instance_variable_set :@options, options
       end
 
-      it "should be delegated :rules_by_tags" do
+      it "should be delegated #rules_by_tags" do
         subject.rules_by_tags "foo"
         expect(options).to have_received(:rules_by_tags).with("foo")
       end
 
-      it "should be delegated :run_only_rules" do
+      it "should be delegated #run_only_rules" do
         subject.run_only_rules "foo"
         expect(options).to have_received(:run_only_rules).with("foo")
+      end
+
+      it "should be delegated #with_custom_options" do
+        subject.custom_options "foo"
+        expect(options).to have_received(:custom_options).with("foo")
       end
     end
 

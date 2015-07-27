@@ -11,7 +11,7 @@ module Axe
     class Audit
       extend Forwardable
 
-      def_delegators :@a11y_check, :include, :exclude, :rules_by_tags, :run_only_rules
+      def_delegators :@a11y_check, :include, :exclude, :rules_by_tags, :run_only_rules, :custom_options
 
       def initialize
         @a11y_check = A11yCheck.new

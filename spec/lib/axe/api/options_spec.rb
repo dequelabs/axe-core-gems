@@ -38,10 +38,10 @@ module Axe::API
       end
     end
 
-    describe "#add" do
+    describe "#custom_options" do
       context "without existing custom options" do
         it "should merge additional custom options" do
-          subject.add :foo => :bar
+          subject.custom_options :foo => :bar
           expect(subject.custom).to eq :foo => :bar
         end
       end
@@ -52,7 +52,7 @@ module Axe::API
         end
 
         it "should merge additional custom options" do
-          subject.add :baz => :qux
+          subject.custom_options :baz => :qux
           expect(subject.custom).to eq :foo => :bar, :baz => :qux
         end
       end
