@@ -19,7 +19,7 @@ module Axe
     end
 
     def gem_root
-      Pathname.new Gem::Specification.find_by_name('rspec-axe').gem_dir
+      Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
     end
 
   end

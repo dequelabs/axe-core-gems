@@ -19,11 +19,11 @@ Rake is the standard task runner. For a list of configured tasks, run `rake -T`
 
 # RSpec Unit Tests
 
-These confirm the proper behavior of the RSpec matcher module. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
+These confirm the proper behavior of the matchers. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
 
 # Cucumber Features
 
-There is a single feature that does a minimal test of the rspec matchers + cucumber steps + axe js library. It is intended as a smoke test to validate against multiple webdrivers. It is currently configured to run against each of:
+There is a single feature that does a minimal test of the matchers + cucumber steps + axe js library. It is intended as a smoke test to validate against multiple webdrivers. It is currently configured to run against each of:
 
 - capybara driving webkit (headless)
 - capybara driving phantomjs (via poltergeist)
