@@ -33,6 +33,10 @@ module Axe
         Matchers::BeAccessible.new
       end
 
+      def selector(selector)
+        selector.split(/,\s*/)
+      end
+
       def assert(matcher)
         raise matcher.failure_message unless matcher.matches? page
       end

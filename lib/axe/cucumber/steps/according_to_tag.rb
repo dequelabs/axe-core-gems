@@ -11,27 +11,27 @@ module Axe
         end
 
         def accessible_within_according_to(inclusion, tag)
-          assert accessibility.within(inclusion).for_tag(tag)
+          assert accessibility.within(selector(inclusion)).for_tag(tag)
         end
 
         def inaccessible_within_according_to(inclusion, tag)
-          refute accessibility.within(inclusion).for_tag(tag)
+          refute accessibility.within(selector(inclusion)).for_tag(tag)
         end
 
         def accessible_excluding_according_to(exclusion, tag)
-          assert accessibility.excluding(exclusion).for_tag(tag)
+          assert accessibility.excluding(selector(exclusion)).for_tag(tag)
         end
 
         def inaccessible_excluding_according_to(exclusion, tag)
-          refute accessibility.excluding(exclusion).for_tag(tag)
+          refute accessibility.excluding(selector(exclusion)).for_tag(tag)
         end
 
         def accessible_within_but_excluding_according_to(inclusion, exclusion, tag)
-          assert accessibility.within(inclusion).excluding(exclusion).for_tag(tag)
+          assert accessibility.within(selector(inclusion)).excluding(selector(exclusion)).for_tag(tag)
         end
 
         def inaccessible_within_but_excluding_according_to(inclusion, exclusion, tag)
-          refute accessibility.within(inclusion).excluding(exclusion).for_tag(tag)
+          refute accessibility.within(selector(inclusion)).excluding(selector(exclusion)).for_tag(tag)
         end
       end
     end
