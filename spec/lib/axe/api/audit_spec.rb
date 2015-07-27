@@ -52,6 +52,19 @@ module Axe::API
         expect(Results).to receive(:from_hash).with('violations' => []).and_return :results
         expect(subject.run_against(page)).to be :results
       end
+
+      it "should retry until the a11yCheck results are ready", :slow do
+        nil_invocations = Array.new(5, nil)
+        allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
+        expect(Results).to receive(:from_hash).with('violations' => []).and_return :results
+
+        expect(subject.run_against(page)).to be :results
+      end
+
+      it "should timeout if results aren't ready after some time", :slow do
+        allow(page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
+        expect { subject.run_against(page) }.to raise_error Timeout::Error
+      end
     end
   end
 end
