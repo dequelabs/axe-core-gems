@@ -3,4 +3,4 @@ source "https://rubygems.org"
 gem "cucumber"
 gem "selenium-webdriver"
 
-gem "rspec-axe", :git => "git@bitbucket.org:dmusser/ks-testdouble.git"
+gem "axe-matchers", :git => "git@bitbucket.org:dmusser/ks-testdouble.git"

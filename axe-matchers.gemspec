@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'axe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rspec-axe"
+  spec.name          = "axe-matchers"
   spec.version       = Axe::VERSION
   spec.platform      = Gem::Platform::RUBY
   spec.license       = "MPL-2.0"
   spec.authors       = ["Deque Systems, Inc."]
   spec.homepage      = "http://www.deque.com/"
-  spec.summary       = "RSpec matchers and Cucumber step definitions for use with Deque accessibility testing API, aXe-core."
+  spec.summary       = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
 
   # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
   if (Gem::Specification.method_defined? :metadata) then

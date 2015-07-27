@@ -4,7 +4,7 @@ Feature: Example using minimal Watir-Webdriver setup (using firefox)
     Given I am a visitor
     When I visit "http://abcdcomputech.dequecloud.com/"
 
-  # The steps for the following scenarios are provided by the rspec-axe gem
+  # The steps for the following scenarios are provided by the axe-matchers gem
 
   Scenario: Test whole page (known to be inaccessible, should fail)
     Then the page should be accessible
