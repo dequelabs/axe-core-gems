@@ -6,8 +6,8 @@ Feature: aXe cucumber steps can be run against multiple webdrivers
     When I visit "http://abcdcomputech.dequecloud.com/"
 
     Then the page should not be accessible
-    # And the page should be accessible within "#working"
-    # And the page should not be accessible within "#broken"
+    And the page should be accessible within "#top_bar"
+    And the page should not be accessible within "#header"
 
     Examples:
       | webdriver | browser            |
