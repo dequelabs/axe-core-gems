@@ -18,7 +18,7 @@ module Axe
         @page = page
       end
 
-      def accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules, options)
+      def be_accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules, options)
         a11y = Matchers::BeAccessible.new.tap do |a|
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
@@ -39,10 +39,6 @@ module Axe
       private
 
       attr_reader :page
-
-      def accessibility
-        Matchers::BeAccessible.new
-      end
 
       def selector(selector)
         split(selector)
