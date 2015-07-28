@@ -2,14 +2,6 @@ module Axe
   module Cucumber
     class Steps
       module Base
-        def accessible
-          assert accessibility
-        end
-
-        def inaccessible
-          refute accessibility
-        end
-
         def accessible_within(inclusion)
           assert accessibility.within(selector(inclusion))
         end

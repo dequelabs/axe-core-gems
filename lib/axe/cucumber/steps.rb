@@ -27,6 +27,14 @@ module Axe
         @page = page
       end
 
+      def accessible(negate)
+        if negate
+          refute accessibility
+        else
+          assert accessibility
+        end
+      end
+
       private
 
       attr_reader :page
