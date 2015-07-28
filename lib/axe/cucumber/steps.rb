@@ -28,8 +28,7 @@ module Axe
           a.according_to(split tags) if tags
           if run_rules
             if run_only
-              #TODO change this to run_only
-              a.for_rules(split run_rules)
+              a.checking_only(split run_rules)
             else
               #TODO add run_rules
             end

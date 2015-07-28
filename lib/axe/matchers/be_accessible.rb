@@ -34,11 +34,10 @@ module Axe
         self
       end
 
-      def for_rule(*rules)
+      def checking_only(*rules)
         @audit.run_only_rules rules.flatten
         self
       end
-      alias :for_rules :for_rule
 
       def with_options(options)
         @audit.custom_options options

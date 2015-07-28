@@ -97,34 +97,29 @@ module Axe::Matchers
       end
     end
 
-    describe "#for_rule" do
+    describe "#checking_only" do
       it "should be delegated to @audit" do
-        subject.for_rule(:foo)
+        subject.checking_only(:foo)
         expect(audit).to have_received(:run_only_rules)
       end
 
       it "should accept a single rule" do
-        subject.for_rule(:foo)
+        subject.checking_only(:foo)
         expect(audit).to have_received(:run_only_rules).with([:foo])
       end
 
       it "should accept many rules" do
-        subject.for_rule(:foo, :bar)
+        subject.checking_only(:foo, :bar)
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should accept an array of rules" do
-        subject.for_rule([:foo, :bar])
+        subject.checking_only([:foo, :bar])
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
-        expect(subject.for_rule(:foo)).to be subject
-      end
-
-      it "should have the plural form #for_rules" do
-        subject.for_rules(:foo, :bar)
-        expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
+        expect(subject.checking_only(:foo)).to be subject
       end
     end
 
