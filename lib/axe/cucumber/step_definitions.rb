@@ -1,26 +1,6 @@
 require 'axe/cucumber'
 
-Then /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?(?:(?: but)? excluding "(?<exclusion>.*?)")?(?: according to: (?<tags>.*?))?$/, :accessible, on: Axe::Cucumber.steps
-
-
-
-Then 'the page should be accessible checking: $rule', :accessible_checking, on: Axe::Cucumber.steps
-
-Then 'the page should not be accessible checking: $rule', :inaccessible_checking, on: Axe::Cucumber.steps
-
-Then 'the page should be accessible within "$inclusion_selector" checking: $rule', :accessible_within_checking, on: Axe::Cucumber.steps
-
-Then 'the page should not be accessible within "$inclusion_selector" checking: $rule', :inaccessible_within_checking, on: Axe::Cucumber.steps
-
-Then 'the page should be accessible excluding "$exclusion_selector" checking: $rule', :accessible_excluding_checking, on: Axe::Cucumber.steps
-
-Then 'the page should not be accessible excluding "$exclusion_selector" checking: $rule', :inaccessible_excluding_checking, on: Axe::Cucumber.steps
-
-Then 'the page should be accessible within "$inclusion_selector" but excluding "$exclusion_selector" checking: $rule', :accessible_within_but_excluding_checking, on: Axe::Cucumber.steps
-
-Then 'the page should not be accessible within "$inclusion_selector" but excluding "$exclusion_selector" checking: $rule', :inaccessible_within_but_excluding_checking, on: Axe::Cucumber.steps
-
-
+Then /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?(?:(?: but)? excluding "(?<exclusion>.*?)")?(?: according to: (?<tags>.*?))?(?: checking(?<run_only> only)?: (?<run_rules>.*?))?$/, :accessible, on: Axe::Cucumber.steps
 
 Then 'the page should be accessible with options $options', :accessible_custom, on: Axe::Cucumber.steps
 
