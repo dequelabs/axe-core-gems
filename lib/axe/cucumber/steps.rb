@@ -19,21 +19,16 @@ module Axe
       end
 
       def be_accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules, options)
-        a11y = Matchers::BeAccessible.new.tap do |a|
-          a.within(selector inclusion) if inclusion
-          a.excluding(selector exclusion) if exclusion
-          a.according_to(split tags) if tags
-          run_only ? a.checking_only(split run_rules) : a.checking(split run_rules) if run_rules
-          a.skipping(split skip_rules) if skip_rules
-          a.with_options(to_hash options) if options
-        end
+        accessibility = Matchers::BeAccessible.new
 
+        accessibility.within(selector inclusion) if inclusion
+        accessibility.excluding(selector exclusion) if exclusion
+        accessibility.according_to(split tags) if tags
+        run_only ? accessibility.checking_only(split run_rules) : accessibility.checking(split run_rules) if run_rules
+        accessibility.skipping(split skip_rules) if skip_rules
+        accessibility.with_options(to_hash options) if options
 
-        if negate
-          refute a11y
-        else
-          assert a11y
-        end
+        if negate then refute accessibility else assert accessibility end
       end
 
       private
