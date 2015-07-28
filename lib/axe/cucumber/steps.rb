@@ -2,11 +2,9 @@ require 'yaml'
 
 require 'axe/matchers/be_accessible'
 
-# this class is meant to contain all the step procs that will be registered
-# in the step_definitions. The procs are mixed in via the Base, AccordingToTag,
-# CheckingRule, and WithOptions modules. The purpose of this class is to
-# enable private helper methods for assertion and cucumber argument parsing
-# without leaking the helper methods into the cucumber World object.
+# The purpose of this class is to enable private helper methods for assertion
+# and cucumber argument parsing without leaking the helper methods into the
+# cucumber World object.
 # Further, using these helper methods for assert/refute removes the dependency
 # on rspec. So end users may choose to use any (or non) assertion/expectation
 # library, as this class uses the Axe Accessibility Matcher directly, without
@@ -14,6 +12,10 @@ require 'axe/matchers/be_accessible'
 module Axe
   module Cucumber
     class Steps
+      def self.create_for(world)
+        new Axe::Cucumber.page_from world
+      end
+
       def initialize(page)
         @page = page
       end
