@@ -13,6 +13,8 @@ require 'axe/matchers/be_accessible'
 module Axe
   module Cucumber
     class Step
+      REGEX = /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?(?:(?: but)? excluding "(?<exclusion>.*?)")?(?: according to: (?<tags>.*?))?(?: checking(?<run_only> only)?: (?<run_rules>.*?))?(?: skipping: (?<skip_rules>.*?))?(?: with options: (?<options>.*?))?$/
+
       def self.create_for(world)
         new Axe::Cucumber.page_from world
       end
