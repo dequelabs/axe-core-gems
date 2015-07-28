@@ -1,5 +1,6 @@
 require 'yaml'
 
+require 'axe/cucumber'
 require 'axe/matchers/be_accessible'
 
 # The purpose of this class is to enable private helper methods for assertion
