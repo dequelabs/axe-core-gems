@@ -1,7 +1,6 @@
 require 'yaml'
 
 require 'axe/matchers/be_accessible'
-require 'axe/cucumber/steps/with_options'
 
 # this class is meant to contain all the step procs that will be registered
 # in the step_definitions. The procs are mixed in via the Base, AccordingToTag,
@@ -15,19 +14,18 @@ require 'axe/cucumber/steps/with_options'
 module Axe
   module Cucumber
     class Steps
-      include WithOptions
-
       def initialize(page)
         @page = page
       end
 
-      def accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules)
+      def accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules, options)
         a11y = Matchers::BeAccessible.new.tap do |a|
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
           a.according_to(split tags) if tags
           run_only ? a.checking_only(split run_rules) : a.checking(split run_rules) if run_rules
           a.skipping(split skip_rules) if skip_rules
+          a.with_options(to_hash options) if options
         end
 
 
