@@ -97,6 +97,32 @@ module Axe::Matchers
       end
     end
 
+    describe "#checking" do
+      it "should be delegated to @audit" do
+        subject.checking(:foo)
+        expect(audit).to have_received(:run_rules)
+      end
+
+      it "should accept a single rule" do
+        subject.checking(:foo)
+        expect(audit).to have_received(:run_rules).with([:foo])
+      end
+
+      it "should accept many rules" do
+        subject.checking(:foo, :bar)
+        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+      end
+
+      it "should accept an array of rules" do
+        subject.checking([:foo, :bar])
+        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+      end
+
+      it "should return self for chaining" do
+        expect(subject.checking(:foo)).to be subject
+      end
+    end
+
     describe "#checking_only" do
       it "should be delegated to @audit" do
         subject.checking_only(:foo)
