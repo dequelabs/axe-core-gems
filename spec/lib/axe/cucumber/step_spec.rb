@@ -23,8 +23,8 @@ module Axe::Cucumber
       end
     end
 
-    describe "#be_accessible" do
+    pending "#be_accessible"
 
-    end
+    pending "::REGEX"
   end
 end
