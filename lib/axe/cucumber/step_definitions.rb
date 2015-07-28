@@ -1,10 +1,6 @@
 require 'axe/cucumber'
 
-Then /^the page should(?<negate> not)? be accessible$/, :accessible, on: Axe::Cucumber.steps
-
-Then 'the page should be accessible within "$inclusion_selector"', :accessible_within, on: Axe::Cucumber.steps
-
-Then 'the page should not be accessible within "$inclusion_selector"', :inaccessible_within, on: Axe::Cucumber.steps
+Then /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?$/, :accessible, on: Axe::Cucumber.steps
 
 Then 'the page should be accessible excluding "$exclusion_selector"', :accessible_excluding, on: Axe::Cucumber.steps
 

@@ -27,11 +27,16 @@ module Axe
         @page = page
       end
 
-      def accessible(negate)
+      def accessible(negate, inclusion)
+        a11y = Matchers::BeAccessible.new.tap do |a11y|
+          a11y.within(inclusion) if inclusion
+        end
+
+
         if negate
-          refute accessibility
+          refute a11y
         else
-          assert accessibility
+          assert a11y
         end
       end
 
