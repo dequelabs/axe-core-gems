@@ -39,6 +39,11 @@ module Axe
         self
       end
 
+      def skipping(*rules)
+        @audit.skip_rules rules.flatten
+        self
+      end
+
       def checking_only(*rules)
         @audit.run_only_rules rules.flatten
         self

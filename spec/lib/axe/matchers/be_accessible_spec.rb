@@ -123,6 +123,32 @@ module Axe::Matchers
       end
     end
 
+    describe "#skipping" do
+      it "should be delegated to @audit" do
+        subject.skipping(:foo)
+        expect(audit).to have_received(:skip_rules)
+      end
+
+      it "should accept a single rule" do
+        subject.skipping(:foo)
+        expect(audit).to have_received(:skip_rules).with([:foo])
+      end
+
+      it "should accept many rules" do
+        subject.skipping(:foo, :bar)
+        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+      end
+
+      it "should accept an array of rules" do
+        subject.skipping([:foo, :bar])
+        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+      end
+
+      it "should return self for chaining" do
+        expect(subject.skipping(:foo)).to be subject
+      end
+    end
+
     describe "#checking_only" do
       it "should be delegated to @audit" do
         subject.checking_only(:foo)
