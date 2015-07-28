@@ -27,8 +27,8 @@ module Axe
 
       def accessible(negate, inclusion, exclusion)
         a11y = Matchers::BeAccessible.new.tap do |a|
-          a.within(inclusion) if inclusion
-          a.excluding(exclusion) if exclusion
+          a.within(selector inclusion) if inclusion
+          a.excluding(selector exclusion) if exclusion
         end
 
 
