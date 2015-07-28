@@ -1,7 +1,6 @@
 require 'yaml'
 
 require 'axe/matchers/be_accessible'
-require 'axe/cucumber/steps/according_to_tag'
 require 'axe/cucumber/steps/checking_rule'
 require 'axe/cucumber/steps/with_options'
 
@@ -17,7 +16,6 @@ require 'axe/cucumber/steps/with_options'
 module Axe
   module Cucumber
     class Steps
-      include AccordingToTag
       include CheckingRule
       include WithOptions
 
@@ -25,10 +23,11 @@ module Axe
         @page = page
       end
 
-      def accessible(negate, inclusion, exclusion)
+      def accessible(negate, inclusion, exclusion, tags)
         a11y = Matchers::BeAccessible.new.tap do |a|
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
+          a.for_tags(split tags) if tags
         end
 
 
