@@ -26,13 +26,7 @@ module Axe
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
           a.according_to(split tags) if tags
-          if run_rules
-            if run_only
-              a.checking_only(split run_rules)
-            else
-              #TODO add run_rules
-            end
-          end
+          run_only ? a.checking_only(split run_rules) : a.checking(split run_rules) if run_rules
         end
 
 
