@@ -11,7 +11,7 @@ require 'axe/matchers/be_accessible'
 # using a matcher/expectation library DSL.
 module Axe
   module Cucumber
-    class Steps
+    class Step
       def self.create_for(world)
         new Axe::Cucumber.page_from world
       end

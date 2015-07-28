@@ -1,5 +1,5 @@
 require 'axe/cucumber/configuration'
-require 'axe/cucumber/steps'
+require 'axe/cucumber/step'
 
 module Axe
   module Cucumber
