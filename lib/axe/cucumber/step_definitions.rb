@@ -1,6 +1,6 @@
 require 'axe/cucumber'
 
-Then /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?(?:(?: but)? excluding "(?<exclusion>.*?)")?(?: according to: (?<tags>.*?))?(?: checking(?<run_only> only)?: (?<run_rules>.*?))?$/, :accessible, on: Axe::Cucumber.steps
+Then /^the page should(?<negate> not)? be accessible(?: within "(?<inclusion>.*?)")?(?:(?: but)? excluding "(?<exclusion>.*?)")?(?: according to: (?<tags>.*?))?(?: checking(?<run_only> only)?: (?<run_rules>.*?))?(?: skipping: (?<skip_rules>.*?))?$/, :accessible, on: Axe::Cucumber.steps
 
 Then 'the page should be accessible with options $options', :accessible_custom, on: Axe::Cucumber.steps
 

@@ -21,12 +21,13 @@ module Axe
         @page = page
       end
 
-      def accessible(negate, inclusion, exclusion, tags, run_only, run_rules)
+      def accessible(negate, inclusion, exclusion, tags, run_only, run_rules, skip_rules)
         a11y = Matchers::BeAccessible.new.tap do |a|
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
           a.according_to(split tags) if tags
           run_only ? a.checking_only(split run_rules) : a.checking(split run_rules) if run_rules
+          a.skipping(split skip_rules) if skip_rules
         end
 
 
