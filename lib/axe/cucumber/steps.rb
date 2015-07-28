@@ -25,7 +25,7 @@ module Axe
         a11y = Matchers::BeAccessible.new.tap do |a|
           a.within(selector inclusion) if inclusion
           a.excluding(selector exclusion) if exclusion
-          a.for_tags(split tags) if tags
+          a.according_to(split tags) if tags
           if run_rules
             if run_only
               #TODO change this to run_only

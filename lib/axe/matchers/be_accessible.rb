@@ -29,11 +29,10 @@ module Axe
         self
       end
 
-      def for_tag(*tags)
+      def according_to(*tags)
         @audit.rules_by_tags tags.flatten
         self
       end
-      alias :for_tags :for_tag
 
       def for_rule(*rules)
         @audit.run_only_rules rules.flatten
