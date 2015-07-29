@@ -19,24 +19,24 @@ module Axe
       (?-x:the page should(?<negate> not)? be accessible)
 
       # optionally specify which subtree to check, via CSS selector
-      (?-x: within "(?<inclusion>.*?)")?
+      (?-x:;? within "(?<inclusion>.*?)")?
 
       # optionally specify subtrees to be excluded, via CSS selector
-      (?-x:(?: but)? excluding "(?<exclusion>.*?)")?
+      (?-x:;?(?: but)? excluding "(?<exclusion>.*?)")?
 
       # optionally specify ruleset via list of comma-separated tags
-      (?-x: according to: (?<tags>.*?))?
+      (?-x:;? according to: (?<tags>.*?))?
 
       # optionally specify rules (as comma-separated list of rule ids) to check
       # in addition to default ruleset or explicit ruleset specified above via tags
       # if the 'only' keyword is supplied, then *only* the listed rules are checked, not *additionally*
-      (?-x:(?: and)? checking(?<run_only> only)?: (?<run_rules>.*?))?
+      (?-x:;?(?: and)? checking(?<run_only> only)?: (?<run_rules>.*?))?
 
       # optionally specify rules (as comma-separated list of rule ids) to skip
-      (?-x:(?: but)? skipping: (?<skip_rules>.*?))?
+      (?-x:;?(?: but)? skipping: (?<skip_rules>.*?))?
 
       # optionally specify custom options (as a yaml-parsed hash or json string) to pass directly to axe-core
-      (?-x: with options: (?<options>.*?))?
+      (?-x:;? with options: (?<options>.*?))?
 
       $/x
 
