@@ -25,6 +25,5 @@ module Axe::Cucumber
 
     pending "#be_accessible"
 
-    pending "::REGEX"
   end
 end
