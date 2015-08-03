@@ -14,8 +14,8 @@ module Axe
 
       def self.from_hash(results)
         new(results.dup.tap {|r|
-          r['passes'] = r.fetch('passes', []).map { |p| Rule.from_hash p }
-          r['violations'] = r.fetch('violations', []).map { |v| Rule.from_hash v }
+          r['passes'] = r.fetch('passes', []).map { |p| Rule.new p }
+          r['violations'] = r.fetch('violations', []).map { |v| Rule.new v }
         })
       end
 
@@ -39,25 +39,6 @@ module Axe
       end
 
       # nested because the 'rule' concept is different when outside of Results
-
-      class Rule < OpenStruct
-        # :description, :help, :help_url, :id, :impact, :tags, :nodes
-
-        def self.from_hash(rule)
-          new(rule.dup.tap {|r|
-            r['help_url'] = r.delete('helpUrl')
-            r['nodes'] = r.fetch('nodes', []).map { |n| CheckedNode.new n }
-          })
-        end
-
-        def failure_message(index)
-          <<-MSG
-          #{index+1}) #{help}: #{help_url}
-          #{nodes.map(&:failure_message).join("\n")}
-          MSG
-        end
-
-      end
 
       class Node < ValueObject
         values do
@@ -101,6 +82,25 @@ module Axe
           <<-MSG
           #{super}
           #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
+          MSG
+        end
+      end
+
+      class Rule < ValueObject
+        values do
+          attribute :id
+          attribute :description
+          attribute :help
+          attribute :helpUrl
+          attribute :impact
+          attribute :tags
+          attribute :nodes, Array[CheckedNode]
+        end
+
+        def failure_message(index)
+          <<-MSG
+          #{index+1}) #{help}: #{helpUrl}
+          #{nodes.map(&:failure_message).join("\n")}
           MSG
         end
       end
