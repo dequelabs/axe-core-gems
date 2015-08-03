@@ -73,13 +73,18 @@ module Axe
         end
       end
 
-      class CheckedNode
+      class Node
         include Virtus.value_object
 
         values do
           attribute :html
-          attribute :impact
           attribute :target
+        end
+      end
+
+      class CheckedNode < Node
+        values do
+          attribute :impact
           attribute :any, Array[Check]
           attribute :all, Array[Check]
           attribute :none, Array[Check]
