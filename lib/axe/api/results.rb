@@ -1,49 +1,16 @@
-require 'ostruct'
 require 'virtus'
 
 module Axe
   module API
-    #TODO maybe switch to Struct so field names can be defined/fixed
-    class Results < OpenStruct
-      class ValueObject
-        include Virtus.value_object
-      end
-      # :url, :timestamp, :passes, :violations
+    class ValueObject
+      include Virtus.value_object
+    end
 
-      attr_accessor :invocation
-
-      def self.from_hash(results)
-        new(results.dup.tap {|r|
-          r['passes'] = r.fetch('passes', []).map { |p| Rule.new p }
-          r['violations'] = r.fetch('violations', []).map { |v| Rule.new v }
-        })
-      end
-
-      def passed?
-        violations.count == 0
-      end
-
-      def failure_message
-        if passed?
-          <<-MSG.gsub(/^\s*/,'')
-          Expected to find accessibility violations. None were detected.
-          Invocation: #{invocation}
-          MSG
-        else
-          <<-MSG.gsub(/^\s*/,'')
-          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
-          Invocation: #{invocation}
-          #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
-          MSG
-        end
-      end
-
-      # nested because the 'rule' concept is different when outside of Results
-
+    class Results < ValueObject
       class Node < ValueObject
         values do
-          attribute :html
-          attribute :target
+          attribute :html, String
+          attribute :target #String or Array[String]
         end
 
         def failure_message
@@ -58,8 +25,8 @@ module Axe
         values do
           attribute :id, Symbol
           attribute :impact, Symbol
-          attribute :message
-          attribute :data
+          attribute :message, String
+          attribute :data, String
           attribute :relatedNodes, Array[Node]
         end
 
@@ -89,9 +56,9 @@ module Axe
       class Rule < ValueObject
         values do
           attribute :id, Symbol
-          attribute :description
-          attribute :help
-          attribute :helpUrl
+          attribute :description, String
+          attribute :help, String
+          attribute :helpUrl, String
           attribute :impact, Symbol
           attribute :tags, Array[Symbol]
           attribute :nodes, Array[CheckedNode]
@@ -105,6 +72,33 @@ module Axe
         end
       end
 
+      values do
+        attribute :url
+        attribute :timestamp
+        attribute :passes, Array[Rule]
+        attribute :violations, Array[Rule]
+      end
+
+      attr_accessor :invocation
+
+      def passed?
+        violations.count == 0
+      end
+
+      def failure_message
+        if passed?
+          <<-MSG.gsub(/^\s*/,'')
+          Expected to find accessibility violations. None were detected.
+          Invocation: #{invocation}
+          MSG
+        else
+          <<-MSG.gsub(/^\s*/,'')
+          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
+          Invocation: #{invocation}
+          #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
+          MSG
+        end
+      end
     end
   end
 end

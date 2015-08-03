@@ -4,29 +4,21 @@ require 'axe/api/results'
 module Axe::API
   describe Results do
 
-    describe "::from_hash" do
-      it "should build a Results object" do
-        expect(Results.from_hash({})).to be_a_kind_of Results
-      end
-    end
-
-    it { is_expected.to be_a_kind_of OpenStruct }
-
     context "when there are no violations" do
-      let(:subject) { Results.from_hash "violations" => [] }
+      let(:subject) { Results.new "violations" => [] }
 
       it { is_expected.to be_passed }
     end
 
     context "when there are violations" do
-      let(:subject) { Results.from_hash "violations" => [{}] }
+      let(:subject) { Results.new "violations" => [{}] }
 
       it { is_expected.to_not be_passed }
     end
 
     describe "#failure_message" do
       let(:subject) {
-        Results.from_hash "violations" => [ {
+        Results.new "violations" => [ {
           "help" => "V1 help",
           "helpUrl" => "V1 url",
           "nodes" => [ {

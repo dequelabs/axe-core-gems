@@ -55,7 +55,7 @@ module Axe::API
       end
 
       it "should parse and return the results" do
-        expect(Results).to receive(:from_hash).with('violations' => []).and_return results
+        expect(Results).to receive(:new).with('violations' => []).and_return results
         expect(subject.run_against(page)).to be results
       end
 
@@ -67,7 +67,7 @@ module Axe::API
       it "should retry until the a11yCheck results are ready", :slow do
         nil_invocations = Array.new(5, nil)
         allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
-        expect(Results).to receive(:from_hash).with('violations' => []).and_return results
+        expect(Results).to receive(:new).with('violations' => []).and_return results
 
         expect(subject.run_against(page)).to be results
       end
