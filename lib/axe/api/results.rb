@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'virtus'
 
 module Axe
   module API
@@ -60,9 +61,9 @@ module Axe
 
         def self.from_hash(node)
           new(node.dup.tap {|n|
-            n['any'] = n.fetch('any', []).map { |c| Check.from_hash c }
-            n['all'] = n.fetch('all', []).map { |c| Check.from_hash c }
-            n['none'] = n.fetch('none', []).map { |c| Check.from_hash c }
+            n['any'] = n.fetch('any', []).map { |c| Check.new c }
+            n['all'] = n.fetch('all', []).map { |c| Check.new c }
+            n['none'] = n.fetch('none', []).map { |c| Check.new c }
           })
         end
 
@@ -75,11 +76,14 @@ module Axe
         end
       end
 
-      class Check < OpenStruct
-        # :id, :impact, :message, :data, :html
+      class Check
+        include Virtus.value_object
 
-        def self.from_hash(node)
-          new node
+        values do
+          attribute :id
+          attribute :impact
+          attribute :message
+          attribute :data
         end
 
         def failure_message
