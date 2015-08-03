@@ -1,5 +1,6 @@
 require 'virtus'
 require 'axe/api/results/node'
+require 'axe/api/results/check'
 
 module Axe
   module API
@@ -9,21 +10,6 @@ module Axe
 
     class Results
       include Virtus.value_object
-      class Check < ValueObject
-        values do
-          attribute :id, Symbol
-          attribute :impact, Symbol
-          attribute :message, String
-          attribute :data, String
-          attribute :relatedNodes, Array[Node]
-        end
-
-        def failure_message
-          <<-MSG
-          #{message}
-          MSG
-        end
-      end
 
       class CheckedNode < Node
         values do
