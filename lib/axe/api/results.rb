@@ -43,7 +43,7 @@ module Axe
         def self.from_hash(rule)
           new(rule.dup.tap {|r|
             r['help_url'] = r.delete('helpUrl')
-            r['nodes'] = r.fetch('nodes', []).map { |n| Node.from_hash n }
+            r['nodes'] = r.fetch('nodes', []).map { |n| Node.new n }
           })
         end
 
@@ -54,26 +54,6 @@ module Axe
           MSG
         end
 
-      end
-
-      class Node < OpenStruct
-        # :html, :impact, :target, :any, :all, :none
-
-        def self.from_hash(node)
-          new(node.dup.tap {|n|
-            n['any'] = n.fetch('any', []).map { |c| Check.new c }
-            n['all'] = n.fetch('all', []).map { |c| Check.new c }
-            n['none'] = n.fetch('none', []).map { |c| Check.new c }
-          })
-        end
-
-        def failure_message
-          <<-MSG
-          #{target.join(', ')}
-          #{html}
-          #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
-          MSG
-        end
       end
 
       class Check
@@ -92,6 +72,28 @@ module Axe
           MSG
         end
       end
+
+      class Node
+        include Virtus.value_object
+
+        values do
+          attribute :html
+          attribute :impact
+          attribute :target
+          attribute :any, Array[Check]
+          attribute :all, Array[Check]
+          attribute :none, Array[Check]
+        end
+
+        def failure_message
+          <<-MSG
+          #{target.join(', ')}
+          #{html}
+          #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
+          MSG
+        end
+      end
+
     end
   end
 end
