@@ -5,6 +5,9 @@ module Axe
   module API
     #TODO maybe switch to Struct so field names can be defined/fixed
     class Results < OpenStruct
+      class ValueObject
+        include Virtus.value_object
+      end
       # :url, :timestamp, :passes, :violations
 
       attr_accessor :invocation
@@ -56,9 +59,7 @@ module Axe
 
       end
 
-      class Node
-        include Virtus.value_object
-
+      class Node < ValueObject
         values do
           attribute :html
           attribute :target
@@ -72,9 +73,7 @@ module Axe
         end
       end
 
-      class Check
-        include Virtus.value_object
-
+      class Check < ValueObject
         values do
           attribute :id
           attribute :impact
