@@ -1,6 +1,5 @@
 require 'virtus'
-require 'axe/api/results/node'
-require 'axe/api/results/check'
+require 'axe/api/results/checked_node'
 
 module Axe
   module API
@@ -10,22 +9,6 @@ module Axe
 
     class Results
       include Virtus.value_object
-
-      class CheckedNode < Node
-        values do
-          attribute :impact, Symbol
-          attribute :any, Array[Check]
-          attribute :all, Array[Check]
-          attribute :none, Array[Check]
-        end
-
-        def failure_message
-          <<-MSG
-          #{super}
-          #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
-          MSG
-        end
-      end
 
       class Rule < ValueObject
         values do
