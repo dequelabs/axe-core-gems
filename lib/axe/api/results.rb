@@ -63,6 +63,13 @@ module Axe
           attribute :html
           attribute :target
         end
+
+        def failure_message
+          <<-MSG
+          #{Array(target).join(', ')}
+          #{html}
+          MSG
+        end
       end
 
       class Check
@@ -93,8 +100,7 @@ module Axe
 
         def failure_message
           <<-MSG
-          #{target.join(', ')}
-          #{html}
+          #{super}
           #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
           MSG
         end
