@@ -4,13 +4,13 @@ require 'axe/api/results/rule'
 module Axe
   module API
     class Results
-      include Virtus.value_object
+      include ::Virtus.value_object
 
       values do
         attribute :url
         attribute :timestamp
-        attribute :passes, Array[Rule]
-        attribute :violations, Array[Rule]
+        attribute :passes, ::Array[Rule]
+        attribute :violations, ::Array[Rule]
       end
 
       attr_accessor :invocation
