@@ -1,4 +1,5 @@
 require 'virtus'
+require 'axe/api/results/node'
 
 module Axe
   module API
@@ -6,21 +7,8 @@ module Axe
       include Virtus.value_object
     end
 
-    class Results < ValueObject
-      class Node < ValueObject
-        values do
-          attribute :html, String
-          attribute :target #String or Array[String]
-        end
-
-        def failure_message
-          <<-MSG
-          #{Array(target).join(', ')}
-          #{html}
-          MSG
-        end
-      end
-
+    class Results
+      include Virtus.value_object
       class Check < ValueObject
         values do
           attribute :id, Symbol
