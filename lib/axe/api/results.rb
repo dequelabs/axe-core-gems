@@ -56,8 +56,8 @@ module Axe
 
       class Check < ValueObject
         values do
-          attribute :id
-          attribute :impact
+          attribute :id, Symbol
+          attribute :impact, Symbol
           attribute :message
           attribute :data
           attribute :relatedNodes, Array[Node]
@@ -72,7 +72,7 @@ module Axe
 
       class CheckedNode < Node
         values do
-          attribute :impact
+          attribute :impact, Symbol
           attribute :any, Array[Check]
           attribute :all, Array[Check]
           attribute :none, Array[Check]
@@ -88,12 +88,12 @@ module Axe
 
       class Rule < ValueObject
         values do
-          attribute :id
+          attribute :id, Symbol
           attribute :description
           attribute :help
           attribute :helpUrl
-          attribute :impact
-          attribute :tags
+          attribute :impact, Symbol
+          attribute :tags, Array[Symbol]
           attribute :nodes, Array[CheckedNode]
         end
 
