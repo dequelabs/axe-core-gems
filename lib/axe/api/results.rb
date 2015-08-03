@@ -56,6 +56,15 @@ module Axe
 
       end
 
+      class Node
+        include Virtus.value_object
+
+        values do
+          attribute :html
+          attribute :target
+        end
+      end
+
       class Check
         include Virtus.value_object
 
@@ -64,21 +73,13 @@ module Axe
           attribute :impact
           attribute :message
           attribute :data
+          attribute :relatedNodes, Array[Node]
         end
 
         def failure_message
           <<-MSG
           #{message}
           MSG
-        end
-      end
-
-      class Node
-        include Virtus.value_object
-
-        values do
-          attribute :html
-          attribute :target
         end
       end
 
