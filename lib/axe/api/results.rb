@@ -43,7 +43,7 @@ module Axe
         def self.from_hash(rule)
           new(rule.dup.tap {|r|
             r['help_url'] = r.delete('helpUrl')
-            r['nodes'] = r.fetch('nodes', []).map { |n| Node.new n }
+            r['nodes'] = r.fetch('nodes', []).map { |n| CheckedNode.new n }
           })
         end
 
@@ -73,7 +73,7 @@ module Axe
         end
       end
 
-      class Node
+      class CheckedNode
         include Virtus.value_object
 
         values do
