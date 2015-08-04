@@ -71,65 +71,107 @@ module Axe::Matchers
       end
     end
 
-    describe "#for_tag" do
+    describe "#according_to" do
       it "should be delegated to @audit" do
-        subject.for_tag(:foo)
+        subject.according_to(:foo)
         expect(audit).to have_received(:rules_by_tags)
       end
 
       it "should accept a single tag" do
-        subject.for_tag(:foo)
+        subject.according_to(:foo)
         expect(audit).to have_received(:rules_by_tags).with([:foo])
       end
 
       it "should accept many tags" do
-        subject.for_tag(:foo, :bar)
+        subject.according_to(:foo, :bar)
         expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
       end
 
       it "should accept an array of tags" do
-        subject.for_tag([:foo, :bar])
+        subject.according_to([:foo, :bar])
         expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
-        expect(subject.for_tag(:foo)).to be subject
-      end
-
-      it "should have the plural form #for_tags" do
-        subject.for_tags(:foo, :bar)
-        expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
+        expect(subject.according_to(:foo)).to be subject
       end
     end
 
-    describe "#for_rule" do
+    describe "#checking" do
       it "should be delegated to @audit" do
-        subject.for_rule(:foo)
+        subject.checking(:foo)
+        expect(audit).to have_received(:run_rules)
+      end
+
+      it "should accept a single rule" do
+        subject.checking(:foo)
+        expect(audit).to have_received(:run_rules).with([:foo])
+      end
+
+      it "should accept many rules" do
+        subject.checking(:foo, :bar)
+        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+      end
+
+      it "should accept an array of rules" do
+        subject.checking([:foo, :bar])
+        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+      end
+
+      it "should return self for chaining" do
+        expect(subject.checking(:foo)).to be subject
+      end
+    end
+
+    describe "#skipping" do
+      it "should be delegated to @audit" do
+        subject.skipping(:foo)
+        expect(audit).to have_received(:skip_rules)
+      end
+
+      it "should accept a single rule" do
+        subject.skipping(:foo)
+        expect(audit).to have_received(:skip_rules).with([:foo])
+      end
+
+      it "should accept many rules" do
+        subject.skipping(:foo, :bar)
+        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+      end
+
+      it "should accept an array of rules" do
+        subject.skipping([:foo, :bar])
+        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+      end
+
+      it "should return self for chaining" do
+        expect(subject.skipping(:foo)).to be subject
+      end
+    end
+
+    describe "#checking_only" do
+      it "should be delegated to @audit" do
+        subject.checking_only(:foo)
         expect(audit).to have_received(:run_only_rules)
       end
 
       it "should accept a single rule" do
-        subject.for_rule(:foo)
+        subject.checking_only(:foo)
         expect(audit).to have_received(:run_only_rules).with([:foo])
       end
 
       it "should accept many rules" do
-        subject.for_rule(:foo, :bar)
+        subject.checking_only(:foo, :bar)
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should accept an array of rules" do
-        subject.for_rule([:foo, :bar])
+        subject.checking_only([:foo, :bar])
         expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
-        expect(subject.for_rule(:foo)).to be subject
-      end
-
-      it "should have the plural form #for_rules" do
-        subject.for_rules(:foo, :bar)
-        expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
+        expect(subject.checking_only(:foo)).to be subject
       end
     end
 

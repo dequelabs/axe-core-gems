@@ -29,17 +29,25 @@ module Axe
         self
       end
 
-      def for_tag(*tags)
+      def according_to(*tags)
         @audit.rules_by_tags tags.flatten
         self
       end
-      alias :for_tags :for_tag
 
-      def for_rule(*rules)
+      def checking(*rules)
+        @audit.run_rules rules.flatten
+        self
+      end
+
+      def skipping(*rules)
+        @audit.skip_rules rules.flatten
+        self
+      end
+
+      def checking_only(*rules)
         @audit.run_only_rules rules.flatten
         self
       end
-      alias :for_rules :for_rule
 
       def with_options(options)
         @audit.custom_options options

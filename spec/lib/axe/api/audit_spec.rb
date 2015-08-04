@@ -24,6 +24,16 @@ module Axe::API
         expect(a11y_check).to have_received(:rules_by_tags).with("foo")
       end
 
+      it "should be delegated #run_rules" do
+        subject.run_rules "foo"
+        expect(a11y_check).to have_received(:run_rules).with("foo")
+      end
+
+      it "should be delegated #skip_rules" do
+        subject.skip_rules "foo"
+        expect(a11y_check).to have_received(:skip_rules).with("foo")
+      end
+
       it "should be delegated #run_only_rules" do
         subject.run_only_rules "foo"
         expect(a11y_check).to have_received(:run_only_rules).with("foo")
