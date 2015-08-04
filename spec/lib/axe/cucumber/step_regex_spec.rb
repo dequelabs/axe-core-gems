@@ -43,7 +43,7 @@ RSpec.configure {|c| c.include CustomMatchers}
 
 module Axe::Cucumber
   describe Step do
-    describe "::REGEX", :focus do
+    describe "::REGEX" do
       subject { described_class::REGEX }
 
       describe "negation" do
