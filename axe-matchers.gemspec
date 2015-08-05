@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path  = 'lib'
 
+  spec.add_dependency 'dumb_delegator', '~> 0.8.0'
   spec.add_dependency 'virtus', '~> 1.0.5'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
