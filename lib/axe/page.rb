@@ -3,6 +3,9 @@ require 'timeout'
 
 module Axe
   class Page
+    extend Forwardable
+    def_delegator :@browser, :execute_script
+    def_delegator :@browser, :evaluate_script
 
     def initialize(browser)
       @browser = browser
@@ -20,18 +23,7 @@ module Axe
     private
 
     def expose_script_api
-      extend script_api_adapter
-    end
-
-    def script_api_adapter
-      @browser.respond_to?(:evaluate_script) ? CapybaraDelegate : WebDriverAdapter
-    end
-
-    # delegates to capybara api
-    module CapybaraDelegate
-      extend Forwardable
-      def_delegator :@browser, :execute_script
-      def_delegator :@browser, :evaluate_script
+      extend WebDriverAdapter unless @browser.respond_to? :evaluate_script
     end
 
     # adapts webdriver api to capybara-like api
