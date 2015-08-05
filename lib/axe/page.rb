@@ -31,7 +31,7 @@ module Axe
     module CapybaraDelegate
       extend Forwardable
       def_delegator :@browser, :execute_script
-      def_delegator :@browser, :evaluate_script, :evaluate
+      def_delegator :@browser, :evaluate_script
     end
 
     # adapts webdriver api to capybara-like api
@@ -43,7 +43,7 @@ module Axe
       end
 
       # returns result of executing script
-      def evaluate(expression)
+      def evaluate_script(expression)
         @browser.execute_script "return #{expression}"
       end
     end

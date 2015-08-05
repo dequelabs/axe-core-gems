@@ -18,10 +18,10 @@ module Axe
     context "Capybara" do
       let(:driver) { Capybara.current_session }
 
-      describe "#evaluate" do
+      describe "#evaluate_script" do
         it "should delegate directly to the browser/webdriver" do
           expect(driver).to receive(:evaluate_script).with("foo").and_return("bar")
-          expect(subject.evaluate("foo")).to eq("bar")
+          expect(subject.evaluate_script("foo")).to eq("bar")
         end
       end
 
@@ -34,10 +34,10 @@ module Axe
     end
 
     shared_examples "a webdriver" do
-      describe "#evaluate" do
+      describe "#evaluate_script" do
         it "should wrap in return and delegate to execute_script" do
           expect(driver).to receive(:execute_script).with("return foo").and_return("bar")
-          expect(subject.evaluate("foo")).to eq("bar")
+          expect(subject.evaluate_script("foo")).to eq("bar")
         end
       end
 

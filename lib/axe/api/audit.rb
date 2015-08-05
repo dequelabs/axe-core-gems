@@ -42,7 +42,7 @@ module Axe
       end
 
       def audit_results
-        @page.wait_until { @page.evaluate(RESULTS_IDENTIFIER) }
+        @page.wait_until { @page.evaluate_script(RESULTS_IDENTIFIER) }
       end
     end
   end
