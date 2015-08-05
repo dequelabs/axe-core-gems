@@ -3,10 +3,6 @@ require 'timeout'
 module Axe
   class Page
     module ExecuteAsyncScriptAdapter
-      def self.adapt(page)
-        page.extend self
-      end
-
       def execute_async_script(script, *args)
         results = async_results_identifier("aasdfasdf")
         execute_script async_wrapper(script, args, results)

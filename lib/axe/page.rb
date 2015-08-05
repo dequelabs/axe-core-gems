@@ -16,11 +16,11 @@ module Axe
     private
 
     def adapt_webdriver_to_capybara
-      WebDriverToCapybaraPageAdapter.adapt self unless @browser.respond_to? :evaluate_script
+      extend WebDriverToCapybaraPageAdapter unless @browser.respond_to? :evaluate_script
     end
 
     def adapt_async_script_executor
-      ExecuteAsyncScriptAdapter.adapt self unless @browser.respond_to? :execute_async_script
+      extend ExecuteAsyncScriptAdapter unless @browser.respond_to? :execute_async_script
     end
   end
 end

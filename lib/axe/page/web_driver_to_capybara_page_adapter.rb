@@ -4,11 +4,6 @@ module Axe
     # (eval is a query, exec is a command)
     # this module makes webdriver act like capybara
     module WebDriverToCapybaraPageAdapter
-
-      def self.adapt(page)
-        page.extend self
-      end
-
       # executes script without returning result
       def execute_script(script)
         @browser.execute_script script
