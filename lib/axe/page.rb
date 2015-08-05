@@ -5,7 +5,7 @@ require 'axe/page/execute_async_script_adapter'
 module Axe
   class Page
     extend Forwardable
-    def_delegators :@browser, :evaluate_script, :execute_script, :execute_async_script
+    def_delegators :@browser, :evaluate_script, :execute_script
 
     def initialize(browser)
       @browser = browser
@@ -20,7 +20,7 @@ module Axe
     end
 
     def adapt_async_script_executor
-      extend ExecuteAsyncScriptAdapter unless @browser.respond_to? :execute_async_script
+      extend ExecuteAsyncScriptAdapter
     end
   end
 end
