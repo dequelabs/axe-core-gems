@@ -7,6 +7,10 @@ module Axe
     # this decorator makes webdriver act like capybara
     class WebDriverToCapybaraPageAdapter < ::DumbDelegator
 
+      def self.wrap(driver)
+        driver.respond_to?(:evaluate_script) ? driver : new(driver)
+      end
+
       # executes script without returning result
       def execute_script(script)
         super
