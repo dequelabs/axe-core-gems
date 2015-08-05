@@ -1,6 +1,8 @@
 module Axe
   class Page
-    # adapts webdriver api to capybara-like api
+    # Capybara distinguishes eval from exec
+    # (eval is a query, exec is a command)
+    # this module makes webdriver act like capybara
     module WebDriverToCapybaraPageAdapter
 
       def self.adapt(page)
