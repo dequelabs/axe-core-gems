@@ -5,8 +5,7 @@ require 'axe/page/web_driver_to_capybara_page_adapter'
 module Axe
   class Page
     extend Forwardable
-    def_delegator :@browser, :execute_script
-    def_delegator :@browser, :evaluate_script
+    def_delegators :@browser, :evaluate_script, :execute_script
 
     def initialize(browser)
       @browser = browser
