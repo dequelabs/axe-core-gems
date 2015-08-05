@@ -10,7 +10,7 @@ module Axe
 
     def initialize(browser)
       @browser = browser
-      WebDriverToCapybaraPageAdapter.adapt(self) unless @browser.respond_to? :evaluate_script
+      adapt_webdriver_to_capybara
     end
 
     def wait_until
@@ -19,6 +19,12 @@ module Axe
         sleep(0.1) until value = yield
         value
       end
+    end
+
+    private
+
+    def adapt_webdriver_to_capybara
+      WebDriverToCapybaraPageAdapter.adapt(self) unless @browser.respond_to? :evaluate_script
     end
   end
 end
