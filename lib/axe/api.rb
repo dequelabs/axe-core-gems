@@ -3,5 +3,3 @@ module Axe
     LIBRARY_IDENTIFIER = "axe"
   end
 end
-
-require 'axe/api/audit'

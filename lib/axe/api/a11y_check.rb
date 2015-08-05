@@ -10,7 +10,7 @@ require 'axe/javascript_library'
 module Axe
   module API
     class A11yCheck
-      METHOD_NAME = "a11yCheck"
+      METHOD_NAME = "#{LIBRARY_IDENTIFIER}.a11yCheck"
 
       extend Forwardable
 
@@ -35,7 +35,7 @@ module Axe
       end
 
       def audit(page)
-        page.exec_async "#{LIBRARY_IDENTIFIER}.#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        page.exec_async "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
       end
 
       def parse_results(results)
@@ -45,7 +45,7 @@ module Axe
       end
 
       def to_js
-        "#{LIBRARY_IDENTIFIER}.#{METHOD_NAME}(#{@context.to_json}, #{@options.to_json}, callback);"
+        "#{METHOD_NAME}(#{@context.to_json}, #{@options.to_json}, callback);"
       end
     end
   end
