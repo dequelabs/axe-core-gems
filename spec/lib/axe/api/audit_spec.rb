@@ -3,46 +3,31 @@ require 'axe/api/audit'
 
 module Axe::API
   describe Audit do
+    let(:subject) { described_class.new invocation, results }
+    let(:invocation) { spy('invocation') }
+    let(:results) { spy('results') }
+
+    context "when there are no violations" do
+      before :each do
+        allow(results).to receive(:violations).and_return []
+      end
+
+      it { is_expected.to be_passed }
+    end
+
+    context "when there are violations" do
+      before :each do
+        allow(results).to receive(:violations).and_return ["violation1"]
+      end
+
+      it { is_expected.to_not be_passed }
+    end
+  end
+
+  xdescribe Audit do
     let(:a11y_check) { spy('a11y_check') }
     before :each do
       subject.instance_variable_set :@a11y_check, a11y_check
-    end
-
-    describe "@a11y_check" do
-      it "should be delegated #include" do
-        subject.include "foo"
-        expect(a11y_check).to have_received(:include).with("foo")
-      end
-
-      it "should be delegated #exclude" do
-        subject.exclude "foo"
-        expect(a11y_check).to have_received(:exclude).with("foo")
-      end
-
-      it "should be delegated #rules_by_tags" do
-        subject.rules_by_tags "foo"
-        expect(a11y_check).to have_received(:rules_by_tags).with("foo")
-      end
-
-      it "should be delegated #run_rules" do
-        subject.run_rules "foo"
-        expect(a11y_check).to have_received(:run_rules).with("foo")
-      end
-
-      it "should be delegated #skip_rules" do
-        subject.skip_rules "foo"
-        expect(a11y_check).to have_received(:skip_rules).with("foo")
-      end
-
-      it "should be delegated #run_only_rules" do
-        subject.run_only_rules "foo"
-        expect(a11y_check).to have_received(:run_only_rules).with("foo")
-      end
-
-      it "should be delegated #custom_options" do
-        subject.custom_options "foo"
-        expect(a11y_check).to have_received(:custom_options).with("foo")
-      end
     end
 
     describe "#run_against" do

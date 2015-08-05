@@ -4,18 +4,6 @@ require 'axe/api/results'
 module Axe::API
   describe Results do
 
-    context "when there are no violations" do
-      let(:subject) { Results.new "violations" => [] }
-
-      it { is_expected.to be_passed }
-    end
-
-    context "when there are violations" do
-      let(:subject) { Results.new "violations" => [{}] }
-
-      it { is_expected.to_not be_passed }
-    end
-
     describe "#failure_message" do
       let(:subject) {
         Results.new "violations" => [ {
