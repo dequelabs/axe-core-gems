@@ -20,7 +20,20 @@ module Axe
       end
     end
 
+    def exec_async(script, *args)
+      @browser.execute_script p <<-SCRIPT
+      (function(){
+      #{script}
+      })(#{args.join(',')}, #{callback})
+      SCRIPT
+      wait_until { evaluate_script "axe.a11yCheck.asyncResult" }
+    end
+
     private
+
+    def callback
+      "function(results){ axe.a11yCheck.asyncResult = results; }"
+    end
 
     def adapt_webdriver_to_capybara
       WebDriverToCapybaraPageAdapter.adapt(self) unless @browser.respond_to? :evaluate_script

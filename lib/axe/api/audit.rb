@@ -21,7 +21,7 @@ module Axe
         @page = Page.new(page)
 
         inject_axe_lib
-        run_audit
+        # run_audit
         parse_results
       end
 
@@ -42,7 +42,8 @@ module Axe
       end
 
       def audit_results
-        @page.wait_until { @page.evaluate_script(RESULTS_IDENTIFIER) }
+        @page.exec_async "axe.a11yCheck.apply(axe, arguments)", @a11y_check.context.to_json, @a11y_check.options.to_json
+        # @page.wait_until { @page.evaluate_script(RESULTS_IDENTIFIER) }
       end
     end
   end
