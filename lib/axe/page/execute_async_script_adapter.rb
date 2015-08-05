@@ -17,7 +17,7 @@ module Axe
       end
 
       def async_wrapper(script, args, resultsIdentifier)
-        ";(function(){ #{script} })(#{args.join(',')}, function(returnValue){ #{resultsIdentifier} = returnValue; });"
+        ";(function(){ #{script} })(#{args.join(', ')}, function(returnValue){ #{resultsIdentifier} = returnValue; });"
       end
 
       def wait_until
