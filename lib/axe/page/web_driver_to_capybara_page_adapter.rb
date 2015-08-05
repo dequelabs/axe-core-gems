@@ -6,7 +6,7 @@ module Axe
     module WebDriverToCapybaraPageAdapter
 
       def self.adapt(page)
-        page.extend WebDriverToCapybaraPageAdapter
+        page.extend self
       end
 
       # executes script without returning result
