@@ -16,7 +16,7 @@ module Axe
     private
 
     def adapt_webdriver_to_capybara
-      extend WebDriverToCapybaraPageAdapter unless @browser.respond_to? :evaluate_script
+      @browser = WebDriverToCapybaraPageAdapter.new @browser unless @browser.respond_to? :evaluate_script
     end
 
     def adapt_async_script_executor
