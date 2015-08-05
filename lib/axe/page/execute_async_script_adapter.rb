@@ -7,7 +7,7 @@ module Axe
         page.extend self
       end
 
-      def exec_async(script, *args)
+      def execute_async_script(script, *args)
         results = async_results_identifier("aasdfasdf")
         execute_script async_wrapper(script, args, results)
         wait_until { evaluate_script results }

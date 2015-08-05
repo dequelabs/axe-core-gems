@@ -35,7 +35,7 @@ module Axe
       end
 
       def audit(page)
-        page.exec_async "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
       end
 
       def parse_results(results)
