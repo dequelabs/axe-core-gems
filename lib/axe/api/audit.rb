@@ -32,7 +32,7 @@ module Axe
       end
 
       def run_audit
-        @page.execute @a11y_check.to_js
+        @page.execute_script @a11y_check.to_js
       end
 
       def parse_results

@@ -5,7 +5,7 @@ module Axe
   class JavaScriptLibrary
 
     def inject_into(page)
-      page.execute source
+      page.execute_script source
     end
 
     def source

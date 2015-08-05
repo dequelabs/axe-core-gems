@@ -25,10 +25,10 @@ module Axe
         end
       end
 
-      describe "#execute" do
+      describe "#execute_script" do
         it "should delegate directly to the browser/webdriver" do
           expect(driver).to receive(:execute_script).with("foo").and_return("bar")
-          expect(subject.execute("foo")).to eq("bar")
+          expect(subject.execute_script("foo")).to eq("bar")
         end
       end
     end
@@ -41,10 +41,10 @@ module Axe
         end
       end
 
-      describe "#execute" do
+      describe "#execute_script" do
         it "should delegate directly to execute_script but not return anything" do
           expect(driver).to receive(:execute_script).with("foo").and_return("bar")
-          expect(subject.execute("foo")).to be_nil
+          expect(subject.execute_script("foo")).to be_nil
         end
       end
     end
