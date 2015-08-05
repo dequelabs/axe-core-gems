@@ -53,25 +53,57 @@ module Axe::API
       end
     end
 
-    describe "#to_js" do
-      its(:to_js) { is_expected.to start_with "axe.a11yCheck(" }
-      its(:to_js) { is_expected.to end_with ", function(results){axe.asyncResult = results;});" }
+    describe "#call" do
+      let(:page) { spy('page') }
+      let(:results) { spy('results') }
+      let(:audit) { spy('audit') }
 
-      it "should serialize context as first param" do
-        context = double('context')
-        allow(context).to receive(:to_json).and_return("{foo}")
-        subject.instance_variable_set :@context, context
-
-        expect(subject.to_js).to include '({foo},'
+      before :each do
+        # allow(page).to receive(:evaluate_script).and_return('violations' => [])
+        allow(page).to receive(:execute_async_script).and_return('violations' => [])
       end
 
-      it "should serialize options as second param" do
-        options = double('options')
-        allow(options).to receive(:to_json).and_return("{bar}")
-        subject.instance_variable_set :@options, options
-
-        expect(subject.to_js).to include ', {bar},'
+      it "should inject the axe-core lib" do
+        subject.call(page)
+        expect(page).to have_received(:execute_script).with(a_string_starting_with ("/*! aXe"))
       end
+
+      it "should execute the the A11yCheck script" do
+        pending "validate args correctly"
+        subject.call(page)
+        expect(page).to have_received(:execute_async_script).with("axe.a11yCheck.apply(axe, arguments)", "document", "{}")
+      end
+
+      it "should return an audit" do
+        expect(subject.call(page)).to be_kind_of Audit
+      end
+
+      it "should parse the results" do
+        expect(Results).to receive(:new).with('violations' => []).and_return results
+        expect(Audit).to receive(:new).with(instance_of(String), results)
+        subject.call(page)
+      end
+
+      it "should include the original invocation string" do
+        expect(Audit).to receive(:new).with("axe.a11yCheck(document, {}, callback);", instance_of(Results))
+        subject.call(page)
+      end
+
+      it "should retry until the a11yCheck results are ready", :slow do
+        pending "move to async module"
+        nil_invocations = Array.new(5, nil)
+        allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
+        expect(Results).to receive(:new).with('violations' => []).and_return results
+
+        expect(subject.run_against(page)).to be results
+      end
+
+      it "should timeout if results aren't ready after some time", :slow do
+        pending "move to async module"
+        allow(page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
+        expect { subject.run_against(page) }.to raise_error Timeout::Error
+      end
+
     end
   end
 end

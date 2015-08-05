@@ -35,10 +35,10 @@ module Axe
       end
 
       def audit(page)
-        Audit.new to_js, Results.new(execute_async(page))
+        Audit.new to_js, Results.new(run_against(page))
       end
 
-      def execute_async(page)
+      def run_against(page)
         page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
       end
 
