@@ -5,7 +5,7 @@ require 'axe/page/execute_async_script_adapter'
 module Axe
   class Page
     extend Forwardable
-    def_delegators :@browser, :evaluate_script, :execute_script, :execute_async_script
+    def_delegators :@browser, :execute_script, :execute_async_script
 
     def initialize(browser)
       @browser = ExecuteAsyncScriptAdapter.wrap WebDriverToCapybaraPageAdapter.wrap browser
