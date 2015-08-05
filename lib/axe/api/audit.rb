@@ -2,7 +2,6 @@ require 'forwardable'
 
 require 'axe/api'
 require 'axe/api/a11y_check'
-require 'axe/api/results'
 require 'axe/javascript_library'
 require 'axe/page'
 
@@ -21,8 +20,8 @@ module Axe
         @page = Page.new(page)
 
         inject_axe_lib
-        # run_audit
-        parse_results
+
+        @a11y_check.call(@page)
       end
 
       private
@@ -31,20 +30,6 @@ module Axe
         JavaScriptLibrary.new.inject_into @page
       end
 
-      def run_audit
-        @page.execute_script @a11y_check.to_js
-      end
-
-      def parse_results
-        Results.new(audit_results).tap do |results|
-          results.invocation = @a11y_check.to_js
-        end
-      end
-
-      def audit_results
-        @page.exec_async "axe.a11yCheck.apply(axe, arguments)", @a11y_check.context.to_json, @a11y_check.options.to_json
-        # @page.wait_until { @page.evaluate_script(RESULTS_IDENTIFIER) }
-      end
     end
   end
 end
