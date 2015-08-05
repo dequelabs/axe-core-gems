@@ -5,6 +5,7 @@ require 'axe/api'
 require 'axe/api/context'
 require 'axe/api/options'
 require 'axe/api/results'
+require 'axe/javascript_library'
 
 module Axe
   module API
@@ -22,16 +23,25 @@ module Axe
       end
 
       def call(page)
-        Results.new(audit(page)).tap do |results|
-          results.invocation = to_js
-        end
+        inject_axe_lib page
 
+        parse_results audit(page)
       end
 
       private
 
+      def inject_axe_lib(page)
+        JavaScriptLibrary.new.inject_into page
+      end
+
       def audit(page)
         page.exec_async "#{LIBRARY_IDENTIFIER}.#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+      end
+
+      def parse_results(results)
+        Results.new(results).tap do |r|
+          r.invocation = to_js
+        end
       end
 
       def to_js

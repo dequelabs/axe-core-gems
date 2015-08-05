@@ -1,8 +1,6 @@
 require 'forwardable'
 
-require 'axe/api'
 require 'axe/api/a11y_check'
-require 'axe/javascript_library'
 require 'axe/page'
 
 module Axe
@@ -17,17 +15,7 @@ module Axe
       end
 
       def run_against(page)
-        @page = Page.new(page)
-
-        inject_axe_lib
-
-        @a11y_check.call(@page)
-      end
-
-      private
-
-      def inject_axe_lib
-        JavaScriptLibrary.new.inject_into @page
+        @a11y_check.call Page.new page
       end
 
     end
