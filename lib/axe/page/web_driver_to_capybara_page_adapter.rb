@@ -10,14 +10,14 @@ module Axe
       end
 
       # executes script without returning result
-      def execute_script(expression)
-        @browser.execute_script expression
+      def execute_script(script)
+        @browser.execute_script script
         nil
       end
 
       # returns result of executing script
-      def evaluate_script(expression)
-        @browser.execute_script "return #{expression}"
+      def evaluate_script(script)
+        @browser.execute_script "return #{script}"
       end
     end
   end
