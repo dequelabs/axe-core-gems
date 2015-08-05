@@ -7,17 +7,16 @@ module Axe
     class BeAccessible
       extend Forwardable
 
-      def_delegator :@results, :failure_message
-      def_delegator :@results, :failure_message, :failure_message_when_negated
+      def_delegators :@audit, :failure_message, :failure_message_when_negated
 
       def initialize
         @a11y_check = API::A11yCheck.new
       end
 
       def matches?(page)
-        @results = @a11y_check.call Page.new page
+        @audit = @a11y_check.call Page.new page
 
-        @results.passed?
+        @audit.passed?
       end
 
       def within(inclusion)

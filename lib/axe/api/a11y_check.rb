@@ -2,6 +2,7 @@ require 'forwardable'
 require 'json'
 
 require 'axe/api'
+require 'axe/api/audit'
 require 'axe/api/context'
 require 'axe/api/options'
 require 'axe/api/results'
@@ -24,8 +25,7 @@ module Axe
 
       def call(page)
         inject_axe_lib page
-
-        parse_results audit(page)
+        audit page
       end
 
       private
@@ -35,13 +35,11 @@ module Axe
       end
 
       def audit(page)
-        page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        Audit.new to_js, Results.new(execute_async(page))
       end
 
-      def parse_results(results)
-        Results.new(results).tap do |r|
-          r.invocation = to_js
-        end
+      def execute_async(page)
+        page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
       end
 
       def to_js
