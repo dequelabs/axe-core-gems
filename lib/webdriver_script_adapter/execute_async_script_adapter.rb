@@ -12,6 +12,36 @@ module WebDriverScriptAdapter
     end
   end
 
+  module Defaults
+    module_function
+
+    def generate_async_results_identifier
+      -> { ::SecureRandom.uuid }
+    end
+
+    def max_wait_time
+      if defined? ::Capybara
+        if ::Capybara.respond_to? :default_max_wait_time
+          ::Capybara.default_max_wait_time
+        else
+          ::Capybara.default_wait_time
+        end
+      elsif defined? ::Selenium::WebDriver::Wait::DEFAULT_TIMEOUT
+        ::Selenium::WebDriver::Wait::DEFAULT_TIMEOUT
+      else
+        3
+      end
+    end
+
+    def wait_interval
+      if defined? ::Selenium::WebDriver::Wait::DEFAULT_INTERVAL
+        ::Selenium::WebDriver::Wait::DEFAULT_INTERVAL
+      else
+        0.1
+      end
+    end
+  end
+
   module ScriptWriter
     module_function
 
