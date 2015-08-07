@@ -54,6 +54,11 @@ end
 
 WebDriverScriptAdapter.configure do |c|
   c.generate_async_results_identifier = -> { SecureRandom.uuid }
-  c.max_wait_time = 3
-  c.wait_interval = 0.1
+
+  c.max_wait_time = if defined? Capybara then Capybara.default_max_wait_time
+                    elsif defined? Selenium::WebDriver::Wait::DEFAULT_TIMEOUT then Selenium::WebDriver::Wait::DEFAULT_TIMEOUT
+                    else 3 end
+
+  c.wait_interval = if defined? Selenium::WebDriver::Wait::DEFAULT_INTERVAL then Selenium::WebDriver::Wait::DEFAULT_INTERVAL
+                    else 0.1 end
 end
