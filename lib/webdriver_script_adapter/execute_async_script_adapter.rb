@@ -5,7 +5,7 @@ require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
   class << self
-    attr_accessor :generate_async_results_identifier
+    attr_accessor :generate_async_results_identifier, :max_wait_time, :wait_interval
 
     def configure
       yield self
@@ -53,4 +53,6 @@ end
 
 WebDriverScriptAdapter.configure do |c|
   c.generate_async_results_identifier = -> { SecureRandom.uuid }
+  c.max_wait_time = 3
+  c.wait_interval = 0.1
 end
