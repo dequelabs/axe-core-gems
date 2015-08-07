@@ -8,7 +8,7 @@ module Axe
     def_delegators :@browser, :execute_script, :execute_async_script
 
     def initialize(browser)
-      @browser = ExecuteAsyncScriptAdapter.wrap WebDriverToCapybaraPageAdapter.wrap browser
+      @browser = ExecuteAsyncScriptAdapter.wrap WebDriverScriptAdapter::ExecEvalScriptAdapter.wrap browser
     end
   end
 end
