@@ -19,8 +19,12 @@ module Axe
         @custom = {}
       end
 
+      def to_hash
+        @rules.to_hash.merge(@custom)
+      end
+
       def to_json
-        @rules.to_hash.merge(@custom).to_json
+        to_hash.to_json
       end
 
     end

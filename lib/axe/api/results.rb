@@ -13,25 +13,11 @@ module Axe
         attribute :violations, ::Array[Rule]
       end
 
-      attr_accessor :invocation
-
-      def passed?
-        violations.count == 0
-      end
-
       def failure_message
-        if passed?
-          <<-MSG.gsub(/^\s*/,'')
-          Expected to find accessibility violations. None were detected.
-          Invocation: #{invocation}
-          MSG
-        else
-          <<-MSG.gsub(/^\s*/,'')
-          Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
-          Invocation: #{invocation}
-          #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
-          MSG
-        end
+        <<-MSG.gsub(/^\s*/,'')
+        Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
+        #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
+        MSG
       end
     end
   end

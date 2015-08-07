@@ -22,21 +22,7 @@ module Axe
         self
       end
 
-      def to_json
-        if @inclusion.empty?
-          if @exclusion.empty?
-            "document"
-          else
-            %Q({"include":document,"exclude":#{@exclusion.to_json}})
-          end
-        else
-          context_parameter.to_json
-        end
-      end
-
-      private
-
-      def context_parameter
+      def to_hash
         {}.tap do |context_param|
           # include key must not be included if empty
           # (when undefined, defaults to `document`)
@@ -48,6 +34,20 @@ module Axe
           context_param[:exclude] = @exclusion
         end
       end
+
+      def to_json
+        if @inclusion.empty?
+          if @exclusion.empty?
+            "document"
+          else
+            %Q({"include":document,"exclude":#{@exclusion.to_json}})
+          end
+        else
+          to_hash.to_json
+        end
+      end
+
+      private
 
       def ensure_nested_array(selector)
         Array(selector).map { |s| Array(s) }

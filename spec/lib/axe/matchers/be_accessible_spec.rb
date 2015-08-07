@@ -3,56 +3,55 @@ require 'axe/matchers/be_accessible'
 
 module Axe::Matchers
   describe BeAccessible do
+    let(:a11y_check) { spy('a11y_check') }
     let(:audit) { spy('audit') }
-    let(:results) { spy('results') }
     before :each do
-      subject.instance_variable_set :@audit, audit
+      subject.instance_variable_set :@a11y_check, a11y_check
     end
 
     describe "#matches?" do
       let(:page) { spy('page') }
+      before :each do
+        allow(a11y_check).to receive(:call).and_return(audit)
+      end
 
-      it "should run the audit against the page" do
+      it "should run the a11y_check against the page" do
+        expect(Axe::Page).to receive(:new).with(page).and_return("page")
         subject.matches?(page)
-        expect(audit).to have_received(:run_against).with(page)
+        expect(a11y_check).to have_received(:call).with("page")
       end
 
       it "should save results" do
-        allow(audit).to receive(:run_against).and_return(results)
-
         subject.matches? page
-
-        expect( subject.instance_variable_get :@results ).to be results
+        expect( subject.instance_variable_get :@audit ).to be audit
       end
 
       it "should return results.passed" do
-        allow(audit).to receive(:run_against).and_return(results)
-        allow(results).to receive(:passed?).and_return(:passed)
-
+        allow(audit).to receive(:passed?).and_return(:passed)
         expect( subject.matches?(page) ).to be :passed
       end
     end
 
-    describe "@results" do
+    describe "@audit" do
       before :each do
-        subject.instance_variable_set :@results, results
+        subject.instance_variable_set :@audit, audit
       end
 
       it "should be delegated #failure_message" do
-        expect(results).to receive(:failure_message).and_return(:foo)
+        expect(audit).to receive(:failure_message).and_return(:foo)
         expect(subject.failure_message).to eq :foo
       end
 
       it "should be delegated #failure_message_when_negated" do
-        expect(results).to receive(:failure_message).and_return(:foo)
+        expect(audit).to receive(:failure_message_when_negated).and_return(:foo)
         expect(subject.failure_message_when_negated).to eq :foo
       end
     end
 
     describe "#within" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.within(:foo)
-        expect(audit).to have_received(:include).with(:foo)
+        expect(a11y_check).to have_received(:include).with(:foo)
       end
 
       it "should return self for chaining" do
@@ -61,9 +60,9 @@ module Axe::Matchers
     end
 
     describe "#excluding" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.excluding(:foo)
-        expect(audit).to have_received(:exclude).with(:foo)
+        expect(a11y_check).to have_received(:exclude).with(:foo)
       end
 
       it "should return self for chaining" do
@@ -72,24 +71,24 @@ module Axe::Matchers
     end
 
     describe "#according_to" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.according_to(:foo)
-        expect(audit).to have_received(:rules_by_tags)
+        expect(a11y_check).to have_received(:rules_by_tags)
       end
 
       it "should accept a single tag" do
         subject.according_to(:foo)
-        expect(audit).to have_received(:rules_by_tags).with([:foo])
+        expect(a11y_check).to have_received(:rules_by_tags).with([:foo])
       end
 
       it "should accept many tags" do
         subject.according_to(:foo, :bar)
-        expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
+        expect(a11y_check).to have_received(:rules_by_tags).with([:foo, :bar])
       end
 
       it "should accept an array of tags" do
         subject.according_to([:foo, :bar])
-        expect(audit).to have_received(:rules_by_tags).with([:foo, :bar])
+        expect(a11y_check).to have_received(:rules_by_tags).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
@@ -98,24 +97,24 @@ module Axe::Matchers
     end
 
     describe "#checking" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.checking(:foo)
-        expect(audit).to have_received(:run_rules)
+        expect(a11y_check).to have_received(:run_rules)
       end
 
       it "should accept a single rule" do
         subject.checking(:foo)
-        expect(audit).to have_received(:run_rules).with([:foo])
+        expect(a11y_check).to have_received(:run_rules).with([:foo])
       end
 
       it "should accept many rules" do
         subject.checking(:foo, :bar)
-        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:run_rules).with([:foo, :bar])
       end
 
       it "should accept an array of rules" do
         subject.checking([:foo, :bar])
-        expect(audit).to have_received(:run_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:run_rules).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
@@ -124,24 +123,24 @@ module Axe::Matchers
     end
 
     describe "#skipping" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.skipping(:foo)
-        expect(audit).to have_received(:skip_rules)
+        expect(a11y_check).to have_received(:skip_rules)
       end
 
       it "should accept a single rule" do
         subject.skipping(:foo)
-        expect(audit).to have_received(:skip_rules).with([:foo])
+        expect(a11y_check).to have_received(:skip_rules).with([:foo])
       end
 
       it "should accept many rules" do
         subject.skipping(:foo, :bar)
-        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:skip_rules).with([:foo, :bar])
       end
 
       it "should accept an array of rules" do
         subject.skipping([:foo, :bar])
-        expect(audit).to have_received(:skip_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:skip_rules).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
@@ -150,24 +149,24 @@ module Axe::Matchers
     end
 
     describe "#checking_only" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.checking_only(:foo)
-        expect(audit).to have_received(:run_only_rules)
+        expect(a11y_check).to have_received(:run_only_rules)
       end
 
       it "should accept a single rule" do
         subject.checking_only(:foo)
-        expect(audit).to have_received(:run_only_rules).with([:foo])
+        expect(a11y_check).to have_received(:run_only_rules).with([:foo])
       end
 
       it "should accept many rules" do
         subject.checking_only(:foo, :bar)
-        expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should accept an array of rules" do
         subject.checking_only([:foo, :bar])
-        expect(audit).to have_received(:run_only_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:run_only_rules).with([:foo, :bar])
       end
 
       it "should return self for chaining" do
@@ -176,9 +175,9 @@ module Axe::Matchers
     end
 
     describe "#with_options" do
-      it "should be delegated to @audit" do
+      it "should be delegated to @a11y_check" do
         subject.with_options(:foo)
-        expect(audit).to have_received(:custom_options)
+        expect(a11y_check).to have_received(:custom_options)
       end
 
       it "should return self for chaining" do

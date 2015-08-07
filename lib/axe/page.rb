@@ -1,6 +1,6 @@
 require 'forwardable'
-require 'timeout'
 require 'axe/page/web_driver_to_capybara_page_adapter'
+require 'axe/page/execute_async_script_adapter'
 
 module Axe
   class Page
@@ -10,20 +10,17 @@ module Axe
     def initialize(browser)
       @browser = browser
       adapt_webdriver_to_capybara
-    end
-
-    def wait_until
-      # TODO make the timeout limit configurable
-      ::Timeout.timeout(3) do
-        sleep(0.1) until value = yield
-        value
-      end
+      adapt_async_script_executor
     end
 
     private
 
     def adapt_webdriver_to_capybara
-      WebDriverToCapybaraPageAdapter.adapt(self) unless @browser.respond_to? :evaluate_script
+      extend WebDriverToCapybaraPageAdapter unless @browser.respond_to? :evaluate_script
+    end
+
+    def adapt_async_script_executor
+      extend ExecuteAsyncScriptAdapter
     end
   end
 end

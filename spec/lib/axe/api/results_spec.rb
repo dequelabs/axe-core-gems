@@ -4,18 +4,6 @@ require 'axe/api/results'
 module Axe::API
   describe Results do
 
-    context "when there are no violations" do
-      let(:subject) { Results.new "violations" => [] }
-
-      it { is_expected.to be_passed }
-    end
-
-    context "when there are violations" do
-      let(:subject) { Results.new "violations" => [{}] }
-
-      it { is_expected.to_not be_passed }
-    end
-
     describe "#failure_message" do
       let(:subject) {
         Results.new "violations" => [ {
@@ -50,16 +38,6 @@ module Axe::API
           expect(message).to include "#target-1-1", "#target-2-1, #target-2-2"
 
           expect(message).to include "Fix from any 1", "Fix from all 1", "Fix from any 2", "Fix from all 2"
-        end
-      end
-
-      it "should prepend the original invocation" do
-        subject.invocation = "foo()"
-
-        subject.failure_message.tap do |message|
-          expect(message).to include("Found 2 accessibility violations")
-
-          expect(message).to include "Invocation: foo()"
         end
       end
     end
