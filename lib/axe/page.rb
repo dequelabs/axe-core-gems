@@ -5,10 +5,10 @@ require 'webdriver_script_adapter/execute_async_script_adapter'
 module Axe
   class Page
     extend Forwardable
-    def_delegators :@browser, :execute_script, :execute_async_script
+    def_delegators :@driver, :execute_script, :execute_async_script
 
-    def initialize(browser)
-      @browser = wrap_exec_async wrap_exec_eval browser
+    def initialize(driver)
+      @driver = wrap_exec_async wrap_exec_eval driver
     end
 
     private
