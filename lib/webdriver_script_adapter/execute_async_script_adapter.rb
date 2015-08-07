@@ -11,7 +11,7 @@ module WebDriverScriptAdapter
 
     def execute_async_script(script, *args)
       results = async_results_identifier(::SecureRandom.uuid)
-      execute_script async_wrapper(script, args, results)
+      execute_script async_wrapper(script, *args, callback(results))
       wait_until { evaluate_script results }
     end
 
@@ -21,8 +21,12 @@ module WebDriverScriptAdapter
       "window['#{key}']"
     end
 
-    def async_wrapper(script, args, resultsIdentifier)
-      ";(function(){ #{script} })(#{args.join(', ')}, function(returnValue){ #{resultsIdentifier} = returnValue; });"
+    def callback(resultsIdentifier)
+      "function(returnValue){ #{resultsIdentifier} = returnValue; }"
+    end
+
+    def async_wrapper(script, *args)
+      ";(function(){ #{script} })(#{args.join(', ')});"
     end
 
     def wait_until
