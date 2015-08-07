@@ -32,9 +32,8 @@ module WebDriverScriptAdapter
     module_function
 
     def wait_until
-      # TODO make the timeout limit configurable
-      ::Timeout.timeout(3) do
-        sleep(0.1) until value = yield
+      ::Timeout.timeout(WebDriverScriptAdapter.max_wait_time) do
+        sleep(WebDriverScriptAdapter.wait_interval) until value = yield
         value
       end
     end
