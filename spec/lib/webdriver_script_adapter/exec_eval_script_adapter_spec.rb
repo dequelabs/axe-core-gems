@@ -2,69 +2,78 @@ require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
   describe ExecEvalScriptAdapter do
-    subject { described_class.new base }
-    let(:base) { spy('driver') }
+    subject { described_class.new driver }
+    let(:driver) { spy('driver') }
 
     describe "#execute_script" do
-      it "should delegate to base" do
+      it "should delegate to driver" do
         subject.execute_script :foo
-        expect(base).to have_received(:execute_script).with(:foo)
+        expect(driver).to have_received(:execute_script).with(:foo)
       end
 
-      it "should return nil regardless what base returns" do
-        allow(base).to receive(:execute_script).and_return(:bar)
+      it "should return nil regardless what driver returns" do
+        allow(driver).to receive(:execute_script).and_return(:bar)
         expect(subject.execute_script :foo).to be_nil
       end
     end
 
     describe "#evaluate_script" do
-      it "should delegate to base.execute_script" do
+      it "should delegate to driver.execute_script" do
         subject.evaluate_script :foo
-        expect(base).to have_received(:execute_script)
+        expect(driver).to have_received(:execute_script)
       end
 
       it "should wrap with 'return'" do
         subject.evaluate_script :foo
-        expect(base).to have_received(:execute_script).with("return foo")
+        expect(driver).to have_received(:execute_script).with("return foo")
       end
 
       it "should return the value from execute_script" do
-        allow(base).to receive(:execute_script).and_return(:bar)
+        allow(driver).to receive(:execute_script).and_return(:bar)
         expect(subject.evaluate_script :foo).to eq :bar
       end
     end
 
-    describe "::wrap" do
-      let(:base) { double('driver') }
+    describe "::wrap", :integration, :slow do
+      require 'capybara'
+      require 'selenium-webdriver'
+      require 'watir-webdriver'
 
-      context "when base doesn't respond to #execute_script" do
-        it "should raise an error" do
-          expect { described_class.wrap base }.to raise_error(WebDriverError)
+      shared_examples "a webdriver" do
+        it "should wrap the driver in the adapter" do
+          expect(described_class).to receive(:new).with(driver)
+          described_class.wrap driver
         end
       end
 
-      context "when base doesn't respond to #evaluate_script" do
-        before :each do
-          allow(base).to receive(:execute_script)
-        end
+      context "Selenium (doesn't respond to #evaluate_script)" do
+        let(:driver) { Selenium::WebDriver.for :phantomjs }
 
-        it "should wrap the base in the adapter" do
-          expect(described_class).to receive(:new).with(base)
-          described_class.wrap base
-        end
+        it_behaves_like "a webdriver"
       end
 
-      context "when base already responds to #evaluate_script" do
-        before :each do
-          allow(base).to receive(:execute_script)
-          allow(base).to receive(:evaluate_script)
-        end
+      context "Watir (doesn't respond to #evaluate_script)" do
+        let(:driver) { Watir::Browser.new :phantomjs }
 
-        it "should return base unmodified" do
+        it_behaves_like "a webdriver"
+      end
+
+      context "Capybara (already responds to #evaluate_script)" do
+        let(:driver) { Capybara.current_session }
+
+        it "should return driver unmodified" do
           expect(described_class).not_to receive(:new)
-          expect(described_class.wrap base).to be base
+          expect(described_class.wrap driver).to be driver
         end
       end
+
+      context "Other (doesn't respond to #execute_script)" do
+        let(:driver) { double('driver') }
+        it "should raise an error" do
+          expect { described_class.wrap driver }.to raise_error(WebDriverError)
+        end
+      end
+
     end
   end
 end
