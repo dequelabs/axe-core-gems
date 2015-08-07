@@ -28,6 +28,18 @@ module WebDriverScriptAdapter
     end
   end
 
+  module Patiently
+    module_function
+
+    def wait_until
+      # TODO make the timeout limit configurable
+      ::Timeout.timeout(3) do
+        sleep(0.1) until value = yield
+        value
+      end
+    end
+  end
+
   class ExecuteAsyncScriptAdapter < ::DumbDelegator
     def self.wrap(driver)
       new ExecEvalScriptAdapter.wrap driver
@@ -36,17 +48,7 @@ module WebDriverScriptAdapter
     def execute_async_script(script, *args)
       results = ScriptWriter.async_results_identifier
       execute_script ScriptWriter.async_wrapper(script, *args, ScriptWriter.callback(results))
-      wait_until { evaluate_script results }
-    end
-
-    private
-
-    def wait_until
-      # TODO make the timeout limit configurable
-      ::Timeout.timeout(3) do
-        sleep(0.1) until value = yield
-        value
-      end
+      Patiently.wait_until { evaluate_script results }
     end
   end
 end
