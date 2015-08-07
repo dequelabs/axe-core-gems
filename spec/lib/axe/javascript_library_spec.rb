@@ -10,7 +10,7 @@ module Axe
       it "should evaluate its source in the context of the given page" do
         page = spy('page')
         subject.inject_into(page)
-        expect(page).to have_received(:execute).with(subject.source)
+        expect(page).to have_received(:execute_script).with(subject.source)
       end
     end
 

@@ -32,7 +32,7 @@ module Axe
       end
 
       def run_audit
-        @page.execute @a11y_check.to_js
+        @page.execute_script @a11y_check.to_js
       end
 
       def parse_results
@@ -42,7 +42,7 @@ module Axe
       end
 
       def audit_results
-        @page.wait_until { @page.evaluate(RESULTS_IDENTIFIER) }
+        @page.wait_until { @page.evaluate_script(RESULTS_IDENTIFIER) }
       end
     end
   end
