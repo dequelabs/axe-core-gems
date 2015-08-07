@@ -4,6 +4,14 @@ require 'timeout'
 require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
+  class << self
+    attr_accessor :generate_async_results_identifier
+
+    def configure
+      yield self
+    end
+  end
+
   module ScriptWriter
     module_function
 
