@@ -1,11 +1,12 @@
 require 'dumb_delegator'
 require 'securerandom'
 require 'timeout'
+require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
   class ExecuteAsyncScriptAdapter < ::DumbDelegator
     def self.wrap(driver)
-      new driver
+      new ExecEvalScriptAdapter.wrap driver
     end
 
     def execute_async_script(script, *args)
