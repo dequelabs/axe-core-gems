@@ -1,11 +1,16 @@
+require 'dumb_delegator'
 require 'securerandom'
 require 'timeout'
 
 module Axe
   class Page
-    module ExecuteAsyncScriptAdapter
+    class ExecuteAsyncScriptAdapter < ::DumbDelegator
+      def self.wrap(driver)
+        new driver
+      end
+
       def execute_async_script(script, *args)
-        results = async_results_identifier(SecureRandom.uuid)
+        results = async_results_identifier(::SecureRandom.uuid)
         execute_script async_wrapper(script, args, results)
         wait_until { evaluate_script results }
       end
