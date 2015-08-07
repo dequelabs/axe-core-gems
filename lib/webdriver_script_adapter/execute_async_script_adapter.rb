@@ -24,7 +24,7 @@ module WebDriverScriptAdapter
     end
 
     def async_wrapper(script, *args)
-      ";(function(){ #{script} })(#{args.join(', ')});"
+      "(function(){ #{script} })(#{args.join(', ')});"
     end
   end
 
