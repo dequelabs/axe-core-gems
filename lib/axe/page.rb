@@ -1,6 +1,6 @@
 require 'forwardable'
 require 'webdriver_script_adapter/exec_eval_script_adapter'
-require 'axe/page/execute_async_script_adapter'
+require 'webdriver_script_adapter/execute_async_script_adapter'
 
 module Axe
   class Page
