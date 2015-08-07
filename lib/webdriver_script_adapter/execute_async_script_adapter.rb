@@ -50,3 +50,7 @@ module WebDriverScriptAdapter
     end
   end
 end
+
+WebDriverScriptAdapter.configure do |c|
+  c.generate_async_results_identifier = -> { SecureRandom.uuid }
+end
