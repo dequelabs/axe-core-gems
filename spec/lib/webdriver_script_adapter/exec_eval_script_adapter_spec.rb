@@ -1,7 +1,7 @@
 require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
-  describe ExecEvalScriptAdapter ,:focus do
+  describe ExecEvalScriptAdapter do
     subject { described_class.new base }
     let(:base) { spy('driver') }
 

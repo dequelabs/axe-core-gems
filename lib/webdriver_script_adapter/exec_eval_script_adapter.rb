@@ -7,6 +7,7 @@ module WebDriverScriptAdapter
   class ExecEvalScriptAdapter < ::DumbDelegator
 
     def self.wrap(driver)
+      raise WebDriverError, "WebDriver must respond to #execute_script" unless driver.respond_to? :execute_script
       driver.respond_to?(:evaluate_script) ? driver : new(driver)
     end
 
@@ -21,4 +22,6 @@ module WebDriverScriptAdapter
       __getobj__.execute_script "return #{script}"
     end
   end
+
+  class WebDriverError < TypeError; end
 end
