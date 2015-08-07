@@ -15,8 +15,8 @@ module WebDriverScriptAdapter
   module ScriptWriter
     module_function
 
-    def async_results_identifier(key)
-      "window['#{key}']"
+    def async_results_identifier
+      "window['#{ WebDriverScriptAdapter.generate_async_results_identifier.call }']"
     end
 
     def callback(resultsIdentifier)
@@ -34,7 +34,7 @@ module WebDriverScriptAdapter
     end
 
     def execute_async_script(script, *args)
-      results = ScriptWriter.async_results_identifier(::SecureRandom.uuid)
+      results = ScriptWriter.async_results_identifier
       execute_script ScriptWriter.async_wrapper(script, *args, ScriptWriter.callback(results))
       wait_until { evaluate_script results }
     end
