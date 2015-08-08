@@ -59,13 +59,19 @@ module Axe::Cucumber
             world.instance_variable_set :@browser, :browser
             expect(subject.page_from(world)).to eq :browser
           end
+
           it "should try world@driver" do
             world.instance_variable_set :@driver, :driver
             expect(subject.page_from(world)).to eq :driver
           end
+
           it "should try world@webdriver" do
             world.instance_variable_set :@webdriver, :webdriver
             expect(subject.page_from(world)).to eq :webdriver
+          end
+
+          it "should finally fall back to NullObject" do
+            expect(subject.page_from(world)).to be_kind_of NullWebDriver
           end
         end
       end
