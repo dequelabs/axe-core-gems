@@ -3,7 +3,7 @@ require 'axe/cucumber'
 
 module Axe
   describe Cucumber do
-    let(:subject) { described_class }
+    subject { described_class }
 
     its(:configuration) { is_expected.to be_a_kind_of(Axe::Cucumber::Configuration) }
 

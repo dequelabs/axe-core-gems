@@ -5,7 +5,7 @@ module Axe::API
   describe Results do
 
     describe "#failure_message" do
-      let(:subject) {
+      subject {
         Results.new "violations" => [ {
           "help" => "V1 help",
           "helpUrl" => "V1 url",

@@ -3,7 +3,7 @@ require 'axe/api/audit'
 
 module Axe::API
   describe Audit do
-    let(:subject) { described_class.new invocation, results }
+    subject { described_class.new invocation, results }
     let(:invocation) { "inny vacation" }
     let(:results) { spy('results') }
 
