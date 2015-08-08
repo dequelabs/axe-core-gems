@@ -25,7 +25,6 @@ module Axe
         subject.page_from(:world)
         expect(subject.configuration).to have_received(:page_from).with(:world)
       end
-
     end
   end
 end
