@@ -63,7 +63,7 @@ module WebDriverScriptAdapter
 
     def wait_until
       ::Timeout.timeout(WebDriverScriptAdapter.max_wait_time) do
-        sleep(WebDriverScriptAdapter.wait_interval) until value = yield
+        sleep(WebDriverScriptAdapter.wait_interval) while (value = yield).nil?
         value
       end
     end
