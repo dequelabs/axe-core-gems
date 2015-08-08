@@ -11,11 +11,7 @@ module Axe
     end
 
     def self.page_from(world)
-      configuration.page_from(world).tap do |page|
-        raise WebDriverError, "Configured page must implement #execute_script"  unless page.respond_to?(:execute_script)
-      end
+      configuration.page_from(world)
     end
-
-    class WebDriverError < TypeError; end
   end
 end

@@ -26,10 +26,6 @@ module Axe
         expect(subject.configuration).to have_received(:page_from).with(:world)
       end
 
-      it "should ensure the page is webdriver-esque" do
-        class << page; undef execute_script end
-        expect { subject.page_from(:foo) }.to raise_error(Axe::Cucumber::WebDriverError)
-      end
     end
   end
 end
