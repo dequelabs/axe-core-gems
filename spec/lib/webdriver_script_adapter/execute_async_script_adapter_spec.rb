@@ -1,7 +1,7 @@
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
 module WebDriverScriptAdapter
-  describe ExecuteAsyncScriptAdapter, :focus do
+  describe ExecuteAsyncScriptAdapter do
     subject { described_class.new driver }
     let(:driver) { spy('driver') }
 
@@ -69,7 +69,19 @@ module WebDriverScriptAdapter
         allow(driver).to receive(:evaluate_script) { sleep(5) and :foo }
         expect { subject.execute_async_script :bar }.to raise_error Timeout::Error
       end
+    end
 
+    describe "::wrap" do
+      it "should wrap with ExecEval first" do
+        expect(ExecEvalScriptAdapter).to receive(:wrap).with(driver)
+        described_class.wrap driver
+      end
+
+      it "should wrap with the adapter" do
+        allow(ExecEvalScriptAdapter).to receive(:wrap).and_return(:foo)
+        expect(described_class).to receive(:new).with(:foo)
+        described_class.wrap driver
+      end
     end
   end
 end
