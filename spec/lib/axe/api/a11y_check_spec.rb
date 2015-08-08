@@ -54,14 +54,9 @@ module Axe::API
     end
 
     describe "#call" do
-      let(:page) { spy('page') }
+      let(:page) { spy('page', execute_async_script: {'violations' => []}) }
       let(:results) { spy('results') }
       let(:audit) { spy('audit') }
-
-      before :each do
-        # allow(page).to receive(:evaluate_script).and_return('violations' => [])
-        allow(page).to receive(:execute_async_script).and_return('violations' => [])
-      end
 
       it "should inject the axe-core lib" do
         subject.call(page)

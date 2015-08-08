@@ -3,7 +3,7 @@ require 'axe/matchers/be_accessible'
 
 module Axe::Matchers
   describe BeAccessible do
-    let(:a11y_check) { spy('a11y_check') }
+    let(:a11y_check) { spy('a11y_check', call: audit) }
     let(:audit) { spy('audit') }
     before :each do
       subject.instance_variable_set :@a11y_check, a11y_check
@@ -11,9 +11,6 @@ module Axe::Matchers
 
     describe "#matches?" do
       let(:page) { spy('page') }
-      before :each do
-        allow(a11y_check).to receive(:call).and_return(audit)
-      end
 
       it "should run the a11y_check against the page" do
         expect(Axe::Page).to receive(:new).with(page).and_return("page")

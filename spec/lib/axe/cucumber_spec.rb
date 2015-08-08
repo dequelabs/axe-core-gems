@@ -14,10 +14,9 @@ module Axe
     end
 
     describe "#page_from" do
-      let(:page) { double('page') }
+      let(:page) { double('page', execute_script: nil) }
 
       before :each do
-        allow(page).to receive(:execute_script)
         allow(subject.configuration).to receive(:page_from).and_return(page)
       end
 

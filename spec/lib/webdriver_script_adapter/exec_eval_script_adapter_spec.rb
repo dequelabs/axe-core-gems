@@ -3,7 +3,7 @@ require 'webdriver_script_adapter/exec_eval_script_adapter'
 module WebDriverScriptAdapter
   describe ExecEvalScriptAdapter do
     subject { described_class.new driver }
-    let(:driver) { spy('driver') }
+    let(:driver) { spy('driver', execute_script: :bar) }
 
     describe "#execute_script" do
       it "should delegate to driver" do
@@ -12,7 +12,6 @@ module WebDriverScriptAdapter
       end
 
       it "should return nil regardless what driver returns" do
-        allow(driver).to receive(:execute_script).and_return(:bar)
         expect(subject.execute_script :foo).to be_nil
       end
     end
@@ -29,7 +28,6 @@ module WebDriverScriptAdapter
       end
 
       it "should return the value from execute_script" do
-        allow(driver).to receive(:execute_script).and_return(:bar)
         expect(subject.evaluate_script :foo).to eq :bar
       end
     end
