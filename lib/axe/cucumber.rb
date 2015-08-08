@@ -1,17 +1,19 @@
+require 'forwardable'
 require 'axe/cucumber/configuration'
 
 module Axe
   module Cucumber
-    def self.configuration
-      @configuration ||= Configuration.new
-    end
+    class << self
+      extend Forwardable
+      def_delegator :configuration, :page_from
 
-    def self.configure
-      yield configuration if block_given?
-    end
+      def configuration
+        @configuration ||= Configuration.new
+      end
 
-    def self.page_from(world)
-      configuration.page_from(world)
+      def configure
+        yield configuration if block_given?
+      end
     end
   end
 end
