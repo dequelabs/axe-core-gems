@@ -70,7 +70,7 @@ module Axe
       end
 
       def split(string)
-        string.to_s.split(/,\s*/)
+        String(string).split(/,\s*/)
       end
 
       def to_hash(string)
