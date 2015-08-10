@@ -6,12 +6,12 @@ World(Module.new do
   def visit(url)
     @browser.goto url
   end
-
-  def quit
-    @browser.close
-  end
 end)
 
 Before do
   @browser = Watir::Browser.new $browser
+end
+
+After do
+  @browser.close
 end
