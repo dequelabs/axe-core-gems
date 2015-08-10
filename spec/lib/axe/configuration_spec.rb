@@ -6,6 +6,8 @@ module Axe
 
     it { is_expected.to respond_to :page }
     it { is_expected.to respond_to :page= }
+    it { is_expected.to respond_to :max_wait_time }
+    it { is_expected.to respond_to :max_wait_time= }
 
     describe "#page_from" do
       let(:world) { double('world') }

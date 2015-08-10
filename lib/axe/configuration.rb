@@ -1,6 +1,12 @@
+require 'forwardable'
+require 'webdriver_script_adapter/execute_async_script_adapter'
+
 module Axe
   class Configuration
+    extend Forwardable
+
     attr_accessor :page
+    def_delegators ::WebDriverScriptAdapter, :max_wait_time, :max_wait_time=
 
     def page_from(world)
       page_from_eval(world) ||
