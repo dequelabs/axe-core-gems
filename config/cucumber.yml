@@ -2,6 +2,7 @@
 # drivers
 capybara: -r features/support/capybara.rb
 selenium: -r features/support/selenium.rb
+watir: -r features/support/watir.rb
 
 # browser
 webkit: BROWSER=webkit
