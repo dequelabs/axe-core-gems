@@ -7,7 +7,7 @@ module Axe
       include ::Virtus.value_object
 
       values do
-        attribute :url
+        attribute :url, ::String
         attribute :timestamp
         attribute :passes, ::Array[Rule]
         attribute :violations, ::Array[Rule]
