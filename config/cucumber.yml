@@ -1,4 +1,11 @@
 ---
+# drivers
 capybara: -r features/support/capybara.rb
 
+# browser
 webkit: BROWSER=webkit
+poltergeist: BROWSER=poltergeist
+firefox: BROWSER=firefox
+chrome: BROWSER=chrome
+safari: BROWSER=safari
+phantomjs: BROWSER=phantomjs
