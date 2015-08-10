@@ -54,14 +54,9 @@ module Axe::API
     end
 
     describe "#call" do
-      let(:page) { spy('page') }
+      let(:page) { spy('page', execute_async_script: {'violations' => []}) }
       let(:results) { spy('results') }
       let(:audit) { spy('audit') }
-
-      before :each do
-        # allow(page).to receive(:evaluate_script).and_return('violations' => [])
-        allow(page).to receive(:execute_async_script).and_return('violations' => [])
-      end
 
       it "should inject the axe-core lib" do
         subject.call(page)
@@ -88,22 +83,6 @@ module Axe::API
         expect(Audit).to receive(:new).with("axe.a11yCheck(document, {}, callback);", instance_of(Results))
         subject.call(page)
       end
-
-      it "should retry until the a11yCheck results are ready", :slow do
-        pending "move to async module"
-        nil_invocations = Array.new(5, nil)
-        allow(page).to receive(:evaluate_script).and_return(*nil_invocations, 'violations' => [])
-        expect(Results).to receive(:new).with('violations' => []).and_return results
-
-        expect(subject.run_against(page)).to be results
-      end
-
-      it "should timeout if results aren't ready after some time", :slow do
-        pending "move to async module"
-        allow(page).to receive(:evaluate_script) { sleep(5) and {'violations' => []} }
-        expect { subject.run_against(page) }.to raise_error Timeout::Error
-      end
-
     end
   end
 end

@@ -47,6 +47,8 @@ module Axe
         end
       end
 
+      alias :to_s :to_json
+
       private
 
       def ensure_nested_array(selector)

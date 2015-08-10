@@ -3,7 +3,7 @@ require 'axe/cucumber'
 
 module Axe
   describe Cucumber do
-    let(:subject) { described_class }
+    subject { described_class }
 
     its(:configuration) { is_expected.to be_a_kind_of(Axe::Cucumber::Configuration) }
 
@@ -14,21 +14,15 @@ module Axe
     end
 
     describe "#page_from" do
-      let(:page) { double('page') }
+      let(:page) { double('page', execute_script: nil) }
 
       before :each do
-        allow(page).to receive(:execute_script)
         allow(subject.configuration).to receive(:page_from).and_return(page)
       end
 
       it "should get the world's page from the configuration" do
         subject.page_from(:world)
         expect(subject.configuration).to have_received(:page_from).with(:world)
-      end
-
-      it "should ensure the page is webdriver-esque" do
-        class << page; undef execute_script end
-        expect { subject.page_from(:foo) }.to raise_error(Axe::Cucumber::WebDriverError)
       end
     end
   end

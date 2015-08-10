@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'capybara/rspec'
+require 'capybara-webkit'
 require 'axe/matchers'
 
 RSpec.configure do |c|
