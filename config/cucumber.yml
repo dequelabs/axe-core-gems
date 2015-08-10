@@ -1,0 +1,2 @@
+---
+capybara: -r features/support/capybara.rb
