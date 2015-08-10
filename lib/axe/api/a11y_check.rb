@@ -43,7 +43,7 @@ module Axe
       end
 
       def to_js
-        "#{METHOD_NAME}(#{@context.to_json}, #{@options.to_json}, callback);"
+        "#{METHOD_NAME}(#{@context}, #{@options}, callback);"
       end
     end
   end

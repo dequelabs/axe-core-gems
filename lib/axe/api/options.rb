@@ -27,6 +27,8 @@ module Axe
         to_hash.to_json
       end
 
+      alias :to_s :to_json
+
     end
   end
 end
