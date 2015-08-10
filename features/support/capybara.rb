@@ -1,22 +1,18 @@
-require 'capybara'
-require 'capybara-webkit'
-require 'selenium-webdriver'
-require 'capybara/poltergeist'
+require_relative 'env'
 
-# register drivers to match the 'browser' step argument
+require 'capybara/cucumber'
 
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
-
-Capybara.register_driver :selenium_firefox do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :firefox)
-end
-
-Capybara.register_driver :selenium_phantomjs do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :phantomjs)
-end
-
-Capybara.register_driver :selenium_safari do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :safari)
-end
+Capybara.default_driver = case ENV["BROWSER"].to_sym
+                          when :webkit
+                            require 'capybara-webkit'
+                            :webkit
+                          when :poltergeist
+                            require 'capybara/poltergeist'
+                            :poltergeist
+                          else
+                            require 'selenium-webdriver'
+                            Capybara.register_driver :selenium do |app|
+                              Capybara::Selenium::Driver.new(app, :browser => ENV["BROWSER"].to_sym)
+                            end
+                            :selenium
+                          end
