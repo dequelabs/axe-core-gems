@@ -1,4 +1,3 @@
-require 'virtus'
 require 'axe/api/results/node'
 require 'axe/api/results/check'
 
@@ -6,8 +5,6 @@ module Axe
   module API
     class Results
       class CheckedNode < Node
-        include ::Virtus.value_object
-
         values do
           attribute :impact, ::Symbol
           attribute :any, ::Array[Check]

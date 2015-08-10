@@ -1,12 +1,10 @@
-require 'virtus'
+require 'axe/api/value_object'
 require 'axe/api/results/checked_node'
 
 module Axe
   module API
     class Results
-      class Rule
-        include ::Virtus.value_object
-
+      class Rule < ValueObject
         values do
           attribute :id, ::Symbol
           attribute :description, ::String

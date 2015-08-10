@@ -1,11 +1,9 @@
-require 'virtus'
+require 'axe/api/value_object'
 
 module Axe
   module API
     class Results
-      class Node
-        include ::Virtus.value_object
-
+      class Node < ValueObject
         values do
           attribute :html, ::String
           attribute :target #String or Array[String]
