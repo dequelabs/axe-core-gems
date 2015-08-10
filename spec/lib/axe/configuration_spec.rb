@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'axe/cucumber/configuration'
+require 'axe/configuration'
 
-module Axe::Cucumber
+module Axe
   describe Configuration do
 
     it { is_expected.to respond_to :page }
