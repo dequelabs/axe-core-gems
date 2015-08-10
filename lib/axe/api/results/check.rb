@@ -1,12 +1,10 @@
-require 'virtus'
+require 'axe/api/value_object'
 require 'axe/api/results/node'
 
 module Axe
   module API
     class Results
-      class Check
-        include ::Virtus.value_object, mass_assignment: false
-
+      class Check < ValueObject
         values do
           attribute :id, ::Symbol
           attribute :impact, ::Symbol

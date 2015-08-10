@@ -1,10 +1,9 @@
-require 'virtus'
-require 'axe/api/results/rule'
+require 'axe/api/value_object'
 
 module Axe
   module API
-    class Results
-      include ::Virtus.value_object mass_assignment: false
+    class Results < ValueObject
+      require 'axe/api/results/rule'
 
       values do
         attribute :url, ::String
