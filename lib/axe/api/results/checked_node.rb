@@ -6,7 +6,7 @@ module Axe
   module API
     class Results
       class CheckedNode < Node
-        include ::Virtus.value_object
+        include ::Virtus.value_object mass_assignment: false
 
         values do
           attribute :impact, ::Symbol

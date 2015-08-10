@@ -4,7 +4,7 @@ require 'axe/api/results/rule'
 module Axe
   module API
     class Results
-      include ::Virtus.value_object
+      include ::Virtus.value_object mass_assignment: false
 
       values do
         attribute :url, ::String
