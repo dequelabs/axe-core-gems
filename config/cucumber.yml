@@ -1,2 +1,4 @@
 ---
 capybara: -r features/support/capybara.rb
+
+webkit: BROWSER=webkit
