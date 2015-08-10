@@ -25,7 +25,9 @@ module Axe
 
       def call(page)
         inject_axe_lib page
-        audit page
+        audit page do |results|
+          Audit.new to_js, Results.new(results)
+        end
       end
 
       private
@@ -35,11 +37,7 @@ module Axe
       end
 
       def audit(page)
-        Audit.new to_js, Results.new(run_against(page))
-      end
-
-      def run_against(page)
-        page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        yield page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
       end
 
       def to_js
