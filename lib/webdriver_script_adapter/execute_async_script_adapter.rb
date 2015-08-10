@@ -5,7 +5,7 @@ require 'webdriver_script_adapter/exec_eval_script_adapter'
 
 module WebDriverScriptAdapter
   class << self
-    attr_accessor :generate_async_results_identifier, :max_wait_time, :wait_interval
+    attr_accessor :async_results_identifier, :max_wait_time, :wait_interval
 
     def configure
       yield self
@@ -15,7 +15,7 @@ module WebDriverScriptAdapter
   module Defaults
     module_function
 
-    def generate_async_results_identifier
+    def async_results_identifier
       -> { ::SecureRandom.uuid }
     end
 
@@ -46,7 +46,8 @@ module WebDriverScriptAdapter
     module_function
 
     def async_results_identifier
-      "window['#{ WebDriverScriptAdapter.generate_async_results_identifier.call }']"
+      id = WebDriverScriptAdapter.async_results_identifier
+      "window['#{ id.respond_to?(:call) ? id.call : id }']"
     end
 
     def callback(resultsIdentifier)
@@ -82,7 +83,7 @@ module WebDriverScriptAdapter
   end
 
   configure do |c|
-    c.generate_async_results_identifier = Defaults.generate_async_results_identifier
+    c.async_results_identifier = Defaults.async_results_identifier
     c.max_wait_time = Defaults.max_wait_time
     c.wait_interval = Defaults.wait_interval
   end

@@ -1,11 +1,19 @@
 require 'spec_helper'
-require 'axe/cucumber/configuration'
+require 'axe/configuration'
 
-module Axe::Cucumber
+module Axe
   describe Configuration do
 
+    # cucumber config
     it { is_expected.to respond_to :page }
     it { is_expected.to respond_to :page= }
+    # webdriver async config
+    it { is_expected.to respond_to :async_results_identifier }
+    it { is_expected.to respond_to :async_results_identifier= }
+    it { is_expected.to respond_to :max_wait_time }
+    it { is_expected.to respond_to :max_wait_time= }
+    it { is_expected.to respond_to :wait_interval }
+    it { is_expected.to respond_to :wait_interval= }
 
     describe "#page_from" do
       let(:world) { double('world') }

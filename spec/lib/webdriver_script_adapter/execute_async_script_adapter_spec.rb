@@ -34,7 +34,7 @@ module WebDriverScriptAdapter
       context "with configured result identifier" do
         before :each do
           WebDriverScriptAdapter.configure do |c|
-            c.generate_async_results_identifier = -> { :foo }
+            c.async_results_identifier = -> { :foo }
           end
         end
 

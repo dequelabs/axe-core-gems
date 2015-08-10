@@ -1,6 +1,6 @@
 require 'yaml'
 
-require 'axe/cucumber'
+require 'axe'
 require 'axe/matchers/be_accessible'
 
 # The purpose of this class is to enable private helper methods for assertion
@@ -41,7 +41,7 @@ module Axe
       $/x
 
       def self.create_for(world)
-        new Axe::Cucumber.page_from world
+        new Axe.page_from world
       end
 
       def initialize(page)
