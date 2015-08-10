@@ -1,8 +1,7 @@
 require_relative 'env'
-
 require 'capybara/cucumber'
 
-Capybara.default_driver = case ENV["BROWSER"].to_sym
+Capybara.default_driver = case $browser
                           when :webkit
                             require 'capybara-webkit'
                             :webkit
@@ -12,7 +11,7 @@ Capybara.default_driver = case ENV["BROWSER"].to_sym
                           else
                             require 'selenium-webdriver'
                             Capybara.register_driver :selenium do |app|
-                              Capybara::Selenium::Driver.new(app, :browser => ENV["BROWSER"].to_sym)
+                              Capybara::Selenium::Driver.new(app, :browser => $browser)
                             end
                             :selenium
                           end
