@@ -6,7 +6,10 @@ module Axe
     extend Forwardable
 
     attr_accessor :page
-    def_delegators ::WebDriverScriptAdapter, :max_wait_time, :max_wait_time=
+    def_delegators ::WebDriverScriptAdapter,
+      :async_results_identifier, :async_results_identifier=,
+      :max_wait_time, :max_wait_time=,
+      :wait_interval, :wait_interval=
 
     def page_from(world)
       page_from_eval(world) ||
