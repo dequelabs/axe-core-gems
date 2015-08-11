@@ -1,0 +1,16 @@
+---
+# default
+default: -p capybara -p webkit
+
+# drivers
+capybara: -r features/support/capybara.rb
+selenium: -r features/support/selenium.rb
+watir: -r features/support/watir.rb
+
+# browser
+webkit: BROWSER=webkit
+poltergeist: BROWSER=poltergeist
+firefox: BROWSER=firefox
+chrome: BROWSER=chrome
+safari: BROWSER=safari
+phantomjs: BROWSER=phantomjs
