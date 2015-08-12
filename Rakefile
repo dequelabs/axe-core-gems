@@ -46,7 +46,7 @@ namespace :cucumber do
   task :all => %w[ capybara selenium watir ]
 
   desc "Run Cucumber features with each headless browser"
-  task :headless => %w[ capybara:webkit capybara:poltergeist phantomjs ]
+  task :headless => %w[ capybara:webkit phantomjs ]
 
   desc "Run Cucumber features with Capybara driving each browser"
   task :capybara => %w[ capybara:webkit capybara:poltergeist capybara:firefox capybara:chrome capybara:safari capybara:phantomjs ]
@@ -67,7 +67,7 @@ namespace :cucumber do
   task :safari => %w[ capybara:safari selenium:safari watir:safari ]
 
   desc "Run Cucumber features with PhantomJS under each driver"
-  task :phantomjs => %w[ capybara:phantomjs selenium:phantomjs watir:phantomjs ]
+  task :phantomjs => %w[ capybara:poltergeist capybara:phantomjs selenium:phantomjs watir:phantomjs ]
 
   Cucumber::Rake::Task.new 'capybara:webkit' do |t| t.cucumber_opts = "-p capybara -p webkit" end
   Cucumber::Rake::Task.new 'capybara:poltergeist' do |t| t.cucumber_opts = "-p capybara -p poltergeist" end
