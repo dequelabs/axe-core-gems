@@ -35,7 +35,8 @@ task :npm => 'npm:install'
 RSpec::Core::RakeTask.new(:spec)
 
 namespace :spec do
-  RSpec::Core::RakeTask.new(:ci) do |t|
+  desc 'Run RSpec code examples with JUnit formatter'
+  RSpec::Core::RakeTask.new :ci do |t|
     t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
   end
 end
