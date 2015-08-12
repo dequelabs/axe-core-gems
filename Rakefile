@@ -5,8 +5,15 @@ require 'rspec/core/rake_task'
 
 CLOBBER.include 'pkg', 'node_modules'
 
-# npm
+# add npm-install as pre-req for build
+Rake::Task[:build].enhance [:npm]
 
+###########
+# npm
+###########
+
+desc "alias for npm:install"
+task :npm => 'npm:install'
 namespace :npm do
   desc "Install npm dependencies"
   task :install do
@@ -24,29 +31,33 @@ namespace :npm do
   end
 end
 
-desc "alias for npm:install"
-task :npm => 'npm:install'
 
+###########
 # RSpec
+###########
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new :spec
 
 namespace :spec do
-  RSpec::Core::RakeTask.new(:ci) do |t|
+  desc 'Run RSpec code examples with JUnit formatter'
+  RSpec::Core::RakeTask.new :ci do |t|
     t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"
   end
 end
 
-# Cucumber
 
-Cucumber::Rake::Task.new(:cucumber)
+###########
+# Cucumber
+###########
+
+Cucumber::Rake::Task.new :cucumber
 
 namespace :cucumber do
   desc "Run Cucumber features with each driver & browser"
   task :all => %w[ capybara selenium watir ]
 
   desc "Run Cucumber features with each headless browser"
-  task :headless => %w[ capybara:webkit capybara:poltergeist phantomjs ]
+  task :headless => %w[ capybara:webkit phantomjs ]
 
   desc "Run Cucumber features with Capybara driving each browser"
   task :capybara => %w[ capybara:webkit capybara:poltergeist capybara:firefox capybara:chrome capybara:safari capybara:phantomjs ]
@@ -67,22 +78,22 @@ namespace :cucumber do
   task :safari => %w[ capybara:safari selenium:safari watir:safari ]
 
   desc "Run Cucumber features with PhantomJS under each driver"
-  task :phantomjs => %w[ capybara:phantomjs selenium:phantomjs watir:phantomjs ]
+  task :phantomjs => %w[ capybara:poltergeist capybara:phantomjs selenium:phantomjs watir:phantomjs ]
 
-  Cucumber::Rake::Task.new 'capybara:webkit' do |t| t.cucumber_opts = "-p capybara -p webkit" end
-  Cucumber::Rake::Task.new 'capybara:poltergeist' do |t| t.cucumber_opts = "-p capybara -p poltergeist" end
-  Cucumber::Rake::Task.new 'capybara:firefox' do |t| t.cucumber_opts = "-p capybara -p firefox" end
-  Cucumber::Rake::Task.new 'capybara:chrome' do |t| t.cucumber_opts = "-p capybara -p chrome" end
-  Cucumber::Rake::Task.new 'capybara:safari' do |t| t.cucumber_opts = "-p capybara -p safari" end
-  Cucumber::Rake::Task.new 'capybara:phantomjs' do |t| t.cucumber_opts = "-p capybara -p phantomjs" end
+  Cucumber::Rake::Task.new 'capybara:webkit',       'Run Cucumber features with Capybara driving Webkit'      do |t| t.cucumber_opts = "-p capybara -p webkit" end
+  Cucumber::Rake::Task.new 'capybara:poltergeist',  'Run Cucumber features with Capybara driving Poltergeist' do |t| t.cucumber_opts = "-p capybara -p poltergeist" end
+  Cucumber::Rake::Task.new 'capybara:firefox',      'Run Cucumber features with Capybara driving Firefox'     do |t| t.cucumber_opts = "-p capybara -p firefox" end
+  Cucumber::Rake::Task.new 'capybara:chrome',       'Run Cucumber features with Capybara driving Chrome'      do |t| t.cucumber_opts = "-p capybara -p chrome" end
+  Cucumber::Rake::Task.new 'capybara:safari',       'Run Cucumber features with Capybara driving Safari'      do |t| t.cucumber_opts = "-p capybara -p safari" end
+  Cucumber::Rake::Task.new 'capybara:phantomjs',    'Run Cucumber features with Capybara driving PhantomJS'   do |t| t.cucumber_opts = "-p capybara -p phantomjs" end
 
-  Cucumber::Rake::Task.new 'selenium:firefox' do |t| t.cucumber_opts = "-p selenium -p firefox" end
-  Cucumber::Rake::Task.new 'selenium:chrome' do |t| t.cucumber_opts = "-p selenium -p chrome" end
-  Cucumber::Rake::Task.new 'selenium:safari' do |t| t.cucumber_opts = "-p selenium -p safari" end
-  Cucumber::Rake::Task.new 'selenium:phantomjs' do |t| t.cucumber_opts = "-p selenium -p phantomjs" end
+  Cucumber::Rake::Task.new 'selenium:firefox',    'Run Cucumber features with Selenium driving Firefox'   do |t| t.cucumber_opts = "-p selenium -p firefox" end
+  Cucumber::Rake::Task.new 'selenium:chrome',     'Run Cucumber features with Selenium driving Chrome'    do |t| t.cucumber_opts = "-p selenium -p chrome" end
+  Cucumber::Rake::Task.new 'selenium:safari',     'Run Cucumber features with Selenium driving Safari'    do |t| t.cucumber_opts = "-p selenium -p safari" end
+  Cucumber::Rake::Task.new 'selenium:phantomjs',  'Run Cucumber features with Selenium driving PhantomJS' do |t| t.cucumber_opts = "-p selenium -p phantomjs" end
 
-  Cucumber::Rake::Task.new 'watir:firefox' do |t| t.cucumber_opts = "-p watir -p firefox" end
-  Cucumber::Rake::Task.new 'watir:chrome' do |t| t.cucumber_opts = "-p watir -p chrome" end
-  Cucumber::Rake::Task.new 'watir:safari' do |t| t.cucumber_opts = "-p watir -p safari" end
-  Cucumber::Rake::Task.new 'watir:phantomjs' do |t| t.cucumber_opts = "-p watir -p phantomjs" end
+  Cucumber::Rake::Task.new 'watir:firefox',    'Run Cucumber features with Watir driving Firefox'   do |t| t.cucumber_opts = "-p watir -p firefox" end
+  Cucumber::Rake::Task.new 'watir:chrome',     'Run Cucumber features with Watir driving Chrome'    do |t| t.cucumber_opts = "-p watir -p chrome" end
+  Cucumber::Rake::Task.new 'watir:safari',     'Run Cucumber features with Watir driving Safari'    do |t| t.cucumber_opts = "-p watir -p safari" end
+  Cucumber::Rake::Task.new 'watir:phantomjs',  'Run Cucumber features with Watir driving PhantomJS' do |t| t.cucumber_opts = "-p watir -p phantomjs" end
 end
