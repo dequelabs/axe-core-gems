@@ -5,6 +5,9 @@ require 'rspec/core/rake_task'
 
 CLOBBER.include 'pkg', 'node_modules'
 
+# add npm-install as pre-req for build
+Rake::Task[:build].enhance [:npm]
+
 # npm
 
 namespace :npm do
