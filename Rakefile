@@ -8,8 +8,12 @@ CLOBBER.include 'pkg', 'node_modules'
 # add npm-install as pre-req for build
 Rake::Task[:build].enhance [:npm]
 
+###########
 # npm
+###########
 
+desc "alias for npm:install"
+task :npm => 'npm:install'
 namespace :npm do
   desc "Install npm dependencies"
   task :install do
@@ -27,12 +31,12 @@ namespace :npm do
   end
 end
 
-desc "alias for npm:install"
-task :npm => 'npm:install'
 
+###########
 # RSpec
+###########
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new :spec
 
 namespace :spec do
   desc 'Run RSpec code examples with JUnit formatter'
@@ -41,9 +45,12 @@ namespace :spec do
   end
 end
 
-# Cucumber
 
-Cucumber::Rake::Task.new(:cucumber)
+###########
+# Cucumber
+###########
+
+Cucumber::Rake::Task.new :cucumber
 
 namespace :cucumber do
   desc "Run Cucumber features with each driver & browser"
