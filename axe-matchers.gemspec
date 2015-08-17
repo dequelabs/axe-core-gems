@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.name     = "axe-matchers"
   spec.version  = Axe::VERSION
   spec.license  = "MPL-2.0"
-  spec.authors  = ["Deque Systems, Inc."]
-  spec.homepage = "http://www.deque.com/"
+  spec.authors  = ["Deque Systems", "Test Double"]
+  spec.homepage = "https://www.deque.com"
   spec.summary  = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
 
   spec.platform                  = Gem::Platform::RUBY
@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec-its', '~> 1.2.0'
   spec.add_development_dependency 'rspec_junit_formatter', '~> 0.2.2'
   spec.add_development_dependency 'sinatra', '~> 1.4.5'
-
   # drivers
   spec.add_development_dependency 'capybara', '~> 2.4.4'
   spec.add_development_dependency 'capybara-webkit', '~> 1.3.1'
