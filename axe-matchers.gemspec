@@ -14,6 +14,14 @@ Gem::Specification.new do |spec|
   Cucumber step definitions for are also provided.
   DESC
 
+  spec.metadata = {
+    bug_tracker_uri:   'https://github.com/dequelabs/axe-matchers/issues',
+    documentation_uri: '',
+    mailing_list_uri:  '',
+    source_code_uri:   'https://github.com/dequelabs/axe-matchers',
+    wiki_uri:          'https://github.com/dequelabs/axe-matchers/wiki'
+  }
+
   spec.platform                  = Gem::Platform::RUBY
   spec.required_ruby_version     = ">= 1.9.3"
   spec.required_rubygems_version = ">= 1.3.6"
