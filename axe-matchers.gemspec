@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version     = ">= 1.9.3"
   spec.required_rubygems_version = ">= 1.3.6"
 
-  spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
-  spec.require_path  = 'lib'
+  spec.files        = Dir.glob %w[ lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md ]
+  spec.require_path = 'lib'
 
   spec.add_dependency 'dumb_delegator', '~> 0.8'
   spec.add_dependency 'virtus', '~> 1.0'
