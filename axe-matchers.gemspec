@@ -1,38 +1,40 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'axe/version'
+require_relative 'lib/axe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "axe-matchers"
-  spec.version       = Axe::VERSION
-  spec.platform      = Gem::Platform::RUBY
-  spec.license       = "MPL-2.0"
-  spec.authors       = ["Deque Systems, Inc."]
-  spec.homepage      = "http://www.deque.com/"
-  spec.summary       = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
+  spec.name        = "axe-matchers"
+  spec.version     = Axe::VERSION
+  spec.license     = "MPL-2.0"
+  spec.authors     = ["Deque Systems", "Test Double"]
+  spec.homepage    = "https://www.deque.com"
+  spec.summary     = "Automated accessibility testing powered by aXe"
+  spec.description = <<-DESC
+  axe-matchers provides matchers that wrap the axe-core accessibility library.
+  The matchers can be used with RSpec, MiniTest, Cucumber and other test tools.
+  Cucumber step definitions for are also provided.
+  DESC
 
-  # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
-  if (Gem::Specification.method_defined? :metadata) then
-    spec.metadata      = { 'allowed_push_host' => '' }
-  end
+  spec.platform                  = Gem::Platform::RUBY
+  spec.required_ruby_version     = ">= 1.9.3"
+  spec.required_rubygems_version = ">= 1.3.6"
 
-  spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
-  spec.require_path  = 'lib'
+  spec.files        = Dir.glob %w[ lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md ]
+  spec.require_path = 'lib'
 
-  spec.add_dependency 'dumb_delegator', '~> 0.8.0'
-  spec.add_dependency 'virtus', '~> 1.0.5'
+  spec.add_dependency 'dumb_delegator', '~> 0.8'
+  spec.add_dependency 'virtus', '~> 1.0'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec', '~> 3.2.0'
-  spec.add_development_dependency 'rspec-its', '~> 1.2.0'
-  spec.add_development_dependency 'cucumber'
-  spec.add_development_dependency 'sinatra'
-  spec.add_development_dependency 'capybara'
-  spec.add_development_dependency 'capybara-webkit'
-  spec.add_development_dependency 'poltergeist'
-  spec.add_development_dependency 'selenium-webdriver'
-  spec.add_development_dependency 'watir-webdriver'
-  spec.add_development_dependency 'rspec_junit_formatter'
+  spec.add_development_dependency 'cucumber', '~> 1.3'
+  spec.add_development_dependency 'rake', '~> 10.4'
+  spec.add_development_dependency 'rspec', '~> 3.2'
+  spec.add_development_dependency 'rspec-its', '~> 1.2'
+  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.2'
+  spec.add_development_dependency 'sinatra', '~> 1.4'
+  # drivers
+  spec.add_development_dependency 'capybara', '~> 2.4'
+  spec.add_development_dependency 'capybara-webkit', '~> 1.3'
+  spec.add_development_dependency 'poltergeist', '~> 1.6'
+  spec.add_development_dependency 'selenium-webdriver', '~> 2.46'
+  spec.add_development_dependency 'watir-webdriver', '~> 0.8'
 end
