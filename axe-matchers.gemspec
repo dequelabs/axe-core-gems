@@ -12,11 +12,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://www.deque.com/"
   spec.summary       = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
 
-  # Setting allowed_push_host to prevent accidental pushes to RubyGems.org: http://guides.rubygems.org/publishing/#serving-your-own-gems
-  if (Gem::Specification.method_defined? :metadata) then
-    spec.metadata      = { 'allowed_push_host' => '' }
-  end
-
   spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path  = 'lib'
 
