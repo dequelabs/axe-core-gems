@@ -2,12 +2,17 @@
 require_relative 'lib/axe/version'
 
 Gem::Specification.new do |spec|
-  spec.name     = "axe-matchers"
-  spec.version  = Axe::VERSION
-  spec.license  = "MPL-2.0"
-  spec.authors  = ["Deque Systems", "Test Double"]
-  spec.homepage = "https://www.deque.com"
-  spec.summary  = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
+  spec.name        = "axe-matchers"
+  spec.version     = Axe::VERSION
+  spec.license     = "MPL-2.0"
+  spec.authors     = ["Deque Systems", "Test Double"]
+  spec.homepage    = "https://www.deque.com"
+  spec.summary     = "Automated accessibility testing powered by aXe"
+  spec.description = <<-DESC
+  axe-matchers provides matchers that wrap the axe-core accessibility library.
+  The matchers can be used with RSpec, MiniTest, Cucumber and other test tools.
+  Cucumber step definitions for are also provided.
+  DESC
 
   spec.platform                  = Gem::Platform::RUBY
   spec.required_ruby_version     = ">= 1.9.3"
