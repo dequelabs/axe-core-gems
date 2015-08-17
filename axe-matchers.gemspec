@@ -11,8 +11,9 @@ Gem::Specification.new do |spec|
   spec.homepage = "http://www.deque.com/"
   spec.summary  = "Matchers (ala RSpec, MiniTest) and Cucumber step definitions wrapping the aXe accessibility testing tool"
 
-  spec.platform              = Gem::Platform::RUBY
-  spec.required_ruby_version = ">= 1.9.3"
+  spec.platform                  = Gem::Platform::RUBY
+  spec.required_ruby_version     = ">= 1.9.3"
+  spec.required_rubygems_version = ">= 1.3.6"
 
   spec.files         = Dir.glob('lib/**/*') + %w[ node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path  = 'lib'
