@@ -1,4 +1,8 @@
-require 'spec_helper'
+#######
+# this block would typically go in spec_helper
+require 'capybara/rspec'
+require 'axe/rspec'
+#######
 
 describe "ABCD CompuTech", :type => :feature, :driver => :selenium do
   before :each do
