@@ -7,7 +7,7 @@ require 'axe/cucumber/step_definitions'
 
 
 # give axe-matchers a handle on the browser/page instance
-Axe::Cucumber.configure do |c|
+Axe.configure do |c|
   c.page = :@page
 
   # axe-matchers can also be given the actual browser/page instance if it's available
