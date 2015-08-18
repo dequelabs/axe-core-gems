@@ -1,8 +1,14 @@
 # Installation
 
-`gem install axe-matchers`
+``` sh
+gem install axe-matchers
+```
 
-or add `gem 'axe-matchers'` to your `Gemfile` and `bundle install`
+or add `gem 'axe-matchers'` to your `Gemfile` and then
+
+``` sh
+bundle install
+```
 
 # Cucumber Configuration
 
