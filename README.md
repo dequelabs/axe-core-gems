@@ -30,21 +30,21 @@ gem install axe-matchers
 
 2. Configure Browser/WebDriver
 
-If there exists a `page` method on the Cucumber `World` (as is provided by the Capybara DSL), or if one of `@page`, `@browser`, `@driver` or `@webdriver` exist, then no configuration is necessary.  Otherwise, the browser object must be configurate manually.
+    If there exists a `page` method on the Cucumber `World` (as is provided by the Capybara DSL), or if one of `@page`, `@browser`, `@driver` or `@webdriver` exist, then no configuration is necessary.  Otherwise, the browser object must be configurate manually.
 
-The browser/page object can be provided directly. Or in cases where it hasn't been instantiated yet, the variable name can be given as a String/Symbol.
+    The browser/page object can be provided directly. Or in cases where it hasn't been instantiated yet, the variable name can be given as a String/Symbol.
 
-``` ruby
-@firefox = Selenium::WebDriver.for :firefox
+    ``` ruby
+    @firefox = Selenium::WebDriver.for :firefox
 
-Axe::Cucumber.configure do |c|
-  # browser object
-  c.page = @firefox
+    Axe::Cucumber.configure do |c|
+      # browser object
+      c.page = @firefox
 
-  # or variable name
-  c.page = :@firefox
-end
-```
+      # or variable name
+      c.page = :@firefox
+    end
+    ```
 
 # Accessibility Steps
 
