@@ -83,14 +83,14 @@ Additional [context parameter documentation](https://github.com/dequelabs/axe-co
 If desired, a semicolon (`;`) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
 
 ``` gherkin
-Then the page should be accessible within "#header"; excluding "#footer"
-Then the page should be accessible within "#header" but excluding "#footer"
+Then the page should be accessible within "main"; excluding "aside"
+Then the page should be accessible within "main" but excluding "aside"
 ```
 
 ## Accessibility Standard (Tag) clause
 
 ``` gherkin
-Then the page should be accessible according to: wcag2a
+Then the page should be accessible according to: tag-name
 ```
 
 The tag clause specifies which accessibility standard (or standards) should be used to check the page. The accessibility standards are specified by name (tag). Multiple standards can be specified when comma-separated. e.g. `according to: wcag2a, section508`
@@ -114,8 +114,8 @@ The checking-rules clause specifies which *additional* rules to run (in addition
 If desired, a semicolon (`;`) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
 
 ``` gherkin
-Then the page should be accessible according to: wcag2aa; checking: color-contrast
-Then the page should be accessible according to: wcag2aa and checking: color-contrast
+Then the page should be accessible according to: wcag2a; checking: color-contrast
+Then the page should be accessible according to: wcag2a and checking: color-contrast
 ```
 
 ### Exclusive Rules clause
