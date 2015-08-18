@@ -6,13 +6,11 @@ or add `gem 'axe-matchers'` to your `Gemfile` and `bundle install`
 
 # Cucumber Configuration
 
-1. Require step definitions
+1. Require step definitions: in `features/support/env.rb` or similar.
 
-Require the axe-matcher step definitions in `features/support/env.rb` or similar.
-
-``` ruby
-require 'axe/cucumber/step_definitions'
-```
+    ``` ruby
+    require 'axe/cucumber/step_definitions'
+    ```
 
 2. Configure Browser/WebDriver
 
