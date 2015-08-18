@@ -1,13 +1,23 @@
 # Installation
 
-``` sh
-gem install axe-matchers
+## with Bundler
+
+add to your `Gemfile`:
+
+``` ruby
+gem 'axe-matchers'
 ```
 
-or add `gem 'axe-matchers'` to your `Gemfile` and then
+and then run
 
 ``` sh
 bundle install
+```
+
+## manually (without Bundler)
+
+``` sh
+gem install axe-matchers
 ```
 
 # Cucumber Configuration
