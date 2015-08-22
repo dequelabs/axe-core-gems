@@ -10,23 +10,23 @@ module Axe
         @exclusive = []
       end
 
-      def by_tags(tags)
-        @tags += tags
+      def by_tags(*tags)
+        @tags.concat tags.flatten
         self
       end
 
-      def run_only(rules)
-        @exclusive += rules
+      def run_only(*rules)
+        @exclusive.concat rules.flatten
         self
       end
 
-      def run(rules)
-        @included += rules
+      def run(*rules)
+        @included.concat rules.flatten
         self
       end
 
-      def skip(rules)
-        @excluded += rules
+      def skip(*rules)
+        @excluded.concat rules.flatten
         self
       end
 

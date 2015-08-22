@@ -6,45 +6,45 @@ module Axe::API
 
     describe "#by_tags" do
       it "adds tags to list of tags for which to run rules" do
-        subject.by_tags ["foo", "bar"]
-        expect(subject.tags).to include "foo", "bar"
+        subject.by_tags :foo, :bar
+        expect(subject.tags).to include :foo, :bar
       end
 
       it "should return self for chaining" do
-        expect(subject.by_tags([])).to be subject
+        expect(subject.by_tags).to be subject
       end
     end
 
     describe "#only" do
       it "adds rules to list of run-only rules" do
-        subject.run_only ["foo", "bar"]
-        expect(subject.exclusive).to include "foo", "bar"
+        subject.run_only :foo, :bar
+        expect(subject.exclusive).to include :foo, :bar
       end
 
       it "should return self for chaining" do
-        expect(subject.run_only([])).to be subject
+        expect(subject.run_only).to be subject
       end
     end
 
     describe "#run" do
       it "adds rules to list of included rules" do
-        subject.run ["foo", "bar"]
-        expect(subject.included).to include "foo", "bar"
+        subject.run :foo, :bar
+        expect(subject.included).to include :foo, :bar
       end
 
       it "should return self for chaining" do
-        expect(subject.run([])).to be subject
+        expect(subject.run).to be subject
       end
     end
 
     describe "#skip" do
       it "adds rules to list of excluded rules" do
-        subject.skip ["foo", "bar"]
-        expect(subject.excluded).to include "foo", "bar"
+        subject.skip :foo, :bar
+        expect(subject.excluded).to include :foo, :bar
       end
 
       it "should return self for chaining" do
-        expect(subject.skip([])).to be subject
+        expect(subject.skip).to be subject
       end
     end
 
