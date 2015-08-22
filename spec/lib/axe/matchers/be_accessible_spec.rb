@@ -47,134 +47,74 @@ module Axe::Matchers
 
     describe "#within" do
       it "should be delegated to @a11y_check" do
-        subject.within(:foo)
-        expect(a11y_check).to have_received(:include).with(:foo)
+        subject.within(:foo, :bar)
+        expect(a11y_check).to have_received(:within).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.within(:foo)).to be subject
+        expect(subject.within).to be subject
       end
     end
 
     describe "#excluding" do
       it "should be delegated to @a11y_check" do
-        subject.excluding(:foo)
-        expect(a11y_check).to have_received(:exclude).with(:foo)
+        subject.excluding(:foo, :bar)
+        expect(a11y_check).to have_received(:excluding).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.excluding(:foo)).to be subject
+        expect(subject.excluding).to be subject
       end
     end
 
     describe "#according_to" do
       it "should be delegated to @a11y_check" do
-        subject.according_to(:foo)
-        expect(a11y_check).to have_received(:rules_by_tags)
-      end
-
-      it "should accept a single tag" do
-        subject.according_to(:foo)
-        expect(a11y_check).to have_received(:rules_by_tags).with([:foo])
-      end
-
-      it "should accept many tags" do
         subject.according_to(:foo, :bar)
-        expect(a11y_check).to have_received(:rules_by_tags).with([:foo, :bar])
-      end
-
-      it "should accept an array of tags" do
-        subject.according_to([:foo, :bar])
-        expect(a11y_check).to have_received(:rules_by_tags).with([:foo, :bar])
+        expect(a11y_check).to have_received(:according_to).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.according_to(:foo)).to be subject
+        expect(subject.according_to).to be subject
       end
     end
 
     describe "#checking" do
       it "should be delegated to @a11y_check" do
-        subject.checking(:foo)
-        expect(a11y_check).to have_received(:run_rules)
-      end
-
-      it "should accept a single rule" do
-        subject.checking(:foo)
-        expect(a11y_check).to have_received(:run_rules).with([:foo])
-      end
-
-      it "should accept many rules" do
         subject.checking(:foo, :bar)
-        expect(a11y_check).to have_received(:run_rules).with([:foo, :bar])
-      end
-
-      it "should accept an array of rules" do
-        subject.checking([:foo, :bar])
-        expect(a11y_check).to have_received(:run_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:checking).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.checking(:foo)).to be subject
+        expect(subject.checking).to be subject
       end
     end
 
     describe "#skipping" do
       it "should be delegated to @a11y_check" do
-        subject.skipping(:foo)
-        expect(a11y_check).to have_received(:skip_rules)
-      end
-
-      it "should accept a single rule" do
-        subject.skipping(:foo)
-        expect(a11y_check).to have_received(:skip_rules).with([:foo])
-      end
-
-      it "should accept many rules" do
         subject.skipping(:foo, :bar)
-        expect(a11y_check).to have_received(:skip_rules).with([:foo, :bar])
-      end
-
-      it "should accept an array of rules" do
-        subject.skipping([:foo, :bar])
-        expect(a11y_check).to have_received(:skip_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:skipping).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.skipping(:foo)).to be subject
+        expect(subject.skipping).to be subject
       end
     end
 
     describe "#checking_only" do
       it "should be delegated to @a11y_check" do
-        subject.checking_only(:foo)
-        expect(a11y_check).to have_received(:run_only_rules)
-      end
-
-      it "should accept a single rule" do
-        subject.checking_only(:foo)
-        expect(a11y_check).to have_received(:run_only_rules).with([:foo])
-      end
-
-      it "should accept many rules" do
         subject.checking_only(:foo, :bar)
-        expect(a11y_check).to have_received(:run_only_rules).with([:foo, :bar])
-      end
-
-      it "should accept an array of rules" do
-        subject.checking_only([:foo, :bar])
-        expect(a11y_check).to have_received(:run_only_rules).with([:foo, :bar])
+        expect(a11y_check).to have_received(:checking_only).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
-        expect(subject.checking_only(:foo)).to be subject
+        expect(subject.checking_only).to be subject
       end
     end
 
     describe "#with_options" do
       it "should be delegated to @a11y_check" do
         subject.with_options(:foo)
-        expect(a11y_check).to have_received(:custom_options)
+        expect(a11y_check).to have_received(:with_options).with(:foo)
       end
 
       it "should return self for chaining" do
