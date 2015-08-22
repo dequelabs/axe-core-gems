@@ -11,17 +11,34 @@ module Axe::API
         end
       end
 
-      context "when given array" do
-        it "should concatenate the array" do
-          subject.include [ ".foo", ".bar", ".baz" ]
-          expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz"] ]
+      context "when given multiple selectors" do
+        it "should push them all onto the array" do
+          subject.include ".foo", ".bar"
+          expect(subject.inclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
-      context "when given nested array" do
-        it "should concatenate the array" do
-          subject.include [ [ ".foo" ], [".bar", ".baz" ] ]
-          expect(subject.inclusion).to eq [ [ ".foo" ], [".bar", ".baz" ] ]
+      context "when given single hash" do
+        it "should flatten the hash" do
+          subject.include(iframe: ".foo", selector: ".bar")
+          expect(subject.inclusion).to eq [ [".foo", ".bar"] ]
+        end
+      end
+
+      context "when given multiple hashes" do
+        it "should flatten the hash" do
+          subject.include(
+            {iframe: ".foo", selector: ".bar"},
+            {iframe: ".baz", selector: ".qux"}
+          )
+          expect(subject.inclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+        end
+      end
+
+      context "when given string selectors *and* hashes" do
+        it "should flatten the hash" do
+          subject.include(".foo", ".bar", iframe: ".baz", selector: ".qux")
+          expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end

@@ -8,8 +8,8 @@ module Axe
         @exclusion = []
       end
 
-      def include(selector)
-        @inclusion.concat ensure_nested_array(selector)
+      def include(*selector)
+        @inclusion.concat selector.map { |s| Selector.new(s).to_a }
       end
 
       def exclude(selector)
