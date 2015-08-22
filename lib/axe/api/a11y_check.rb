@@ -16,7 +16,6 @@ module Axe
       METHOD_NAME = "#{LIBRARY_IDENTIFIER}.a11yCheck"
 
       extend Forwardable
-
       def_delegator :@context, :include, :within
       def_delegator :@context, :exclude, :excluding
       def_delegator :@options, :rules_by_tags, :according_to
@@ -26,7 +25,6 @@ module Axe
       def_delegator :@options, :custom_options, :with_options
 
       extend ChainMail::Chainable
-
       chainable :within, :excluding, :according_to, :checking, :checking_only, :skipping, :with_options
 
       def initialize
