@@ -60,7 +60,6 @@ module Axe::API
       its(:checking) { is_expected.to be subject }
       its(:checking_only) { is_expected.to be subject }
       its(:skipping) { is_expected.to be subject }
-      its(:with_options) { is_expected.to be subject }
     end
 
     describe "#call" do
