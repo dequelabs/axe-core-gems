@@ -9,11 +9,11 @@ module Axe
       end
 
       def include(*selectors)
-        @inclusion.concat selectors.map { |s| Selector.new(s).to_a }
+        @inclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
       def exclude(*selectors)
-        @exclusion.concat selectors.map { |s| Selector.new(s).to_a }
+        @exclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
       def to_hash
