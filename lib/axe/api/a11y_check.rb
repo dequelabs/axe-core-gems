@@ -1,6 +1,8 @@
 require 'forwardable'
 require 'json'
 
+require 'chain_mail/chainable'
+
 require 'axe/api'
 require 'axe/api/audit'
 require 'axe/api/context'
@@ -22,6 +24,10 @@ module Axe
       def_delegator :@options, :run_only_rules, :checking_only
       def_delegator :@options, :skip_rules, :skipping
       def_delegator :@options, :custom_options, :with_options
+
+      extend ChainMail::Chainable
+
+      chainable :within, :excluding, :according_to, :checking, :checking_only, :skipping, :with_options
 
       def initialize
         @context = Context.new
