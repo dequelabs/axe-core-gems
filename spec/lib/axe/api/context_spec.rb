@@ -4,10 +4,6 @@ module Axe::API
   describe Context do
 
     describe "#include" do
-      it "should return self for chaining" do
-        expect(subject.include("foo")).to be subject
-      end
-
       context "when given simple selector" do
         it "should push it on array" do
           subject.include "#selector"
@@ -31,10 +27,6 @@ module Axe::API
     end
 
     describe "#exclude" do
-      it "should return self for chaining" do
-        expect(subject.exclude("foo")).to be subject
-      end
-
       context "when given simple selector" do
         it "should push it on array" do
           subject.exclude "#selector"
