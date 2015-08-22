@@ -12,22 +12,18 @@ module Axe
 
       def by_tags(*tags)
         @tags.concat tags.flatten
-        self
       end
 
       def run_only(*rules)
         @exclusive.concat rules.flatten
-        self
       end
 
       def run(*rules)
         @included.concat rules.flatten
-        self
       end
 
       def skip(*rules)
         @excluded.concat rules.flatten
-        self
       end
 
       def to_hash
