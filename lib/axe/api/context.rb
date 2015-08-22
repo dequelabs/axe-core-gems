@@ -1,10 +1,6 @@
-require 'forwardable'
-
 module Axe
   module API
     class Context
-      extend Forwardable
-
       attr_reader :inclusion, :exclusion
 
       def initialize
