@@ -14,12 +14,10 @@ module Axe
 
       def include(selector)
         @inclusion.concat ensure_nested_array(selector)
-        self
       end
 
       def exclude(selector)
         @exclusion.concat ensure_nested_array(selector)
-        self
       end
 
       def to_hash
