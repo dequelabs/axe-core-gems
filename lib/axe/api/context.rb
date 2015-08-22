@@ -8,12 +8,12 @@ module Axe
         @exclusion = []
       end
 
-      def include(*selector)
-        @inclusion.concat selector.map { |s| Selector.new(s).to_a }
+      def include(*selectors)
+        @inclusion.concat selectors.map { |s| Selector.new(s).to_a }
       end
 
-      def exclude(selector)
-        @exclusion.concat ensure_nested_array(selector)
+      def exclude(*selectors)
+        @exclusion.concat selectors.map { |s| Selector.new(s).to_a }
       end
 
       def to_hash
@@ -42,12 +42,6 @@ module Axe
       end
 
       alias :to_s :to_json
-
-      private
-
-      def ensure_nested_array(selector)
-        Array(selector).map { |s| Array(s) }
-      end
 
     end
   end
