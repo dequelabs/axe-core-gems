@@ -10,14 +10,14 @@ module Axe::API
         subject.instance_variable_set :@context, context
       end
 
-      it "should be delegated #include" do
-        subject.include "foo"
-        expect(context).to have_received(:include).with("foo")
+      it "should be delegated #include as #within" do
+        subject.within :foo
+        expect(context).to have_received(:include).with(:foo)
       end
 
-      it "should be delegated #exclude" do
-        subject.exclude "foo"
-        expect(context).to have_received(:exclude).with("foo")
+      it "should be delegated #exclude as #excluding" do
+        subject.excluding :foo
+        expect(context).to have_received(:exclude).with(:foo)
       end
     end
 
