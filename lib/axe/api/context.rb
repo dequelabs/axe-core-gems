@@ -3,8 +3,6 @@ require 'axe/api/selector'
 module Axe
   module API
     class Context
-      attr_reader :inclusion, :exclusion
-
       def initialize
         @inclusion = []
         @exclusion = []

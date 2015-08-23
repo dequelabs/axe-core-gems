@@ -7,21 +7,21 @@ module Axe::API
       context "when given simple selector" do
         it "should push it on array" do
           subject.within "#selector"
-          expect(subject.inclusion).to eq [ ["#selector"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [ ["#selector"] ]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
           subject.within ".foo", ".bar"
-          expect(subject.inclusion).to eq [ [".foo"], [".bar"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
           subject.within(iframe: ".foo", selector: ".bar")
-          expect(subject.inclusion).to eq [ [".foo", ".bar"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo", ".bar"] ]
         end
       end
 
@@ -31,14 +31,14 @@ module Axe::API
             {iframe: ".foo", selector: ".bar"},
             {iframe: ".baz", selector: ".qux"}
           )
-          expect(subject.inclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
         end
       end
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
           subject.within(".foo", ".bar", iframe: ".baz", selector: ".qux")
-          expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end
@@ -47,21 +47,21 @@ module Axe::API
       context "when given simple selector" do
         it "should push it on array" do
           subject.excluding "#selector"
-          expect(subject.exclusion).to eq [ ["#selector"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [ ["#selector"] ]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
           subject.excluding ".foo", ".bar"
-          expect(subject.exclusion).to eq [ [".foo"], [".bar"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
           subject.excluding(iframe: ".foo", selector: ".bar")
-          expect(subject.exclusion).to eq [ [".foo", ".bar"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo", ".bar"] ]
         end
       end
 
@@ -71,14 +71,14 @@ module Axe::API
             {iframe: ".foo", selector: ".bar"},
             {iframe: ".baz", selector: ".qux"}
           )
-          expect(subject.exclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
         end
       end
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
           subject.excluding(".foo", ".bar", iframe: ".baz", selector: ".qux")
-          expect(subject.exclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end
