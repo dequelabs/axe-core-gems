@@ -9,8 +9,6 @@ module Axe
       def_delegators :@rules, :according_to, :checking, :checking_only, :skipping
       def_delegator :@custom, :merge!, :with_options
 
-      attr_reader :rules, :custom
-
       def initialize
         @rules = Rules.new
         @custom = {}
