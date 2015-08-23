@@ -3,31 +3,31 @@ require 'axe/api/context'
 module Axe::API
   describe Context do
 
-    describe "#include" do
+    describe "#within" do
       context "when given simple selector" do
         it "should push it on array" do
-          subject.include "#selector"
+          subject.within "#selector"
           expect(subject.inclusion).to eq [ ["#selector"] ]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
-          subject.include ".foo", ".bar"
+          subject.within ".foo", ".bar"
           expect(subject.inclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
-          subject.include(iframe: ".foo", selector: ".bar")
+          subject.within(iframe: ".foo", selector: ".bar")
           expect(subject.inclusion).to eq [ [".foo", ".bar"] ]
         end
       end
 
       context "when given multiple hashes" do
         it "should flatten the hash" do
-          subject.include(
+          subject.within(
             {iframe: ".foo", selector: ".bar"},
             {iframe: ".baz", selector: ".qux"}
           )
@@ -37,37 +37,37 @@ module Axe::API
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
-          subject.include(".foo", ".bar", iframe: ".baz", selector: ".qux")
+          subject.within(".foo", ".bar", iframe: ".baz", selector: ".qux")
           expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end
 
-    describe "#exclude" do
+    describe "#excluding" do
       context "when given simple selector" do
         it "should push it on array" do
-          subject.exclude "#selector"
+          subject.excluding "#selector"
           expect(subject.exclusion).to eq [ ["#selector"] ]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
-          subject.exclude ".foo", ".bar"
+          subject.excluding ".foo", ".bar"
           expect(subject.exclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
-          subject.exclude(iframe: ".foo", selector: ".bar")
+          subject.excluding(iframe: ".foo", selector: ".bar")
           expect(subject.exclusion).to eq [ [".foo", ".bar"] ]
         end
       end
 
       context "when given multiple hashes" do
         it "should flatten the hash" do
-          subject.exclude(
+          subject.excluding(
             {iframe: ".foo", selector: ".bar"},
             {iframe: ".baz", selector: ".qux"}
           )
@@ -77,7 +77,7 @@ module Axe::API
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
-          subject.exclude(".foo", ".bar", iframe: ".baz", selector: ".qux")
+          subject.excluding(".foo", ".bar", iframe: ".baz", selector: ".qux")
           expect(subject.exclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
@@ -96,7 +96,7 @@ module Axe::API
           end
         end
         context "with exclusions" do
-          before(:each) { subject.exclude ".ignore" }
+          before(:each) { subject.excluding ".ignore" }
 
           it "should only list exclusions" do
             pending "blocked until axe-core 1.1.0, which handles missing `include`"
@@ -110,7 +110,7 @@ module Axe::API
       end
 
       context "with inclusions" do
-        before(:each) { subject.include ".check" }
+        before(:each) { subject.within ".check" }
 
         context "without an exclusion" do
           it "should default to the document" do
@@ -118,7 +118,7 @@ module Axe::API
           end
         end
         context "with exclusions" do
-          before(:each) { subject.exclude ".ignore" }
+          before(:each) { subject.excluding ".ignore" }
 
           it "should default inclusion to document, list exclusions" do
             expect(subject.to_json).to eq '{"include":[[".check"]],"exclude":[[".ignore"]]}'

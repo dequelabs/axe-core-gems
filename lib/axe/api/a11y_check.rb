@@ -16,8 +16,7 @@ module Axe
       METHOD_NAME = "#{LIBRARY_IDENTIFIER}.a11yCheck"
 
       extend Forwardable
-      def_delegator :@context, :include, :within
-      def_delegator :@context, :exclude, :excluding
+      def_delegators :@context, :within, :excluding
       def_delegator :@options, :rules_by_tags, :according_to
       def_delegator :@options, :run_rules, :checking
       def_delegator :@options, :run_only_rules, :checking_only
