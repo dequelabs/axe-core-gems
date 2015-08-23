@@ -1,8 +1,6 @@
 module Axe
   module API
     class Rules
-      attr_reader :tags, :included, :excluded, :exclusive
-
       def initialize
         @tags = []
         @included = []
@@ -10,30 +8,34 @@ module Axe
         @exclusive = []
       end
 
-      def according_to(*tags)
-        @tags.concat tags.flatten
+      def according_to(*tag_names)
+        tags.concat tag_names.flatten
       end
 
       def checking(*rules)
-        @included.concat rules.flatten
+        included.concat rules.flatten
       end
 
       def checking_only(*rules)
-        @exclusive.concat rules.flatten
+        exclusive.concat rules.flatten
       end
 
       def skipping(*rules)
-        @excluded.concat rules.flatten
+        excluded.concat rules.flatten
       end
 
       def to_hash
         {}.tap do |options|
           #TODO warn that tags + exclusive-rules are incompatible
-          options.merge! runOnly: { type: :tag, values: @tags } unless @tags.empty?
-          options.merge! runOnly: { type: :rule, values: @exclusive } unless @exclusive.empty?
-          options.merge! rules: Hash[@included.product([enabled: true]) + @excluded.product([enabled: false])] unless @included.empty? && @excluded.empty?
+          options.merge! runOnly: { type: :tag, values: tags } unless tags.empty?
+          options.merge! runOnly: { type: :rule, values: exclusive } unless exclusive.empty?
+          options.merge! rules: Hash[included.product([enabled: true]) + excluded.product([enabled: false])] unless included.empty? && excluded.empty?
         end
       end
+
+      private
+
+      attr_reader :tags, :included, :excluded, :exclusive
     end
   end
 end

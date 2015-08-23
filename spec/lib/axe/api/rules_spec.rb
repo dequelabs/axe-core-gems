@@ -7,28 +7,28 @@ module Axe::API
     describe "#according_to" do
       it "adds tags to list of tags for which to run rules" do
         subject.according_to :foo, :bar
-        expect(subject.tags).to include :foo, :bar
+        expect(subject.instance_variable_get :@tags).to include :foo, :bar
       end
     end
 
     describe "#checking" do
       it "adds rules to list of included rules" do
         subject.checking :foo, :bar
-        expect(subject.included).to include :foo, :bar
+        expect(subject.instance_variable_get :@included).to include :foo, :bar
       end
     end
 
     describe "#checking_only" do
       it "adds rules to list of run-only rules" do
         subject.checking_only :foo, :bar
-        expect(subject.exclusive).to include :foo, :bar
+        expect(subject.instance_variable_get :@exclusive).to include :foo, :bar
       end
     end
 
     describe "#skipping" do
       it "adds rules to list of excluded rules" do
         subject.skipping :foo, :bar
-        expect(subject.excluded).to include :foo, :bar
+        expect(subject.instance_variable_get :@excluded).to include :foo, :bar
       end
     end
 
