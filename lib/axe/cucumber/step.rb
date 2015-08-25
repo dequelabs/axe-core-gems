@@ -1,11 +1,10 @@
 require 'yaml'
 
 require 'axe'
-require 'axe/matchers/be_accessible'
+require 'axe/dsl'
 
-# The purpose of this class is to enable private helper methods for assertion
-# and cucumber argument parsing without leaking the helper methods into the
-# cucumber World object.
+# The purpose of this class is to support private helpers for argument parsing
+# without leaking the helper methods into the cucumber World object.
 # Further, using these helper methods for assert/refute removes the dependency
 # on rspec. So end users may choose to use any (or non) assertion/expectation
 # library, as this class uses the Axe Accessibility Matcher directly, without
@@ -49,7 +48,7 @@ module Axe
       end
 
       def be_accessible(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
-        accessibility = Matchers::BeAccessible.new
+        is_accessible = Axe::DSL.be_accessible
           .within(*selector(inclusion))
           .excluding(*selector(exclusion))
           .according_to(*split(tags))
@@ -58,7 +57,7 @@ module Axe
           .skipping(*split(skip_rules))
           .with_options(to_hash(options))
 
-        AccessibilityExpectation.create(negate).assert(@page, accessibility)
+        Axe::DSL::AccessibilityExpectation.create(negate).assert @page, is_accessible
       end
 
       private
