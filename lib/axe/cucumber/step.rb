@@ -48,7 +48,7 @@ module Axe
         @page = page
       end
 
-      def be_accessible(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
+      def assert_accessibility(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
         is_accessible = Axe::Matchers::BeAccessible.new
           .within(*selector(inclusion))
           .excluding(*selector(exclusion))
