@@ -57,7 +57,7 @@ module Axe
           .skipping(*split(skip_rules))
           .with_options(to_hash(options))
 
-        Axe::DSL::AccessibilityExpectation.create(negate).assert @page, is_accessible
+        Axe::AccessibilityExpectation.create(negate).assert @page, is_accessible
       end
 
       private
