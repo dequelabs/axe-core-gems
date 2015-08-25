@@ -50,13 +50,13 @@ module Axe
 
       def be_accessible(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
         accessibility = Matchers::BeAccessible.new
-
-        accessibility.within(selector inclusion) if inclusion
-        accessibility.excluding(selector exclusion) if exclusion
-        accessibility.according_to(split tags) if tags
-        run_only ? accessibility.checking_only(split run_rules) : accessibility.checking(split run_rules) if run_rules
-        accessibility.skipping(split skip_rules) if skip_rules
-        accessibility.with_options(to_hash options) if options
+          .within(*selector(inclusion))
+          .excluding(*selector(exclusion))
+          .according_to(*split(tags))
+          .checking_only(*split(run_rules)) if run_only
+          .checking(*split(run_rules)) unless run_only
+          .skipping(*split(skip_rules))
+          .with_options(to_hash(options))
 
         AccessibilityExpectation.create(negate).assert(@page, accessibility)
       end
