@@ -58,12 +58,10 @@ module Axe
         accessibility.skipping(split skip_rules) if skip_rules
         accessibility.with_options(to_hash options) if options
 
-        if negate then refute accessibility else assert accessibility end
+        AccessibilityExpectation.create(negate).assert(@page, accessibility)
       end
 
       private
-
-      attr_reader :page
 
       def selector(selector)
         split(selector)
@@ -75,14 +73,6 @@ module Axe
 
       def to_hash(string)
         YAML.load string
-      end
-
-      def assert(matcher)
-        raise matcher.failure_message unless matcher.matches? page
-      end
-
-      def refute(matcher)
-        raise matcher.failure_message_when_negated if matcher.matches? page
       end
     end
   end
