@@ -24,6 +24,8 @@ module Axe
       end
     end
 
+    module_function
+
     def be_accessible
       BeAccessible.new
     end
