@@ -2,36 +2,37 @@ require 'axe/matchers'
 
 module Axe
   module DSL
+    class AccessibleExpectation
+      def self.assert(page, matcher)
+        raise matcher.failure_message unless matcher.matches? page
+      end
+    end
+
+    class InaccessibleExpectation
+      def self.assert(page, matcher)
+        raise matcher.failure_message_when_negated if matcher.matches? page
+      end
+    end
+
     class AccessibilityExpectation
       def initialize(page)
         @page = page
       end
 
       def to(matcher)
-        @matcher = matcher
-        assert
+        AccessibleExpectation.assert @page, matcher
       end
 
       def to_not(matcher)
-        @matcher = matcher
-        refute
+        InaccessibleExpectation.assert @page, matcher
       end
       alias :not_to :to_not
-
-      private
-
-      def assert
-        raise @matcher.failure_message unless @matcher.matches? @page
-      end
-
-      def refute
-        raise @matcher.failure_message_when_negated if @matcher.matches? @page
-      end
     end
 
     module_function
 
-    include Matchers
+    # get the be_accessible matcher method
+    extend Matchers
 
     def expect(page)
       AccessibilityExpectation.new page
