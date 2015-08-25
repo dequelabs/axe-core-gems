@@ -15,6 +15,10 @@ module Axe
     end
 
     class AccessibilityExpectation
+      def self.create(negate)
+        negate ? InaccessibleExpectation.new : AccessibleExpectation.new
+      end
+
       def initialize(page)
         @page = page
       end
