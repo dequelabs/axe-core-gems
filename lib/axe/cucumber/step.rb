@@ -1,7 +1,8 @@
 require 'yaml'
 
 require 'axe'
-require 'axe/dsl'
+require 'axe/matchers'
+require 'axe/expectation'
 
 # The purpose of this class is to support private helpers for argument parsing
 # without leaking the helper methods into the cucumber World object.
@@ -48,7 +49,7 @@ module Axe
       end
 
       def be_accessible(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
-        is_accessible = Axe::DSL.be_accessible
+        is_accessible = Axe::Matchers::BeAccessible.new
           .within(*selector(inclusion))
           .excluding(*selector(exclusion))
           .according_to(*split(tags))
