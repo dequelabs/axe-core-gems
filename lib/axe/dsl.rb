@@ -3,13 +3,13 @@ require 'axe/matchers'
 module Axe
   module DSL
     class AccessibleExpectation
-      def self.assert(page, matcher)
+      def assert(page, matcher)
         raise matcher.failure_message unless matcher.matches? page
       end
     end
 
     class InaccessibleExpectation
-      def self.assert(page, matcher)
+      def assert(page, matcher)
         raise matcher.failure_message_when_negated if matcher.matches? page
       end
     end
@@ -20,11 +20,11 @@ module Axe
       end
 
       def to(matcher)
-        AccessibleExpectation.assert @page, matcher
+        AccessibleExpectation.new.assert @page, matcher
       end
 
       def to_not(matcher)
-        InaccessibleExpectation.assert @page, matcher
+        InaccessibleExpectation.new.assert @page, matcher
       end
       alias :not_to :to_not
     end
