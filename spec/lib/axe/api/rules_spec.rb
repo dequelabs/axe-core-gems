@@ -9,20 +9,12 @@ module Axe::API
         subject.by_tags :foo, :bar
         expect(subject.tags).to include :foo, :bar
       end
-
-      it "should return self for chaining" do
-        expect(subject.by_tags).to be subject
-      end
     end
 
     describe "#only" do
       it "adds rules to list of run-only rules" do
         subject.run_only :foo, :bar
         expect(subject.exclusive).to include :foo, :bar
-      end
-
-      it "should return self for chaining" do
-        expect(subject.run_only).to be subject
       end
     end
 
@@ -31,20 +23,12 @@ module Axe::API
         subject.run :foo, :bar
         expect(subject.included).to include :foo, :bar
       end
-
-      it "should return self for chaining" do
-        expect(subject.run).to be subject
-      end
     end
 
     describe "#skip" do
       it "adds rules to list of excluded rules" do
         subject.skip :foo, :bar
         expect(subject.excluded).to include :foo, :bar
-      end
-
-      it "should return self for chaining" do
-        expect(subject.skip).to be subject
       end
     end
 
@@ -77,7 +61,8 @@ module Axe::API
 
       context "with explicit rules to run and skip" do
         it "should have run rules enabled, skip rules disabled" do
-          subject.run([:foo, :bar]).skip([:baz, :qux])
+          subject.run([:foo, :bar])
+          subject.skip([:baz, :qux])
           expect(subject.to_hash).to include :rules => {
             foo: { enabled: true },
             bar: { enabled:true },

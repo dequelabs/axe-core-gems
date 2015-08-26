@@ -53,6 +53,15 @@ module Axe::API
       end
     end
 
+    describe "chainable api" do
+      its(:within) { is_expected.to be subject }
+      its(:excluding) { is_expected.to be subject }
+      its(:according_to) { is_expected.to be subject }
+      its(:checking) { is_expected.to be subject }
+      its(:checking_only) { is_expected.to be subject }
+      its(:skipping) { is_expected.to be subject }
+    end
+
     describe "#call" do
       let(:page) { spy('page', execute_async_script: {'violations' => []}) }
       let(:results) { spy('results') }
