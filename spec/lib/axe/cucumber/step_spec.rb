@@ -23,7 +23,9 @@ module Axe::Cucumber
       end
     end
 
-    pending "#be_accessible"
+    pending "#assert_accessibility"
+
+    pending "can be invoked directly in manually-defined step defs (to get arg-parsing OOTB)"
 
   end
 end
