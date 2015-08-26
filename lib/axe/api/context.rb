@@ -1,10 +1,8 @@
-require 'forwardable'
+require 'axe/api/selector'
 
 module Axe
   module API
     class Context
-      extend Forwardable
-
       attr_reader :inclusion, :exclusion
 
       def initialize
@@ -12,14 +10,12 @@ module Axe
         @exclusion = []
       end
 
-      def include(selector)
-        @inclusion.concat ensure_nested_array(selector)
-        self
+      def include(*selectors)
+        @inclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
-      def exclude(selector)
-        @exclusion.concat ensure_nested_array(selector)
-        self
+      def exclude(*selectors)
+        @exclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
       def to_hash
@@ -48,12 +44,6 @@ module Axe
       end
 
       alias :to_s :to_json
-
-      private
-
-      def ensure_nested_array(selector)
-        Array(selector).map { |s| Array(s) }
-      end
 
     end
   end

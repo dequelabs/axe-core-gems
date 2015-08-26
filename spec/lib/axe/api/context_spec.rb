@@ -4,10 +4,6 @@ module Axe::API
   describe Context do
 
     describe "#include" do
-      it "should return self for chaining" do
-        expect(subject.include("foo")).to be subject
-      end
-
       context "when given simple selector" do
         it "should push it on array" do
           subject.include "#selector"
@@ -15,26 +11,39 @@ module Axe::API
         end
       end
 
-      context "when given array" do
-        it "should concatenate the array" do
-          subject.include [ ".foo", ".bar", ".baz" ]
-          expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz"] ]
+      context "when given multiple selectors" do
+        it "should push them all onto the array" do
+          subject.include ".foo", ".bar"
+          expect(subject.inclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
-      context "when given nested array" do
-        it "should concatenate the array" do
-          subject.include [ [ ".foo" ], [".bar", ".baz" ] ]
-          expect(subject.inclusion).to eq [ [ ".foo" ], [".bar", ".baz" ] ]
+      context "when given single hash" do
+        it "should flatten the hash" do
+          subject.include(iframe: ".foo", selector: ".bar")
+          expect(subject.inclusion).to eq [ [".foo", ".bar"] ]
+        end
+      end
+
+      context "when given multiple hashes" do
+        it "should flatten the hash" do
+          subject.include(
+            {iframe: ".foo", selector: ".bar"},
+            {iframe: ".baz", selector: ".qux"}
+          )
+          expect(subject.inclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+        end
+      end
+
+      context "when given string selectors *and* hashes" do
+        it "should flatten the hash" do
+          subject.include(".foo", ".bar", iframe: ".baz", selector: ".qux")
+          expect(subject.inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end
 
     describe "#exclude" do
-      it "should return self for chaining" do
-        expect(subject.exclude("foo")).to be subject
-      end
-
       context "when given simple selector" do
         it "should push it on array" do
           subject.exclude "#selector"
@@ -42,17 +51,34 @@ module Axe::API
         end
       end
 
-      context "when given array" do
-        it "should concatenate the array" do
-          subject.exclude [ ".foo", ".bar", ".baz" ]
-          expect(subject.exclusion).to eq [ [".foo"], [".bar"], [".baz"] ]
+      context "when given multiple selectors" do
+        it "should push them all onto the array" do
+          subject.exclude ".foo", ".bar"
+          expect(subject.exclusion).to eq [ [".foo"], [".bar"] ]
         end
       end
 
-      context "when given nested array" do
-        it "should concatenate the array" do
-          subject.exclude [ [ ".foo" ], [".bar", ".baz" ] ]
-          expect(subject.exclusion).to eq [ [ ".foo" ], [".bar", ".baz" ] ]
+      context "when given single hash" do
+        it "should flatten the hash" do
+          subject.exclude(iframe: ".foo", selector: ".bar")
+          expect(subject.exclusion).to eq [ [".foo", ".bar"] ]
+        end
+      end
+
+      context "when given multiple hashes" do
+        it "should flatten the hash" do
+          subject.exclude(
+            {iframe: ".foo", selector: ".bar"},
+            {iframe: ".baz", selector: ".qux"}
+          )
+          expect(subject.exclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+        end
+      end
+
+      context "when given string selectors *and* hashes" do
+        it "should flatten the hash" do
+          subject.exclude(".foo", ".bar", iframe: ".baz", selector: ".qux")
+          expect(subject.exclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
         end
       end
     end
