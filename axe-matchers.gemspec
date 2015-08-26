@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.platform                  = Gem::Platform::RUBY
   spec.required_ruby_version     = ">= 1.9.3"
   spec.required_rubygems_version = ">= 1.3.6"
+  spec.requirements              = "A WebDriver of some sort. e.g Capybara, Selenium or Watir"
 
   spec.files        = Dir.glob %w[ lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path = 'lib'
