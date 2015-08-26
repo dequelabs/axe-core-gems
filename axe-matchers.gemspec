@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'bug_tracker_uri'   => 'https://github.com/dequelabs/axe-matchers/issues',
-    'documentation_uri' => '',
+    'documentation_uri' => 'https://github.com/dequelabs/axe-matchers/blob/master/README.md',
     'mailing_list_uri'  => '',
     'source_code_uri'   => 'https://github.com/dequelabs/axe-matchers',
     'wiki_uri'          => 'https://github.com/dequelabs/axe-matchers/wiki'
