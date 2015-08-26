@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.version     = Axe::VERSION
   spec.license     = 'MPL-2.0'
   spec.authors     = ['Deque Systems', 'Test Double']
-  spec.email       = ['', 'hello@testdouble.com']
+  spec.email       = ['helpdesk@deque.com', 'hello@testdouble.com']
   spec.homepage    = 'https://www.deque.com'
   spec.summary     = 'Automated accessibility testing powered by aXe'
   spec.description = <<-DESC
