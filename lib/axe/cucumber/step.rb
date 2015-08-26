@@ -49,14 +49,15 @@ module Axe
       end
 
       def assert_accessibility(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options="{}")
-        is_accessible = Axe::Matchers::BeAccessible.new
-          .within(*selector(inclusion))
-          .excluding(*selector(exclusion))
-          .according_to(*split(tags))
-          .checking_only(*split(run_rules)) if run_only
-          .checking(*split(run_rules)) unless run_only
-          .skipping(*split(skip_rules))
-          .with_options(to_hash(options))
+        is_accessible = Axe::Matchers::BeAccessible.new.tap do |a|
+          a.within *selector(inclusion)
+          a.excluding *selector(exclusion)
+          a.according_to *split(tags)
+          a.checking *split(run_rules) unless run_only
+          a.checking_only *split(run_rules) if run_only
+          a.skipping *split(skip_rules)
+          a.with_options to_hash(options)
+        end
 
         Axe::AccessibilityExpectation.create(negate).assert @page, is_accessible
       end
