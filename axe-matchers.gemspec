@@ -2,21 +2,31 @@
 require_relative 'lib/axe/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = "axe-matchers"
+  spec.name        = 'axe-matchers'
   spec.version     = Axe::VERSION
-  spec.license     = "MPL-2.0"
-  spec.authors     = ["Deque Systems", "Test Double"]
-  spec.homepage    = "https://www.deque.com"
-  spec.summary     = "Automated accessibility testing powered by aXe"
+  spec.license     = 'MPL-2.0'
+  spec.authors     = ['Deque Systems', 'Test Double']
+  spec.email       = ['helpdesk@deque.com', 'hello@testdouble.com']
+  spec.homepage    = 'https://www.deque.com'
+  spec.summary     = 'Automated accessibility testing powered by aXe'
   spec.description = <<-DESC
   axe-matchers provides matchers that wrap the axe-core accessibility library.
   The matchers can be used with RSpec, MiniTest, Cucumber and other test tools.
   Cucumber step definitions for are also provided.
   DESC
 
+  spec.metadata = {
+    'bug_tracker_uri'   => 'https://github.com/dequelabs/axe-matchers/issues',
+    'documentation_uri' => 'https://github.com/dequelabs/axe-matchers/blob/master/README.md',
+    'mailing_list_uri'  => '',
+    'source_code_uri'   => 'https://github.com/dequelabs/axe-matchers',
+    'wiki_uri'          => 'https://github.com/dequelabs/axe-matchers/wiki'
+  }
+
   spec.platform                  = Gem::Platform::RUBY
-  spec.required_ruby_version     = ">= 1.9.3"
-  spec.required_rubygems_version = ">= 1.3.6"
+  spec.required_ruby_version     = '>= 1.9.3'
+  spec.required_rubygems_version = '>= 1.3.6'
+  spec.requirements              = 'A WebDriver of some sort. e.g Capybara, Selenium or Watir'
 
   spec.files        = Dir.glob %w[ lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md ]
   spec.require_path = 'lib'
