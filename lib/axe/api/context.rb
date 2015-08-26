@@ -30,15 +30,7 @@ module Axe
       end
 
       def to_json
-        if @inclusion.empty?
-          if @exclusion.empty?
-            "document"
-          else
-            %Q({"include":document,"exclude":#{@exclusion.to_json}})
-          end
-        else
-          to_hash.to_json
-        end
+        to_hash.to_json
       end
 
       alias :to_s :to_json
