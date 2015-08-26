@@ -73,7 +73,7 @@ module Axe
       end
 
       def to_hash(string)
-        YAML.load string
+        YAML.load String(string)
       end
     end
   end
