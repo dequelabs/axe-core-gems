@@ -1,72 +1,140 @@
+# Installation
 
+`gem install axe-matchers`
 
-# Requirements
+or add `gem 'axe-matchers'` to your `Gemfile` and `bundle install`
 
-1. Ruby 2.0.0 or later.
-2. Bundler for gem dependencies
-3. Brewdler for system dependencies (phantomjs, chromedriver, etc)
-4. Rake as task runner
-5. RSpec for unit tests
-6. Cucumber for end to end tests
-7. Node/npm are necessary for pulling down the axe-core package
+# Cucumber Configuration
 
-## Ruby Version management
+1. Require step definitions
 
-[rbenv](https://github.com/sstephenson/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice. 2.0.0-p481 is the official minimum version, as it is the default Ruby bundled with OS X Mavericks, but the gem *ought* to support 1.9 and above.
+Require the axe-matcher step definitions in `features/support/env.rb` or similar.
 
-The `.ruby-version` is intentionally ignored from the repo for the same reason that `Gemfile.lock` should not be committed. See http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/ for more clarification.
-
-## Bundler
-
-    `gem install bundler` to install bundler
-    `bundle install` to install necessary gems
-
-All subsequent commands (when invoking rake, rspec, cucumber, etc) must be prefixed with `bundle exec` unless you are using bundler binstubs or rbenv-bundle-exec or similar. (Elsewhere in this readme, the `bundle exec` prefix will be omitted.)
-
-## Brewdler
-
-Most of the dependencies necessary for running the various test suite configurations are provided via gems and managed by bundler.
-
-However, to run the tests against phantomjs, you will need phantomjs installed. And to run the tests against chrome, you will need chromedriver. Both of these are system dependencies. These can be installed manually, or through homebrew. To ease installation of these non-gem dependencies, a `Brewfile` is provided.
-
-    `brew tap homebrew/bundle` to install brewdler
-    `brew bundle` to install phantomjs and chromedriver
-
-Additionally, to test against Safari, the SafariDriver extension is needed. Install it (using Safari) from http://selenium-release.storage.googleapis.com/2.45/SafariDriver.safariextz.
-
-## Rake Tasks
-
-Rake is the standard task runner. For a list of configured tasks, run `rake -T`. Briefly:
-
-- `rake spec` to run unit tests
-- `rake cucumber` to run end to end tests
-- `rake build` to build and package the gem
-- `rake clean` and `rake clobber` to clean up build assets
-
-# RSpec Unit Tests
-
-These confirm the proper behavior of the matchers. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
-
-# Cucumber Features
-
-There is a single feature that does a minimal test of the matchers + cucumber steps + axe js library. It is intended as a smoke test to validate against multiple webdrivers. Unless a specific profile is specified, cucumber will run the default profile which drives webkit (headless) with capybara. Alternatiely, you may specify the driver and browser combination:
-
-```
-cucumber -p capybara -p poltergeist
-cucumber -p capybara -p webkit
-cucumber -p capybara -p firefox
-cucumber -p selenium -p phantomjs
-cucumber -p watir -p chrome
+``` ruby
+require 'axe/cucumber/step_definitions'
 ```
 
-First specify the driver (one of: `capybara`, `selenium` or `watir`), and choose the browser (`firefox`, `chrome`, `safari`, `phantomjs`). All three drivers support all four browsers. Capybara alone also supports `webkit` and `poltergeist`.
+2. Configure Browser/WebDriver
 
-These profile configurations can also be run via rake: `rake cucumber:{driver}:{browser}`. For example:
+If there exists a `page` method on the Cucumber `World` (as is provided by the Capybara DSL), or if one of `@page`, `@browser`, `@driver` or `@webdriver` exist, then no configuration is necessary.  Otherwise, the browser object must be configurate manually.
 
+The browser/page object can be provided directly. Or in cases where it hasn't been instantiated yet, the variable name can be given as a String/Symbol.
+
+``` ruby
+@firefox = Selenium::WebDriver.for :firefox
+
+Axe::Cucumber.configure do |c|
+  # browser object
+  c.page = @firefox
+
+  # or variable name
+  c.page = :@firefox
+end
 ```
-rake cucumber:capybara:firefox
-rake cucumber:selenium:chrome
-rake cucumber:watir:phantomjs
+
+# Accessibility Steps
+
+To construct an axe accessibility Cucumber step, begin with the base step, and append any clauses necessary. All of the following clauses may be mixed and matched; however, they must appear in the specified order:
+
+`Then the page should be accessible [including] [excluding] [according-to] [checking-rules/checking-only-rules] [skipping-rules]`
+
+## Base Step
+
+``` gherkin
+Then the page should be accessible
 ```
 
-You may omit the browser (`rake cucumber:capybara`) and it will run the features under every configured browser for the given driver. Alternatively, you may omit the driver (`rake cucumber:firefox`) and it will run the features with each driver for the given browser. Additionally, there are special options to run every driver/browser combination `rake cucumber:all`, or only the headless browsers `rake cucumber:headless`. (Headless combinations are capybara+poltergeist, capybara+webkit, capybara+phantomjs, selenium+phantomjs, watir+phantomjs)
+The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.a11yCheck](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axea11ycheck) (the entire document is checked using the default rules).
+
+## Inclusion clause
+
+``` gherkin
+Then the page should be accessible within "#selector"
+```
+
+The inclusion clause (`within "#selector"`) specifies which elements of the page should be checked. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `within "#header, .footer"`
+
+Additional [context parameter documentation](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter)
+
+## Exclusion clause
+
+``` gherkin
+Then the page should be accessible excluding "#selector"
+```
+
+The exclusion clause (`excluding "#selector"`) specifies which elements of the document should be ignored. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `excluding "#widget, .ad"`
+
+Additional [context parameter documentation](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter)
+
+If desired, a semicolon (`;`) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
+
+``` gherkin
+Then the page should be accessible within "#header"; excluding "#footer"
+Then the page should be accessible within "#header" but excluding "#footer"
+```
+
+## Accessibility Standard (Tag) clause
+
+``` gherkin
+Then the page should be accessible according to: wcag2a
+```
+
+The tag clause specifies which accessibility standard (or standards) should be used to check the page. The accessibility standards are specified by name (tag). Multiple standards can be specified when comma-separated. e.g. `according to: wcag2a, section508`
+
+The acceptable [tag names are documented](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#b-options-parameter) as well as a [complete listing of rules](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) that correspond to each tag/standard.
+
+If desired, a semicolon (`;`) may be used to separate the tag clause from the preceding clause.
+
+``` gherkin
+Then the page should be accessible within "#header"; according to: best-practice
+```
+
+## Checking Rules clause
+
+``` gherkin
+Then the page should be accessible checking: ruleId
+```
+
+The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs. (see [rules documentation](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) for a list of valid rule IDs)
+
+If desired, a semicolon (`;`) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
+
+``` gherkin
+Then the page should be accessible according to: wcag2aa; checking: color-contrast
+Then the page should be accessible according to: wcag2aa and checking: color-contrast
+```
+
+### Exclusive Rules clause
+
+``` gherkin
+Then the page should be accessible checking only: ruleId
+```
+
+This clause is not really a separate clause. But rather, by adding the word `only` to the checking-rules clause, the meaning of the step can be changed. As described above, by default the checking-rules clause specifies *additional* rules to run. If the word `only` is used, then *only* the specified rules are checked.
+
+## Skipping Rules clause
+
+``` gherkin
+Then the page should be accessible skipping: ruleId
+```
+
+The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs. (see [rules documentation](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) for a list of valid rule IDs)
+
+If desired, a semicolon (`;`) or the word `but` may be used to separate the skipping-rules clause from the preceding clause.
+
+``` gherkin
+Then the page should be accessible according to: wcag2a; skipping: accesskeys
+Then the page should be accessible according to: wcag2a but skipping: accesskeys
+```
+
+# Examples
+
+``` gherkin
+Then the page should be accessible within "main, header" but excluding "footer"
+
+Then the page should be accessible excluding "#sidebar" according to: wcag2a, wcag2aa but skipping: color-contrast
+
+Then the page should be accessible checking only: document-title, label
+
+Then the page should be accessible according to: best-practice and checking: aria-roles, definition-list
+```
