@@ -89,7 +89,7 @@ module Axe::API
       end
 
       it "should include the original invocation string" do
-        expect(Audit).to receive(:new).with("axe.a11yCheck(document, {}, callback);", instance_of(Results))
+        expect(Audit).to receive(:new).with("axe.a11yCheck({\"exclude\":[]}, {}, callback);", instance_of(Results))
         subject.call(page)
       end
     end
