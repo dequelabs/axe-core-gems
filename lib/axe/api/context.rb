@@ -1,3 +1,5 @@
+require 'axe/api/selector'
+
 module Axe
   module API
     class Context
