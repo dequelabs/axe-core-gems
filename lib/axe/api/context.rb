@@ -18,14 +18,11 @@ module Axe
 
       def to_hash
         {}.tap do |context_param|
-          # include key must not be included if empty
-          # (when undefined, defaults to `document`)
+          # omit empty arrays
+          # (include must not be present if empty)
+          # (exclude is allowed to be empty; but meh)
           context_param[:include] = @inclusion unless @inclusion.empty?
-
-          # exclude array allowed to be empty
-          # and must exist in case `include` is omitted
-          # because context_param cannot be empty object ({})
-          context_param[:exclude] = @exclusion
+          context_param[:exclude] = @exclusion unless @exclusion.empty?
         end
       end
 
@@ -34,7 +31,6 @@ module Axe
       end
 
       alias :to_s :to_json
-
     end
   end
 end
