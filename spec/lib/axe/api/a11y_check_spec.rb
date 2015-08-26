@@ -10,14 +10,14 @@ module Axe::API
         subject.instance_variable_set :@context, context
       end
 
-      it "should be delegated #include" do
-        subject.include "foo"
-        expect(context).to have_received(:include).with("foo")
+      it "should be delegated #include as #within" do
+        subject.within :foo
+        expect(context).to have_received(:include).with(:foo)
       end
 
-      it "should be delegated #exclude" do
-        subject.exclude "foo"
-        expect(context).to have_received(:exclude).with("foo")
+      it "should be delegated #exclude as #excluding" do
+        subject.excluding :foo
+        expect(context).to have_received(:exclude).with(:foo)
       end
     end
 
@@ -27,29 +27,29 @@ module Axe::API
         subject.instance_variable_set :@options, options
       end
 
-      it "should be delegated #rules_by_tags" do
-        subject.rules_by_tags "foo"
-        expect(options).to have_received(:rules_by_tags).with("foo")
+      it "should be delegated #rules_by_tags as #according_to" do
+        subject.according_to :foo
+        expect(options).to have_received(:rules_by_tags).with(:foo)
       end
 
-      it "should be delegated #run_rules" do
-        subject.run_rules "foo"
-        expect(options).to have_received(:run_rules).with("foo")
+      it "should be delegated #run_rules as #checking" do
+        subject.checking :foo
+        expect(options).to have_received(:run_rules).with( :foo)
       end
 
-      it "should be delegated #skip_rules" do
-        subject.skip_rules "foo"
-        expect(options).to have_received(:skip_rules).with("foo")
+      it "should be delegated #run_only_rules as #checking_only" do
+        subject.checking_only :foo
+        expect(options).to have_received(:run_only_rules).with( :foo)
       end
 
-      it "should be delegated #run_only_rules" do
-        subject.run_only_rules "foo"
-        expect(options).to have_received(:run_only_rules).with("foo")
+      it "should be delegated #skip_rules as #skipping" do
+        subject.skipping :foo
+        expect(options).to have_received(:skip_rules).with( :foo)
       end
 
-      it "should be delegated #with_custom_options" do
-        subject.custom_options "foo"
-        expect(options).to have_received(:custom_options).with("foo")
+      it "should be delegated #custom_options as #with_options" do
+        subject.with_options :foo
+        expect(options).to have_received(:custom_options).with(:foo)
       end
     end
 

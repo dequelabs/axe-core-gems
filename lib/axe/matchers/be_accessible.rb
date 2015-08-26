@@ -19,38 +19,38 @@ module Axe
         @audit.passed?
       end
 
-      def within(inclusion)
-        @a11y_check.include inclusion
+      def within(*inclusion)
+        @a11y_check.within(*inclusion)
         self
       end
 
-      def excluding(exclusion)
-        @a11y_check.exclude exclusion
+      def excluding(*exclusion)
+        @a11y_check.excluding(*exclusion)
         self
       end
 
       def according_to(*tags)
-        @a11y_check.rules_by_tags tags.flatten
+        @a11y_check.according_to(*tags)
         self
       end
 
       def checking(*rules)
-        @a11y_check.run_rules rules.flatten
+        @a11y_check.checking(*rules)
         self
       end
 
       def skipping(*rules)
-        @a11y_check.skip_rules rules.flatten
+        @a11y_check.skipping(*rules)
         self
       end
 
       def checking_only(*rules)
-        @a11y_check.run_only_rules rules.flatten
+        @a11y_check.checking_only(*rules)
         self
       end
 
       def with_options(options)
-        @a11y_check.custom_options options
+        @a11y_check.with_options options
         self
       end
     end
