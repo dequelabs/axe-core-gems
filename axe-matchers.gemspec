@@ -16,11 +16,11 @@ Gem::Specification.new do |spec|
   DESC
 
   spec.metadata = {
-    bug_tracker_uri:   'https://github.com/dequelabs/axe-matchers/issues',
-    documentation_uri: '',
-    mailing_list_uri:  '',
-    source_code_uri:   'https://github.com/dequelabs/axe-matchers',
-    wiki_uri:          'https://github.com/dequelabs/axe-matchers/wiki'
+    'bug_tracker_uri'   => 'https://github.com/dequelabs/axe-matchers/issues',
+    'documentation_uri' => '',
+    'mailing_list_uri'  => '',
+    'source_code_uri'   => 'https://github.com/dequelabs/axe-matchers',
+    'wiki_uri'          => 'https://github.com/dequelabs/axe-matchers/wiki'
   }
 
   spec.platform                  = Gem::Platform::RUBY
