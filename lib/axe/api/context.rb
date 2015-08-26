@@ -3,18 +3,16 @@ require 'axe/api/selector'
 module Axe
   module API
     class Context
-      attr_reader :inclusion, :exclusion
-
       def initialize
         @inclusion = []
         @exclusion = []
       end
 
-      def include(*selectors)
+      def within(*selectors)
         @inclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
-      def exclude(*selectors)
+      def excluding(*selectors)
         @exclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 

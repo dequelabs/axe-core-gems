@@ -10,14 +10,14 @@ module Axe::API
         subject.instance_variable_set :@context, context
       end
 
-      it "should be delegated #include as #within" do
+      it "should be delegated #within" do
         subject.within :foo
-        expect(context).to have_received(:include).with(:foo)
+        expect(context).to have_received(:within).with(:foo)
       end
 
-      it "should be delegated #exclude as #excluding" do
+      it "should be delegated #excluding" do
         subject.excluding :foo
-        expect(context).to have_received(:exclude).with(:foo)
+        expect(context).to have_received(:excluding).with(:foo)
       end
     end
 
@@ -27,29 +27,29 @@ module Axe::API
         subject.instance_variable_set :@options, options
       end
 
-      it "should be delegated #rules_by_tags as #according_to" do
+      it "should be delegated #according_to" do
         subject.according_to :foo
-        expect(options).to have_received(:rules_by_tags).with(:foo)
+        expect(options).to have_received(:according_to).with(:foo)
       end
 
-      it "should be delegated #run_rules as #checking" do
+      it "should be delegated #checking" do
         subject.checking :foo
-        expect(options).to have_received(:run_rules).with( :foo)
+        expect(options).to have_received(:checking).with( :foo)
       end
 
-      it "should be delegated #run_only_rules as #checking_only" do
+      it "should be delegated #checking_only" do
         subject.checking_only :foo
-        expect(options).to have_received(:run_only_rules).with( :foo)
+        expect(options).to have_received(:checking_only).with( :foo)
       end
 
-      it "should be delegated #skip_rules as #skipping" do
+      it "should be delegated #skipping" do
         subject.skipping :foo
-        expect(options).to have_received(:skip_rules).with( :foo)
+        expect(options).to have_received(:skipping).with( :foo)
       end
 
-      it "should be delegated #custom_options as #with_options" do
+      it "should be delegated #with_options" do
         subject.with_options :foo
-        expect(options).to have_received(:custom_options).with(:foo)
+        expect(options).to have_received(:with_options).with(:foo)
       end
     end
 

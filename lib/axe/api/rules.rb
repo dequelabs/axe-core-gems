@@ -1,8 +1,6 @@
 module Axe
   module API
     class Rules
-      attr_reader :tags, :included, :excluded, :exclusive
-
       def initialize
         @tags = []
         @included = []
@@ -10,19 +8,19 @@ module Axe
         @exclusive = []
       end
 
-      def by_tags(*tags)
+      def according_to(*tags)
         @tags.concat tags.flatten
       end
 
-      def run_only(*rules)
-        @exclusive.concat rules.flatten
-      end
-
-      def run(*rules)
+      def checking(*rules)
         @included.concat rules.flatten
       end
 
-      def skip(*rules)
+      def checking_only(*rules)
+        @exclusive.concat rules.flatten
+      end
+
+      def skipping(*rules)
         @excluded.concat rules.flatten
       end
 

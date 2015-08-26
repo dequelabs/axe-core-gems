@@ -3,70 +3,65 @@ require 'axe/api/options'
 
 module Axe::API
   describe Options do
+    let(:rules) { spy('rules') }
+    let(:custom) { spy('custom') }
     before :each do
-      allow(subject.rules).to receive(:by_tags)
-      allow(subject.rules).to receive(:run_only)
-      allow(subject.rules).to receive(:run)
-      allow(subject.rules).to receive(:skip)
+      subject.instance_variable_set :@rules, rules
+      subject.instance_variable_set :@custom, custom
     end
 
-    describe "#rules_by_tags" do
-      it "should be delegated to @rules.by_tag" do
-        subject.rules_by_tags([:foo])
-        expect(subject.rules).to have_received(:by_tags).with([:foo])
+    describe "#according_to" do
+      it "should be delegated to @rules" do
+        subject.according_to(:foo)
+        expect(rules).to have_received(:according_to).with(:foo)
       end
     end
 
-    describe "#run_only_rules" do
-      it "should be delegated to @rules.run_only" do
-        subject.run_only_rules([:foo])
-        expect(subject.rules).to have_received(:run_only).with([:foo])
+    describe "#checking_only" do
+      it "should be delegated to @rules" do
+        subject.checking_only(:foo)
+        expect(rules).to have_received(:checking_only).with(:foo)
       end
     end
 
-    describe "#run_rules" do
-      it "should be delegated to @rules.run" do
-        subject.run_rules([:foo])
-        expect(subject.rules).to have_received(:run).with([:foo])
+    describe "#checking" do
+      it "should be delegated to @rules" do
+        subject.checking(:foo)
+        expect(rules).to have_received(:checking).with(:foo)
       end
     end
 
-    describe "#skip_rules" do
-      it "should be delegated to @rules.skip" do
-        subject.skip_rules([:foo])
-        expect(subject.rules).to have_received(:skip).with([:foo])
+    describe "#skipping" do
+      it "should be delegated to @rules" do
+        subject.skipping(:foo)
+        expect(rules).to have_received(:skipping).with(:foo)
       end
     end
 
-    describe "#custom_options" do
+    describe "#with_options" do
       context "without existing custom options" do
         it "should merge additional custom options" do
-          subject.custom_options :foo => :bar
-          expect(subject.custom).to eq :foo => :bar
+          subject.instance_variable_set :@custom, {}
+          subject.with_options :foo => :bar
+          expect(subject.instance_variable_get :@custom).to eq :foo => :bar
         end
       end
 
       context "with existing custom rules" do
-        before :each do
-          subject.instance_variable_set :@custom, :foo => :bar
-        end
-
         it "should merge additional custom options" do
-          subject.custom_options :baz => :qux
-          expect(subject.custom).to eq :foo => :bar, :baz => :qux
+          subject.instance_variable_set :@custom, :foo => :bar
+          subject.with_options :baz => :qux
+          expect(subject.instance_variable_get :@custom).to eq :foo => :bar, :baz => :qux
         end
       end
     end
 
     describe "#to_json" do
-      before :each do
-        subject.instance_variable_set :@custom, custom
-        allow(subject.rules).to receive(:to_hash).and_return(rules)
-      end
-
       context "without duplicates" do
-        let(:custom) { {:foo => :bar } }
-        let(:rules) { { :baz => :qux } }
+        before :each do
+          subject.instance_variable_set :@custom, {:foo => :bar }
+          allow(rules).to receive(:to_hash).and_return( { :baz => :qux } )
+        end
 
         it "should merge rules and custom options" do
           expect(subject.to_json).to eq '{"baz":"qux","foo":"bar"}'
@@ -74,8 +69,10 @@ module Axe::API
       end
 
       context "with duplicates" do
-        let(:custom) { {:foo => :bar } }
-        let(:rules) { { :foo => :qux } }
+        before :each do
+          subject.instance_variable_set :@custom, {:foo => :bar }
+          allow(rules).to receive(:to_hash).and_return( { :foo => :qux } )
+        end
 
         it "should take custom options over rules" do
           expect(subject.to_json).to eq '{"foo":"bar"}'
