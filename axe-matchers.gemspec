@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.summary     = 'Automated accessibility testing powered by aXe'
   spec.description = <<-DESC
   axe-matchers provides matchers that wrap the axe-core accessibility library.
-  The matchers can be used with RSpec, MiniTest, Cucumber and other test tools.
-  Cucumber step definitions for are also provided.
+  The matchers can be used with RSpec, Cucumber and other test tools.
+  Cucumber step definitions are also provided.
   DESC
 
   spec.metadata = {
