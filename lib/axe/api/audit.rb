@@ -18,7 +18,7 @@ module Axe
       end
 
       def failure_message_when_negated
-        "Expected to find accessibility violations. None were detected.\nInvocation: #{invocation}"
+        "Expected to find accessibility violations. None were detected.\n\nInvocation: #{invocation}"
       end
     end
   end
