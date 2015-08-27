@@ -1,36 +1,50 @@
 # Installation
 
-`gem install axe-matchers`
+## with Bundler
 
-or add `gem 'axe-matchers'` to your `Gemfile` and `bundle install`
+add to your `Gemfile`:
+
+``` ruby
+gem 'axe-matchers'
+```
+
+and then run
+
+``` sh
+bundle install
+```
+
+## manually (without Bundler)
+
+``` sh
+gem install axe-matchers
+```
 
 # Cucumber Configuration
 
-1. Require step definitions
+1. Require step definitions: in `features/support/env.rb` or similar.
 
-Require the axe-matcher step definitions in `features/support/env.rb` or similar.
-
-``` ruby
-require 'axe/cucumber/step_definitions'
-```
+    ``` ruby
+    require 'axe/cucumber/step_definitions'
+    ```
 
 2. Configure Browser/WebDriver
 
-If there exists a `page` method on the Cucumber `World` (as is provided by the Capybara DSL), or if one of `@page`, `@browser`, `@driver` or `@webdriver` exist, then no configuration is necessary.  Otherwise, the browser object must be configurate manually.
+    If there exists a `page` method on the Cucumber `World` (as is provided by the Capybara DSL), or if one of `@page`, `@browser`, `@driver` or `@webdriver` exist, then no configuration is necessary.  Otherwise, the browser object must be configurate manually.
 
-The browser/page object can be provided directly. Or in cases where it hasn't been instantiated yet, the variable name can be given as a String/Symbol.
+    The browser/page object can be provided directly. Or in cases where it hasn't been instantiated yet, the variable name can be given as a String/Symbol.
 
-``` ruby
-@firefox = Selenium::WebDriver.for :firefox
+    ``` ruby
+    @firefox = Selenium::WebDriver.for :firefox
 
-Axe::Cucumber.configure do |c|
-  # browser object
-  c.page = @firefox
+    Axe::Cucumber.configure do |c|
+      # browser object
+      c.page = @firefox
 
-  # or variable name
-  c.page = :@firefox
-end
-```
+      # or variable name
+      c.page = :@firefox
+    end
+    ```
 
 # Accessibility Steps
 
@@ -69,14 +83,14 @@ Additional [context parameter documentation](https://github.com/dequelabs/axe-co
 If desired, a semicolon (`;`) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
 
 ``` gherkin
-Then the page should be accessible within "#header"; excluding "#footer"
-Then the page should be accessible within "#header" but excluding "#footer"
+Then the page should be accessible within "main"; excluding "aside"
+Then the page should be accessible within "main" but excluding "aside"
 ```
 
 ## Accessibility Standard (Tag) clause
 
 ``` gherkin
-Then the page should be accessible according to: wcag2a
+Then the page should be accessible according to: tag-name
 ```
 
 The tag clause specifies which accessibility standard (or standards) should be used to check the page. The accessibility standards are specified by name (tag). Multiple standards can be specified when comma-separated. e.g. `according to: wcag2a, section508`
@@ -100,8 +114,8 @@ The checking-rules clause specifies which *additional* rules to run (in addition
 If desired, a semicolon (`;`) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
 
 ``` gherkin
-Then the page should be accessible according to: wcag2aa; checking: color-contrast
-Then the page should be accessible according to: wcag2aa and checking: color-contrast
+Then the page should be accessible according to: wcag2a; checking: color-contrast
+Then the page should be accessible according to: wcag2a and checking: color-contrast
 ```
 
 ### Exclusive Rules clause
