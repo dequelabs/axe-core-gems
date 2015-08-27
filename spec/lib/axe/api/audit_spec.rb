@@ -12,7 +12,7 @@ module Axe::API
     end
 
     its(:failure_message_when_negated) do
-      is_expected.to eq "Expected to find accessibility violations. None were detected.\nInvocation: inny vacation"
+      is_expected.to eq "Expected to find accessibility violations. None were detected.\n\nInvocation: inny vacation"
     end
 
     context "when there are no violations" do
