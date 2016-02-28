@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'axe/javascript_library'
+require 'axe/core'
 
 module Axe
-  describe JavaScriptLibrary do
+  describe Core do
 
     its(:source) { should start_with "/*! aXe" }
 

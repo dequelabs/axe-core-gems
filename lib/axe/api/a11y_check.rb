@@ -8,7 +8,7 @@ require 'axe/api/audit'
 require 'axe/api/context'
 require 'axe/api/options'
 require 'axe/api/results'
-require 'axe/javascript_library'
+require 'axe/core'
 
 module Axe
   module API
@@ -37,7 +37,7 @@ module Axe
       private
 
       def inject_axe_lib(page)
-        JavaScriptLibrary.new.inject_into page
+        Core.new.inject_into page
       end
 
       def audit(page)

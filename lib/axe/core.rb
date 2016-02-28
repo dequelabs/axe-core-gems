@@ -2,7 +2,7 @@ require 'pathname'
 require 'rubygems'
 
 module Axe
-  class JavaScriptLibrary
+  class Core
 
     def inject_into(page)
       page.execute_script source
