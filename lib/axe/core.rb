@@ -7,7 +7,7 @@ module Axe
   class Core
     JS_NAME = "axe"
 
-    def inject_into(page)
+    def initialize(page)
       Loader.new(page, self).call
     end
 

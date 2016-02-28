@@ -29,17 +29,13 @@ module Axe
       end
 
       def call(page)
-        inject_axe_lib page
+        Core.new(page)
         audit page do |results|
           Audit.new to_js, Results.new(results)
         end
       end
 
       private
-
-      def inject_axe_lib(page)
-        Core.new.inject_into page
-      end
 
       def audit(page)
         yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", @context.to_json, @options.to_json
