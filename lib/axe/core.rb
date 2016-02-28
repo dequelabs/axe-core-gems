@@ -1,12 +1,14 @@
 require 'pathname'
 require 'rubygems'
 
+require 'axe/loader'
+
 module Axe
   class Core
     JS_NAME = "axe"
 
     def inject_into(page)
-      page.execute_script source
+      Loader.new(page, self).call
     end
 
     def source
