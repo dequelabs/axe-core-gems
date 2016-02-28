@@ -13,7 +13,8 @@ require 'axe/core'
 module Axe
   module API
     class A11yCheck
-      METHOD_NAME = "#{LIBRARY_IDENTIFIER}.a11yCheck"
+      JS_NAME = "a11yCheck"
+      METHOD_NAME = "#{Core::JS_NAME}.#{JS_NAME}"
 
       extend Forwardable
       def_delegators :@context, :within, :excluding
@@ -41,7 +42,7 @@ module Axe
       end
 
       def audit(page)
-        yield page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", @context.to_json, @options.to_json
       end
 
       def to_js

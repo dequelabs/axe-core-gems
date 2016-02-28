@@ -3,6 +3,7 @@ require 'rubygems'
 
 module Axe
   class Core
+    JS_NAME = "axe"
 
     def inject_into(page)
       page.execute_script source
