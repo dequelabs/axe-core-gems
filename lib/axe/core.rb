@@ -8,7 +8,12 @@ module Axe
     JS_NAME = "axe"
 
     def initialize(page)
-      Loader.new(page, self).call
+      @page = page
+      Loader.new(@page, self).call
+    end
+
+    def call(callable)
+      callable.call(@page)
     end
 
     def source

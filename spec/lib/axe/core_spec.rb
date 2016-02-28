@@ -11,5 +11,15 @@ module Axe
     describe "initialize" do
       pending "should load itself into the given page"
     end
+
+    describe "call" do
+      let(:a11y_check) { spy('a11y_check') }
+
+      it "should invoke the callable in the page" do
+        core.call(a11y_check)
+
+        expect(a11y_check).to have_received(:call).with(page)
+      end
+    end
   end
 end
