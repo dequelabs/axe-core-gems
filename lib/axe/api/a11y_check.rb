@@ -29,7 +29,6 @@ module Axe
       end
 
       def call(page)
-        Core.new(page)
         audit page do |results|
           Audit.new to_js, Results.new(results)
         end

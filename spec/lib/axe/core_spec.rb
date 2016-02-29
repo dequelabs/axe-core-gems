@@ -9,7 +9,10 @@ module Axe
     its(:source) { should start_with "/*! aXe" }
 
     describe "initialize" do
-      pending "should load itself into the given page"
+      it "should inject the axe-core lib" do
+        core # trigger initialize
+        expect(page).to have_received(:execute_script).with(a_string_starting_with ("/*! aXe"))
+      end
     end
 
     describe "call" do
