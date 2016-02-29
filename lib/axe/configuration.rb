@@ -17,6 +17,10 @@ module Axe
       @hooks = initialize_callbacks_array_per_hook
     end
 
+    def api
+      @api ||= API.new self
+    end
+
     def page_from(world)
       page_from_eval(world) ||
         page ||
@@ -59,6 +63,21 @@ module Axe
     def from_ivar(ivar, world)
       self.page = ivar
       page_from_eval(world)
+    end
+
+    # adapter to only expose public methods to Axe.configure block
+    class API
+      extend Forwardable
+
+      def_delegators :@configuration,
+        :async_results_identifier, :async_results_identifier=,
+        :max_wait_time, :max_wait_time=,
+        :page, :page=,
+        :wait_interval, :wait_interval=
+
+      def initialize(configuration)
+        @configuration = configuration
+      end
     end
   end
 
