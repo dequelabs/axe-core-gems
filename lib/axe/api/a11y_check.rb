@@ -8,12 +8,13 @@ require 'axe/api/audit'
 require 'axe/api/context'
 require 'axe/api/options'
 require 'axe/api/results'
-require 'axe/javascript_library'
+require 'axe/core'
 
 module Axe
   module API
     class A11yCheck
-      METHOD_NAME = "#{LIBRARY_IDENTIFIER}.a11yCheck"
+      JS_NAME = "a11yCheck"
+      METHOD_NAME = "#{Core::JS_NAME}.#{JS_NAME}"
 
       extend Forwardable
       def_delegators :@context, :within, :excluding
@@ -28,7 +29,6 @@ module Axe
       end
 
       def call(page)
-        inject_axe_lib page
         audit page do |results|
           Audit.new to_js, Results.new(results)
         end
@@ -36,12 +36,8 @@ module Axe
 
       private
 
-      def inject_axe_lib(page)
-        JavaScriptLibrary.new.inject_into page
-      end
-
       def audit(page)
-        yield page.execute_async_script "#{METHOD_NAME}.apply(#{LIBRARY_IDENTIFIER}, arguments)", @context.to_json, @options.to_json
+        yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", @context.to_json, @options.to_json
       end
 
       def to_js

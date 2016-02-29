@@ -1,6 +1,6 @@
 require 'forwardable'
 require 'chain_mail/chainable'
-require 'axe/page'
+require 'axe/core'
 require 'axe/api/a11y_check'
 
 module Axe
@@ -18,8 +18,7 @@ module Axe
       end
 
       def matches?(page)
-        @audit = @a11y_check.call Page.new page
-
+        @audit = Core.new(page).call @a11y_check
         @audit.passed?
       end
     end

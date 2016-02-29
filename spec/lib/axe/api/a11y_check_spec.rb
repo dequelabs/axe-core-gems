@@ -67,12 +67,7 @@ module Axe::API
       let(:results) { spy('results') }
       let(:audit) { spy('audit') }
 
-      it "should inject the axe-core lib" do
-        subject.call(page)
-        expect(page).to have_received(:execute_script).with(a_string_starting_with ("/*! aXe"))
-      end
-
-      it "should execute the the A11yCheck script" do
+      it "should execute the axe.a11yCheck JS method" do
         pending "validate args correctly"
         subject.call(page)
         expect(page).to have_received(:execute_async_script).with("axe.a11yCheck.apply(axe, arguments)", "document", "{}")

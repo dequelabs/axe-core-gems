@@ -11,11 +11,14 @@ module Axe::Matchers
 
     describe "#matches?" do
       let(:page) { spy('page') }
+      let(:core) { spy('core') }
 
       it "should run the a11y_check against the page" do
-        expect(Axe::Page).to receive(:new).with(page).and_return("page")
+        expect(Axe::Core).to receive(:new).with(page).and_return(core)
+
         subject.matches?(page)
-        expect(a11y_check).to have_received(:call).with("page")
+
+        expect(core).to have_received(:call).with(a11y_check)
       end
 
       it "should save results" do
