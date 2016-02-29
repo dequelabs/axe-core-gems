@@ -2,13 +2,14 @@ require 'pathname'
 require 'rubygems'
 
 require 'axe/loader'
+require 'axe/page'
 
 module Axe
   class Core
     JS_NAME = "axe"
 
     def initialize(page)
-      @page = page
+      @page = Page.new page
       Loader.new(@page, self).call
     end
 

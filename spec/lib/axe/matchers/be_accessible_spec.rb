@@ -14,8 +14,7 @@ module Axe::Matchers
       let(:core) { spy('core') }
 
       it "should run the a11y_check against the page" do
-        expect(Axe::Page).to receive(:new).with(page).and_return("page")
-        expect(Axe::Core).to receive(:new).with("page").and_return(core)
+        expect(Axe::Core).to receive(:new).with(page).and_return(core)
 
         subject.matches?(page)
 
