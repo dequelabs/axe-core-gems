@@ -11,8 +11,10 @@ module Axe
       :max_wait_time, :max_wait_time=,
       :wait_interval, :wait_interval=
 
+    @@hooks = [ :after_load ]
+
     def initialize
-      @hooks = { after_load: [] }
+      @hooks = initialize_callbacks_array_per_hook
     end
 
     def page_from(world)
@@ -32,14 +34,19 @@ module Axe
       end
     end
 
-    # hooks
-
-    def after_load(callable=nil, &block)
-      callable ||= block
-      @hooks.fetch(:after_load) << callable if callable
+    # define hook registration methods
+    @@hooks.each do |hook|
+      define_method hook do |callable=nil, &block|
+        callable ||= block
+        @hooks.fetch(hook) << callable if callable
+      end
     end
 
     private
+
+    def initialize_callbacks_array_per_hook
+      Hash[ @@hooks.map{|name| [name, []]} ]
+    end
 
     def page_from_eval(world)
       world.instance_eval "#{page}" if page.is_a?(String) || page.is_a?(Symbol)
