@@ -11,6 +11,10 @@ module Axe
       :max_wait_time, :max_wait_time=,
       :wait_interval, :wait_interval=
 
+    def initialize
+      @hooks = { after_load: [] }
+    end
+
     def page_from(world)
       page_from_eval(world) ||
         page ||
@@ -20,6 +24,19 @@ module Axe
         from_ivar(:@driver, world) ||
         from_ivar(:@webdriver, world) ||
         NullWebDriver.new
+    end
+
+    def run_hook(name, *args)
+      @hooks.fetch(name).each do |callback|
+        callback.call(*args)
+      end
+    end
+
+    # hooks
+
+    def after_load(callable=nil, &block)
+      callable ||= block
+      @hooks.fetch(:after_load) << callable if callable
     end
 
     private
