@@ -20,9 +20,14 @@ module Axe
     end
 
     def load_into_iframes
-      @page.find_elements(:tag_name, "iframe").each do |iframe|
+      iframes.each do |iframe|
         @page.within_frame(iframe) { call }
       end
+    end
+
+    def iframes
+      # find_elements is selenium; all is capybara
+      @page.respond_to?(:find_elements) ? @page.find_elements(:tag_name, "iframe") : @page.all("iframe")
     end
   end
 end
