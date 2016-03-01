@@ -92,7 +92,7 @@ module Axe
         it "should call the block" do
           subject.after_load after_load_block
 
-          subject.run_hook :after_load, :args
+          subject.run_after_load_hook :args
           expect(after_load_block).to have_received(:call).with(:args)
         end
       end
@@ -104,7 +104,7 @@ module Axe
           subject.after_load after_load_block
           subject.after_load after_load_block
 
-          subject.run_hook :after_load, :args
+          subject.run_after_load_hook :args
           expect(after_load_block).to have_received(:call).with(:args).twice
         end
       end
@@ -113,7 +113,7 @@ module Axe
         called = false
         subject.after_load { called=true }
 
-        subject.run_hook :after_load, :args
+        subject.run_after_load_hook :args
         expect(called).to be true
       end
 
@@ -121,7 +121,7 @@ module Axe
         called = false
         subject.after_load ->(foo) { called=true }
 
-        subject.run_hook :after_load, :args
+        subject.run_after_load_hook :args
         expect(called).to be true
       end
     end

@@ -35,17 +35,17 @@ module Axe
         NullWebDriver.new
     end
 
-    def run_hook(name, *args)
-      @hooks.fetch(name).each do |callback|
-        callback.call(*args)
-      end
-    end
-
-    # define hook registration methods
+    # define run and registration methods per hook
     @@hooks.each do |hook|
       define_method hook do |callable=nil, &block|
         callable ||= block
         @hooks.fetch(hook) << callable if callable
+      end
+
+      define_method "run_#{hook}_hook" do |*args|
+        @hooks.fetch(hook).each do |callback|
+          callback.call(*args)
+        end
       end
     end
 
