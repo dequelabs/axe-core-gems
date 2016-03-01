@@ -21,9 +21,7 @@ module Axe
 
     def load_into_iframes
       @page.find_elements(:tag_name, "iframe").each do |iframe|
-        @page.switch_to.frame iframe
-        call
-        @page.switch_to.default_content # this might need to be in an 'ensure'
+        @page.within_frame(iframe) { call }
       end
     end
   end

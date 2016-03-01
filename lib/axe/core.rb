@@ -2,6 +2,7 @@ require 'pathname'
 require 'rubygems'
 
 require 'webdriver_script_adapter/execute_async_script_adapter'
+require 'webdriver_script_adapter/frame_adapter'
 
 require 'axe/loader'
 
@@ -40,7 +41,7 @@ module Axe
     end
 
     def wrap_driver(driver)
-      ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap driver
+      ::WebDriverScriptAdapter::FrameAdapter.wrap ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap driver
     end
   end
 end
