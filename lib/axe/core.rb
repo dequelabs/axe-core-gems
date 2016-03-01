@@ -19,17 +19,21 @@ module Axe
     end
 
     def source
-      axe_lib.read
+      Pathname.new(axe_lib).read
     end
 
     private
 
     def axe_lib
-      gem_root + 'node_modules/axe-core/axe.min.js'
+      Axe.configuration.core_jslib_path || default_jslib_path
+    end
+
+    def default_jslib_path
+      Pathname.new(gem_root) + 'node_modules/axe-core/axe.min.js'
     end
 
     def gem_root
-      Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
+      Gem::Specification.find_by_name('axe-matchers').gem_dir
     end
 
     def wrap_driver(driver)

@@ -5,7 +5,7 @@ module Axe
   class Configuration
     extend Forwardable
 
-    attr_accessor :page
+    attr_accessor :page, :core_jslib_path
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
@@ -79,6 +79,7 @@ module Axe
 
       def_delegators :@configuration,
         :async_results_identifier=,
+        :core_jslib_path=,
         :max_wait_time=,
         :page=,
         :wait_interval=,
