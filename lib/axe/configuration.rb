@@ -12,13 +12,16 @@ module Axe
       :wait_interval, :wait_interval=
 
     @@hooks = [ :after_load ]
+    def self.hooks
+      @@hooks
+    end
 
     def initialize
       @hooks = initialize_callbacks_array_per_hook
     end
 
     def api
-      @api ||= API.new self
+      @api ||= DSL.new self
     end
 
     def page_from(world)
@@ -66,14 +69,20 @@ module Axe
     end
 
     # adapter to only expose public methods to Axe.configure block
-    class API
+    # Only the methods that are on this object are exposed to:
+    #     Axe.configure do |c|
+    #       c.*
+    #     end
+    # They are all forwarded to the internal @configuration instance
+    class DSL
       extend Forwardable
 
       def_delegators :@configuration,
-        :async_results_identifier, :async_results_identifier=,
-        :max_wait_time, :max_wait_time=,
-        :page, :page=,
-        :wait_interval, :wait_interval=
+        :async_results_identifier=,
+        :max_wait_time=,
+        :page=,
+        :wait_interval=,
+        *Configuration.hooks
 
       def initialize(configuration)
         @configuration = configuration
