@@ -1,4 +1,7 @@
 require 'forwardable'
+require 'pathname'
+require 'rubygems'
+
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
 module Axe
@@ -18,6 +21,7 @@ module Axe
 
     def initialize
       @hooks = initialize_callbacks_array_per_hook
+      @core_jslib_path = gem_root + 'node_modules/axe-core/axe.min.js'
     end
 
     def api
@@ -53,6 +57,10 @@ module Axe
 
     def initialize_callbacks_array_per_hook
       Hash[ @@hooks.map{|name| [name, []]} ]
+    end
+
+    def gem_root
+      Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
     end
 
     def page_from_eval(world)

@@ -1,5 +1,4 @@
 require 'pathname'
-require 'rubygems'
 
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
@@ -19,22 +18,10 @@ module Axe
     end
 
     def source
-      Pathname.new(axe_lib).read
+      Pathname.new(Axe.configuration.core_jslib_path).read
     end
 
     private
-
-    def axe_lib
-      Axe.configuration.core_jslib_path || default_jslib_path
-    end
-
-    def default_jslib_path
-      Pathname.new(gem_root) + 'node_modules/axe-core/axe.min.js'
-    end
-
-    def gem_root
-      Gem::Specification.find_by_name('axe-matchers').gem_dir
-    end
 
     def wrap_driver(driver)
       ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap driver
