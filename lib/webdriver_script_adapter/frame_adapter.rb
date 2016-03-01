@@ -5,11 +5,13 @@ module WebDriverScriptAdapter
 
     def self.wrap(driver)
       if driver.respond_to?(:within_frame)
-        driver
+        driver #capybara already supports within_frame
+      elsif !driver.respond_to?(:switch_to)
+        WatirAdapter.new driver
       elsif driver.switch_to.respond_to?(:parent_frame)
-        new driver
+        new driver # add within_frame to selenium
       else
-        ParentlessFrameAdapter.new driver
+        ParentlessFrameAdapter.new driver # old selenium doesn't support parent_frame
       end
     end
 
@@ -21,6 +23,15 @@ module WebDriverScriptAdapter
     end
 
     private
+
+    class WatirAdapter < ::DumbDelegator
+      def within_frame(frame)
+        driver.switch_to.frame(frame.wd)
+        yield
+      ensure
+        driver.switch_to.parent_frame
+      end
+    end
 
     # Selenium Webdriver < 2.43 doesnt support moving back to the parent
     class ParentlessFrameAdapter < ::DumbDelegator
