@@ -8,7 +8,7 @@ describe Axe do
 
   describe "#configure" do
     it "should yield to #configuration" do
-      expect { |stub_block| subject.configure(&stub_block) }.to yield_with_args(subject.configuration)
+      expect { |stub_block| subject.configure(&stub_block) }.to yield_with_args(subject.configuration.api)
     end
   end
 

@@ -3,12 +3,8 @@ require 'axe/core'
 
 module Axe
   describe Core do
-    subject(:core) { described_class.new(:unwrapped_page) }
+    subject(:core) { described_class.new(page) }
     let(:page) { spy('page') }
-
-    before :each do
-      expect(Axe::Page).to receive(:new).with(:unwrapped_page).and_return(page)
-    end
 
     its(:source) { should start_with "/*! aXe" }
 
