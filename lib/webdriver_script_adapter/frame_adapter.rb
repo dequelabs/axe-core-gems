@@ -25,11 +25,9 @@ module WebDriverScriptAdapter
     private
 
     class WatirAdapter < ::DumbDelegator
-      def within_frame(frame)
-        driver.switch_to.frame(frame.wd)
-        yield
-      ensure
-        driver.switch_to.parent_frame
+      # delegate to Watir's Selenium #driver
+      def within_frame(frame, &block)
+        FrameAdapter.instance_method(:within_frame).bind(FrameAdapter.wrap driver).call(frame.wd, &block)
       end
     end
 
