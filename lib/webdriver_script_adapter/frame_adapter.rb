@@ -19,7 +19,12 @@ module WebDriverScriptAdapter
       switch_to.frame(frame)
       yield
     ensure
-      switch_to.parent_frame
+      begin
+        switch_to.parent_frame
+      rescue => e
+        p e
+        switch_to.default_content
+      end
     end
 
     private
