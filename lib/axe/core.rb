@@ -22,6 +22,13 @@ module Axe
       axe_lib.read
     end
 
+    def already_loaded?
+      <<-JS
+        window.#{JS_NAME} &&
+        typeof #{JS_NAME}.a11yCheck === 'function'
+      JS
+    end
+
     private
 
     def axe_lib
