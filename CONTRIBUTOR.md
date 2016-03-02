@@ -32,7 +32,7 @@ However, to run the tests against phantomjs, you will need phantomjs installed. 
     `brew tap homebrew/bundle` to install brewdler
     `brew bundle` to install phantomjs and chromedriver
 
-Additionally, to test against Safari, the SafariDriver extension is needed. Install it (using Safari) from http://selenium-release.storage.googleapis.com/2.45/SafariDriver.safariextz.
+Additionally, to test against Safari, the SafariDriver extension is needed. Install it (using Safari) from http://selenium-release.storage.googleapis.com/2.48/SafariDriver.safariextz.
 
 ## Rake Tasks
 
