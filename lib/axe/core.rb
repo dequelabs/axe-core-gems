@@ -21,6 +21,13 @@ module Axe
       Pathname.new(Axe.configuration.core_jslib_path).read
     end
 
+    def already_loaded?
+      <<-JS
+        window.#{JS_NAME} &&
+        typeof #{JS_NAME}.a11yCheck === 'function'
+      JS
+    end
+
     private
 
     def wrap_driver(driver)

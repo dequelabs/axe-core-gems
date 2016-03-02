@@ -4,7 +4,7 @@ require 'axe/core'
 module Axe
   describe Core do
     subject(:core) { described_class.new(page) }
-    let(:page) { spy('page') }
+    let(:page) { spy('page', evaluate_script: false) }
 
     its(:source) { should start_with "/*! aXe" }
 
