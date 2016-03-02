@@ -20,7 +20,9 @@ bundle install
 gem install axe-matchers
 ```
 
-# Cucumber Configuration
+# Cucumber
+
+## Configuration
 
 1. Require step definitions: in `features/support/env.rb` or similar.
 
@@ -46,13 +48,13 @@ gem install axe-matchers
     end
     ```
 
-# Accessibility Steps
+## Built-In Accessibility Cucumber Steps
 
 To construct an axe accessibility Cucumber step, begin with the base step, and append any clauses necessary. All of the following clauses may be mixed and matched; however, they must appear in the specified order:
 
 `Then the page should be accessible [including] [excluding] [according-to] [checking-rules/checking-only-rules] [skipping-rules]`
 
-## Base Step
+### Base Step
 
 ``` gherkin
 Then the page should be accessible
@@ -60,7 +62,7 @@ Then the page should be accessible
 
 The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.a11yCheck](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axea11ycheck) (the entire document is checked using the default rules).
 
-## Inclusion clause
+### Inclusion clause
 
 ``` gherkin
 Then the page should be accessible within "#selector"
@@ -70,7 +72,7 @@ The inclusion clause (`within "#selector"`) specifies which elements of the page
 
 Additional [context parameter documentation](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter)
 
-## Exclusion clause
+### Exclusion clause
 
 ``` gherkin
 Then the page should be accessible excluding "#selector"
@@ -87,7 +89,7 @@ Then the page should be accessible within "main"; excluding "aside"
 Then the page should be accessible within "main" but excluding "aside"
 ```
 
-## Accessibility Standard (Tag) clause
+### Accessibility Standard (Tag) clause
 
 ``` gherkin
 Then the page should be accessible according to: tag-name
@@ -103,7 +105,7 @@ If desired, a semicolon (`;`) may be used to separate the tag clause from the pr
 Then the page should be accessible within "#header"; according to: best-practice
 ```
 
-## Checking Rules clause
+### Checking Rules clause
 
 ``` gherkin
 Then the page should be accessible checking: ruleId
@@ -118,7 +120,7 @@ Then the page should be accessible according to: wcag2a; checking: color-contras
 Then the page should be accessible according to: wcag2a and checking: color-contrast
 ```
 
-### Exclusive Rules clause
+#### Exclusive Rules clause
 
 ``` gherkin
 Then the page should be accessible checking only: ruleId
@@ -126,7 +128,7 @@ Then the page should be accessible checking only: ruleId
 
 This clause is not really a separate clause. But rather, by adding the word `only` to the checking-rules clause, the meaning of the step can be changed. As described above, by default the checking-rules clause specifies *additional* rules to run. If the word `only` is used, then *only* the specified rules are checked.
 
-## Skipping Rules clause
+### Skipping Rules clause
 
 ``` gherkin
 Then the page should be accessible skipping: ruleId
@@ -141,7 +143,7 @@ Then the page should be accessible according to: wcag2a; skipping: accesskeys
 Then the page should be accessible according to: wcag2a but skipping: accesskeys
 ```
 
-# Examples
+## Examples
 
 ``` gherkin
 Then the page should be accessible within "main, header" but excluding "footer"
