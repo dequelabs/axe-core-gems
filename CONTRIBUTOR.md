@@ -72,3 +72,5 @@ rake cucumber:watir:phantomjs
 ```
 
 You may omit the browser (`rake cucumber:capybara`) and it will run the features under every configured browser for the given driver. Alternatively, you may omit the driver (`rake cucumber:firefox`) and it will run the features with each driver for the given browser. Additionally, there are special options to run every driver/browser combination `rake cucumber:all`, or only the headless browsers `rake cucumber:headless`. (Headless combinations are capybara+poltergeist, capybara+webkit, capybara+phantomjs, selenium+phantomjs, watir+phantomjs)
+
+The profiles are configured in `config/cucumber.yml`. Each profile explicitly requires the appropriate env file based on the driver. This overrides Cucumber's default behavior of automatically requiring the entire `features/support/*.rb` tree. Each of the driver-specific env files in turn requires the common `features/support/env.rb` file. The driver-specific files are intended to import, configure, and wrap each of the drivers such that the step definitions can interact with any of the drivers via the same commands.
