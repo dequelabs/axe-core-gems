@@ -44,6 +44,30 @@ Rake is the standard task runner. For a list of configured tasks, run `rake -T`.
 - `rake build` to build and package the gem
 - `rake clean` and `rake clobber` to clean up build assets
 
+# Build and Release
+
+ - `rake build`: build gem into the pkg directory
+ - `rake install`: build and install into system gems
+ - `rake clobber`: remove generated files (pkg/, node_modules/)
+
+## Updating axe-core js lib
+
+ - `rake npm:install`: install axe-core (and any other npm dependencies)
+ - `rake npm:update`: update axe-core (and any other npm dependencies) to latest version allowed by package.json
+ - `rake npm:upgrade`: upgrade axe-core dependency to latest version available, overwriting (and saving to) package.json
+
+## Releasing
+
+When releasing a new build of axe-matchers to bump axe-core:
+
+1. Ensure a clean working directory
+2. Run `rake npm:update` or `rake npm:upgrade` as relevant and commit any package.json changes
+3. Bump and commit axe-matchers version in `lib/axe/version.rb`
+4. Run tests
+5. Release to rubygems: `rake release`
+
+# Tests
+
 ## RSpec Tests (unit and integration)
 
 These confirm the proper behavior of the matchers. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
