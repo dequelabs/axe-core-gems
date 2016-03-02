@@ -23,6 +23,8 @@ module Axe
         expect(Axe.configuration).to receive(:run_after_load_hook).with(lib)
         loader.call
       end
+
+      pending "should after_load hook run if script already loaded?"
     end
   end
 end
