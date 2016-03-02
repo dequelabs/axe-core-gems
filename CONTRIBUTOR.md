@@ -1,4 +1,9 @@
 
+- [Setup](#setup)
+- [Rake Tasks](#rake-tasks)
+- [Build and Release](#build-and-release)
+- [Tests](#tests)
+
 # Setup
 
 ## Requirements
@@ -11,11 +16,15 @@
 6. Cucumber for smoke tests
 7. Node/npm are necessary for pulling down the axe-core package
 
-## Ruby Version management
+## Ruby version management
 
-[rbenv](https://github.com/sstephenson/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice. 2.0.0-p481 is the official minimum version, as it is the default Ruby bundled with OS X Mavericks, but the gem *ought* to support 1.9 and above.
+[rbenv](https://github.com/rbenv/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice. 2.0.0-p481 is the official minimum version, as it is the default Ruby bundled with OS X Mavericks, but the gem *ought* to support 1.9 and above.
 
 The `.ruby-version` is intentionally ignored from the repo for the same reason that `Gemfile.lock` should not be committed. See http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/ for more clarification.
+
+## Node version management
+
+Similar to rbenv, [nodenv](https://github.com/nodenv/nodenv) is the recommended node version manager if you have or need multiple versions of node installed simultaneously.
 
 ## Bundler
 
@@ -30,19 +39,21 @@ Most of the dependencies necessary for running the various test suite configurat
 
 However, to run the tests against phantomjs, you will need phantomjs installed. And to run the tests against chrome, you will need chromedriver. Both of these are system dependencies. These can be installed manually, or through homebrew. To ease installation of these non-gem dependencies, a `Brewfile` is provided.
 
+It is recommended that you visually inspect the Brewfile to ensure there are no conflicts with existing tools already on your system. Each tool can be installed manually as necessary, and are even optional. (phantomjs and chromedriver are only necessary if running the cucumber smoke tests against phantomjs and chrome, respectively)
+
     `brew tap homebrew/bundle` to install brewdler
-    `brew bundle` to install phantomjs and chromedriver
+    `brew bundle` to install phantomjs, chromedriver, and node
 
 Additionally, to test against Safari, the SafariDriver extension is needed. Install it (using Safari) from http://selenium-release.storage.googleapis.com/2.48/SafariDriver.safariextz.
 
-## Rake Tasks
+# Rake Tasks
 
 Rake is the standard task runner. For a list of configured tasks, run `rake -T`. Briefly:
 
 - `rake spec` to run unit tests
 - `rake cucumber` to run end to end tests
 - `rake build` to build and package the gem
-- `rake clean` and `rake clobber` to clean up build assets
+- `rake clobber` to clean up build assets
 
 # Build and Release
 
