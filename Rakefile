@@ -27,7 +27,7 @@ namespace :npm do
 
   desc "Upgrade axe-core dependency to latest version available, overwriting package.json"
   task :upgrade do
-    sh "npm install --silent --save axe-core"
+    sh "npm install --silent --save axe-core@latest"
   end
 end
 
