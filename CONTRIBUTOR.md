@@ -4,10 +4,10 @@
 
 1. Ruby 2.0.0 or later.
 2. Bundler for gem dependencies
-3. Brewdler for system dependencies (phantomjs, chromedriver, etc)
+3. (optional) Brewdler for system dependencies (phantomjs, chromedriver, etc)
 4. Rake as task runner
 5. RSpec for unit tests
-6. Cucumber for end to end tests
+6. Cucumber for smoke tests
 7. Node/npm are necessary for pulling down the axe-core package
 
 ## Ruby Version management
@@ -46,6 +46,8 @@ Rake is the standard task runner. For a list of configured tasks, run `rake -T`.
 # RSpec Unit Tests
 
 These confirm the proper behavior of the matchers. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
+see also: `rake -T spec`
+
 
 # Cucumber Features
 
