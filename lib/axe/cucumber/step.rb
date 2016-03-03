@@ -1,6 +1,6 @@
 require 'yaml'
 
-require 'axe'
+require 'axe/support'
 require 'axe/matchers'
 require 'axe/expectation'
 
@@ -41,7 +41,7 @@ module Axe
       $/x
 
       def self.create_for(world)
-        new Axe.page_from world
+        new(Support.page_from world)
       end
 
       def initialize(page)
