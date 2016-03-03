@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   # drivers
   spec.add_development_dependency 'capybara', '~> 2.4'
   spec.add_development_dependency 'capybara-webkit', '~> 1.3'
-  spec.add_development_dependency 'poltergeist', '~> 1.6'
+  spec.add_development_dependency 'poltergeist', '~> 1.8'
   spec.add_development_dependency 'selenium-webdriver', '~> 2.46'
   spec.add_development_dependency 'watir-webdriver', '~> 0.8'
 end
