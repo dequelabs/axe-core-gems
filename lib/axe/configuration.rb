@@ -8,16 +8,13 @@ module Axe
   class Configuration
     extend Forwardable
 
+    HOOKS = [ :after_load ]
+
     attr_accessor :page, :core_jslib_path, :skip_iframes
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
       :wait_interval, :wait_interval=
-
-    @@hooks = [ :after_load ]
-    def self.hooks
-      @@hooks
-    end
 
     def initialize
       @page = :page
@@ -30,7 +27,7 @@ module Axe
     end
 
     # define run and registration methods per hook
-    @@hooks.each do |hook|
+    HOOKS.each do |hook|
       define_method hook do |callable=nil, &block|
         callable ||= block
         @hooks.fetch(hook) << callable if callable
@@ -46,7 +43,7 @@ module Axe
     private
 
     def initialize_callbacks_array_per_hook
-      Hash[ @@hooks.map{|name| [name, []]} ]
+      Hash[ HOOKS.map{|name| [name, []]} ]
     end
 
     def gem_root
@@ -69,7 +66,7 @@ module Axe
         :page=,
         :skip_iframes=,
         :wait_interval=,
-        *Configuration.hooks
+        *HOOKS
 
       def initialize(configuration)
         @configuration = configuration
