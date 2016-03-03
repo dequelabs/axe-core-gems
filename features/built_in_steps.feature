@@ -1,6 +1,6 @@
-Feature: aXe cucumber steps are cool
+Feature: aXe built-in cucumber steps
 
-  Scenario: Test whole page
+  Scenario: smoke test
     Given I visit "http://abcdcomputech.dequecloud.com/"
 
     Then the page should not be accessible
