@@ -16,3 +16,7 @@ Capybara.default_driver = case $browser
                             end
                             :selenium
                           end
+
+Before do
+  @page = Capybara.current_session
+end
