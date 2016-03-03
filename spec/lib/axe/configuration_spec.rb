@@ -15,12 +15,10 @@ module Axe
     it { is_expected.to respond_to :wait_interval }
     it { is_expected.to respond_to :wait_interval= }
 
-
-
     describe "after_load hook" do
       let(:after_load_block) { spy('after_load_block') }
 
-      before :each do
+      after :each do
         # reset the shared callbacks hash for each test
         Hooks.instance_variable_set :@callbacks, nil
       end
@@ -60,6 +58,5 @@ module Axe
         expect(called).to be true
       end
     end
-
   end
 end

@@ -20,7 +20,7 @@ module Axe
       end
 
       it "should run the after_load hook" do
-        expect(Axe.configuration).to receive(:run_after_load_hook).with(lib)
+        expect(Axe::Hooks).to receive(:run_after_load).with(lib)
         loader.call
       end
 

@@ -28,7 +28,7 @@ module Axe
         world.instance_variable_get(ivar_name)
       end
     end
-
-    class NullWebDriver; end
   end
+
+  class NullWebDriver; end
 end

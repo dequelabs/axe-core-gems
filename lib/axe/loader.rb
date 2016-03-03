@@ -1,4 +1,5 @@
 require 'axe'
+require 'axe/hooks'
 
 module Axe
   class Loader
@@ -9,7 +10,7 @@ module Axe
 
     def call
       @page.execute_script @lib.source unless already_loaded?
-      Axe.configuration.run_after_load_hook @lib
+      Axe::Hooks.run_after_load @lib
       load_into_iframes unless Axe.configuration.skip_iframes
     end
 
