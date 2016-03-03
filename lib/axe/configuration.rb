@@ -46,6 +46,4 @@ module Axe
       Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
     end
   end
-
-  class NullWebDriver; end
 end

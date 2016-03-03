@@ -29,5 +29,6 @@ module Axe
       end
     end
 
+    class NullWebDriver; end
   end
 end
