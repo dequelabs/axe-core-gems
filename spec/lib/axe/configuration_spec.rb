@@ -18,25 +18,28 @@ module Axe
 
 
     describe "after_load hook" do
-      context "with a single registered callback" do
-        let(:after_load_block) { spy('after_load_block') }
+      let(:after_load_block) { spy('after_load_block') }
 
+      before :each do
+        # reset the shared callbacks hash for each test
+        Hooks.instance_variable_set :@callbacks, nil
+      end
+
+      context "with a single registered callback" do
         it "should call the block" do
           subject.after_load after_load_block
 
-          subject.run_after_load_hook :args
+          Hooks.run_after_load :args
           expect(after_load_block).to have_received(:call).with(:args)
         end
       end
 
       context "with multiple registered callbacks" do
-        let(:after_load_block) { spy('after_load_block') }
-
         it "should call the block" do
           subject.after_load after_load_block
           subject.after_load after_load_block
 
-          subject.run_after_load_hook :args
+          Hooks.run_after_load :args
           expect(after_load_block).to have_received(:call).with(:args).twice
         end
       end
@@ -45,7 +48,7 @@ module Axe
         called = false
         subject.after_load { called=true }
 
-        subject.run_after_load_hook :args
+        Hooks.run_after_load :args
         expect(called).to be true
       end
 
@@ -53,7 +56,7 @@ module Axe
         called = false
         subject.after_load ->(foo) { called=true }
 
-        subject.run_after_load_hook :args
+        Hooks.run_after_load :args
         expect(called).to be true
       end
     end
