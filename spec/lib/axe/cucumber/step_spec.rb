@@ -6,7 +6,7 @@ module Axe::Cucumber
 
     describe "::create_for" do
       before :each do
-        allow(Axe).to receive(:page_from)
+        allow(Axe::Support).to receive(:page_from)
       end
 
       it "should create a Step" do
@@ -15,7 +15,7 @@ module Axe::Cucumber
 
       it "creates the step with the page from the given world" do
         allow(Step).to receive(:new)
-        allow(Axe).to receive(:page_from).with(:world).and_return(:page)
+        allow(Axe::Support).to receive(:page_from).with(:world).and_return(:page)
 
         described_class.create_for :world
 

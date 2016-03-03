@@ -20,23 +20,13 @@ module Axe
     end
 
     def initialize
+      @page = :page
       @hooks = initialize_callbacks_array_per_hook
       @core_jslib_path = gem_root + 'node_modules/axe-core/axe.min.js'
     end
 
     def api
       @api ||= DSL.new self
-    end
-
-    def page_from(world)
-      page_from_eval(world) ||
-        page ||
-        default_page_from(world) ||
-        from_ivar(:@page, world) ||
-        from_ivar(:@browser, world) ||
-        from_ivar(:@driver, world) ||
-        from_ivar(:@webdriver, world) ||
-        NullWebDriver.new
     end
 
     # define run and registration methods per hook
@@ -61,19 +51,6 @@ module Axe
 
     def gem_root
       Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
-    end
-
-    def page_from_eval(world)
-      world.instance_eval "#{page}" if page.is_a?(String) || page.is_a?(Symbol)
-    end
-
-    def default_page_from(world)
-      world.page if world.respond_to? :page
-    end
-
-    def from_ivar(ivar, world)
-      self.page = ivar
-      page_from_eval(world)
     end
 
     # adapter to only expose public methods to Axe.configure block
