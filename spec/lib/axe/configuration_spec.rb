@@ -4,9 +4,16 @@ require 'axe/configuration'
 module Axe
   describe Configuration do
 
+    # axe config
+    it { is_expected.to respond_to :jslib_path }
+    it { is_expected.to respond_to :jslib_path= }
+    it { is_expected.to respond_to :skip_iframes }
+    it { is_expected.to respond_to :skip_iframes= }
+
     # cucumber config
     it { is_expected.to respond_to :page }
     it { is_expected.to respond_to :page= }
+
     # webdriver async config
     it { is_expected.to respond_to :async_results_identifier }
     it { is_expected.to respond_to :async_results_identifier= }

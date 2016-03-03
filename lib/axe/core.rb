@@ -20,7 +20,7 @@ module Axe
     end
 
     def source
-      Pathname.new(Axe.configuration.core_jslib_path).read
+      Pathname.new(Axe.configuration.jslib_path).read
     end
 
     def already_loaded?
