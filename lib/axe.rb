@@ -11,7 +11,7 @@ module Axe
     end
 
     def configure
-      yield configuration.api if block_given?
+      yield configuration if block_given?
     end
   end
 end

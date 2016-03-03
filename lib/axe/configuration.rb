@@ -22,10 +22,6 @@ module Axe
       @core_jslib_path = gem_root + 'node_modules/axe-core/axe.min.js'
     end
 
-    def api
-      @api ||= DSL.new self
-    end
-
     # define run and registration methods per hook
     HOOKS.each do |hook|
       define_method hook do |callable=nil, &block|
@@ -48,29 +44,6 @@ module Axe
 
     def gem_root
       Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
-    end
-
-    # adapter to only expose public methods to Axe.configure block
-    # Only the methods that are on this object are exposed to:
-    #     Axe.configure do |c|
-    #       c.*
-    #     end
-    # They are all forwarded to the internal @configuration instance
-    class DSL
-      extend Forwardable
-
-      def_delegators :@configuration,
-        :async_results_identifier=,
-        :core_jslib_path=,
-        :max_wait_time=,
-        :page=,
-        :skip_iframes=,
-        :wait_interval=,
-        *HOOKS
-
-      def initialize(configuration)
-        @configuration = configuration
-      end
     end
   end
 
