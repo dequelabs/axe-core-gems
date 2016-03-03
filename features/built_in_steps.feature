@@ -1,7 +1,7 @@
 Feature: aXe built-in cucumber steps
 
   Scenario: smoke test
-    Given I visit "http://abcdcomputech.dequecloud.com/"
+    Given I visit http://abcdcomputech.dequecloud.com
 
     Then the page should not be accessible
     And the page should be accessible within "#top_bar"

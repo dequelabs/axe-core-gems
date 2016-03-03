@@ -1,6 +1,8 @@
 require 'pathname'
 
 require 'webdriver_script_adapter/execute_async_script_adapter'
+require 'webdriver_script_adapter/frame_adapter'
+require 'webdriver_script_adapter/query_selector_adapter'
 
 require 'axe/loader'
 
@@ -31,7 +33,15 @@ module Axe
     private
 
     def wrap_driver(driver)
-      ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap driver
+      ::WebDriverScriptAdapter::QuerySelectorAdapter.wrap(
+        ::WebDriverScriptAdapter::FrameAdapter.wrap(
+          ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap(
+            ::WebDriverScriptAdapter::ExecEvalScriptAdapter.wrap(
+              driver
+            )
+          )
+        )
+      )
     end
   end
 end

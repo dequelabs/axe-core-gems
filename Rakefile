@@ -65,7 +65,7 @@ namespace :cucumber do
   task :headless => %w[ capybara:webkit phantomjs ]
 
   desc "Run Cucumber features with Capybara driving each browser"
-  task :capybara => %w[ capybara:webkit capybara:poltergeist capybara:firefox capybara:chrome capybara:safari capybara:phantomjs ]
+  task :capybara => %w[ capybara:firefox capybara:chrome capybara:safari capybara:phantomjs capybara:poltergeist capybara:webkit ]
 
   desc "Run Cucumber features with Selenium driving each browser"
   task :selenium => %w[ selenium:firefox selenium:chrome selenium:safari selenium:phantomjs ]

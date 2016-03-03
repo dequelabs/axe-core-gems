@@ -154,3 +154,13 @@ Then the page should be accessible checking only: document-title, label
 
 Then the page should be accessible according to: best-practice and checking: aria-roles, definition-list
 ```
+
+# WebDrivers
+
+axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with Firefox, Chrome, Safari, and PhantomJS. Additionally, capybara-webkit and poltergeist are supported.
+
+* __Notes:__ *
+
+- Auditing IFrames is not suppored in Poltergeist < 1.8.0. Please upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
+- Chrome requires [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (tested with 2.21)
+- Safari requires [SafariDriver](https://code.google.com/p/selenium/wiki/SafariDriver) (tested with 2.48)

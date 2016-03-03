@@ -8,7 +8,7 @@ module Axe
   class Configuration
     extend Forwardable
 
-    attr_accessor :page, :core_jslib_path
+    attr_accessor :page, :core_jslib_path, :skip_iframes
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
@@ -90,6 +90,7 @@ module Axe
         :core_jslib_path=,
         :max_wait_time=,
         :page=,
+        :skip_iframes=,
         :wait_interval=,
         *Configuration.hooks
 

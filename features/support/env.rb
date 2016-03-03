@@ -5,6 +5,9 @@ require 'cucumber/formatter/unicode' # Remove this line if you don't want Cucumb
 # to use out of the box step definitions
 require 'axe/cucumber/step_definitions'
 
+# to use rspec axe-matchers for custom steps
+require 'axe/matchers'
+World Axe::Matchers
 
 # step defs for our test suite
 require_relative '../../features/step_definitions/steps'
