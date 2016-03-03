@@ -22,7 +22,12 @@ module WebDriverScriptAdapter
       begin
         switch_to.parent_frame
       rescue => e
-        p e
+        #TODO add skip_iframes option
+        #TODO add own warning printer
+        #TODO add #warnings option to mute warnings
+        if /switchToParentFrame|frame\/parent/.match(e.message)
+          ::RSpec.warning "This browser only supports first-level iframes. Second-level iframes and beyond will not be audited. To skip auditing all iframes, set Axe::Configuration#skip_iframes=true"
+        end
         switch_to.default_content
       end
     end
