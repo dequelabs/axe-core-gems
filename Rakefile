@@ -27,7 +27,7 @@ namespace :npm do
 
   desc "Upgrade axe-core dependency to latest version available, overwriting package.json"
   task :upgrade do
-    sh "npm install --silent --save axe-core"
+    sh "npm install --silent --save axe-core@latest"
   end
 end
 
@@ -39,6 +39,11 @@ end
 RSpec::Core::RakeTask.new :spec
 
 namespace :spec do
+  desc 'Skip tests tagged as :slow'
+  RSpec::Core::RakeTask.new :fast do |t|
+    t.rspec_opts = "--tag ~slow"
+  end
+
   desc 'Run RSpec code examples with JUnit formatter'
   RSpec::Core::RakeTask.new :ci do |t|
     t.rspec_opts = "--format RspecJunitFormatter --out rspec.xml"

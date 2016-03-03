@@ -1,11 +1,14 @@
 require 'forwardable'
+require 'pathname'
+require 'rubygems'
+
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
 module Axe
   class Configuration
     extend Forwardable
 
-    attr_accessor :page
+    attr_accessor :page, :core_jslib_path
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
@@ -18,6 +21,7 @@ module Axe
 
     def initialize
       @hooks = initialize_callbacks_array_per_hook
+      @core_jslib_path = gem_root + 'node_modules/axe-core/axe.min.js'
     end
 
     def api
@@ -55,6 +59,10 @@ module Axe
       Hash[ @@hooks.map{|name| [name, []]} ]
     end
 
+    def gem_root
+      Pathname.new Gem::Specification.find_by_name('axe-matchers').gem_dir
+    end
+
     def page_from_eval(world)
       world.instance_eval "#{page}" if page.is_a?(String) || page.is_a?(Symbol)
     end
@@ -79,6 +87,7 @@ module Axe
 
       def_delegators :@configuration,
         :async_results_identifier=,
+        :core_jslib_path=,
         :max_wait_time=,
         :page=,
         :wait_interval=,

@@ -1,6 +1,7 @@
-require_relative 'env'
+require_relative '../env'
 require 'capybara/cucumber'
 
+# load and select the appropriate browser
 Capybara.default_driver = case $browser
                           when :webkit
                             require 'capybara-webkit'
