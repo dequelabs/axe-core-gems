@@ -1,4 +1,4 @@
-When /^I visit "(.*?)"$/ do |url|
+When "I visit $url" do |url|
   visit url
 end
 
