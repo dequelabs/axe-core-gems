@@ -72,7 +72,7 @@ Then the page should be accessible within "#selector"
 
 The inclusion clause (`within "#selector"`) specifies which elements of the page should be checked. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `within "#header, .footer"`
 
-Additional [context parameter documentation][context-param]
+*see additional [context parameter documentation][context-param]*
 
 ### Exclusion clause
 
@@ -82,7 +82,7 @@ Then the page should be accessible excluding "#selector"
 
 The exclusion clause (`excluding "#selector"`) specifies which elements of the document should be ignored. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `excluding "#widget, .ad"`
 
-Additional [context parameter documentation][context-param]
+*see additional [context parameter documentation][context-param]*
 
 If desired, a semicolon (`;`) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
 
@@ -99,7 +99,7 @@ Then the page should be accessible according to: tag-name
 
 The tag clause specifies which accessibility standard (or standards) should be used to check the page. The accessibility standards are specified by name (tag). Multiple standards can be specified when comma-separated. e.g. `according to: wcag2a, section508`
 
-The acceptable [tag names are documented][options-param] as well as a [complete listing of rules][rules] that correspond to each tag/standard.
+The acceptable [tag names are documented][options-param] as well as a [complete listing of rules][rules] that correspond to each tag.
 
 If desired, a semicolon (`;`) may be used to separate the tag clause from the preceding clause.
 
@@ -113,7 +113,9 @@ Then the page should be accessible within "#header"; according to: best-practice
 Then the page should be accessible checking: ruleId
 ```
 
-The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs. (see [rules documentation][rules] for a list of valid rule IDs)
+The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs.
+
+*see [rules documentation][rules] for a list of valid rule IDs*
 
 If desired, a semicolon (`;`) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
 
@@ -136,7 +138,9 @@ This clause is not really a separate clause. But rather, by adding the word `onl
 Then the page should be accessible skipping: ruleId
 ```
 
-The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs. (see [rules documentation][rules] for a list of valid rule IDs)
+The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs.
+
+*see [rules documentation][rules] for a list of valid rule IDs*
 
 If desired, a semicolon (`;`) or the word `but` may be used to separate the skipping-rules clause from the preceding clause.
 
@@ -166,6 +170,7 @@ axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with
 - Auditing IFrames is not suppored in Poltergeist < 1.8.0. Upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
 - Chrome requires [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (tested with 2.21)
 - Safari requires [SafariDriver](https://code.google.com/p/selenium/wiki/SafariDriver) (tested with 2.48)
+
 
 
 [inclusion-clause]: #inclusion-clause
