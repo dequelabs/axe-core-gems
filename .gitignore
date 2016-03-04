@@ -21,7 +21,6 @@ tmp
 *.a
 mkmf.log
 
-*/**/kensington.min.js
 .ruby-version
 bin/
 node_modules/
