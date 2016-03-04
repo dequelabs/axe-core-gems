@@ -62,7 +62,7 @@ To construct an axe accessibility Cucumber step, begin with the base step, and a
 Then the page should be accessible
 ```
 
-The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.a11yCheck](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axea11ycheck) (the entire document is checked using the default rules).
+The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.a11yCheck][a11ycheck] (the entire document is checked using the default rules).
 
 ### Inclusion clause
 
@@ -72,7 +72,7 @@ Then the page should be accessible within "#selector"
 
 The inclusion clause (`within "#selector"`) specifies which elements of the page should be checked. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `within "#header, .footer"`
 
-Additional [context parameter documentation](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter)
+Additional [context parameter documentation][context-param]
 
 ### Exclusion clause
 
@@ -82,7 +82,7 @@ Then the page should be accessible excluding "#selector"
 
 The exclusion clause (`excluding "#selector"`) specifies which elements of the document should be ignored. A valid CSS selector must be provided, and is surrounded in double quotes. Compound selectors may be used to select multiple elements. e.g. `excluding "#widget, .ad"`
 
-Additional [context parameter documentation](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter)
+Additional [context parameter documentation][context-param]
 
 If desired, a semicolon (`;`) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
 
@@ -99,7 +99,7 @@ Then the page should be accessible according to: tag-name
 
 The tag clause specifies which accessibility standard (or standards) should be used to check the page. The accessibility standards are specified by name (tag). Multiple standards can be specified when comma-separated. e.g. `according to: wcag2a, section508`
 
-The acceptable [tag names are documented](https://github.com/dequelabs/axe-core/blob/master/doc/API.md#b-options-parameter) as well as a [complete listing of rules](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) that correspond to each tag/standard.
+The acceptable [tag names are documented][options-param] as well as a [complete listing of rules][rules] that correspond to each tag/standard.
 
 If desired, a semicolon (`;`) may be used to separate the tag clause from the preceding clause.
 
@@ -113,7 +113,7 @@ Then the page should be accessible within "#header"; according to: best-practice
 Then the page should be accessible checking: ruleId
 ```
 
-The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs. (see [rules documentation](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) for a list of valid rule IDs)
+The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs. (see [rules documentation][rules] for a list of valid rule IDs)
 
 If desired, a semicolon (`;`) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
 
@@ -136,7 +136,7 @@ This clause is not really a separate clause. But rather, by adding the word `onl
 Then the page should be accessible skipping: ruleId
 ```
 
-The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs. (see [rules documentation](https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md) for a list of valid rule IDs)
+The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs. (see [rules documentation][rules] for a list of valid rule IDs)
 
 If desired, a semicolon (`;`) or the word `but` may be used to separate the skipping-rules clause from the preceding clause.
 
@@ -166,3 +166,16 @@ axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with
 - Auditing IFrames is not suppored in Poltergeist < 1.8.0. Upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
 - Chrome requires [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (tested with 2.21)
 - Safari requires [SafariDriver](https://code.google.com/p/selenium/wiki/SafariDriver) (tested with 2.48)
+
+
+[inclusion-clause]: #inclusion-clause
+[exclusion-clause]: #exclusion-clause
+[tag-clause]: #accessibility-standard-tag-clause
+[rules-clause]: #checking-rules-clause
+[exclusive-rules-clause]: #exclusive-rules-clause
+[skipping-rules-clause]: #skipping-rules-clause
+
+[a11ycheck]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axea11ycheck
+[context-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#a-context-parameter
+[options-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#b-options-parameter
+[rules]: https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md
