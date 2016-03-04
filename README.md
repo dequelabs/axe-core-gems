@@ -1,23 +1,25 @@
+# axe-matchers
+
+Automated accessibility testing powered by aXe.
+
+Provides Cucumber step definitions and RSpec matchers for auditing accessibility.
+
 # Installation
 
-## with Bundler
+``` sh
+gem install axe-matchers
+```
 
-add to your `Gemfile`:
+or with [bundler](http://bundler.io), add to your `Gemfile`:
 
 ``` ruby
 gem 'axe-matchers'
 ```
 
-and then run
+and run
 
 ``` sh
 bundle install
-```
-
-## manually (without Bundler)
-
-``` sh
-gem install axe-matchers
 ```
 
 # Cucumber
@@ -159,8 +161,8 @@ Then the page should be accessible according to: best-practice and checking: ari
 
 axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with Firefox, Chrome, Safari, and PhantomJS. Additionally, capybara-webkit and poltergeist are supported.
 
-* __Notes:__ *
+*__Notes:__*
 
-- Auditing IFrames is not suppored in Poltergeist < 1.8.0. Please upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
+- Auditing IFrames is not suppored in Poltergeist < 1.8.0. Upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
 - Chrome requires [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (tested with 2.21)
 - Safari requires [SafariDriver](https://code.google.com/p/selenium/wiki/SafariDriver) (tested with 2.48)
