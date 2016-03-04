@@ -1,4 +1,10 @@
 {
+  "name": "axe-matchers",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dequelabs/axe-matchers.git"
+  },
   "dependencies": {
     "axe-core": "^1.1.1"
   }

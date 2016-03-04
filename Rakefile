@@ -17,17 +17,17 @@ task :npm => 'npm:install'
 namespace :npm do
   desc "Install npm dependencies"
   task :install do
-    sh "npm install --silent"
+    sh "npm install"
   end
 
   desc "Update npm dependencies to latest version allowed by package.json"
   task :update do
-    sh "npm update --silent"
+    sh "npm update"
   end
 
   desc "Upgrade axe-core dependency to latest version available, overwriting package.json"
   task :upgrade do
-    sh "npm install --silent --save axe-core@latest"
+    sh "npm install --save axe-core@latest"
   end
 end
 
