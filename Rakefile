@@ -29,6 +29,11 @@ namespace :npm do
   task :upgrade do
     sh "npm install --save axe-core@latest"
   end
+
+  desc "Display currently-installed and latest-available versions of axe-core lib"
+  task :status do
+    sh "npm view axe-core version && npm list axe-core"
+  end
 end
 
 
