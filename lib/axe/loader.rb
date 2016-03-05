@@ -8,21 +8,17 @@ module Axe
       @lib = lib
     end
 
-    def call
-      @page.execute_script @lib.source unless already_loaded?
+    def call(source)
+      @page.execute_script source
       Axe::Hooks.run_after_load @lib
-      load_into_iframes unless Axe.configuration.skip_iframes
+      load_into_iframes(source) unless Axe.configuration.skip_iframes
     end
 
     private
 
-    def already_loaded?
-      @page.evaluate_script @lib.already_loaded?
-    end
-
-    def load_into_iframes
+    def load_into_iframes(source)
       iframes.each do |iframe|
-        @page.within_frame(iframe) { call }
+        @page.within_frame(iframe) { call source }
       end
     end
 
