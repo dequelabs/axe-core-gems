@@ -23,12 +23,12 @@ module WebDriverScriptAdapter
 
       it "should pass a callback as the last argument" do
         subject.execute_async_script :foo
-        expect(driver).to have_received(:execute_script).with a_string_matching /function\(returnValue\){ window\['.*'\] = returnValue; \}\)/
+        expect(driver).to have_received(:execute_script).with a_string_matching(/function\(returnValue\){ window\['.*'\] = returnValue; \}\)/)
       end
 
       it "should attempt to evaluate the stored async results" do
         subject.execute_async_script :foo
-        expect(driver).to have_received(:evaluate_script).with a_string_matching /window\['.*'\]/
+        expect(driver).to have_received(:evaluate_script).with a_string_matching(/window\['.*'\]/)
       end
 
       context "with configured result identifier" do
