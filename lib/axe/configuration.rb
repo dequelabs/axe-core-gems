@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'pathname'
 require 'rubygems'
 
 require 'axe/hooks'
@@ -18,6 +19,10 @@ module Axe
     def initialize
       @page = :page
       @jslib_path = gem_root + '/node_modules/axe-core/axe.min.js'
+    end
+
+    def jslib
+      @jslib ||= Pathname.new(@jslib_path).read
     end
 
     private
