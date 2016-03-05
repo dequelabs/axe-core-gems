@@ -40,7 +40,7 @@ module Axe
       end
 
       context "when Axe.configuration#page is not configured" do
-        let(:world) { Object.new }
+        let(:world) { double('world') }
 
         before :each do
           # need to manually reset to default since configuration is a singleton
