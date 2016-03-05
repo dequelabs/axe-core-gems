@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'pathname'
 require 'rubygems'
 
 require 'axe/hooks'
@@ -9,7 +10,7 @@ module Axe
     include Hooks
     extend Forwardable
 
-    attr_accessor :page, :jslib_path, :skip_iframes
+    attr_accessor :page, :jslib, :jslib_path, :skip_iframes
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
@@ -18,6 +19,10 @@ module Axe
     def initialize
       @page = :page
       @jslib_path = gem_root + '/node_modules/axe-core/axe.min.js'
+    end
+
+    def jslib
+      @jslib ||= Pathname.new(@jslib_path).read
     end
 
     private

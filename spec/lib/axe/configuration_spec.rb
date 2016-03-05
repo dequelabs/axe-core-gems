@@ -5,6 +5,8 @@ module Axe
   describe Configuration do
 
     # axe config
+    it { is_expected.to respond_to :jslib }
+    it { is_expected.to respond_to :jslib= }
     it { is_expected.to respond_to :jslib_path }
     it { is_expected.to respond_to :jslib_path= }
     it { is_expected.to respond_to :skip_iframes }
@@ -22,7 +24,9 @@ module Axe
     it { is_expected.to respond_to :wait_interval }
     it { is_expected.to respond_to :wait_interval= }
 
-    describe "after_load hook" do
+    its(:jslib) { is_expected.to start_with("/*! aXe") }
+
+    describe "#after_load hook" do
       let(:after_load_block) { spy('after_load_block') }
 
       after :each do
