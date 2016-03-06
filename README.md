@@ -6,20 +6,22 @@ Provides Cucumber step definitions and RSpec matchers for auditing accessibility
 
 # Installation
 
-``` sh
-gem install axe-matchers
-```
-
-or with [bundler](http://bundler.io), add to your `Gemfile`:
+Add this line to your application's Gemfile:
 
 ``` ruby
 gem 'axe-matchers'
 ```
 
-and run
+And then execute:
 
 ``` sh
-bundle install
+$ bundle install
+```
+
+Or install it yourself as:
+
+``` sh
+$ gem install axe-matchers
 ```
 
 # Cucumber
