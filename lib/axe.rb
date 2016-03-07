@@ -1,4 +1,5 @@
 require 'axe/configuration'
+require 'axe/version'
 
 module Axe
   class << self
