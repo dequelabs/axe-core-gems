@@ -1,12 +1,14 @@
 require 'forwardable'
 require 'pathname'
 require 'rubygems'
+require 'singleton'
 
 require 'axe/hooks'
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
 module Axe
   class Configuration
+    include Singleton
     include Hooks
     extend Forwardable
 
