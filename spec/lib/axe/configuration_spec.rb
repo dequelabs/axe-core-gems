@@ -3,6 +3,7 @@ require 'axe/configuration'
 
 module Axe
   describe Configuration do
+    subject { described_class.instance }
 
     # axe config
     it { is_expected.to respond_to :jslib }

@@ -4,7 +4,7 @@ require 'axe/version'
 module Axe
   class << self
     def configuration
-      @configuration ||= Configuration.new
+      Configuration.instance
     end
 
     def configure
