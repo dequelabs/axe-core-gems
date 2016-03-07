@@ -1,4 +1,4 @@
-require 'axe'
+require 'axe/configuration'
 require 'axe/hooks'
 
 module Axe
@@ -11,7 +11,7 @@ module Axe
     def call(source)
       @page.execute_script source
       Axe::Hooks.run_after_load @lib
-      load_into_iframes(source) unless Axe.configuration.skip_iframes
+      load_into_iframes(source) unless Axe::Configuration.instance.skip_iframes
     end
 
     private

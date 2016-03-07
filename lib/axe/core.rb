@@ -2,6 +2,7 @@ require 'webdriver_script_adapter/execute_async_script_adapter'
 require 'webdriver_script_adapter/frame_adapter'
 require 'webdriver_script_adapter/query_selector_adapter'
 
+require 'axe/configuration'
 require 'axe/loader'
 
 module Axe
@@ -10,7 +11,7 @@ module Axe
 
     def initialize(page)
       @page = wrap_driver page
-      load_axe_core Axe.configuration.jslib
+      load_axe_core Axe::Configuration.instance.jslib
     end
 
     def call(callable)

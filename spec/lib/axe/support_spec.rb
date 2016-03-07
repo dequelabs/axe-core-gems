@@ -10,7 +10,7 @@ module Axe
 
       context "when Axe.configuration#page is configured" do
         before :each do
-          Axe.configuration.page = page
+          Axe::Configuration.instance.page = page
           world.instance_variable_set :@foo, :driver_double
         end
 
@@ -45,7 +45,7 @@ module Axe
         before :each do
           # need to manually reset to default since configuration is a singleton
           # and the page double is leaking from the above context
-          Axe.configuration.page = :page
+          Axe::Configuration.instance.page = :page
         end
 
         it "should try world.page" do
