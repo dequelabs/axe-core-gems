@@ -7,9 +7,15 @@ RSpec.configure do |c|
   c.include Axe::Matchers
 end
 
+Capybara.default_driver = :webkit
+
+Capybara::Webkit.configure do |config|
+  config.block_unknown_urls
+  config.allow_url("abcdcomputech.dequecloud.com")
+end
+
 feature "BeAccessible", :integration, :slow do
   background do
-    Capybara.default_driver = :webkit
     visit 'http://abcdcomputech.dequecloud.com'
   end
 
