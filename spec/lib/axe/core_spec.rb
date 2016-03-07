@@ -6,12 +6,19 @@ module Axe
     subject(:core) { described_class.new(page) }
     let(:page) { spy('page', evaluate_script: false) }
 
-    its(:source) { should start_with "/*! aXe" }
-
     describe "initialize" do
       it "should inject the axe-core lib" do
-        core # trigger initialize
+        described_class.new(page)
         expect(page).to have_received(:execute_script).with(a_string_starting_with ("/*! aXe"))
+      end
+
+      context "when axe-core exists in the page" do
+        before { allow(page).to receive(:evaluate_script).and_return(true) }
+
+        it "should not inject the axe-core lib" do
+          described_class.new(page)
+          expect(page).not_to have_received(:execute_script)
+        end
       end
     end
 

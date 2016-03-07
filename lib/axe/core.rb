@@ -1,5 +1,3 @@
-require 'pathname'
-
 require 'webdriver_script_adapter/execute_async_script_adapter'
 require 'webdriver_script_adapter/frame_adapter'
 require 'webdriver_script_adapter/query_selector_adapter'
@@ -12,25 +10,25 @@ module Axe
 
     def initialize(page)
       @page = wrap_driver page
-      Loader.new(@page, self).call
+      load_axe_core Axe.configuration.jslib
     end
 
     def call(callable)
       callable.call(@page)
     end
 
-    def source
-      Pathname.new(Axe.configuration.jslib_path).read
+    private
+
+    def load_axe_core(source)
+      Loader.new(@page, self).call(source) unless already_loaded?
     end
 
     def already_loaded?
-      <<-JS
+      @page.evaluate_script <<-JS
         window.#{JS_NAME} &&
         typeof #{JS_NAME}.a11yCheck === 'function'
       JS
     end
-
-    private
 
     def wrap_driver(driver)
       ::WebDriverScriptAdapter::QuerySelectorAdapter.wrap(

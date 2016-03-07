@@ -5,6 +5,8 @@ module Axe
   describe Configuration do
 
     # axe config
+    it { is_expected.to respond_to :jslib }
+    it { is_expected.to respond_to :jslib= }
     it { is_expected.to respond_to :jslib_path }
     it { is_expected.to respond_to :jslib_path= }
     it { is_expected.to respond_to :skip_iframes }
