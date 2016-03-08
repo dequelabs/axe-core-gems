@@ -48,3 +48,5 @@ module Axe
     end
   end
 end
+
+Axe::Configuration.from_yaml
