@@ -38,7 +38,6 @@ module Axe
 
     def via_method(name)
       if @world.respond_to?(name)
-        configuration.page = name # make lookup faster on second call
         @world.__send__(name)
       end
     end
@@ -48,7 +47,6 @@ module Axe
       name = name.to_s.sub(/^([^@])/, '@\1').to_sym
 
       if @world.instance_variables.include?(name)
-        configuration.page = name # make lookup faster on second call
         @world.instance_variable_get(name)
       end
     end
