@@ -10,10 +10,11 @@ module Axe
 
     def initialize(world)
       @world = world
+      @ifnone = -> { raise "A page/browser/webdriver must be configured" }
     end
 
     def page
-      from_configuration || implicit || NullWebDriver.new
+      from_configuration || implicit
     end
 
     private
@@ -24,16 +25,18 @@ module Axe
 
     def from_configuration
       if configuration.page.is_a?(String) || configuration.page.is_a?(Symbol)
-        via_method(configuration.page) || via_ivar(configuration.page)
+        from_world(configuration.page)
       else
         configuration.page
       end
     end
 
     def implicit
-      WEBDRIVER_NAMES.find { |name|
-        via_method(name) || via_ivar(name)
-      }
+      from_world(WEBDRIVER_NAMES.find(@ifnone, &method(:from_world)))
+    end
+
+    def from_world(name)
+      via_method(name) || via_ivar(name)
     end
 
     def via_method(name)
@@ -51,6 +54,4 @@ module Axe
       end
     end
   end
-
-  class NullWebDriver; end
 end

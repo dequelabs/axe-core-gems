@@ -50,32 +50,32 @@ module Axe
         end
 
         it "should try world.page" do
-          allow(world).to receive(:page).and_return(:page)
-          expect(subject.page).to be :page
+          allow(world).to receive(:page).and_return(:from_page_method)
+          expect(subject.page).to be :from_page_method
         end
 
         it "should try world@page" do
-          world.instance_variable_set :@page, :page
-          expect(subject.page).to eq :page
+          world.instance_variable_set :@page, :from_page_ivar
+          expect(subject.page).to eq :from_page_ivar
         end
 
         it "should try world@browser" do
-          world.instance_variable_set :@browser, :browser
-          expect(subject.page).to eq :browser
+          world.instance_variable_set :@browser, :from_browser_ivar
+          expect(subject.page).to eq :from_browser_ivar
         end
 
         it "should try world@driver" do
-          world.instance_variable_set :@driver, :driver
-          expect(subject.page).to eq :driver
+          world.instance_variable_set :@driver, :from_driver_ivar
+          expect(subject.page).to eq :from_driver_ivar
         end
 
         it "should try world@webdriver" do
-          world.instance_variable_set :@webdriver, :webdriver
-          expect(subject.page).to eq :webdriver
+          world.instance_variable_set :@webdriver, :from_webdriver_ivar
+          expect(subject.page).to eq :from_webdriver_ivar
         end
 
-        it "should finally fall back to NullObject" do
-          expect(subject.page).to be_kind_of NullWebDriver
+        it "should finally raise an error" do
+          expect { expect(subject.page) }.to raise_error(/webdriver/)
         end
       end
     end
