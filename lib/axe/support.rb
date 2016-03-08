@@ -2,14 +2,13 @@ require 'axe/configuration'
 
 module Axe
   module Support
-    WEBDRIVER_NAMES = [ :@page, :@browser, :@driver, :@webdriver ]
+    WEBDRIVER_NAMES = [ :page, :browser, :driver, :webdriver ]
 
     module_function
 
     def page_from(world)
-      configured_page_object ||
-        page_by_method_name(world) ||
-        page_by_ivar_name(world) ||
+      configured_page_object(world) ||
+        implicit_page_from(world) ||
         NullWebDriver.new
     end
 
@@ -19,17 +18,32 @@ module Axe
       Axe::Configuration.instance
     end
 
-    def self.configured_page_object
-      configuration.page unless configuration.page.is_a?(String) || configuration.page.is_a?(Symbol)
+    def self.configured_page_object(world)
+      if configuration.page.is_a?(String) || configuration.page.is_a?(Symbol)
+        page_via_method(world, configuration.page) || page_via_ivar(world, configuration.page)
+      else
+        configuration.page
+      end
     end
 
-    def self.page_by_method_name(world)
-      world.__send__(configuration.page) if world.respond_to?(configuration.page)
+    def self.implicit_page_from(world)
+      WEBDRIVER_NAMES.find { |name|
+        page_via_method(world, name) || page_via_ivar(world, name)
+      }
     end
 
-    def self.page_by_ivar_name(world)
-      if ivar_name = ([configuration.page.to_sym].concat(WEBDRIVER_NAMES) & world.instance_variables).first
-        world.instance_variable_get(ivar_name)
+    def self.page_via_method(world, name)
+      if world.respond_to?(name)
+        world.__send__(configuration.page = name)
+      end
+    end
+
+    def self.page_via_ivar(world, name)
+      # ensure leading '@'
+      name = name.to_s.sub(/^([^@])/, '@\1').to_sym
+
+      if world.instance_variables.include?(name)
+        world.instance_variable_get(configuration.page = name)
       end
     end
   end
