@@ -2,6 +2,7 @@ require 'forwardable'
 require 'pathname'
 require 'rubygems'
 require 'singleton'
+require 'yaml'
 
 require 'axe/hooks'
 require 'webdriver_script_adapter/execute_async_script_adapter'
@@ -27,6 +28,19 @@ module Axe
       @jslib ||= Pathname.new(@jslib_path).read
     end
 
+    class << self
+      def from_yaml(path="config/axe.yml")
+        file = Pathname.new(path)
+        from_hash(YAML.load_file(file)) if file.exist?
+      end
+
+      def from_hash(attributes)
+        attributes.each do |k, v|
+          instance.instance_variable_set(:"@#{k}", v)
+        end
+      end
+    end
+
     private
 
     def gem_root
@@ -34,3 +48,5 @@ module Axe
     end
   end
 end
+
+Axe::Configuration.from_yaml
