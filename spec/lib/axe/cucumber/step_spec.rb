@@ -5,17 +5,13 @@ module Axe::Cucumber
   describe Step do
 
     describe "::create_for" do
-      before :each do
-        allow(Axe::Support).to receive(:page_from)
-      end
-
       it "should create a Step" do
         expect(described_class.create_for :world).to be_a Step
       end
 
       it "creates the step with the page from the given world" do
         allow(Step).to receive(:new)
-        allow(Axe::Support).to receive(:page_from).with(:world).and_return(:page)
+        expect(Axe::FindsPage).to receive_message_chain("in.page").and_return(:page)
 
         described_class.create_for :world
 
