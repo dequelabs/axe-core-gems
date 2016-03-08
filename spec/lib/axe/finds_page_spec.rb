@@ -1,10 +1,12 @@
 require 'spec_helper'
 require 'axe/finds_page'
 
+FakeWorld = Class.new { def page;end }
+
 module Axe
   describe FindsPage do
     subject { described_class.in world }
-    let(:world) { double('world') }
+    let(:world) { FakeWorld.new }
 
     describe "#page" do
       context "when Axe.configuration#page is configured" do
@@ -39,7 +41,7 @@ module Axe
       end
 
       context "when Axe.configuration#page is not configured" do
-        let(:world) { double('world') }
+        let(:world) { FakeWorld.new }
 
         before :each do
           # need to manually reset to default since configuration is a singleton
