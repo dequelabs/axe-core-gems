@@ -14,7 +14,7 @@ module Axe
     end
 
     def page
-      from_configuration || implicit
+      from_configuration || implicit or @ifnone.call
     end
 
     private
@@ -32,7 +32,7 @@ module Axe
     end
 
     def implicit
-      from_world(WEBDRIVER_NAMES.find(@ifnone, &method(:from_world)))
+      WEBDRIVER_NAMES.map(&method(:from_world)).drop_while(&:nil?).first
     end
 
     def from_world(name)
