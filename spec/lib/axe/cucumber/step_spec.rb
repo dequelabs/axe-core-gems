@@ -6,6 +6,7 @@ module Axe::Cucumber
 
     describe "::create_for" do
       it "should create a Step" do
+        allow(Axe::FindsPage).to receive_message_chain("in.page")
         expect(described_class.create_for :world).to be_a Step
       end
 
