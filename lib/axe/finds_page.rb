@@ -10,11 +10,10 @@ module Axe
 
     def initialize(world)
       @world = world
-      @ifnone = -> { raise "A page/browser/webdriver must be configured" }
     end
 
     def page
-      from_configuration || implicit or @ifnone.call
+      from_configuration || implicit or raise "A page/browser/webdriver must be configured"
     end
 
     private
@@ -40,18 +39,17 @@ module Axe
     end
 
     def via_method(name)
-      if @world.respond_to?(name)
-        @world.__send__(name)
-      end
+      @world.__send__(name) if @world.respond_to?(name)
     end
 
     def via_ivar(name)
-      # ensure leading '@'
-      name = name.to_s.sub(/^([^@])/, '@\1').to_sym
+      name = ensure_ivar_format(name)
+      @world.instance_variable_get(name) if @world.instance_variables.include?(name)
+    end
 
-      if @world.instance_variables.include?(name)
-        @world.instance_variable_get(name)
-      end
+    def ensure_ivar_format(name)
+      # ensure leading '@'
+      name.to_s.sub(/^([^@])/, '@\1').to_sym
     end
   end
 end
