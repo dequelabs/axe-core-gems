@@ -36,7 +36,7 @@ module Axe
 
       def from_hash(attributes)
         attributes.each do |k, v|
-          instance.instance_variable_set(:"@#{k}", v)
+          instance.__send__("#{k}=", v)
         end
       end
     end
