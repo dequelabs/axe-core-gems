@@ -4,9 +4,26 @@ module Axe
     MINOR=1
     PATCH=1
     PRE=nil
+    BUILD=nil
 
-    def self.to_s
-      [MAJOR, MINOR, PATCH, PRE].compact.join(".")
+    class << self
+      def to_s
+        [MAJOR, MINOR, PATCH].join(".") + pre + build
+      end
+
+      private
+
+      def pre
+        empty?(PRE) ? "" : "-#{PRE}"
+      end
+
+      def build
+        empty?(BUILD) ? "" : "+#{BUILD}"
+      end
+
+      def empty?(v)
+        v.nil? || v.empty?
+      end
     end
   end
 end
