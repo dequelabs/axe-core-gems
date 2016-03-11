@@ -13,7 +13,9 @@ module Axe
     include Hooks
     extend Forwardable
 
-    attr_accessor :page, :jslib, :jslib_path, :skip_iframes
+    attr_writer :jslib
+    attr_accessor :page, :jslib_path, :skip_iframes
+
     def_delegators ::WebDriverScriptAdapter,
       :async_results_identifier, :async_results_identifier=,
       :max_wait_time, :max_wait_time=,
