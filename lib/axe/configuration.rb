@@ -32,12 +32,14 @@ module Axe
       def from_yaml(path="config/axe.yml")
         file = Pathname.new(path)
         from_hash(YAML.load_file(file)) if file.exist?
+        instance
       end
 
       def from_hash(attributes)
         attributes.each do |k, v|
-          instance.instance_variable_set(:"@#{k}", v)
+          instance.__send__("#{k}=", v)
         end
+        instance
       end
     end
 

@@ -1,3 +1,4 @@
+require 'tempfile'
 require 'spec_helper'
 require 'axe/configuration'
 
@@ -69,6 +70,31 @@ module Axe
         Hooks.run_after_load :args
         expect(called).to be true
       end
+    end
+
+    describe "::from_yaml" do
+      context "when file exists" do
+        let(:yaml_file) do
+          Tempfile.new("temp.yml").tap do |f|
+            f.write %Q{---\npage: foo}
+            f.close
+          end
+        end
+
+        it "should load from given yaml file" do
+          described_class.from_yaml(yaml_file)
+          expect(subject.page).to eq "foo"
+        end
+      end
+
+      context "when file doesn't exist" do
+        let(:yaml_file) { "does-not-exist.txt" }
+
+        it "should silently skip" do
+          expect { described_class.from_yaml(yaml_file) }.to_not raise_error
+        end
+      end
+
     end
   end
 end
