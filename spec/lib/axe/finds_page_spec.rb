@@ -1,13 +1,14 @@
 require 'spec_helper'
-require 'axe/support'
+require 'axe/finds_page'
+
+FakeWorld = Class.new { def page;end }
 
 module Axe
-  describe Support do
-    subject { described_class }
+  describe FindsPage do
+    subject { described_class.in world }
+    let(:world) { FakeWorld.new }
 
-    describe "#page_from" do
-      let(:world) { double('world') }
-
+    describe "#page" do
       context "when Axe.configuration#page is configured" do
         before :each do
           Axe::Configuration.instance.page = page
@@ -18,7 +19,7 @@ module Axe
           let(:page) { "@foo" }
 
           it "should eval from world" do
-            expect(subject.page_from(world)).to eq :driver_double
+            expect(subject.page).to eq :driver_double
           end
         end
 
@@ -26,7 +27,7 @@ module Axe
           let(:page) { :@foo }
 
           it "should eval from world" do
-            expect(subject.page_from(world)).to eq :driver_double
+            expect(subject.page).to eq :driver_double
           end
         end
 
@@ -34,13 +35,13 @@ module Axe
           let(:page) { double('browser') }
 
           it "should return #page" do
-            expect(subject.page_from(world)).to be page
+            expect(subject.page).to be page
           end
         end
       end
 
       context "when Axe.configuration#page is not configured" do
-        let(:world) { double('world') }
+        let(:world) { FakeWorld.new }
 
         before :each do
           # need to manually reset to default since configuration is a singleton
@@ -49,32 +50,32 @@ module Axe
         end
 
         it "should try world.page" do
-          allow(world).to receive(:page).and_return(:page)
-          expect(subject.page_from(world)).to be :page
+          allow(world).to receive(:page).and_return(:from_page_method)
+          expect(subject.page).to be :from_page_method
         end
 
         it "should try world@page" do
-          world.instance_variable_set :@page, :page
-          expect(subject.page_from(world)).to eq :page
+          world.instance_variable_set :@page, :from_page_ivar
+          expect(subject.page).to eq :from_page_ivar
         end
 
         it "should try world@browser" do
-          world.instance_variable_set :@browser, :browser
-          expect(subject.page_from(world)).to eq :browser
+          world.instance_variable_set :@browser, :from_browser_ivar
+          expect(subject.page).to eq :from_browser_ivar
         end
 
         it "should try world@driver" do
-          world.instance_variable_set :@driver, :driver
-          expect(subject.page_from(world)).to eq :driver
+          world.instance_variable_set :@driver, :from_driver_ivar
+          expect(subject.page).to eq :from_driver_ivar
         end
 
         it "should try world@webdriver" do
-          world.instance_variable_set :@webdriver, :webdriver
-          expect(subject.page_from(world)).to eq :webdriver
+          world.instance_variable_set :@webdriver, :from_webdriver_ivar
+          expect(subject.page).to eq :from_webdriver_ivar
         end
 
-        it "should finally fall back to NullObject" do
-          expect(subject.page_from(world)).to be_kind_of NullWebDriver
+        it "should finally raise an error" do
+          expect { expect(subject.page) }.to raise_error(/webdriver/)
         end
       end
     end
