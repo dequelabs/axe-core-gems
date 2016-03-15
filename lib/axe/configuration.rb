@@ -4,6 +4,7 @@ require 'rubygems'
 require 'singleton'
 require 'yaml'
 
+require 'axe'
 require 'axe/hooks'
 require 'webdriver_script_adapter/execute_async_script_adapter'
 
