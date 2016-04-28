@@ -16,10 +16,20 @@ module Axe
         end
 
         def failure_message(index)
-          <<-MSG
-          #{index+1}) #{help}: #{helpUrl}
-          #{nodes.map(&:failure_message).join("\n")}
-          MSG
+          [
+            help_message(index+1),
+            node_count_message
+          ].concat(nodes.map(&:failure_message))
+        end
+
+        private
+
+        def help_message(count)
+          "#{count}) #{help}: #{helpUrl}\n"
+        end
+
+        def node_count_message
+          "#{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} were found with the violation:".insert(0, " " * 2)
         end
       end
     end
