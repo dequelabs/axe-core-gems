@@ -13,10 +13,17 @@ module Axe
       end
 
       def failure_message
-        <<-MSG.gsub(/^\s*/,'')
-        Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}
-        #{ violations.each_with_index.map(&:failure_message).join("\n\n") }
-        MSG
+        [ violation_count_message ].concat(violations_failure_messages).join("\n")
+      end
+
+      private
+
+      def violation_count_message
+        "Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}"
+      end
+
+      def violations_failure_messages
+        violations.each_with_index.map(&:failure_message)
       end
     end
   end

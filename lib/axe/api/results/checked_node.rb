@@ -13,10 +13,7 @@ module Axe
         end
 
         def failure_message
-          <<-MSG
-          #{super}
-          #{[].concat(any).concat(all).map(&:failure_message).join("\n")}
-          MSG
+          super.concat([].concat(any).concat(all).map(&:failure_message))
         end
       end
     end
