@@ -19,7 +19,7 @@ module Axe
       private
 
       def violation_count_message
-        "Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}"
+        "Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}:\n"
       end
 
       def violations_failure_messages
