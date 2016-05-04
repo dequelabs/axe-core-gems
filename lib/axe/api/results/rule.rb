@@ -18,6 +18,7 @@ module Axe
         def failure_message(index)
           [
             title_message(index+1),
+            helpUrl.prepend(" " * 2),
             node_count_message
           ].concat(nodes.map(&:failure_message))
         end
@@ -25,7 +26,7 @@ module Axe
         private
 
         def title_message(count)
-          "#{count}) #{id}: #{help}: #{helpUrl}\n"
+          "#{count}) #{id}: #{help}"
         end
 
         def node_count_message
