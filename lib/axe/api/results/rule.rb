@@ -19,7 +19,7 @@ module Axe
           [
             title_message(index+1),
             helpUrl.prepend(" " * 2),
-            node_count_message
+            node_count_message.prepend(" " * 2)
           ].concat(nodes.map(&:failure_message))
         end
 
@@ -30,7 +30,7 @@ module Axe
         end
 
         def node_count_message
-          "#{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} were found with the violation:".insert(0, " " * 2)
+          "#{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} were found with the violation:"
         end
       end
     end
