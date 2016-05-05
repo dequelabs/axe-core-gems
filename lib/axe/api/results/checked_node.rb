@@ -12,7 +12,7 @@ module Axe
           attribute :none, ::Array[Check]
         end
 
-        def failure_message
+        def failure_messages
           [
             super,
             fix(all, "Fix all of the following:"),

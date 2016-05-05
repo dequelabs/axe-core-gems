@@ -9,7 +9,7 @@ module Axe
           attribute :target #String or Array[String]
         end
 
-        def failure_message
+        def failure_messages
           [ selector_message, node_html ]
         end
 

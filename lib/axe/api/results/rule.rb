@@ -15,14 +15,14 @@ module Axe
           attribute :nodes, ::Array[CheckedNode]
         end
 
-        def failure_message(index)
+        def failure_messages(index)
           [
             title_message(index+1),
             *[
               helpUrl,
               node_count_message,
               "",
-              nodes.map(&:failure_message).map{|n| n.push("")}.flatten.map(&indent)
+              nodes.map(&:failure_messages).map{|n| n.push("")}.flatten.map(&indent)
 
             ].flatten.map(&indent)
           ]

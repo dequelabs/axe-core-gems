@@ -28,7 +28,7 @@ module Axe
       end
 
       def violations_failure_messages
-        violations.each_with_index.map(&:failure_message)
+        violations.each_with_index.map(&:failure_messages)
       end
     end
   end
