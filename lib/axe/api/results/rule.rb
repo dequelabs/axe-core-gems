@@ -18,12 +18,21 @@ module Axe
         def failure_message(index)
           [
             title_message(index+1),
-            helpUrl.prepend(" " * 2),
-            node_count_message.prepend(" " * 2)
-          ].concat(nodes.map(&:failure_message))
+            *[
+              helpUrl,
+              node_count_message,
+              "",
+              nodes.map(&:failure_message).map{|n| n.push("")}.flatten.map(&indent)
+
+            ].flatten.map(&indent)
+          ]
         end
 
         private
+
+        def indent
+          -> (line) { line.prepend(" " * 4) }
+        end
 
         def title_message(count)
           "#{count}) #{id}: #{help}"
