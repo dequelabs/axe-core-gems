@@ -16,11 +16,11 @@ module Axe
         private
 
         def selector_message
-          "Selector: #{Array(target).join(', ')}".insert(0, " " * 4)
+          "Selector: #{Array(target).join(', ')}"
         end
 
         def node_html
-          "HTML: #{html.gsub(/^\s*|\n*/,'')}".insert(0, " " * 4)
+          "HTML: #{html.gsub(/^\s*|\n*/,'')}"
         end
       end
     end

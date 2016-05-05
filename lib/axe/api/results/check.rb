@@ -14,7 +14,7 @@ module Axe
         end
 
         def failure_message
-          "Violation Specifics: #{message}\n".insert(0, ' ' * 4)
+          message
         end
       end
     end
