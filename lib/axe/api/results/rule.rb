@@ -30,7 +30,7 @@ module Axe
         end
 
         def node_count_message
-          "#{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} were found with the violation:"
+          "The following #{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} violate this rule:"
         end
       end
     end
