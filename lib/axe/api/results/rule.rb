@@ -15,21 +15,31 @@ module Axe
           attribute :nodes, ::Array[CheckedNode]
         end
 
-        def failure_message(index)
+        def failure_messages(index)
           [
-            help_message(index+1),
-            node_count_message
-          ].concat(nodes.map(&:failure_message))
+            title_message(index+1),
+            *[
+              helpUrl,
+              node_count_message,
+              "",
+              nodes.map(&:failure_messages).map{|n| n.push("")}.flatten.map(&indent)
+
+            ].flatten.map(&indent)
+          ]
         end
 
         private
 
-        def help_message(count)
-          "#{count}) #{help}: #{helpUrl}\n"
+        def indent
+          -> (line) { line.prepend(" " * 4) }
+        end
+
+        def title_message(count)
+          "#{count}) #{id}: #{help} (#{impact})"
         end
 
         def node_count_message
-          "#{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} were found with the violation:".insert(0, " " * 2)
+          "The following #{nodes.length} #{nodes.length == 1 ? 'node' : 'nodes'} violate this rule:"
         end
       end
     end

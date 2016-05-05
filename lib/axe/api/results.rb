@@ -13,17 +13,22 @@ module Axe
       end
 
       def failure_message
-        [ violation_count_message ].concat(violations_failure_messages).join("\n")
+        [
+          "",
+          violation_count_message,
+          "",
+          violations_failure_messages
+        ].flatten.join("\n")
       end
 
       private
 
       def violation_count_message
-        "Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}"
+        "Found #{violations.count} accessibility #{violations.count == 1 ? 'violation' : 'violations'}:"
       end
 
       def violations_failure_messages
-        violations.each_with_index.map(&:failure_message)
+        violations.each_with_index.map(&:failure_messages)
       end
     end
   end
