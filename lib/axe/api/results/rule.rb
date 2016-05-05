@@ -35,7 +35,7 @@ module Axe
         end
 
         def title_message(count)
-          "#{count}) #{id}: #{help}"
+          "#{count}) #{id}: #{help} (#{impact})"
         end
 
         def node_count_message
