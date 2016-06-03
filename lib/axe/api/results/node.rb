@@ -20,7 +20,7 @@ module Axe
         end
 
         def node_html
-          "HTML: #{html.gsub(/^\s*|\n*/,'')}"
+          "HTML: #{html.gsub(/^\s*|\n*/,'')}" unless html.nil?
         end
       end
     end
