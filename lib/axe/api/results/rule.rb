@@ -22,7 +22,7 @@ module Axe
               helpUrl,
               node_count_message,
               "",
-              nodes.map(&:failure_messages).map{|n| n.push("")}.flatten.map(&indent)
+              nodes.reject{|n| n.nil?}.map(&:failure_messages).map{|n| n.push("")}.flatten.map(&indent)
 
             ].flatten.map(&indent)
           ]
@@ -31,7 +31,7 @@ module Axe
         private
 
         def indent
-          -> (line) { line.prepend(" " * 4) }
+          -> (line) { line.prepend(" " * 4) unless line.nil? }
         end
 
         def title_message(count)
