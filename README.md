@@ -129,7 +129,7 @@ Then the page should be accessible according to: wcag2a; checking: color-contras
 Then the page should be accessible according to: wcag2a and checking: color-contrast
 ```
 
-#### Exclusive Rules clause
+### Exclusive Rules clause
 
 ``` gherkin
 Then the page should be accessible checking only: ruleId
@@ -168,9 +168,7 @@ Then the page should be accessible according to: best-practice and checking: ari
 
 # RSpec
 
-## Be Accessible Matcher
-
-`axe/rspec` provides a new matcher `BeAccessible` as a custom RSpec matcher, which is used as `be_accessible` in the examples below.
+`axe/rspec` provides a custom RSpec matcher—`BeAccessible`—which is easily instantiated using the `be_accessible` helper method.
 
 ## Configuration
 
@@ -180,11 +178,13 @@ Require rspec matchers: in `spec/spec_helper.rb`.
 require 'axe/rspec'
 ```
 
-## Built-In Accessibility RSpec Matchers
+## Matchers
+
+### BeAccessible
 
 To construct an axe accessibility RSpec check, begin with `expect(page).to be_accessible`, and append any clauses necessary.
 
-### Inclusion clause
+#### Inclusion clause
 
 ``` ruby
 # Simple selector
@@ -227,7 +227,7 @@ The inclusion clause `within '#selector'` specifies which elements of the page s
 
 *see additional [context parameter documentation][context-param]*
 
-### Exclusion clause
+#### Exclusion clause
 
 ``` ruby
 # Simple selector
@@ -270,7 +270,7 @@ The exclusion clause `excluding '#selector'` specifies which elements of the doc
 
 *see additional [context parameter documentation][context-param]*
 
-### Accessibility Standard (Tag) clause
+#### Accessibility Standard (Tag) clause
 
 ```ruby
 # Single standard
@@ -285,7 +285,7 @@ The tag clause specifies which accessibility standard (or standards) should be u
 The acceptable [tag names are documented][options-param] as well as a [complete listing of rules][rules] that correspond to each tag.
 
 
-### Checking Rules clause
+#### Checking Rules clause
 
 ``` ruby
 # Checking a single rule
@@ -316,7 +316,7 @@ expect(page).to be_accessible.checking_only :label, :tabindex
 
 The checking only rules clause specifies which rules to exclusively check. Using this matcher excludes *all* rules outside of the list.
 
-### Skipping Rules clause
+#### Skipping Rules clause
 
 ``` ruby
 # Skipping a single rule
@@ -335,7 +335,7 @@ The skipping-rules clause specifies which rules to skip. This allows an accessib
 expect(page).to be_accessible.according_to(:wcag2a).skipping(:label)
 ```
 
-## Examples
+### Examples
 
 All of the described clauses may be mixed and matched with method chaining.
 
@@ -344,7 +344,7 @@ expect(page).to be_accessible.within('.main', '.header').excluding('.footer')
 
 expect(page).to be_accessible.excluding('#sidebar').according_to(:wcag2a, :wcag2aa).skipping(:color-contrast)
 
-expcet(page).to be_accessible.within('.main').checking_only :document-title, :label
+expect(page).to be_accessible.within('.main').checking_only :document-title, :label
 
 expect(page).to be_accessible.according_to(:best-practice).checking(:aria-roles, :definition-list)
 ```
