@@ -1,6 +1,7 @@
 {
   "name": "axe-matchers",
   "license": "MPL-2.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dequelabs/axe-matchers.git"
