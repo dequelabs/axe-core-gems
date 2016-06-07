@@ -28,9 +28,10 @@ $ gem install axe-matchers
 
 ## Configuration
 
-1. Require step definitions: in `features/support/env.rb` or similar.
+1. Require step definitions:
 
     ``` ruby
+    # in features/support/env.rb
     require 'axe/cucumber/step_definitions'
     ```
 
@@ -172,9 +173,10 @@ Then the page should be accessible according to: best-practice and checking: ari
 
 ## Configuration
 
-Require rspec matchers: in `spec/spec_helper.rb`.
+Require rspec matchers:
 
 ``` ruby
+# in spec/spec_helper.rb
 require 'axe/rspec'
 ```
 
