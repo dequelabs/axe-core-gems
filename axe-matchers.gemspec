@@ -1,9 +1,8 @@
 # coding: utf-8
-require_relative 'lib/axe/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'axe-matchers'
-  spec.version     = '2.0.0'
+  spec.version     = '1.3.0'
   spec.license     = 'MPL-2.0'
   spec.authors     = ['Deque Systems', 'Test Double']
   spec.email       = ['helpdesk@deque.com', 'hello@testdouble.com']
