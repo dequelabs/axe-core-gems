@@ -1,5 +1,4 @@
 require 'axe/configuration'
-require 'axe/version'
 
 module Axe
   def self.configure
