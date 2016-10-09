@@ -23,7 +23,7 @@ module Axe
     end
 
     def iframes
-      @page.find_elements(:tag_name, "iframe")
+      @page.find_elements(:css, "iframe")
     end
   end
 end
