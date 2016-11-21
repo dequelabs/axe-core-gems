@@ -22,11 +22,6 @@ module Axe
         before do
           allow(Axe::Configuration.instance).to receive(:skip_iframes) { false }
         end
-
-        it "should find iframes with the css finder" do
-          loader.call(:source)
-          expect(page).to have_received(:find_elements).with(:css, "iframe")
-        end
       end
 
       context "when not skipping iframes" do

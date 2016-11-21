@@ -17,13 +17,9 @@ module Axe
     private
 
     def load_into_iframes(source)
-      iframes.each do |iframe|
+      @page.find_frames.each do |iframe|
         @page.within_frame(iframe) { call source }
       end
-    end
-
-    def iframes
-      @page.find_elements(:css, "iframe")
     end
   end
 end
