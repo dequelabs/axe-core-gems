@@ -4,9 +4,9 @@ module WebDriverScriptAdapter
   class QuerySelectorAdapter < ::DumbDelegator
 
     def self.wrap(driver)
-      # capybara: all(<tag>) but also seems to support all(:tag_name, <tag>)
-      # watir: elements(:tag_name); also supports #iframes
-      # selenium: find_elements(:tag_name, <tag>); aliased as all
+      # capybara: all(<tag>) but also seems to support all(:css, <tag>)
+      # watir: elements(:css); also supports #iframes
+      # selenium: find_elements(:css, <tag>); aliased as all
 
       driver.respond_to?(:find_elements) ? driver : new(driver)
     end

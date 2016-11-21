@@ -17,6 +17,23 @@ module Axe
         expect(Axe::Hooks).to receive(:run_after_load).with(lib)
         loader.call(:source)
       end
+
+      context "when skipping iframes" do
+        before do
+          allow(Axe::Configuration.instance).to receive(:skip_iframes) { false }
+        end
+      end
+
+      context "when not skipping iframes" do
+        before do
+          allow(Axe::Configuration.instance).to receive(:skip_iframes) { true }
+        end
+
+        it "should not find iframes" do
+          loader.call(:source)
+          expect(page).not_to have_received(:find_elements)
+        end
+      end
     end
   end
 end

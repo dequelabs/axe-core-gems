@@ -5,38 +5,55 @@ module WebDriverScriptAdapter
 
     def self.wrap(driver)
       if driver.respond_to?(:within_frame)
-        driver #capybara already supports within_frame
+        CapybaraAdapter.new driver
       elsif !driver.respond_to?(:switch_to)
         WatirAdapter.new driver
       elsif driver.switch_to.respond_to?(:parent_frame)
-        new driver # add within_frame to selenium
+        SeleniumAdapter.new driver # add within_frame to selenium
       else
         ParentlessFrameAdapter.new driver # old selenium doesn't support parent_frame
       end
     end
 
-    def within_frame(frame)
-      switch_to.frame(frame)
-      yield
-    ensure
-      begin
-        switch_to.parent_frame
-      rescue => e
-        if /switchToParentFrame|frame\/parent/.match(e.message)
-          ::Kernel.warn "WARNING: This browser only supports first-level iframes. Second-level iframes and beyond will not be audited. To skip auditing all iframes, set Axe::Configuration#skip_iframes=true"
-        end
-        switch_to.default_content
+    private
+
+    class CapybaraAdapter < ::DumbDelegator
+      def find_frames
+        all(:css, 'iframe')
       end
     end
-
-    private
 
     class WatirAdapter < ::DumbDelegator
       # delegate to Watir's Selenium #driver
       def within_frame(frame, &block)
-        FrameAdapter.instance_method(:within_frame).bind(FrameAdapter.wrap driver).call(frame.wd, &block)
+        SeleniumAdapter.instance_method(:within_frame).bind(FrameAdapter.wrap driver).call(frame, &block)
+      end
+
+      def find_frames
+        driver.find_elements(:css, 'iframe')
       end
     end
+
+    class SeleniumAdapter < ::DumbDelegator
+      def within_frame(frame)
+        switch_to.frame(frame)
+        yield
+      ensure
+        begin
+          switch_to.parent_frame
+        rescue => e
+          if /switchToParentFrame|frame\/parent/.match(e.message)
+            ::Kernel.warn "WARNING: This browser only supports first-level iframes. Second-level iframes and beyond will not be audited. To skip auditing all iframes, set Axe::Configuration#skip_iframes=true"
+          end
+          switch_to.default_content
+        end
+      end
+
+      def find_frames
+        find_elements(:css, 'iframe')
+      end
+    end
+
 
     # Selenium Webdriver < 2.43 doesnt support moving back to the parent
     class ParentlessFrameAdapter < ::DumbDelegator
@@ -57,6 +74,10 @@ module WebDriverScriptAdapter
         switch_to.default_content
         @frame_stack[window_handle].each { |f| switch_to.frame(f) }
       end
+    end
+
+    def find_frames
+      find_elements(:css, 'iframe')
     end
 
   end
