@@ -18,7 +18,7 @@
     ``` ruby
     @firefox = Selenium::WebDriver.for :firefox
 
-    Axe::Cucumber.configure do |c|
+    Axe.configure do |c|
       # browser object
       c.page = @firefox
 
