@@ -1,0 +1,19 @@
+machine:
+  ruby:
+    version: 2.4.1
+  environment:
+    PATH: "${HOME}/firefox:${PATH}"
+dependencies:
+  override:
+    - bundle install
+    - rake install
+test:
+  override:
+    - rake spec:ci
+    - rake cucumber:ci
+    - cp -r results/* $CIRCLE_TEST_REPORTS/
+  post:
+    - mkdir -p $CIRCLE_ARTIFACTS/pkg
+    - rake build
+    - cp pkg/axe-matchers-*.gem $CIRCLE_ARTIFACTS/pkg
+
