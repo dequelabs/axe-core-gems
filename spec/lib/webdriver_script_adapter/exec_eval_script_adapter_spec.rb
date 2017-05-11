@@ -35,7 +35,7 @@ module WebDriverScriptAdapter
     describe "::wrap", :integration, :slow do
       require 'capybara'
       require 'selenium-webdriver'
-      require 'watir-webdriver'
+      require 'watir'
 
       shared_examples "a webdriver" do
         it "should wrap the driver in the adapter" do

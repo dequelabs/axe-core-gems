@@ -25,3 +25,4 @@ mkmf.log
 bin/
 node_modules/
 spec/examples.txt
+results/

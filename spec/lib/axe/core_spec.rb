@@ -9,7 +9,7 @@ module Axe
     describe "initialize" do
       it "should inject the axe-core lib" do
         described_class.new(page)
-        expect(page).to have_received(:execute_script).with(a_string_starting_with ("/*! aXe"))
+        expect(page).to have_received(:execute_script).with(a_string_starting_with ("!function"))
       end
 
       context "when axe-core exists in the page" do

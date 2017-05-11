@@ -1,5 +1,5 @@
 require_relative '../env'
-require 'watir-webdriver'
+require 'watir'
 
 Before do
   @page = Watir::Browser.new $browser
