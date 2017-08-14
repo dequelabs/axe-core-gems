@@ -39,12 +39,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.6'
   spec.add_development_dependency 'rspec-its', '~> 1.2'
-  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.2'
+  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.3'
   spec.add_development_dependency 'sinatra', '~> 2.0'
   # drivers
   spec.add_development_dependency 'capybara', '~> 2.13'
   spec.add_development_dependency 'capybara-webkit', '~> 1.14'
-  spec.add_development_dependency 'poltergeist', '~> 1.15'
-  spec.add_development_dependency 'selenium-webdriver', '~> 3.4'
-  spec.add_development_dependency 'watir', '~> 6.2'
+  spec.add_development_dependency 'poltergeist', '~> 1.16'
+  spec.add_development_dependency 'selenium-webdriver', '~> 3.5'
+  spec.add_development_dependency 'watir', '~> 6.6'
 end
