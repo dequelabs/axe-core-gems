@@ -22,6 +22,10 @@ module Axe
         to_hash.to_json
       end
 
+      def empty?
+        to_hash.empty?
+      end
+
       alias :to_s :to_json
 
     end

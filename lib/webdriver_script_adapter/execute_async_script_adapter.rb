@@ -51,7 +51,7 @@ module WebDriverScriptAdapter
     end
 
     def callback(resultsIdentifier)
-      "function(returnValue){ #{resultsIdentifier} = returnValue; }"
+      "function(err, returnValue){ #{resultsIdentifier} = (err || returnValue); }"
     end
 
     def async_wrapper(script, *args)

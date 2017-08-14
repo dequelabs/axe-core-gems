@@ -17,17 +17,16 @@ module Axe
       end
 
       def to_hash
-        {}.tap do |context_param|
-          # omit empty arrays
-          # (include must not be present if empty)
-          # (exclude is allowed to be empty; but meh)
-          context_param[:include] = @inclusion unless @inclusion.empty?
-          context_param[:exclude] = @exclusion unless @exclusion.empty?
-        end
+        { include: @inclusion, exclude: @exclusion }
+          .reject { |k, v| v.empty? }
       end
 
       def to_json
         to_hash.to_json
+      end
+
+      def empty?
+        to_hash.empty?
       end
 
       alias :to_s :to_json

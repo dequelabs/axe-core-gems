@@ -56,6 +56,32 @@ module Axe::API
       end
     end
 
+    describe "#empty?" do
+      context "without rules or cutom options" do
+        it "should be empty" do
+          subject.instance_variable_set :@rules, {}
+          subject.instance_variable_set :@custom, {}
+          expect(subject.empty?).to be(true)
+        end
+      end
+
+      context "with rules" do
+        it "should not be empty" do
+          subject.instance_variable_set :@rules, { foo: 'bar' }
+          subject.instance_variable_set :@custom, {}
+          expect(subject.empty?).to be(false)
+        end
+      end
+
+      context "with cutom options" do
+        it "should not be empty" do
+          subject.instance_variable_set :@rules, {}
+          subject.instance_variable_set :@custom, { foo: 'bar' }
+          expect(subject.empty?).to be(false)
+        end
+      end
+    end
+
     describe "#to_json" do
       context "without duplicates" do
         before :each do

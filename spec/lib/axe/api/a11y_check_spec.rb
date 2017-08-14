@@ -67,10 +67,9 @@ module Axe::API
       let(:results) { spy('results') }
       let(:audit) { spy('audit') }
 
-      it "should execute the axe.a11yCheck JS method" do
-        pending "validate args correctly"
+      it "should execute the axe.run JS method" do
         subject.call(page)
-        expect(page).to have_received(:execute_async_script).with("axe.a11yCheck.apply(axe, arguments)", "document", "{}")
+        expect(page).to have_received(:execute_async_script).with("axe.run.apply(axe, arguments)")
       end
 
       it "should return an audit" do
@@ -84,7 +83,7 @@ module Axe::API
       end
 
       it "should include the original invocation string" do
-        expect(Audit).to receive(:new).with("axe.a11yCheck({}, {}, callback);", instance_of(Results))
+        expect(Audit).to receive(:new).with("axe.run(callback);", instance_of(Results))
         subject.call(page)
       end
     end
