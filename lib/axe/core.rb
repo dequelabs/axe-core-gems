@@ -27,7 +27,7 @@ module Axe
     def already_loaded?
       @page.evaluate_script <<-JS
         window.#{JS_NAME} &&
-        typeof #{JS_NAME}.a11yCheck === 'function'
+        typeof #{JS_NAME}.run === 'function'
       JS
     end
 

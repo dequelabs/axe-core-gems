@@ -13,7 +13,7 @@ require 'axe/core'
 module Axe
   module API
     class A11yCheck
-      JS_NAME = "a11yCheck"
+      JS_NAME = "run"
       METHOD_NAME = "#{Core::JS_NAME}.#{JS_NAME}"
 
       extend Forwardable
@@ -37,11 +37,18 @@ module Axe
       private
 
       def audit(page)
-        yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", @context.to_json, @options.to_json
+        yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
+      end
+
+      def js_args
+        [ @context, @options ]
+          .reject(&:empty?)
+          .map(&:to_json)
       end
 
       def to_js
-        "#{METHOD_NAME}(#{@context}, #{@options}, callback);"
+        str_args = (js_args + [ 'callback']).join(', ')
+        "#{METHOD_NAME}(#{str_args});"
       end
     end
   end

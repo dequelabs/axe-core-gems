@@ -83,6 +83,32 @@ module Axe::API
       end
     end
 
+    describe "#empty?" do
+      context "without inclusion or exclusion rules" do
+        it "should be empty" do
+          subject.instance_variable_set :@inclusion, []
+          subject.instance_variable_set :@exclusion, []
+          expect(subject.empty?).to be(true)
+        end
+      end
+
+      context "with inclusion rules" do
+        it "should not be empty" do
+          subject.instance_variable_set :@inclusion, [ 'foo' ]
+          subject.instance_variable_set :@exclusion, []
+          expect(subject.empty?).to be(false)
+        end
+      end
+
+      context "with exclusion rules" do
+        it "should not be empty" do
+          subject.instance_variable_set :@inclusion, []
+          subject.instance_variable_set :@exclusion, [ 'foo' ]
+          expect(subject.empty?).to be(false)
+        end
+      end
+    end
+
     describe "#to_json" do
       context "without an inclusion" do
         context "without an exclusion" do

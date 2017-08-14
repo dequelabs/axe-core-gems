@@ -42,7 +42,7 @@ To construct an axe accessibility Cucumber step, begin with the base step, and a
 Then the page should be accessible
 ```
 
-The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.a11yCheck][a11ycheck] (the entire document is checked using the default rules).
+The base step is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.run][axe-run] (the entire document is checked using the default rules).
 
 ### Inclusion clause
 
@@ -148,7 +148,7 @@ Then the page should be accessible according to: best-practice and checking: ari
 [exclusive-rules-clause]: #exclusive-rules-clause
 [skipping-rules-clause]: #skipping-rules-clause
 
-[a11ycheck]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axea11ycheck
+[axe-run]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#api-name-axerun
 [context-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#context-parameter
 [options-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#options-parameter
 [rules]: https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md
