@@ -7,6 +7,6 @@
     "url": "git+https://github.com/dequelabs/axe-matchers.git"
   },
   "dependencies": {
-    "axe-core": "^2.3.1"
+    "axe-core": "^2.5.0"
   }
 }
