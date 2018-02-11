@@ -15,6 +15,8 @@
 5. RSpec for unit and integration tests
 6. Cucumber for smoke tests
 7. Node/npm are necessary for pulling down the axe-core package
+8. Qt 4.8 or greater
+9. XCode
 
 ## Ruby version management
 
