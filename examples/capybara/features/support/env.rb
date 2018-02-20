@@ -19,5 +19,4 @@ require 'axe/cucumber/step_definitions'
 #
 # axe-matchers is known to work with Capybara using the following drivers:
 # - capybara-webkit
-# - selenium (firefox, chrome, safari, ie, phantomjs)
-# - poltergeist
+# - selenium (firefox, chrome, chrome headless, safari, ie)

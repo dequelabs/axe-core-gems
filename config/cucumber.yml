@@ -1,6 +1,6 @@
 ---
 # default
-default: -p capybara -p webkit
+default: -p capybara -p chrome-headless
 
 # drivers
 capybara: -r features/support/env/capybara.rb
@@ -9,8 +9,7 @@ watir: -r features/support/env/watir.rb
 
 # browser
 webkit: BROWSER=webkit
-poltergeist: BROWSER=poltergeist
 firefox: BROWSER=firefox
 chrome: BROWSER=chrome
+chrome-headless: BROWSER=chrome:headless
 safari: BROWSER=safari
-phantomjs: BROWSER=phantomjs

@@ -29,4 +29,4 @@ end
 # https://github.com/SeleniumHQ/selenium/tree/master/rb
 #
 # axe-matchers is known to work with selenium-webdriver using:
-# chrome, firefox, internet explorer, phantomjs, safari
+# chrome, firefox, internet explorer, safari

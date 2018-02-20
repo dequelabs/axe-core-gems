@@ -44,18 +44,6 @@ module WebDriverScriptAdapter
         end
       end
 
-      context "Selenium (doesn't respond to #evaluate_script)" do
-        let(:driver) { Selenium::WebDriver.for :phantomjs }
-
-        it_behaves_like "a webdriver"
-      end
-
-      context "Watir (doesn't respond to #evaluate_script)" do
-        let(:driver) { Watir::Browser.new :phantomjs }
-
-        it_behaves_like "a webdriver"
-      end
-
       context "Capybara (already responds to #evaluate_script)" do
         let(:driver) { Capybara.current_session }
 

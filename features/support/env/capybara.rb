@@ -6,9 +6,6 @@ Capybara.default_driver = case $browser
                           when :webkit
                             require 'capybara-webkit'
                             :webkit
-                          when :poltergeist
-                            require 'capybara/poltergeist'
-                            :poltergeist
                           else
                             require 'selenium-webdriver'
                             Capybara.register_driver :selenium do |app|
@@ -16,6 +13,8 @@ Capybara.default_driver = case $browser
                             end
                             :selenium
                           end
+
+Capybara.default_driver = :selenium_chrome_headless
 
 Before do
   @page = Capybara.current_session
