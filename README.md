@@ -59,12 +59,11 @@ The complete list of rules run by axe-core can be found in [doc/rule-description
 
 # WebDrivers
 
-axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with Firefox, Chrome, Safari, and PhantomJS. Additionally, capybara-webkit and poltergeist are supported.
+axe-matchers supports Capybara, Selenium, and Watir webdrivers; each tested with Firefox, Chrome, and Safari. Additionally, selenium-chrome-headless and capybara-webkit are supported.
 
 *__Notes:__*
 
-- Auditing IFrames is not suppored in Poltergeist < 1.8.0. Upgrade to 1.8.0+ or set `skip_iframes=true` in `Axe.configure`
-- Chrome requires [ChromeDriver][chrome-driver] (tested with 2.21)
+- Chrome requires [ChromeDriver][chrome-driver] (tested with 2.35)
 - Safari requires [SafariDriver][safari-driver] (tested with 2.48)
 
 

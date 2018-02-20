@@ -29,4 +29,4 @@ end
 # http://watirwebdriver.com/
 #
 # axe-matchers is known to work with watir-webdriver using:
-# chrome, firefox, internet explorer, phantomjs, safari
+# chrome, firefox, internet explorer, safari
