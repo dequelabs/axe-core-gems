@@ -55,6 +55,8 @@ Read the documentation for the [RSpec Integration][rspec-integration]
 
 # The Accessibility Rules
 
+axe-matchers uses axe-core@3x, which can test for accessibility inside of Shadow DOM HTML subtrees. See the [axe-core repository](https://github.com/dequelabs/axe-core) for more information.
+
 The complete list of rules run by axe-core can be found in [doc/rule-descriptions.md][axe-rule-descriptions].
 
 # WebDrivers

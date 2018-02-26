@@ -17,7 +17,7 @@ feature "BeAccessible", :integration, :slow do
 
   scenario "check known inaccessible page" do
     expect { expect(page).to_not be_accessible }.to_not raise_error
-    expect { expect(page).to be_accessible }.to raise_error(/Found ([4-6]) accessibility violations/)
+    expect { expect(page).to be_accessible }.to raise_error(/Found ([1-6]) accessibility violations/)
   end
 
   scenario "check known accessible subtree" do

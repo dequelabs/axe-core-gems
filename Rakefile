@@ -30,6 +30,11 @@ namespace :npm do
     sh "npm install --save axe-core@latest"
   end
 
+  desc "Upgrade axe-core dependency to latest prerelease version, overwriting package.json"
+  task :next do
+    sh "npm install --save axe-core@next"
+  end
+
   desc "Display currently-installed and latest-available versions of axe-core lib"
   task :status do
     sh "npm view axe-core version && npm list axe-core"
