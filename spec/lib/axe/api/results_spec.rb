@@ -25,20 +25,30 @@ module Axe::API
               "any" => [ { "message" => "Fix from any 2" } ],
               "all" => [ { "message" => "Fix from all 2" } ]
             } ]
+          }, {
+            "help" => "V3 help",
+            "helpUrl" => "V3 url",
+            "nodes" => [ {
+              "target" => [["#target-3-1", "#target-3-2"]],
+              "html" => "V3 html",
+              "any" => [ { "message" => "Fix from any 3" } ],
+              "all" => [ { "message" => "Fix from all 3" } ]
+            } ]
           } ]
         }
 
         it "should return formatted error message" do
           subject.failure_message.tap do |message|
-            expect(message).to include("Found 2 accessibility violations")
+            
+            expect(message).to include("Found 3 accessibility violations")
 
-            expect(message).to include "V1 help", "V2 help"
-            expect(message).to include "V1 url", "V2 url"
+            expect(message).to include "V1 help", "V2 help", "V3 help"
+            expect(message).to include "V1 url", "V2 url", "V3 url"
 
-            expect(message).to include "V1 html", "V2 html"
-            expect(message).to include "#target-1-1", "#target-2-1, #target-2-2"
+            expect(message).to include "V1 html", "V2 html", "V3 html"
+            expect(message).to include "#target-1-1", "#target-2-1, #target-2-2", "#target-3-1, #target-3-2"
 
-            expect(message).to include "Fix from any 1", "Fix from all 1", "Fix from any 2", "Fix from all 2"
+            expect(message).to include "Fix from any 1", "Fix from all 1", "Fix from any 2", "Fix from all 2", "Fix from any 3", "Fix from all 3"
           end
         end
       end
