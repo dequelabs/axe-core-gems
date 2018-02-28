@@ -17,9 +17,12 @@ module Axe
         @a11y_check = API::A11yCheck.new
       end
 
+      def audit(page)
+        @audit ||= Core.new(page).call @a11y_check
+      end
+
       def matches?(page)
-        @audit = Core.new(page).call @a11y_check
-        @audit.passed?
+        audit(page).passed?
       end
     end
 

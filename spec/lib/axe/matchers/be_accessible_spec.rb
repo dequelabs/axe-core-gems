@@ -5,14 +5,13 @@ module Axe::Matchers
   describe BeAccessible do
     let(:a11y_check) { spy('a11y_check', call: audit) }
     let(:audit) { spy('audit') }
+    let(:page) { spy('page') }
+    let(:core) { spy('core') }
     before :each do
       subject.instance_variable_set :@a11y_check, a11y_check
     end
 
     describe "#matches?" do
-      let(:page) { spy('page') }
-      let(:core) { spy('core') }
-
       it "should run the a11y_check against the page" do
         expect(Axe::Core).to receive(:new).with(page).and_return(core)
 
@@ -29,6 +28,15 @@ module Axe::Matchers
       it "should return results.passed" do
         allow(audit).to receive(:passed?).and_return(:passed)
         expect( subject.matches?(page) ).to be :passed
+      end
+    end
+
+    describe "#audit" do
+      it "should audit the page with an a11y check" do
+        expect(Axe::Core).to receive(:new).with(page).and_return(core)
+        expect(core).to receive(:call).with(a11y_check).and_return(audit)
+
+        expect( subject.audit(page) ).to be audit
       end
     end
 
