@@ -23,12 +23,12 @@ module Axe
     end
 
     describe "call" do
-      let(:a11y_check) { spy('a11y_check') }
+      let(:run) { spy('run') }
 
       it "should invoke the callable in the page" do
-        core.call(a11y_check)
+        core.call(run)
 
-        expect(a11y_check).to have_received(:call).with(page)
+        expect(run).to have_received(:call).with(page)
       end
     end
   end

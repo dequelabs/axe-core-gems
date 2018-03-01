@@ -3,21 +3,21 @@ require 'axe/matchers/be_accessible'
 
 module Axe::Matchers
   describe BeAccessible do
-    let(:a11y_check) { spy('a11y_check', call: audit) }
+    let(:run) { spy('run', call: audit) }
     let(:audit) { spy('audit') }
     let(:page) { spy('page') }
     let(:core) { spy('core') }
     before :each do
-      subject.instance_variable_set :@a11y_check, a11y_check
+      subject.instance_variable_set :@run, run
     end
 
     describe "#matches?" do
-      it "should run the a11y_check against the page" do
+      it "should run the run against the page" do
         expect(Axe::Core).to receive(:new).with(page).and_return(core)
 
         subject.matches?(page)
 
-        expect(core).to have_received(:call).with(a11y_check)
+        expect(core).to have_received(:call).with(run)
       end
 
       it "should save results" do
@@ -34,7 +34,7 @@ module Axe::Matchers
     describe "#audit" do
       it "should audit the page with an a11y check" do
         expect(Axe::Core).to receive(:new).with(page).and_return(core)
-        expect(core).to receive(:call).with(a11y_check).and_return(audit)
+        expect(core).to receive(:call).with(run).and_return(audit)
 
         expect( subject.audit(page) ).to be audit
       end
@@ -57,9 +57,9 @@ module Axe::Matchers
     end
 
     describe "#within" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.within(:foo, :bar)
-        expect(a11y_check).to have_received(:within).with(:foo, :bar)
+        expect(run).to have_received(:within).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -68,9 +68,9 @@ module Axe::Matchers
     end
 
     describe "#excluding" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.excluding(:foo, :bar)
-        expect(a11y_check).to have_received(:excluding).with(:foo, :bar)
+        expect(run).to have_received(:excluding).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -79,9 +79,9 @@ module Axe::Matchers
     end
 
     describe "#according_to" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.according_to(:foo, :bar)
-        expect(a11y_check).to have_received(:according_to).with(:foo, :bar)
+        expect(run).to have_received(:according_to).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -90,9 +90,9 @@ module Axe::Matchers
     end
 
     describe "#checking" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.checking(:foo, :bar)
-        expect(a11y_check).to have_received(:checking).with(:foo, :bar)
+        expect(run).to have_received(:checking).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -101,9 +101,9 @@ module Axe::Matchers
     end
 
     describe "#skipping" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.skipping(:foo, :bar)
-        expect(a11y_check).to have_received(:skipping).with(:foo, :bar)
+        expect(run).to have_received(:skipping).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -112,9 +112,9 @@ module Axe::Matchers
     end
 
     describe "#checking_only" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.checking_only(:foo, :bar)
-        expect(a11y_check).to have_received(:checking_only).with(:foo, :bar)
+        expect(run).to have_received(:checking_only).with(:foo, :bar)
       end
 
       it "should return self for chaining" do
@@ -123,9 +123,9 @@ module Axe::Matchers
     end
 
     describe "#with_options" do
-      it "should be delegated to @a11y_check" do
+      it "should be delegated to @run" do
         subject.with_options(:foo)
-        expect(a11y_check).to have_received(:with_options).with(:foo)
+        expect(run).to have_received(:with_options).with(:foo)
       end
 
       it "should return self for chaining" do

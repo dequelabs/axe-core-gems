@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'axe/api/a11y_check'
+require 'axe/api/run'
 
 module Axe::API
-  describe A11yCheck do
+  describe Run do
 
     describe "@context" do
       let(:context) { spy('context') }
