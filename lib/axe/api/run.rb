@@ -12,7 +12,7 @@ require 'axe/core'
 
 module Axe
   module API
-    class A11yCheck
+    class Run
       JS_NAME = "run"
       METHOD_NAME = "#{Core::JS_NAME}.#{JS_NAME}"
 
@@ -33,10 +33,6 @@ module Axe
           Audit.new to_js, Results.new(results)
         end
       end
-
-      extend Gem::Deprecate
-      deprecate :initialize, "3.0"
-      deprecate :call, "3.0"
 
       private
 
