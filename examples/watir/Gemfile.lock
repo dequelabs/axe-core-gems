@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    axe-matchers (1.4.0)
+    axe-matchers (2.0.0)
       dumb_delegator (~> 0.8)
       virtus (~> 1.0)
 
