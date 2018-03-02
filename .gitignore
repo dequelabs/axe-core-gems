@@ -26,4 +26,3 @@ bin/
 node_modules/
 spec/examples.txt
 results/
-package-lock.json
