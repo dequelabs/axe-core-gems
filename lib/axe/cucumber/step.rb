@@ -27,15 +27,15 @@ module Axe
       # optionally specify ruleset via list of comma-separated tags
       (?-x:;? according to: (?<tags>.*?))?
 
-      # optionally specify rules (as comma-separated list of rule ids) to check
+      # optionally specify rules to check as comma-separated list of rule ids
       # in addition to default ruleset or explicit ruleset specified above via tags
       # if the 'only' keyword is supplied, then *only* the listed rules are checked, not *additionally*
       (?-x:;?(?: and)? checking(?<run_only> only)?: (?<run_rules>.*?))?
 
-      # optionally specify rules (as comma-separated list of rule ids) to skip
+      # optionally specify rules to skip as comma-separated list of rule ids
       (?-x:;?(?: but)? skipping: (?<skip_rules>.*?))?
 
-      # optionally specify custom options (as a yaml-parsed hash or json string) to pass directly to axe-core
+      # optionally specify custom options to pass directly to axe-core as a yaml-parsed hash or json string
       (?-x:;? with options: (?<options>.*?))?
 
       $/x

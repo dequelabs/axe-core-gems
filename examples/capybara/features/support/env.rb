@@ -9,6 +9,11 @@ require 'capybara/cucumber'
 # definitions available to be used directly in your cucumber features.
 require 'axe/cucumber/step_definitions'
 
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara.javascript_driver = :chrome
 
 # axe-matchers works with capybara out of the box, using the `page` helper as
 # provided by Capybara as a reference to the webdriver. No configuration
