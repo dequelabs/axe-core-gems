@@ -13,6 +13,13 @@ module Axe
           [ selector_message, node_html ]
         end
 
+        def to_h
+          {
+            html: html,
+            target: target
+          }
+        end
+
         private
 
         def selector_message
