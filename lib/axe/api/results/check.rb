@@ -16,6 +16,16 @@ module Axe
         def failure_message
           message
         end
+
+        def to_h
+          {
+            id: id,
+            impact: impact,
+            message: message,
+            data: data,
+            relatedNodes: relatedNodes.map(&:to_h)
+          }
+        end
       end
     end
   end
