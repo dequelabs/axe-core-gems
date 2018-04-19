@@ -28,6 +28,18 @@ module Axe
           ]
         end
 
+        def to_h
+          {
+            id: id,
+            description: description,
+            help: help,
+            helpUrl: helpUrl,
+            impact: impact,
+            tags: tags,
+            nodes: nodes.map(&:to_h)
+          }
+        end
+
         private
 
         def indent
