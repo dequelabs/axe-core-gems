@@ -21,6 +21,15 @@ module Axe
         ].flatten.join("\n")
       end
 
+      def to_h
+        {
+          url: url,
+          timestamp: timestamp,
+          passes: passes.map(&:to_h),
+          violations: violations.map(&:to_h)
+        }
+      end
+
       private
 
       def violation_count_message
