@@ -22,12 +22,12 @@ module Axe
         end
 
         def to_h
-          {
+          super.merge({
             impact: impact,
             any: any.map(&:to_h),
             all: all.map(&:to_h),
             none: none.map(&:to_h)
-          }
+          })
         end
 
         private
