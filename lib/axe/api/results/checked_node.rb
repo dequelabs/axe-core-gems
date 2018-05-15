@@ -12,7 +12,7 @@ module Axe
           attribute :none, ::Array[Check]
           attribute :failureSummary, ::Symbol
           attribute :html, ::Symbol
-          attribute :target, ::Array[Node]
+          attribute :target, ::Array[::Symbol]
         end
 
         def failure_messages
@@ -26,13 +26,13 @@ module Axe
 
         def to_h
           {
-            impact: impact,
-            any: any.map(&:to_h),
             all: all.map(&:to_h),
-            none: none.map(&:to_h),
+            any: any.map(&:to_h),
             failureSummary: failureSummary,
             html: html,
-            target: ''
+            impact: impact,
+            none: none.map(&:to_h),
+            target: target,
           }
         end
 

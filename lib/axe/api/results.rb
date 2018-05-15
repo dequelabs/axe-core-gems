@@ -6,9 +6,11 @@ module Axe
       require 'axe/api/results/rule'
 
       values do
-        attribute :url, ::String
-        attribute :timestamp
+        attribute :inapplicable, ::Array[Rule]
+        attribute :incomplete, ::Array[Rule]
         attribute :passes, ::Array[Rule]
+        attribute :timestamp
+        attribute :url, ::String
         attribute :violations, ::Array[Rule]
       end
 
@@ -23,10 +25,12 @@ module Axe
 
       def to_h
         {
-          url: url,
-          timestamp: timestamp,
+          inapplicable: inapplicable.map(&:to_h),
+          incomplete: incomplete.map(&:to_h),
           passes: passes.map(&:to_h),
-          violations: violations.map(&:to_h)
+          timestamp: timestamp,
+          url: url,
+          violations: violations.map(&:to_h),
         }
       end
 
