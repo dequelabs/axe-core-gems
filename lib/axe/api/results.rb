@@ -30,7 +30,7 @@ module Axe
           passes: passes.map(&:to_h),
           timestamp: timestamp,
           url: url,
-          violations: violations.map(&:to_h),
+          violations: violations.map(&:to_h)
         }
       end
 
