@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'axe-matchers'
-  spec.version     = '2.1.1-alpha'
+  spec.version     = '2.1.1'
   spec.license     = 'MPL-2.0'
   spec.authors     = ['Deque Systems', 'Test Double']
   spec.email       = ['helpdesk@deque.com', 'hello@testdouble.com']
