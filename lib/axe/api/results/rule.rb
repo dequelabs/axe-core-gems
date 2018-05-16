@@ -30,13 +30,13 @@ module Axe
 
         def to_h
           {
-            id: id,
             description: description,
             help: help,
             helpUrl: helpUrl,
+            id: id,
             impact: impact,
+            nodes: nodes.map(&:to_h),
             tags: tags,
-            nodes: nodes.map(&:to_h)
           }
         end
 
