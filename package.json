@@ -6,11 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/dequelabs/axe-matchers.git"
   },
-  "scripts": {
-    "setup": "rm -rf ./package-lock.json && npm install && rm -rf ./Gemfile.lock && bundle install",
-    "test": "rspec"
-  },
   "dependencies": {
-    "axe-core": "^3.0.1"
+    "axe-core": "^3.0.2"
   }
 }
