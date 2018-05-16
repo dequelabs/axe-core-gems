@@ -5,11 +5,15 @@ module Axe
   module API
     class Results
       class CheckedNode < Node
+        
         values do
           attribute :impact, ::Symbol
           attribute :any, ::Array[Check]
           attribute :all, ::Array[Check]
           attribute :none, ::Array[Check]
+          attribute :failureSummary, ::Symbol
+          attribute :html, ::String
+          attribute :target
         end
 
         def failure_messages
@@ -23,10 +27,13 @@ module Axe
 
         def to_h
           {
-            impact: impact,
-            any: any.map(&:to_h),
             all: all.map(&:to_h),
-            none: none.map(&:to_h)
+            any: any.map(&:to_h),
+            failureSummary: failureSummary,
+            html: html,
+            impact: impact,
+            none: none.map(&:to_h),
+            target: target
           }
         end
 
