@@ -11,6 +11,6 @@
     "test": "rspec"
   },
   "dependencies": {
-    "axe-core": "^3.0.1"
+    "axe-core": "^3.0.2"
   }
 }
