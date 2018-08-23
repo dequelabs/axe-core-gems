@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4.3-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install System Dependencies
+          command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run: bundle install
+      - run: rake install
+      - run: rake spec:ci
+      - run: rake cucumber:ci
+      - run: rake build
+      - store_artifacts:
+          path: pkg
+      - store_test_results:
+          path: results
