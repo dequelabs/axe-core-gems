@@ -7,6 +7,6 @@ Closes issue:
 
 **Required fields, to be filled out by PR reviewer(s)**
 - [ ] Follows the commit message policy, appropriate for next version
-- [ ] Has documentation updated, a DU ticket, or requires no documentation change
+- [ ] Has documentation updated
 - [ ] Includes new tests, or was unnecessary
 - [ ] Code is reviewed for security by: << Name here >>
