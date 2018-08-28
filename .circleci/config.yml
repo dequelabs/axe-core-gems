@@ -10,7 +10,7 @@ jobs:
           # This is essential for capybara-webkit
           name: Install System Dependencies
           command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
-      - run: bundle install
+      - run: bundle install --without local
       - run: rake install
       - run: rake spec:ci
       - run: rake cucumber:ci
