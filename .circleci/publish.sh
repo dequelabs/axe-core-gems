@@ -5,7 +5,7 @@ set -e
 # Setup `gem` credentials.
 # Based on https://medium.com/@pezholio/publishing-rubygems-using-circle-ci-2-0-1dbf06ae9942.
 mkdir ~/.gem
-echo -e "---\r\n:rubygems_api_key: Basic $RUBYGEMS_API_KEY" > ~/.gem/credentials
+echo -e "---\r\n:rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials
 chmod 0600 ~/.gem/credentials
 
 if [ "$CIRCLE_BRANCH" = "develop" ]; then
