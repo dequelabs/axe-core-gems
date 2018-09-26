@@ -2,21 +2,23 @@
 
 set -e
 
-throw() { 
-  echo "$@" 1>&2
-  exit 1
-}
+# Setup `gem` credentials.
+# Based on https://medium.com/@pezholio/publishing-rubygems-using-circle-ci-2-0-1dbf06ae9942.
+mkdir ~/.gem
+echo -e "---\r\n:rubygems_api_key: Basic $RUBYGEMS_API_KEY" > ~/.gem/credentials
+chmod 0600 ~/.gem/credentials
 
 if [ "$CIRCLE_BRANCH" = "develop" ]; then
   rm -rf pkg
   # Add a ".pre.SHA" suffix to the version number.
   sed -i '' "s/spec\.version *= *\"\(.*\)\"/spec.version = \"\1.pre.$(git rev-parse --short HEAD)\"/" axe-matchers.gemspec
   rake build
-  gem push --host $(pkg/*.gem)
+  gem push $(pkg/*.gem)
 elif [ "$CIRCLE_BRANCH" = "master" ]; then
   rm -rf pkg
   rake build
-  gem push --host $(pkg/*.gem)
+  gem push $(pkg/*.gem)
 else
-  throw "Invalid branch. Refusing to publish."
+  echo "Invalid branch. Refusing to publish." 1>&2
+  exit 1
 fi
