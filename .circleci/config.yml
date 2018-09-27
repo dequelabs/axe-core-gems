@@ -19,3 +19,9 @@ jobs:
           path: pkg
       - store_test_results:
           path: results
+      - run: 
+          name: Optionally publish
+          command: |
+            if [ "$CIRCLE_BRANCH" = "develop" ] || [ "$CIRCLE_BRANCH" = "master" ]; then 
+              .circleci/publish.sh
+            fi
