@@ -13,11 +13,11 @@ if [ "$CIRCLE_BRANCH" = "develop" ]; then
   # Add a ".pre.SHA" suffix to the version number.
   sed -i -e "s/spec\.version\s*=\s'\(.*\)'/spec.version='\1.pre.$(git rev-parse --short HEAD)'/" axe-matchers.gemspec 
   rake build
-  gem push $(pkg/*.gem)
+  gem push $(ls pkg/*.gem)
 elif [ "$CIRCLE_BRANCH" = "master" ]; then
   rm -rf pkg
   rake build
-  gem push $(pkg/*.gem)
+  gem push $(ls pkg/*.gem)
 else
   echo "Invalid branch. Refusing to publish." 1>&2
   exit 1
