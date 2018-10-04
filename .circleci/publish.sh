@@ -11,7 +11,7 @@ chmod 0600 ~/.gem/credentials
 if [ "$CIRCLE_BRANCH" = "develop" ]; then
   rm -rf pkg
   # Add a ".pre.SHA" suffix to the version number.
-  sed -i '' "s/spec\.version *= *\"\(.*\)\"/spec.version = \"\1.pre.$(git rev-parse --short HEAD)\"/" axe-matchers.gemspec
+  sed -i -e "s/spec\.version\s*=\s'\(.*\)'/spec.version='\1.pre.$(git rev-parse --short HEAD)'/" axe-matchers.gemspec 
   rake build
   gem push $(pkg/*.gem)
 elif [ "$CIRCLE_BRANCH" = "master" ]; then
