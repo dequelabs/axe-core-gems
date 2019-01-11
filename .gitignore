@@ -3,7 +3,10 @@
 .bundle
 .config
 .yardoc
+
 Gemfile.lock
+examples/**/Gemfile.lock
+
 InstalledFiles
 _yardoc
 coverage
