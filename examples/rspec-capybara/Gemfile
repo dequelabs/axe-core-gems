@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "rspec"
-gem "capybara", ">= 3.12.0"
+gem "capybara"
 gem "selenium-webdriver"
 
 gem "axe-matchers", :path => "../../"
