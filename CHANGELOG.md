@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Update axe-core to 3.2.1
+* Update axe-core to 3.2.2
 
 
 <a name="2.2.1"></a>
