@@ -1,6 +1,6 @@
 {
   "name": "axe-matchers",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "license": "MPL-2.0",
   "private": true,
   "repository": {
@@ -12,6 +12,6 @@
     "test": "rspec"
   },
   "dependencies": {
-    "axe-core": "^3.1.1"
+    "axe-core": "^3.2.2"
   }
 }
