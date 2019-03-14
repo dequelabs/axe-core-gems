@@ -1,6 +1,6 @@
 {
   "name": "axe-matchers",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "license": "MPL-2.0",
   "private": true,
   "repository": {
@@ -9,9 +9,13 @@
   },
   "scripts": {
     "setup": "rm -rf ./package-lock.json && npm install && rm -rf ./Gemfile.lock && bundle install",
-    "test": "rspec"
+    "test": "rspec",
+    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
   },
   "dependencies": {
     "axe-core": "^3.2.2"
+  },
+  "devDependencies": {
+    "standard-version": "^5.0.1"
   }
 }
