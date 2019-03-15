@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/ruby:2.4.3-node-browsers
     steps:
@@ -20,9 +20,49 @@ jobs:
           path: pkg
       - store_test_results:
           path: results
-      - run: 
-          name: Optionally publish
+  release:
+    docker:
+      - image: circleci/ruby:2.4.3-node-browsers
+    steps:
+      - checkout
+      - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run: sudo npm install -g npm@latest
+      - run: bundle install --without local
+      - run: rake install
+      - run: .circleci/publish.sh
+  github_release:
+    docker:
+      - image: circleci/golang:1.8
+    steps:
+      - checkout
+      - run: go get gopkg.in/aktau/github-release.v0
+      - run:
+          name: Download and run GitHub release script
           command: |
-            if [ "$CIRCLE_BRANCH" = "develop" ] || [ "$CIRCLE_BRANCH" = "master" ]; then 
-              .circleci/publish.sh
-            fi
+            curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/ruby-github-release.sh -s -o ./ruby-github-release.sh
+            chmod +x ./ruby-github-release.sh
+            ./ruby-github-release.sh
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - dependencies
+      - test:
+          requires:
+            - dependencies
+      - release:
+          requires:
+            - dependencies
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - github_release:
+          requires:
+            - release
+          filters:
+            branches:
+              only: master
