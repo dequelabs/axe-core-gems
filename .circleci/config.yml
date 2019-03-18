@@ -47,13 +47,9 @@ workflows:
   version: 2
   build:
     jobs:
-      - dependencies
       - test:
-          requires:
-            - dependencies
       - release:
           requires:
-            - dependencies
             - test
           filters:
             branches:
