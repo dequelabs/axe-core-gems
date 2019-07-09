@@ -45,13 +45,13 @@ module Axe
       end
 
       def js_args
-        [ @context, @options ]
+        [@context, @options]
           .reject(&:empty?)
           .map(&:to_json)
       end
 
       def to_js
-        str_args = (js_args + [ 'callback']).join(', ')
+        str_args = (js_args + ['callback']).join(', ')
         "#{METHOD_NAME}(#{str_args});"
       end
     end

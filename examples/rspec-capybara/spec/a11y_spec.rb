@@ -4,7 +4,6 @@ require 'capybara/rspec'
 require 'axe/rspec'
 #######
 
-
 # Typical example using standard RSpec dsl
 describe "ABCD CompuTech (RSpec DSL)", :type => :feature, :driver => :selenium do
   before :each do

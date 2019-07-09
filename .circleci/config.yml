@@ -1,9 +1,19 @@
 version: 2
 
+defaults: &defaults
+  docker:
+    - image: circleci/ruby:2.4.3-node-browsers
+  working_directory: ~/axe-matchers
+
+restore_dependency_cache: &restore_dependency_cache
+  restore_cache:
+    keys:
+      - v1-gem-cache-{{ checksum "Gemfile" }}
+      - v1-gem-cache-
+
 jobs:
   test:
-    docker:
-      - image: circleci/ruby:2.4.3-node-browsers
+    <<: *defaults
     steps:
       - checkout
       - run:
@@ -11,7 +21,12 @@ jobs:
           name: Install System Dependencies
           command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: sudo npm install -g npm@latest
-      - run: bundle install --without local
+      - <<: *restore_dependency_cache
+      - run: bundle install --without local && bundle clean
+      - save_cache:
+          paths:
+            - ~/.bundle
+          key: v1-gem-cache-{{ checksum "Gemfile" }}
       - run: rake install
       - run: rake spec:ci
       - run: rake cucumber:ci
@@ -21,13 +36,17 @@ jobs:
       - store_test_results:
           path: results
   release:
-    docker:
-      - image: circleci/ruby:2.4.3-node-browsers
+    <<: *defaults
     steps:
       - checkout
       - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: sudo npm install -g npm@latest
-      - run: bundle install --without local
+      - <<: *restore_dependency_cache
+      - run: bundle install --without local && bundle clean
+      - save_cache:
+          paths:
+            - ~/.bundle
+          key: v1-gem-cache-{{ checksum "Gemfile" }}
       - run: rake install
       - run: .circleci/publish.sh
   github_release:

@@ -5,7 +5,6 @@ module Axe
   module API
     class Results
       class Check < ValueObject
-
         values do
           attribute :data, ::String
           attribute :id, ::Symbol
@@ -27,7 +26,6 @@ module Axe
             relatedNodes: relatedNodes.map(&:to_h)
           }
         end
-        
       end
     end
   end

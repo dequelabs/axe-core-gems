@@ -26,11 +26,11 @@ module Axe
     it { is_expected.to respond_to :wait_interval }
     it { is_expected.to respond_to :wait_interval= }
 
-		# We have removed comments from `axe.min.js`, so excluding this test
-		# Hence cannot do start_with("/*! aXe"), instead do a function we know should exist check
-    its(:jslib) { 
-			is_expected.to include("axe.run=function(")
-		}
+    # We have removed comments from `axe.min.js`, so excluding this test
+    # Hence cannot do start_with("/*! aXe"), instead do a function we know should exist check
+    its(:jslib) {
+      is_expected.to include("axe.run=function(")
+    }
 
     describe "#after_load hook" do
       let(:after_load_block) { spy('after_load_block') }
@@ -61,7 +61,7 @@ module Axe
 
       it "should accept a block" do
         called = false
-        subject.after_load { called=true }
+        subject.after_load { called = true }
 
         Hooks.run_after_load :args
         expect(called).to be true
@@ -69,7 +69,7 @@ module Axe
 
       it "should accept a callable" do
         called = false
-        subject.after_load ->(foo) { called=true }
+        subject.after_load ->(foo) { called = true }
 
         Hooks.run_after_load :args
         expect(called).to be true
@@ -98,7 +98,6 @@ module Axe
           expect { described_class.from_yaml(yaml_file) }.to_not raise_error
         end
       end
-
     end
   end
 end

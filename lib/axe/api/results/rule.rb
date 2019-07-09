@@ -17,13 +17,12 @@ module Axe
 
         def failure_messages(index)
           [
-            title_message(index+1),
+            title_message(index + 1),
             *[
               helpUrl,
               node_count_message,
               "",
-              nodes.reject{|n| n.nil?}.map(&:failure_messages).map{|n| n.push("")}.flatten.map(&indent)
-
+              nodes.reject { |n| n.nil? }.map(&:failure_messages).map { |n| n.push("") }.flatten.map(&indent)
             ].flatten.map(&indent)
           ]
         end
@@ -43,7 +42,7 @@ module Axe
         private
 
         def indent
-          -> (line) { line.prepend(" " * 4) unless line.nil? }
+          ->(line) { line.prepend(" " * 4) unless line.nil? }
         end
 
         def title_message(count)

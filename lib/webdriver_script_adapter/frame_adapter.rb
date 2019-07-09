@@ -2,7 +2,6 @@ require 'dumb_delegator'
 
 module WebDriverScriptAdapter
   class FrameAdapter < ::DumbDelegator
-
     def self.wrap(driver)
       if driver.respond_to?(:within_frame)
         CapybaraAdapter.new driver
@@ -54,10 +53,8 @@ module WebDriverScriptAdapter
       end
     end
 
-
     # Selenium Webdriver < 2.43 doesnt support moving back to the parent
     class ParentlessFrameAdapter < ::DumbDelegator
-
       # storage of frame stack (for reverting to parent) taken from Capybara
       # : https://github.com/jnicklas/capybara/blob/2.6.2/lib/capybara/selenium/driver.rb#L117-L147
       #
@@ -79,6 +76,5 @@ module WebDriverScriptAdapter
     def find_frames
       find_elements(:css, 'iframe')
     end
-
   end
 end

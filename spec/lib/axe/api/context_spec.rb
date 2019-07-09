@@ -2,43 +2,42 @@ require 'axe/api/context'
 
 module Axe::API
   describe Context do
-
     describe "#within" do
       context "when given simple selector" do
         it "should push it on array" do
           subject.within "#selector"
-          expect(subject.instance_variable_get :@inclusion).to eq [ ["#selector"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [["#selector"]]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
           subject.within ".foo", ".bar"
-          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo"], [".bar"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [[".foo"], [".bar"]]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
           subject.within(iframe: ".foo", selector: ".bar")
-          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo", ".bar"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [[".foo", ".bar"]]
         end
       end
 
       context "when given multiple hashes" do
         it "should flatten the hash" do
           subject.within(
-            {iframe: ".foo", selector: ".bar"},
-            {iframe: ".baz", selector: ".qux"}
+            { iframe: ".foo", selector: ".bar" },
+            { iframe: ".baz", selector: ".qux" }
           )
-          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [[".foo", ".bar"], [".baz", ".qux"]]
         end
       end
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
           subject.within(".foo", ".bar", iframe: ".baz", selector: ".qux")
-          expect(subject.instance_variable_get :@inclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@inclusion).to eq [[".foo"], [".bar"], [".baz", ".qux"]]
         end
       end
     end
@@ -47,38 +46,38 @@ module Axe::API
       context "when given simple selector" do
         it "should push it on array" do
           subject.excluding "#selector"
-          expect(subject.instance_variable_get :@exclusion).to eq [ ["#selector"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [["#selector"]]
         end
       end
 
       context "when given multiple selectors" do
         it "should push them all onto the array" do
           subject.excluding ".foo", ".bar"
-          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo"], [".bar"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [[".foo"], [".bar"]]
         end
       end
 
       context "when given single hash" do
         it "should flatten the hash" do
           subject.excluding(iframe: ".foo", selector: ".bar")
-          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo", ".bar"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [[".foo", ".bar"]]
         end
       end
 
       context "when given multiple hashes" do
         it "should flatten the hash" do
           subject.excluding(
-            {iframe: ".foo", selector: ".bar"},
-            {iframe: ".baz", selector: ".qux"}
+            { iframe: ".foo", selector: ".bar" },
+            { iframe: ".baz", selector: ".qux" }
           )
-          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo", ".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [[".foo", ".bar"], [".baz", ".qux"]]
         end
       end
 
       context "when given string selectors *and* hashes" do
         it "should flatten the hash" do
           subject.excluding(".foo", ".bar", iframe: ".baz", selector: ".qux")
-          expect(subject.instance_variable_get :@exclusion).to eq [ [".foo"], [".bar"], [".baz", ".qux"] ]
+          expect(subject.instance_variable_get :@exclusion).to eq [[".foo"], [".bar"], [".baz", ".qux"]]
         end
       end
     end
@@ -94,7 +93,7 @@ module Axe::API
 
       context "with inclusion rules" do
         it "should not be empty" do
-          subject.instance_variable_set :@inclusion, [ 'foo' ]
+          subject.instance_variable_set :@inclusion, ['foo']
           subject.instance_variable_set :@exclusion, []
           expect(subject.empty?).to be(false)
         end
@@ -103,7 +102,7 @@ module Axe::API
       context "with exclusion rules" do
         it "should not be empty" do
           subject.instance_variable_set :@inclusion, []
-          subject.instance_variable_set :@exclusion, [ 'foo' ]
+          subject.instance_variable_set :@exclusion, ['foo']
           expect(subject.empty?).to be(false)
         end
       end
@@ -142,6 +141,5 @@ module Axe::API
         end
       end
     end
-
   end
 end
