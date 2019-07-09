@@ -1,6 +1,6 @@
 {
   "name": "axe-matchers",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "license": "MPL-2.0",
   "private": true,
   "repository": {
@@ -13,7 +13,7 @@
     "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
   },
   "dependencies": {
-    "axe-core": "^3.2.2"
+    "axe-core": "^3.3.0"
   },
   "devDependencies": {
     "standard-version": "^5.0.1"
