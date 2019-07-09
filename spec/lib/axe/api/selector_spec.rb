@@ -2,7 +2,6 @@ require 'axe/api/selector'
 
 module Axe::API
   describe Selector do
-
     context "from simple string" do
       let(:subject) { described_class.new "foo" }
 
@@ -20,16 +19,18 @@ module Axe::API
     end
 
     context "from nested iframe hash" do
-      let(:subject) { described_class.new(
-        iframe: "foo",
-        selector: {
-          iframe: "bar",
+      let(:subject) {
+        described_class.new(
+          iframe: "foo",
           selector: {
-            iframe: "baz",
-            selector: "qux"
+            iframe: "bar",
+            selector: {
+              iframe: "baz",
+              selector: "qux"
+            }
           }
-        }
-      ) }
+        )
+      }
 
       it "should flatten to wrapped array" do
         expect(subject.to_a).to eq ["foo", "bar", "baz", "qux"]
@@ -37,7 +38,7 @@ module Axe::API
     end
 
     context "from array" do
-      let(:subject) { described_class.new [ "foo", "bar" ] }
+      let(:subject) { described_class.new ["foo", "bar"] }
 
       it "should wrap array" do
         expect(subject.to_a).to eq ["foo", "bar"]
@@ -53,4 +54,3 @@ module Axe::API
     end
   end
 end
-

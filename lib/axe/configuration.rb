@@ -18,9 +18,9 @@ module Axe
     attr_accessor :page, :jslib_path, :skip_iframes
 
     def_delegators ::WebDriverScriptAdapter,
-      :async_results_identifier, :async_results_identifier=,
-      :max_wait_time, :max_wait_time=,
-      :wait_interval, :wait_interval=
+                   :async_results_identifier, :async_results_identifier=,
+                   :max_wait_time, :max_wait_time=,
+                   :wait_interval, :wait_interval=
 
     def initialize
       @page = :page
@@ -32,7 +32,7 @@ module Axe
     end
 
     class << self
-      def from_yaml(path="config/axe.yml")
+      def from_yaml(path = "config/axe.yml")
         file = Pathname.new(path)
         from_hash(YAML.load_file(file)) if file.exist?
         instance

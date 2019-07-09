@@ -26,7 +26,7 @@ module Axe
 
       def to_hash
         {}.tap do |options|
-          #TODO warn that tags + exclusive-rules are incompatible
+          # TODO warn that tags + exclusive-rules are incompatible
           options.merge! runOnly: { type: :tag, values: @tags } unless @tags.empty?
           options.merge! runOnly: { type: :rule, values: @exclusive } unless @exclusive.empty?
           options.merge! rules: Hash[@included.product([enabled: true]) + @excluded.product([enabled: false])] unless @included.empty? && @excluded.empty?
