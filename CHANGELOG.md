@@ -2,12 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="2.3.0"></a>
+
 ## [2.3.0](https://github.com/dequelabs/axe-matchers/compare/v2.2.1...v2.3.0) (2019-03-06)
 
 ### Features
 
 * Update axe-core to 3.2.2
+
+### Bug Fixes
+
+* gems vulnerability by removing lock files in examples ([#53](https://github.com/dequelabs/axe-matchers/issues/53)) ([648aeca](https://github.com/dequelabs/axe-matchers/commit/648aeca))
+* security vulnerability ([#52](https://github.com/dequelabs/axe-matchers/issues/52)) ([14736f2](https://github.com/dequelabs/axe-matchers/commit/14736f2))
 
 
 <a name="2.2.1"></a>
