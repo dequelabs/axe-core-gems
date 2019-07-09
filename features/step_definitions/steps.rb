@@ -6,7 +6,7 @@ end
 
 When "I disable iframe auditing" do
   Axe.configure do |c|
-    c.skip_iframes=true
+    c.skip_iframes = true
   end
 end
 

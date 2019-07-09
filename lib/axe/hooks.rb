@@ -1,10 +1,10 @@
 module Axe
   module Hooks
-    HOOKS = [ :after_load ]
+    HOOKS = [:after_load]
 
     HOOKS.each do |hook_name|
       # define instance-level registration method per hook
-      define_method hook_name do |callable=nil, &block|
+      define_method hook_name do |callable = nil, &block|
         callable ||= block
         Hooks.callbacks.fetch(hook_name) << callable if callable
       end
@@ -25,8 +25,7 @@ module Axe
     private
 
     def self.initialize_callbacks_array_per_hook
-      Hash[ HOOKS.map{|name| [name, []]} ]
+      Hash[HOOKS.map { |name| [name, []] }]
     end
-
   end
 end

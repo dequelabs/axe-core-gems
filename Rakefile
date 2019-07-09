@@ -41,7 +41,6 @@ namespace :npm do
   end
 end
 
-
 ###########
 # RSpec
 ###########
@@ -60,7 +59,6 @@ namespace :spec do
   end
 end
 
-
 ###########
 # Cucumber
 ###########
@@ -69,29 +67,28 @@ Cucumber::Rake::Task.new :cucumber
 
 namespace :cucumber do
   desc "Run Cucumber features with each driver & browser"
-  task :all => %w[ capybara selenium watir ]
+  task :all => %w[capybara selenium watir]
 
   desc "Run Cucumber features with each headless browser"
-  task :headless => %w[ selenium:chrome:headless capybara:webkit ]
+  task :headless => %w[selenium:chrome:headless capybara:webkit]
 
   desc "Run Cucumber features with Capybara driving each browser"
-  task :capybara => %w[ capybara:firefox capybara:chrome capybara:safari capybara:webkit ]
+  task :capybara => %w[capybara:firefox capybara:chrome capybara:safari capybara:webkit]
 
   desc "Run Cucumber features with Selenium driving each browser"
-  task :selenium => %w[ selenium:firefox selenium:chrome selenium:safari ]
+  task :selenium => %w[selenium:firefox selenium:chrome selenium:safari]
 
   desc "Run Cucumber features with Watir driving each browser"
-  task :watir => %w[ watir:firefox watir:chrome watir:safari ]
+  task :watir => %w[watir:firefox watir:chrome watir:safari]
 
   desc "Run Cucumber features with Firefox under each driver"
-  task :firefox => %w[ capybara:firefox selenium:firefox watir:firefox ]
+  task :firefox => %w[capybara:firefox selenium:firefox watir:firefox]
 
   desc "Run Cucumber features with Chrome under each driver"
-  task :chrome => %w[ capybara:chrome selenium:chrome watir:chrome ]
+  task :chrome => %w[capybara:chrome selenium:chrome watir:chrome]
 
   desc "Run Cucumber features with Safari under each driver"
-  task :safari => %w[ capybara:safari selenium:safari watir:safari ]
-
+  task :safari => %w[capybara:safari selenium:safari watir:safari]
 
   Cucumber::Rake::Task.new 'ci', 'Run Cucumber features and save results in junit xml' do |t| t.cucumber_opts = "-p capybara -p chrome --format junit --out results/cucumber/" end
 

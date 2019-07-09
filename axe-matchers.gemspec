@@ -15,10 +15,10 @@ Gem::Specification.new do |spec|
   DESC
 
   spec.metadata = {
-    'bug_tracker_uri'   => 'https://github.com/dequelabs/axe-matchers/issues',
+    'bug_tracker_uri' => 'https://github.com/dequelabs/axe-matchers/issues',
     'documentation_uri' => 'https://github.com/dequelabs/axe-matchers/blob/master/README.md',
-    'source_code_uri'   => 'https://github.com/dequelabs/axe-matchers',
-    'wiki_uri'          => 'https://github.com/dequelabs/axe-matchers/wiki'
+    'source_code_uri' => 'https://github.com/dequelabs/axe-matchers',
+    'wiki_uri' => 'https://github.com/dequelabs/axe-matchers/wiki'
   }
 
   spec.platform                  = Gem::Platform::RUBY
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = '>= 1.3.6'
   spec.requirements              = 'A WebDriver of some sort. e.g Capybara, Selenium or Watir'
 
-  spec.files        = Dir.glob %w[ lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md ]
+  spec.files        = Dir.glob %w[lib/**/* node_modules/axe-core/axe.min.js LICENSE README.md]
   spec.require_path = 'lib'
 
   spec.add_dependency 'dumb_delegator', '~> 0.8'

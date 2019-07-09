@@ -48,7 +48,7 @@ module Axe
         @page = page
       end
 
-      def assert_accessibility(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options=nil)
+      def assert_accessibility(negate = false, inclusion = "", exclusion = "", tags = "", run_only = false, run_rules = "", skip_rules = "", options = nil)
         is_accessible = Axe::Matchers::BeAccessible.new.tap do |a|
           a.within(*selector(inclusion))
           a.excluding(*selector(exclusion))

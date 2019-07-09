@@ -10,7 +10,8 @@
   "scripts": {
     "setup": "rm -rf ./package-lock.json && npm install && rm -rf ./Gemfile.lock && bundle install",
     "test": "rspec",
-    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
+    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true",
+    "format": "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
   },
   "dependencies": {
     "axe-core": "^3.2.2"

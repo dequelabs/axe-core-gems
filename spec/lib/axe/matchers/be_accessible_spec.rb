@@ -22,12 +22,12 @@ module Axe::Matchers
 
       it "should save results" do
         subject.matches? page
-        expect( subject.instance_variable_get :@audit ).to be audit
+        expect(subject.instance_variable_get :@audit).to be audit
       end
 
       it "should return results.passed" do
         allow(audit).to receive(:passed?).and_return(:passed)
-        expect( subject.matches?(page) ).to be :passed
+        expect(subject.matches?(page)).to be :passed
       end
     end
 
@@ -36,7 +36,7 @@ module Axe::Matchers
         expect(Axe::Core).to receive(:new).with(page).and_return(core)
         expect(core).to receive(:call).with(run).and_return(audit)
 
-        expect( subject.audit(page) ).to be audit
+        expect(subject.audit(page)).to be audit
       end
     end
 
@@ -132,6 +132,5 @@ module Axe::Matchers
         expect(subject.with_options(:foo)).to be subject
       end
     end
-
   end
 end
