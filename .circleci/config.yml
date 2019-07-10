@@ -40,6 +40,17 @@ jobs:
       - checkout
       # This is essential for capybara-webkit
       - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run: |
+          curl -L -o "/tmp/firefox-$FIREFOX_VERSION.tar.bz2" "https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2"
+          tar -jxf "/tmp/firefox-$FIREFOX_VERSION.tar.bz2" -C "/tmp/"
+          sudo mv "/tmp/firefox" "/opt/firefox-$FIREFOX_VERSION"
+          sudo ln -sf "/opt/firefox-$FIREFOX_VERSION/firefox" "/usr/local/bin/firefox"
+      - run: |
+          curl -L -o "/tmp/geckodriver.tar.gz" "https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz"
+          tar -xvzf /tmp/geckodriver.tar.gz -C /tmp/
+          sudo mv "/tmp/geckodriver" "/opt/geckodriver"
+          chmod +x /opt/geckodriver
+          sudo ln -sf "/opt/geckodriver" "/usr/local/bin/geckodriver"
       - run: sudo npm install -g npm@latest
       - <<: *restore_dependency_cache
       - run: bundle install --without local && bundle clean
