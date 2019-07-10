@@ -6,11 +6,11 @@ module Axe
       class Node < ValueObject
         values do
           attribute :html, ::String
-          attribute :target #String or Array[String]
+          attribute :target # String or Array[String]
         end
 
         def failure_messages
-          [ selector_message, node_html ]
+          [selector_message, node_html]
         end
 
         def to_h
@@ -27,7 +27,7 @@ module Axe
         end
 
         def node_html
-          "HTML: #{html.gsub(/^\s*|\n*/,'')}" unless html.nil?
+          "HTML: #{html.gsub(/^\s*|\n*/, '')}" unless html.nil?
         end
       end
     end

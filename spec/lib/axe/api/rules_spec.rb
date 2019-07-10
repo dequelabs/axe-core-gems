@@ -3,7 +3,6 @@ require 'axe/api/rules'
 
 module Axe::API
   describe Rules do
-
     describe "#according_to" do
       it "adds tags to list of tags for which to run rules" do
         subject.according_to :foo, :bar
@@ -65,9 +64,9 @@ module Axe::API
           subject.skipping(:baz, :qux)
           expect(subject.to_hash).to include :rules => {
             foo: { enabled: true },
-            bar: { enabled:true },
-            baz: { enabled:false },
-            qux: { enabled:false }
+            bar: { enabled: true },
+            baz: { enabled: false },
+            qux: { enabled: false }
           }
         end
       end

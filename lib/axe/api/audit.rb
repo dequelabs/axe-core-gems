@@ -1,7 +1,6 @@
 module Axe
   module API
     class Audit
-
       attr_reader :invocation, :results
 
       def initialize(invocation, results)

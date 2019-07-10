@@ -5,7 +5,6 @@ module Axe
   module API
     class Results
       class CheckedNode < Node
-        
         values do
           attribute :impact, ::Symbol
           attribute :any, ::Array[Check]
@@ -40,10 +39,10 @@ module Axe
         private
 
         def fix(checks, message)
-          valid_checks = checks.reject{|c| c.nil?}
+          valid_checks = checks.reject { |c| c.nil? }
           [
             (message unless valid_checks.empty?),
-            valid_checks.map(&:failure_message).map{|line| line.prepend("- ") }
+            valid_checks.map(&:failure_message).map { |line| line.prepend("- ") }
           ].compact
         end
       end

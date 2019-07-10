@@ -9,8 +9,14 @@
   },
   "scripts": {
     "setup": "rm -rf ./package-lock.json && npm install && rm -rf ./Gemfile.lock && bundle install",
+    "test:examples:cucumber-watir": "cd examples/watir && rm -rf ./Gemfile.lock && bundle install && bundle exec cucumber",
+    "test:examples:cucumber-selenium": "cd examples/selenium && rm -rf ./Gemfile.lock && bundle install && bundle exec cucumber",
+    "test:examples:cucumber-capybara": "cd examples/capybara && rm -rf ./Gemfile.lock && bundle install && bundle exec cucumber",
+    "test:examples:rspec-capybara": "cd examples/rspec-capybara && rm -rf ./Gemfile.lock && bundle install && bundle exec rspec",
+    "test:examples": "npm run test:examples:cucumber-watir && npm run test:examples:cucumber-selenium && npm run test:examples:cucumber-capybara && npm run test:examples:rspec-capybara",
     "test": "rspec",
-    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
+    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true",
+    "format": "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
   },
   "dependencies": {
     "axe-core": "^3.3.0"

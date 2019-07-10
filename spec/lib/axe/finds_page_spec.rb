@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'axe/finds_page'
 
-FakeWorld = Class.new { def page;end }
+FakeWorld = Class.new { def page; end }
 
 module Axe
   describe FindsPage do

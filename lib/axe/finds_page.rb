@@ -2,7 +2,7 @@ require 'axe/configuration'
 
 module Axe
   class FindsPage
-    WEBDRIVER_NAMES = [ :page, :browser, :driver, :webdriver ]
+    WEBDRIVER_NAMES = [:page, :browser, :driver, :webdriver]
 
     class << self
       alias :in :new

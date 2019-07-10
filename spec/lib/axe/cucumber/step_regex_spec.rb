@@ -30,7 +30,10 @@ module CustomMatchers
     private
 
     def to_hash(matchdata)
-      Hash[matchdata.names.map(&:to_sym).zip matchdata.captures]
+      # Note: since not using named captures, have to use index look-up for converting matches to hash
+      # Doc: https://ruby-doc.org/core-2.4.0/MatchData.html
+      # Hash[matchdata.names.map(&:to_sym).zip matchdata.captures]
+      { :negate => matchdata[1], :inclusion => matchdata[2], :exclusion => matchdata[3], :tags => matchdata[4], :run_only => matchdata[5], :run_rules => matchdata[6], :skip_rules => matchdata[7], :options => matchdata[8] }
     end
   end
 
@@ -39,7 +42,7 @@ module CustomMatchers
   end
 end
 
-RSpec.configure {|c| c.include CustomMatchers}
+RSpec.configure { |c| c.include CustomMatchers }
 
 module Axe::Cucumber
   describe Step do
@@ -110,16 +113,22 @@ module Axe::Cucumber
 
       describe "everything" do
         # minimum
-        it { is_expected.to matchy('the page should be accessible within "foo" excluding "bar" according to: tag checking: run skipping: skip with options: qux')
-          .capturing( negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux") }
+        it {
+          is_expected.to matchy('the page should be accessible within "foo" excluding "bar" according to: tag checking: run skipping: skip with options: qux')
+            .capturing(negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux")
+        }
 
         # using semicolons
-        it { is_expected.to matchy('the page should be accessible within "foo"; excluding "bar"; according to: tag; checking: run; skipping: skip; with options: qux')
-          .capturing( negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux") }
+        it {
+          is_expected.to matchy('the page should be accessible within "foo"; excluding "bar"; according to: tag; checking: run; skipping: skip; with options: qux')
+            .capturing(negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux")
+        }
 
         # using conjunctions
-        it { is_expected.to matchy('the page should be accessible within "foo" but excluding "bar" according to: tag and checking: run but skipping: skip with options: qux')
-          .capturing( negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux") }
+        it {
+          is_expected.to matchy('the page should be accessible within "foo" but excluding "bar" according to: tag and checking: run but skipping: skip with options: qux')
+            .capturing(negate: be_falsey, inclusion: "foo", exclusion: "bar", tags: "tag", run_rules: "run", skip_rules: "skip", run_only: be_falsey, options: "qux")
+        }
       end
     end
   end

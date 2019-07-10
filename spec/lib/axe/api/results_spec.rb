@@ -3,43 +3,41 @@ require 'axe/api/results'
 
 module Axe::API
   describe Results do
-
     describe "#failure_message" do
       context "when the results objects are complete" do
         subject {
-          Results.new "violations" => [ {
+          Results.new "violations" => [{
             "help" => "V1 help",
             "helpUrl" => "V1 url",
-            "nodes" => [ {
+            "nodes" => [{
               "target" => ["#target-1-1"],
               "html" => "V1 html",
-              "any" => [ { "message" => "Fix from any 1" } ],
-              "all" => [ { "message" => "Fix from all 1" } ]
-            } ]
+              "any" => [{ "message" => "Fix from any 1" }],
+              "all" => [{ "message" => "Fix from all 1" }]
+            }]
           }, {
             "help" => "V2 help",
             "helpUrl" => "V2 url",
-            "nodes" => [ {
+            "nodes" => [{
               "target" => ["#target-2-1", "#target-2-2"],
               "html" => "V2 html",
-              "any" => [ { "message" => "Fix from any 2" } ],
-              "all" => [ { "message" => "Fix from all 2" } ]
-            } ]
+              "any" => [{ "message" => "Fix from any 2" }],
+              "all" => [{ "message" => "Fix from all 2" }]
+            }]
           }, {
             "help" => "V3 help",
             "helpUrl" => "V3 url",
-            "nodes" => [ {
+            "nodes" => [{
               "target" => [["#target-3-1", "#target-3-2"]],
               "html" => "V3 html",
-              "any" => [ { "message" => "Fix from any 3" } ],
-              "all" => [ { "message" => "Fix from all 3" } ]
-            } ]
-          } ]
+              "any" => [{ "message" => "Fix from any 3" }],
+              "all" => [{ "message" => "Fix from all 3" }]
+            }]
+          }]
         }
 
         it "should return formatted error message" do
           subject.failure_message.tap do |message|
-            
             expect(message).to include("Found 3 accessibility violations")
 
             expect(message).to include "V1 help", "V2 help", "V3 help"
@@ -54,15 +52,15 @@ module Axe::API
       end
 
       context "when the results objects are incomplete" do
-        subject { 
-          Results.new 'violations' => [ {
+        subject {
+          Results.new 'violations' => [{
             'help' => nil,
             'helpUrl' => nil,
             'nodes' => nil
           }, {
             'help' => 'V2 help',
             'helpUrl' => 'V2 url',
-            'nodes' => [ {
+            'nodes' => [{
               'target' => nil,
               'html' => nil,
               'any' => nil,
@@ -73,8 +71,8 @@ module Axe::API
               'any' => [nil],
               'all' => [nil],
 
-            }, nil ]
-          } ]
+            }, nil]
+          }]
         }
 
         it "should gracefully handle formatting" do
@@ -82,6 +80,5 @@ module Axe::API
         end
       end
     end
-
   end
 end

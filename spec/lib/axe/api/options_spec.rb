@@ -85,8 +85,8 @@ module Axe::API
     describe "#to_json" do
       context "without duplicates" do
         before :each do
-          subject.instance_variable_set :@custom, {:foo => :bar }
-          allow(rules).to receive(:to_hash).and_return( { :baz => :qux } )
+          subject.instance_variable_set :@custom, { :foo => :bar }
+          allow(rules).to receive(:to_hash).and_return({ :baz => :qux })
         end
 
         it "should merge rules and custom options" do
@@ -96,8 +96,8 @@ module Axe::API
 
       context "with duplicates" do
         before :each do
-          subject.instance_variable_set :@custom, {:foo => :bar }
-          allow(rules).to receive(:to_hash).and_return( { :foo => :qux } )
+          subject.instance_variable_set :@custom, { :foo => :bar }
+          allow(rules).to receive(:to_hash).and_return({ :foo => :qux })
         end
 
         it "should take custom options over rules" do

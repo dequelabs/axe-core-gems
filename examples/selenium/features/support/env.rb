@@ -5,7 +5,6 @@ require 'selenium-webdriver'
 # definitions available to be used directly in your cucumber features.
 require 'axe/cucumber/step_definitions'
 
-
 # give axe-matchers a handle on the browser/page instance
 Axe.configure do |c|
   c.page = :@page
@@ -23,7 +22,6 @@ end
 After do
   @page.quit
 end
-
 
 # for using other browsers, see selenium-webdriver's documentation:
 # https://github.com/SeleniumHQ/selenium/tree/master/rb

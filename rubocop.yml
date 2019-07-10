@@ -1,0 +1,4 @@
+# rubocop.yml
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
