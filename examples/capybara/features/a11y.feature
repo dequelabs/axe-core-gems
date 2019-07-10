@@ -10,10 +10,10 @@ Feature: Example using default Capybara setup
   # The steps for the following scenarios are provided by the axe-matchers gem
 
   Scenario: Test whole page (known to be inaccessible, should fail)
-    Then the page should be accessible
+    Then the page should not be accessible
 
   Scenario: Test working sub-tree (should pass)
-    Then the page should be accessible within "#working"
+    Then the page should be accessible within "#intro"
 
   Scenario: Test broken sub-tree (known to be inaccessible)
-    Then the page should not be accessible within "#broken"
+    Then the page should not be accessible within "#topbar"
