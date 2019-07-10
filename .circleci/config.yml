@@ -42,6 +42,7 @@ jobs:
       - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: sudo npm install -g npm@latest
       - <<: *restore_dependency_cache
+      - run: rake install
       - run: npm run test:examples
 
   release:
