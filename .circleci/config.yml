@@ -16,10 +16,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          # This is essential for capybara-webkit
-          name: Install System Dependencies
-          command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      # This is essential for capybara-webkit
+      - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: sudo npm install -g npm@latest
       - <<: *restore_dependency_cache
       - run: bundle install --without local && bundle clean
@@ -35,6 +33,17 @@ jobs:
           path: pkg
       - store_test_results:
           path: results
+
+  test_examples:
+    <<: *defaults
+    steps:
+      - checkout
+      # This is essential for capybara-webkit
+      - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run: sudo npm install -g npm@latest
+      - <<: *restore_dependency_cache
+      - run: npm run test:examples
+
   release:
     <<: *defaults
     steps:
@@ -49,6 +58,8 @@ jobs:
           key: v1-gem-cache-{{ checksum "Gemfile" }}
       - run: rake install
       - run: .circleci/publish.sh
+
+  
   github_release:
     docker:
       - image: circleci/golang:1.8
@@ -67,9 +78,11 @@ workflows:
   build:
     jobs:
       - test
+      - test_examples
       - release:
           requires:
             - test
+            - test_examples
           filters:
             branches:
               only:
