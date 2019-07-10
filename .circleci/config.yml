@@ -3,6 +3,9 @@ version: 2
 defaults: &defaults
   docker:
     - image: circleci/ruby:2.4.3-node-browsers
+      environment:
+        FIREFOX_VERSION: 57.0.4
+        GECKODRIVER_VERSION: 0.19.1
   working_directory: ~/axe-matchers
 
 restore_dependency_cache: &restore_dependency_cache
@@ -16,10 +19,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          # This is essential for capybara-webkit
-          name: Install System Dependencies
-          command: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      # This is essential for capybara-webkit
+      - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: sudo npm install -g npm@latest
       - <<: *restore_dependency_cache
       - run: bundle install --without local && bundle clean
@@ -35,6 +36,34 @@ jobs:
           path: pkg
       - store_test_results:
           path: results
+
+  test_examples:
+    <<: *defaults
+    steps:
+      - checkout
+      # This is essential for capybara-webkit
+      - run: sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run: |
+          curl -L -o "/tmp/firefox-$FIREFOX_VERSION.tar.bz2" "https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2"
+          tar -jxf "/tmp/firefox-$FIREFOX_VERSION.tar.bz2" -C "/tmp/"
+          sudo mv "/tmp/firefox" "/opt/firefox-$FIREFOX_VERSION"
+          sudo ln -sf "/opt/firefox-$FIREFOX_VERSION/firefox" "/usr/local/bin/firefox"
+      - run: |
+          curl -L -o "/tmp/geckodriver.tar.gz" "https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz"
+          tar -xvzf /tmp/geckodriver.tar.gz -C /tmp/
+          sudo mv "/tmp/geckodriver" "/opt/geckodriver"
+          chmod +x /opt/geckodriver
+          sudo ln -sf "/opt/geckodriver" "/usr/local/bin/geckodriver"
+      - run: sudo npm install -g npm@latest
+      - <<: *restore_dependency_cache
+      - run: bundle install --without local && bundle clean
+      - save_cache:
+          paths:
+            - ~/.bundle
+          key: v1-gem-cache-{{ checksum "Gemfile" }}
+      - run: rake install
+      - run: npm run test:examples
+
   release:
     <<: *defaults
     steps:
@@ -49,6 +78,8 @@ jobs:
           key: v1-gem-cache-{{ checksum "Gemfile" }}
       - run: rake install
       - run: .circleci/publish.sh
+
+  
   github_release:
     docker:
       - image: circleci/golang:1.8
@@ -67,9 +98,11 @@ workflows:
   build:
     jobs:
       - test
+      - test_examples
       - release:
           requires:
             - test
+            - test_examples
           filters:
             branches:
               only:
