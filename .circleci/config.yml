@@ -3,6 +3,9 @@ version: 2
 defaults: &defaults
   docker:
     - image: circleci/ruby:2.4.3-node-browsers
+      environment:
+        FIREFOX_VERSION: 57.0.4
+        GECKODRIVER_VERSION: 0.19.1
   working_directory: ~/axe-matchers
 
 restore_dependency_cache: &restore_dependency_cache
