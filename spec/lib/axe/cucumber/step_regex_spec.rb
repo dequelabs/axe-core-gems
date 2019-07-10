@@ -30,7 +30,10 @@ module CustomMatchers
     private
 
     def to_hash(matchdata)
-      Hash[matchdata.names.map(&:to_sym).zip matchdata.captures]
+      # Note: since not using named captures, have to use index look-up for converting matches to hash
+      # Doc: https://ruby-doc.org/core-2.4.0/MatchData.html
+      # Hash[matchdata.names.map(&:to_sym).zip matchdata.captures]
+      { :negate => matchdata[1], :inclusion => matchdata[2], :exclusion => matchdata[3], :tags => matchdata[4], :run_only => matchdata[5], :run_rules => matchdata[6], :skip_rules => matchdata[7], :options => matchdata[8] }
     end
   end
 
