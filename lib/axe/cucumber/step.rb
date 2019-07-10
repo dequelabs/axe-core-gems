@@ -49,13 +49,13 @@ module Axe
       end
 
       def assert_accessibility(
-        negate = false, 
-        inclusion = "", 
-        exclusion = "", 
-        tags = "", 
-        run_only = false, 
-        run_rules = "", 
-        skip_rules = "", 
+        negate = false,
+        inclusion = "",
+        exclusion = "",
+        tags = "",
+        run_only = false,
+        run_rules = "",
+        skip_rules = "",
         options = nil
       )
 
@@ -71,7 +71,6 @@ module Axe
 
         Axe::AccessibilityExpectation.create(negate).assert @page, is_accessible
       end
-
 
       private
 
