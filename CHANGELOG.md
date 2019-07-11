@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [2.4.0](https://github.com/dequelabs/axe-matchers/compare/v2.3.0...v2.4.0) (2019-07-11)
+
+### Bug Fixes
+
+* not use named capture groups in cucumber step regex ([#64](https://github.com/dequelabs/axe-matchers/issues/64)) ([4f118a1](https://github.com/dequelabs/axe-matchers/commit/4f118a1))
+
+### Features
+
+* update axe-core to v3.3.0 ([#66](https://github.com/dequelabs/axe-matchers/issues/66)) ([7204257](https://github.com/dequelabs/axe-matchers/commit/7204257))
+
 ## [2.3.0](https://github.com/dequelabs/axe-matchers/compare/v2.2.1...v2.3.0) (2019-03-06)
 
 ### Features
