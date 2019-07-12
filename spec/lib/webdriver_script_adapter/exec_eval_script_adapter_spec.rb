@@ -59,7 +59,6 @@ module WebDriverScriptAdapter
           expect { described_class.wrap driver }.to raise_error(WebDriverError)
         end
       end
-
     end
   end
 end

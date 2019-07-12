@@ -3,7 +3,6 @@ require 'axe/api/run'
 
 module Axe::API
   describe Run do
-
     describe "@context" do
       let(:context) { spy('context') }
       before :each do
@@ -34,17 +33,17 @@ module Axe::API
 
       it "should be delegated #checking" do
         subject.checking :foo
-        expect(options).to have_received(:checking).with( :foo)
+        expect(options).to have_received(:checking).with(:foo)
       end
 
       it "should be delegated #checking_only" do
         subject.checking_only :foo
-        expect(options).to have_received(:checking_only).with( :foo)
+        expect(options).to have_received(:checking_only).with(:foo)
       end
 
       it "should be delegated #skipping" do
         subject.skipping :foo
-        expect(options).to have_received(:skipping).with( :foo)
+        expect(options).to have_received(:skipping).with(:foo)
       end
 
       it "should be delegated #with_options" do
@@ -63,7 +62,7 @@ module Axe::API
     end
 
     describe "#call" do
-      let(:page) { spy('page', execute_async_script: {'violations' => []}) }
+      let(:page) { spy('page', execute_async_script: { 'violations' => [] }) }
       let(:results) { spy('results') }
       let(:audit) { spy('audit') }
 

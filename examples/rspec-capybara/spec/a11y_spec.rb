@@ -4,7 +4,6 @@ require 'capybara/rspec'
 require 'axe/rspec'
 #######
 
-
 # Typical example using standard RSpec dsl
 describe "ABCD CompuTech (RSpec DSL)", :type => :feature, :driver => :selenium do
   before :each do
@@ -12,15 +11,15 @@ describe "ABCD CompuTech (RSpec DSL)", :type => :feature, :driver => :selenium d
   end
 
   it "is known to be inaccessible, should fail" do
-    expect(page).to be_accessible
+    expect(page).not_to be_accessible
   end
 
   it "is known to have an accessible sub-tree (should pass)" do
-    expect(page).to be_accessible.within '#working'
+    expect(page).to be_accessible.within '#intro'
   end
 
   it "is known to have an inaccessible sub-tree (should fail)" do
-    expect(page).to be_accessible.within '#broken'
+    expect(page).not_to be_accessible.within '#topbar'
   end
 end
 
@@ -31,14 +30,14 @@ feature "ABCD CompuTech (Capybara DSL)", :driver => :selenium do
   end
 
   scenario "is known to be inaccessible, should fail" do
-    expect(page).to be_accessible
+    expect(page).not_to be_accessible
   end
 
   scenario "is known to have an accessible sub-tree (should pass)" do
-    expect(page).to be_accessible.within '#working'
+    expect(page).to be_accessible.within '#intro'
   end
 
   scenario "is known to have an inaccessible sub-tree (should fail)" do
-    expect(page).to be_accessible.within '#broken'
+    expect(page).not_to be_accessible.within '#topbar'
   end
 end

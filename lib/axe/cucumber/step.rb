@@ -13,32 +13,27 @@ require 'axe/expectation'
 module Axe
   module Cucumber
     class Step
-      REGEX = /^
-
+      ###############
+      # Extracting regex into variable to allow for easier consumption elsewhere
+      ###############
       # require initial phrasing, with 'not' to negate the matcher
-      (?-x:the page should(?<negate> not)? be accessible)
-
+      REGEX_CAPTURE_NEGATE = '(?-x:the page should( not)? be accessible)'
       # optionally specify which subtree to check, via CSS selector
-      (?-x:;? within "(?<inclusion>.*?)")?
-
+      REGEX_CAPTURE_INCLUSION = '(?-x:;? within "(.*?)")?'
       # optionally specify subtrees to be excluded, via CSS selector
-      (?-x:;?(?: but)? excluding "(?<exclusion>.*?)")?
-
+      REGEX_CAPTURE_EXCLUSION = '(?-x:;?(?: but)? excluding "(.*?)")?'
       # optionally specify ruleset via list of comma-separated tags
-      (?-x:;? according to: (?<tags>.*?))?
-
+      REGEX_CAPTURE_TAGS = '(?-x:;? according to: (.*?))?'
       # optionally specify rules to check as comma-separated list of rule ids
       # in addition to default ruleset or explicit ruleset specified above via tags
       # if the 'only' keyword is supplied, then *only* the listed rules are checked, not *additionally*
-      (?-x:;?(?: and)? checking(?<run_only> only)?: (?<run_rules>.*?))?
-
+      REGEX_CAPTURE_RUN_ONLY_RUN_RULES = '(?-x:;?(?: and)? checking( only)?: (.*?))?'
       # optionally specify rules to skip as comma-separated list of rule ids
-      (?-x:;?(?: but)? skipping: (?<skip_rules>.*?))?
-
+      REGEX_CAPTURE_SKIP_RULES = '(?-x:;?(?: but)? skipping: (.*?))?'
       # optionally specify custom options to pass directly to axe-core as a yaml-parsed hash or json string
-      (?-x:;? with options: (?<options>.*?))?
+      REGEX_CAPTURE_OPTIONS = '(?-x:;? with options: (.*?))?'
 
-      $/x
+      REGEX = /^#{REGEX_CAPTURE_NEGATE}#{REGEX_CAPTURE_INCLUSION}#{REGEX_CAPTURE_EXCLUSION}#{REGEX_CAPTURE_TAGS}#{REGEX_CAPTURE_RUN_ONLY_RUN_RULES}#{REGEX_CAPTURE_SKIP_RULES}#{REGEX_CAPTURE_OPTIONS}$/x
 
       def self.create_for(world)
         new(FindsPage.in(world).page)
@@ -48,7 +43,7 @@ module Axe
         @page = page
       end
 
-      def assert_accessibility(negate=false, inclusion="", exclusion="", tags="", run_only=false, run_rules="", skip_rules="", options=nil)
+      def assert_accessibility(negate = false, inclusion = "", exclusion = "", tags = "", run_only = false, run_rules = "", skip_rules = "", options = nil)
         is_accessible = Axe::Matchers::BeAccessible.new.tap do |a|
           a.within(*selector(inclusion))
           a.excluding(*selector(exclusion))

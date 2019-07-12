@@ -47,7 +47,7 @@ module WebDriverScriptAdapter
 
     def async_results_identifier
       id = WebDriverScriptAdapter.async_results_identifier
-      "window['#{ id.respond_to?(:call) ? id.call : id }']"
+      "window['#{id.respond_to?(:call) ? id.call : id}']"
     end
 
     def callback(resultsIdentifier)
