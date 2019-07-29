@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 # [2.4.0](https://github.com/dequelabs/axe-matchers/compare/v2.3.0...v2.4.0) (2019-07-11)
 
-### Bug Fixes
+### Features
 
 * not use named capture groups in cucumber step regex ([#64](https://github.com/dequelabs/axe-matchers/issues/64)) ([4f118a1](https://github.com/dequelabs/axe-matchers/commit/4f118a1))
 
