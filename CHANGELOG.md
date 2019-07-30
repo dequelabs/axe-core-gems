@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. See [standa
 ## [2.4.1](https://github.com/dequelabs/axe-matchers/compare/v2.4.0...v2.4.1) (2019-07-29)
 
 
-### Features
+### Bug Fixes
 
 * update axe-core to v3.3.1 ([#71](https://github.com/dequelabs/axe-matchers/issues/71)) ([bb347e5](https://github.com/dequelabs/axe-matchers/commit/bb347e5))
 
