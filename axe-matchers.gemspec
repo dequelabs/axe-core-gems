@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'axe-matchers'
-  spec.version     = '2.4.1'
+  spec.version     = '2.5.0'
   spec.license     = 'MPL-2.0'
   spec.authors     = ['Deque Systems', 'Test Double']
   spec.email       = ['helpdesk@deque.com', 'hello@testdouble.com']
@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec_junit_formatter', '~> 0.3'
   spec.add_development_dependency 'sinatra', '~> 2.0'
   # drivers
-  spec.add_development_dependency 'capybara', '~> 2.15'
+  spec.add_development_dependency 'capybara', '~> 3.29'
   spec.add_development_dependency 'capybara-webkit', '~> 1.14'
   spec.add_development_dependency 'selenium-webdriver', '~> 3.5'
   spec.add_development_dependency 'watir', '~> 6.6'
