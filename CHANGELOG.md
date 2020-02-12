@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [2.6.0](https://github.com/dequelabs/axe-matchers/compare/v2.5.0...v2.6.0) (2020-02-12)
+
+
+### Features
+
+* update axe-core to v3.5.0 ([#88](https://github.com/dequelabs/axe-matchers/issues/88)) ([04a5137](https://github.com/dequelabs/axe-matchers/commit/04a5137))
+
+
+
 # [2.5.0](https://github.com/dequelabs/axe-matchers/compare/v2.4.0...v2.5.0) (2019-11-06)
 
 
