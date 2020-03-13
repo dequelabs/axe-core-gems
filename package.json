@@ -19,7 +19,7 @@
     "format": "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
   },
   "dependencies": {
-    "axe-core": "^3.5.1"
+    "axe-core": "^3.5.2"
   },
   "devDependencies": {
     "standard-version": "^5.0.2"
