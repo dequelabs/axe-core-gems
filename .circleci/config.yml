@@ -100,9 +100,9 @@ workflows:
       # - test
       # - test_examples
       - release:
-          requires:
-            - test
-            - test_examples
+          # requires:
+            # - test
+            # - test_examples
           filters:
             branches:
               only:
