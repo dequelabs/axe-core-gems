@@ -97,8 +97,8 @@ workflows:
   version: 2
   build:
     jobs:
-      - test
-      - test_examples
+      # - test
+      # - test_examples
       - release:
           requires:
             - test
@@ -107,7 +107,7 @@ workflows:
             branches:
               only:
                 - master
-                - develop
+                # - develop
       - github_release:
           requires:
             - release
