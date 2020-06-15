@@ -97,17 +97,10 @@ workflows:
   version: 2
   build:
     jobs:
-      - test
-      - test_examples
       - release:
-          requires:
-            - test
-            - test_examples
           filters:
             branches:
-              only:
-                - master
-                - develop
+              only: master
       - github_release:
           requires:
             - release
