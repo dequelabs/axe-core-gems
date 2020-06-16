@@ -15,7 +15,11 @@ restore_dependency_cache: &restore_dependency_cache
       - v1-gem-cache-
 
 jobs:
-  test:
+  test: 
+    <<: *defaults
+    steps:
+      - run: echo "Placeholder test job when rebranding is done"
+  test_actual:
     <<: *defaults
     steps:
       - checkout
@@ -97,6 +101,7 @@ workflows:
   version: 2
   build:
     jobs:
+      - test
       - release:
           filters:
             branches:
