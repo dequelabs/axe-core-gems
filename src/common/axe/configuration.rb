@@ -1,0 +1,47 @@
+require "singleton"
+require "forwardable"
+require "json"
+
+require_relative "../hooks"
+require_relative "../webdriver_script_adapter/execute_async_script_adapter"
+
+module Axe
+  class Configuration
+    include Singleton
+    include Common::Hooks
+    extend Forwardable
+
+    attr_writer :jslib
+    attr_accessor :page,
+                  :jslib_path,
+                  :skip_iframes
+    def_delegators ::WebDriverScriptAdapter,
+                   :async_results_identifier,
+                   :async_results_identifier=,
+                   :max_wait_time,
+                   :max_wait_time=,
+                   :wait_interval,
+                   :wait_interval=
+
+    # init
+    def initialize
+      @page = :page
+      @skip_iframes = :skip_iframes
+      @jslib_path = get_root + "/node_modules/axe-core/axe.min.js"
+    end
+
+    # jslib
+    def jslib
+      @jslib ||= Pathname.new(@jslib_path).read
+    end
+
+    private
+
+    def get_root
+      File.dirname __dir__
+    end
+
+    # todo: should allow to configure from yaml?
+    # todo: how do we configure jslib path?
+  end
+end
