@@ -1,0 +1,14 @@
+source "https://rubygems.org"
+
+gem "dumb_delegator"
+
+group :test,
+      :development do
+  gem "selenium-webdriver"
+  gem "watir"
+  gem "capybara"
+
+  gem "rake"
+  gem "rspec"
+  gem "rspec-its"
+end
