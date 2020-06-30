@@ -2,7 +2,7 @@
 Gem::Specification.new do |spec|
   spec.name = "axe-core-selenium"
   spec.version = "0.0.1"
-  spec.summary = "Selenium webdriver injected with Axe core"
+  spec.summary = "Selenium webdriver injected with Axe"
   spec.authors = ["Deque Systems"]
 
   spec.platform = Gem::Platform::RUBY

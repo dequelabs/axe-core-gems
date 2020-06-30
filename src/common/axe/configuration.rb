@@ -41,7 +41,6 @@ module Axe
       File.dirname __dir__
     end
 
-    # todo: should allow to configure from yaml?
-    # todo: how do we configure jslib path?
+    # todo: should allow to configure from yaml? currently we don't
   end
 end
