@@ -7,6 +7,7 @@ group :test,
   gem "selenium-webdriver"
   gem "watir"
   gem "capybara"
+  gem "virtus"
 
   gem "rake"
   gem "rspec"
