@@ -189,5 +189,4 @@ expect(page).to be_accessible.according_to(:best-practice).checking(:aria-roles,
 [context-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#context-parameter
 [options-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#options-parameter
 [rules]: https://github.com/dequelabs/axe-core/blob/master/doc/rule-descriptions.md
-
 [css selector]: https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_started/Selectors
