@@ -1,8 +1,8 @@
 # coding: utf-8
 Gem::Specification.new do |spec|
-  spec.name = "axe-core-selenium"
+  spec.name = "axe-core-rspec"
   spec.version = "0.0.1"
-  spec.summary = "Selenium webdriver injected with Axe"
+  spec.summary = "RSpec custom matchers for axe"
   spec.authors = ["Deque Systems"]
   spec.platform = Gem::Platform::RUBY
 
@@ -11,6 +11,4 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "rspec", "~> 3.6"
-  spec.add_development_dependency "rspec-its", "~> 1.2"
-  spec.add_development_dependency "rspec_junit_formatter", "~> 0.3"
 end
