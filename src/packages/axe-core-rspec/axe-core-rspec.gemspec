@@ -6,6 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Deque Systems"]
   spec.platform = Gem::Platform::RUBY
 
+  spec.require_path = "lib"
+
   spec.add_dependency "dumb_delegator"
   spec.add_dependency "virtus"
 
