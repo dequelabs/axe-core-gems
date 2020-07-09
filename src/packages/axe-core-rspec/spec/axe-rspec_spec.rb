@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../axe-core-rspec"
+require_relative "../lib/axe-rspec"
 
 module AxeRSpec
   describe "RSpec" do
