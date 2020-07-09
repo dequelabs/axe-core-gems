@@ -1,5 +1,5 @@
 require "selenium-webdriver"
-require_relative "../../common/axe/configuration"
+require_relative "../../../common/axe/configuration"
 
 module AxeSelenium
 

@@ -1,7 +1,7 @@
 require "spec_helper"
 require "tempfile"
 
-require_relative "../axe-core-selenium"
+require_relative "../lib/axe-selenium"
 
 describe AxeSelenium do
   subject { described_class }
