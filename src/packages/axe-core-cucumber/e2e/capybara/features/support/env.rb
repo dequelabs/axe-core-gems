@@ -2,7 +2,7 @@ require "capybara/cucumber"
 
 # Requiring 'axe/cucumber/step_definitions' makes all of the axe-matchers cucumber step
 # definitions available to be used directly in your cucumber features.
-require "step_definitions"
+require "axe-cucumber-step-definitions"
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :selenium)

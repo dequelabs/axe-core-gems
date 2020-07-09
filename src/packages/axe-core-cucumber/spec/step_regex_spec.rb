@@ -1,6 +1,6 @@
 require "spec_helper"
 
-require_relative "../axe-core-cucumber"
+require_relative "../lib/axe-cucumber"
 
 module CustomMatchers
   class Match < RSpec::Matchers::BuiltIn::Match
