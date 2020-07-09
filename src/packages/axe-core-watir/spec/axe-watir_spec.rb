@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../axe-core-watir"
+require_relative "../lib/axe-watir"
 
 describe AxeWatir do
   subject { described_class }
@@ -46,7 +46,8 @@ describe AxeWatir do
 
       actual = Axe::Configuration.instance
       expect(actual.page).not_to be_nil
-      expect(actual.page.to_s).to include("WebDriver::Safari")
+      puts actual.page
+      expect(actual.page.to_s).to include("Watir::Browser")
     end
 
     it "should yield configuration with Firefox driver" do

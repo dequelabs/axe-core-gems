@@ -1,5 +1,5 @@
 require "watir"
-require_relative "../../common/axe/configuration"
+require_relative "../../../common/axe/configuration"
 
 module AxeWatir
 
