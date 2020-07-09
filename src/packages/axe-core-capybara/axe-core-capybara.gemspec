@@ -8,11 +8,11 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
 
   spec.require_path = "lib"
-  spec.add_dependency "dumb_delegator", "~> 0.8"
+  spec.add_dependency "dumb_delegator"
 
-  spec.add_development_dependency "rake", "~> 12.0"
-  spec.add_development_dependency "rspec", "~> 3.6"
-  spec.add_development_dependency "rspec-its", "~> 1.2"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-its"
   spec.add_development_dependency "capybara"
   spec.add_development_dependency "selenium-webdriver"
 end
