@@ -1,9 +1,8 @@
 require "yaml"
 
-require_relative "../../common/axe/matchers/be_accessible"
-require_relative "../../common/axe/finds_page"
-require_relative "../../common/axe/expectation"
-require_relative "../../common/axe/dsl"
+require_relative "../../../common/axe/matchers/be_accessible"
+require_relative "../../../common/axe/finds_page"
+require_relative "../../../common/axe/expectation"
 
 # The purpose of this class is to support private helpers for argument parsing
 # without leaking the helper methods into the cucumber World object.
