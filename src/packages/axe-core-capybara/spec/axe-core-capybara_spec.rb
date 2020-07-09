@@ -1,6 +1,7 @@
 require "spec_helper"
 require "capybara/rspec"
-require_relative "../axe-core-capybara"
+
+require_relative "../lib/axe-capybara"
 
 describe AxeCapybara do
   subject { described_class }
