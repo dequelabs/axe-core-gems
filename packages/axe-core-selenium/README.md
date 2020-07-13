@@ -9,7 +9,7 @@ require 'axe-core-selenium'
 
 # configure `AxeSelenium`
 
-driver = AxeSelenium.configure("firefox") do |c|
+driver = AxeSelenium.configure(:firefox) do |c|
   # see below for a full list of configuration 
   c.jslib_path = "next-version/axe.js"
 end
@@ -22,12 +22,12 @@ driver.page.navigate.to 'https://www.deque.com/'
 
 #### `AxeSelenium.configure`
 
-The configure method takes 1 optional argument and a configuration block object: `configure(*arg, &block)`
+The configure method takes 1 optional argument as a [symbol][] and a configuration block object: `configure(*arg, &block)`
 
 The optional argument is a browser name for `selenium-webdriver`. The valid browser names are:
-- `firefox` (default)
-- `chrome` 
-- `safari`
+- `:firefox` (default)
+- `:chrome` 
+- `:safari`
 
 > Note: Please ensure respective drivers (eg: [`geckodriver`][]) are installed in your machine.
 
@@ -57,3 +57,4 @@ bundle exec rspec
 [axe API]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md
 [Selenium Webdriver]: https://rubygems.org/gems/selenium-webdriver
 [`geckodriver`]: https://github.com/mozilla/geckodriver/releases
+[symbol]: https://ruby-doc.org/core-2.5.0/Symbol.html

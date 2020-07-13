@@ -7,7 +7,7 @@ module AxeCapybara
   # configure method
   # - which takes an optional argument browser
   # - and a configuration block optional for Axe
-  def self.configure(browser = "firefox")
+  def self.configure(browser = :firefox)
 
     # instantiate axe configuration (singleton) with defaults or given config
     if !block_given?
@@ -26,17 +26,7 @@ module AxeCapybara
 
   private
 
-  # todo: allow to pass driver options (this option does not exist today - create a feature issue)
-  def self.get_driver(browserName)
-    case browserName
-    when "chrome"
-      Capybara::Selenium::Driver.new(:chrome)
-    when "safari"
-      Capybara::Selenium::Driver.new(:safari)
-    when "firefox"
-      Capybara::Selenium::Driver.new(:firefox)
-    else
-      Capybara::Selenium::Driver.new(:firefox)
-    end
+  def self.get_driver(browserSymbol)
+    Capybara::Selenium::Driver.new(browserSymbol)
   end
 end
