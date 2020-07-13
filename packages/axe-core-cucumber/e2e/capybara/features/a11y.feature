@@ -7,8 +7,6 @@ Feature: Example using default Capybara setup
     Given I am a visitor
     When I visit "http://abcdcomputech.dequecloud.com/"
 
-  # The steps for the following scenarios are provided by the axe-matchers gem
-
   Scenario: Test whole page (known to be inaccessible, should fail)
     Then the page should not be accessible
 

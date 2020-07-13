@@ -4,4 +4,5 @@ gem "cucumber"
 gem "capybara"
 gem "selenium-webdriver"
 
+gem "axe-core-capybara", :path => "../../../axe-core-capybara"
 gem "axe-core-cucumber", :path => "../../"
