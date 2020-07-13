@@ -25,7 +25,6 @@ module AxeSelenium
 
   private
 
-  # todo: allow to pass driver options (this option does not exist today - create a feature issue)
   def self.get_driver(browserSymbol)
     Selenium::WebDriver.for browserSymbol
   end
