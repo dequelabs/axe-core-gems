@@ -9,7 +9,7 @@ require 'axe-core-watir'
 
 # configure `AxeWatir`
 
-driver = AxeWatir.configure("firefox") do |c|
+driver = AxeWatir.configure(:firefox) do |c|
   # see below for a full list of configuration 
   c.jslib_path = "next-version/axe.js"
 end
@@ -22,14 +22,14 @@ driver.page.goto 'https://www.deque.com/'
 
 #### `AxeWatir.configure`
 
-The configure method takes 1 optional argument and a configuration block object: `configure(*arg, &block)`
+The configure method takes 1 optional argument as a [symbol][] and a configuration block object: `configure(*arg, &block)`
 
 The optional argument is a browser name for `watir`. The valid browser names are:
-- `firefox` 
-- `chrome` (default)
-- `safari`
-- `internet_explorer`
-- `edge`
+- `:firefox` 
+- `:chrome` (default)
+- `:safari`
+- `:internet_explorer`
+- `:edge`
 
 A detailed configuration option for each of the browsers are available in the [Watir documenation/ guide](http://watir.com/guides/)
 

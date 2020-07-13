@@ -8,7 +8,7 @@ describe AxeCapybara do
 
   describe "driver" do
     it "validate yielded configuration" do
-      driver = AxeCapybara.configure("firefox") do
+      driver = AxeCapybara.configure(:firefox) do
       end
 
       expect(driver).not_to be_nil
@@ -43,7 +43,7 @@ describe AxeCapybara do
     end
 
     it "should yield configuration with Safari driver" do
-      AxeCapybara.configure("safari") do
+      AxeCapybara.configure(:safari) do
       end
 
       actual = Axe::Configuration.instance

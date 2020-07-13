@@ -8,7 +8,7 @@ describe AxeSelenium do
 
   describe "driver" do
     it "validate yielded configuration" do
-      driver = AxeSelenium.configure("firefox") do
+      driver = AxeSelenium.configure(:firefox) do
       end
 
       expect(driver).not_to be_nil
@@ -43,7 +43,7 @@ describe AxeSelenium do
     end
 
     it "should yield configuration with Safari driver" do
-      AxeSelenium.configure("safari") do
+      AxeSelenium.configure(:safari) do
       end
 
       actual = Axe::Configuration.instance
@@ -52,7 +52,7 @@ describe AxeSelenium do
     end
 
     it "should yield configuration with Firefox driver" do
-      AxeSelenium.configure("firefox") do
+      AxeSelenium.configure(:firefox) do
       end
 
       actual = Axe::Configuration.instance

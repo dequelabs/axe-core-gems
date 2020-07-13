@@ -6,7 +6,7 @@ module AxeSelenium
   # configure method
   # - which takes an optional argument browser
   # - and a configuration block optional for Axe
-  def self.configure(browser = "firefox")
+  def self.configure(browser = :firefox)
 
     # instantiate axe configuration (singleton) with defaults or given config
     if !block_given?
@@ -25,17 +25,7 @@ module AxeSelenium
 
   private
 
-  # todo: allow to pass driver options (this option does not exist today - create a feature issue)
-  def self.get_driver(browserName)
-    case browserName
-    when "chrome"
-      Selenium::WebDriver.for :chrome
-    when "safari"
-      Selenium::WebDriver.for :safari
-    when "firefox"
-      Selenium::WebDriver.for :firefox
-    else
-      Selenium::WebDriver.for :firefox
-    end
+  def self.get_driver(browserSymbol)
+    Selenium::WebDriver.for browserSymbol
   end
 end
