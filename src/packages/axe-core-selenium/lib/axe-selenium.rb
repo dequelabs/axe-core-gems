@@ -1,8 +1,7 @@
-require "capybara"
 require "selenium-webdriver"
-require_relative "../../common/axe/configuration"
+require_relative "../../../common/axe/configuration"
 
-module AxeCapybara
+module AxeSelenium
 
   # configure method
   # - which takes an optional argument browser
@@ -11,12 +10,12 @@ module AxeCapybara
 
     # instantiate axe configuration (singleton) with defaults or given config
     if !block_given?
-      raise Exception.new "Please provide a configure block for AxeCapybara"
+      raise Exception.new "Please provide a configure block for AxeSelenium"
     end
 
     config = Axe::Configuration.instance
 
-    # provide a capybara webdriver page object
+    # provide a selenium webdriver page object
     config.page = get_driver(browser)
 
     # await and return
@@ -30,13 +29,13 @@ module AxeCapybara
   def self.get_driver(browserName)
     case browserName
     when "chrome"
-      Capybara::Selenium::Driver.new(:chrome)
+      Selenium::WebDriver.for :chrome
     when "safari"
-      Capybara::Selenium::Driver.new(:safari)
+      Selenium::WebDriver.for :safari
     when "firefox"
-      Capybara::Selenium::Driver.new(:firefox)
+      Selenium::WebDriver.for :firefox
     else
-      Capybara::Selenium::Driver.new(:firefox)
+      Selenium::WebDriver.for :firefox
     end
   end
 end

@@ -1,7 +1,8 @@
-require "watir"
-require_relative "../../common/axe/configuration"
+require "capybara"
+require "selenium-webdriver"
+require_relative "../../../common/axe/configuration"
 
-module AxeWatir
+module AxeCapybara
 
   # configure method
   # - which takes an optional argument browser
@@ -10,12 +11,12 @@ module AxeWatir
 
     # instantiate axe configuration (singleton) with defaults or given config
     if !block_given?
-      raise Exception.new "Please provide a configure block for AxeWatir"
+      raise Exception.new "Please provide a configure block for AxeCapybara"
     end
 
     config = Axe::Configuration.instance
 
-    # provide a watir webdriver page object
+    # provide a capybara webdriver page object
     config.page = get_driver(browser)
 
     # await and return
@@ -29,17 +30,13 @@ module AxeWatir
   def self.get_driver(browserName)
     case browserName
     when "chrome"
-      Watir::Browser.new :chrome
+      Capybara::Selenium::Driver.new(:chrome)
     when "safari"
-      Watir::Browser.new :safari
-    when "internet_explorer"
-      Watir::Browser.new :internet_explorer
-    when "edge"
-      Watir::Browser.new :edge
+      Capybara::Selenium::Driver.new(:safari)
     when "firefox"
-      Watir::Browser.new :firefox
+      Capybara::Selenium::Driver.new(:firefox)
     else
-      Watir::Browser.new :firefox
+      Capybara::Selenium::Driver.new(:firefox)
     end
   end
 end
