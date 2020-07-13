@@ -6,8 +6,6 @@ RSpec::Core::RakeTask.new(:spec)
 # default task
 task :default => :spec
 
-# set up
-
 # unit tests
 desc "Tests Unit"
 task :test_unit do
