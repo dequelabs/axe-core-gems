@@ -14,14 +14,11 @@ end
 # e2e tests
 desc "Tests e2e"
 task :test_e2e_capybara do
-  sh "cd e2e/capybara && bundle install && bundle exec cucumber"
+  sh "cd e2e/capybara && bundle install && bundle exec rspec"
 end
-task :test_e2e_watir do
-  sh "cd e2e/watir && bundle install && bundle exec cucumber"
-end
+
 task :test_e2e => [
        "test_e2e_capybara",
-       "test_e2e_watir",
      ] do
 end
 
