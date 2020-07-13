@@ -6,7 +6,7 @@ describe AxeWatir do
 
   describe "driver" do
     it "validate yielded configuration" do
-      driver = AxeWatir.configure("firefox") do
+      driver = AxeWatir.configure(:firefox) do
       end
 
       expect(driver).not_to be_nil
@@ -41,7 +41,7 @@ describe AxeWatir do
     end
 
     it "should yield configuration with Safari driver" do
-      AxeWatir.configure("safari") do
+      AxeWatir.configure(:safari) do
       end
 
       actual = Axe::Configuration.instance
@@ -51,7 +51,7 @@ describe AxeWatir do
     end
 
     it "should yield configuration with Firefox driver" do
-      AxeWatir.configure("firefox") do
+      AxeWatir.configure(:firefox) do
       end
 
       actual = Axe::Configuration.instance

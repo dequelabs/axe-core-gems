@@ -2,4 +2,18 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
+# default task
 task :default => :spec
+
+# unit tests
+desc "Tests Unit"
+task :test_unit do
+  sh "bundle install && bundle exec rake"
+end
+
+# all tests
+desc "Tests all"
+task :test_all => [
+       "test_unit",
+     ] do
+end
