@@ -6,32 +6,32 @@ RSpec::Core::RakeTask.new(:spec)
 # default task
 task :default => :spec
 
+# set up
+
 # unit tests
 desc "Tests Unit"
 task :test_unit do
-  sh "bundle exec rake"
-  sh "echo 'Completed running unit tests'"
+  sh "bundle install && bundle exec rake"
 end
 
 # e2e tests
 desc "Tests e2e"
 task :test_e2e_capybara do
-  sh "cd e2e/capybara && bundle exec cucumber"
+  sh "cd e2e/capybara && bundle install && bundle exec cucumber"
 end
-task :test_e2e_selenium do
-  sh "cd e2e/selenium && echo 'todo: write tests'"
+task :test_e2e_watir do
+  sh "cd e2e/watir && bundle install && bundle exec cucumber"
 end
 task :test_e2e => [
        "test_e2e_capybara",
-       "test_e2e_selenium",
+       "test_e2e_watir",
      ] do
-  sh "echo 'Completed running e2e tests'"
 end
 
 # all tests
+desc "Tests all"
 task :test_all => [
        "test_unit",
        "test_e2e",
      ] do
-  sh "echo 'Completed running tests'"
 end
