@@ -8,7 +8,6 @@ The `axe-core-capybara` gem provides a chainable [axe API][] for [Capybara WebDr
 require 'axe-core-capybara'
 
 # configure `AxeCapybara`
-
 driver = AxeCapybara.configure(:firefox) do |c|
   # see below for a full list of configuration 
   c.jslib_path = "next-version/axe.js"
