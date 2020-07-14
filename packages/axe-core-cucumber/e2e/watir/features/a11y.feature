@@ -1,7 +1,4 @@
-@javascript
-Feature: Example using default Capybara setup
-  Default driver is :rack_test, uses :selenium by default for any test tagged
-  with @javascript.
+Feature: Example using minimal Watir-Webdriver setup (using firefox)
 
   Background:
     Given I am a visitor
@@ -12,3 +9,6 @@ Feature: Example using default Capybara setup
 
   Scenario: Test working sub-tree (should pass)
     Then the page should be accessible within "#intro"
+
+  Scenario: Test broken sub-tree (known to be inaccessible)
+    Then the page should not be accessible within "#topbar"
