@@ -8,8 +8,7 @@
     "url": "git+https://github.com/dequelabs/axe-core-gems.git"
   },
   "scripts": {
-    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true",
-    "format": "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
+    "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
   },
   "devDependencies": {
     "standard-version": "^8.0.2"
