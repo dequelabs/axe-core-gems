@@ -1,37 +1,35 @@
 
-- [Setup](#setup)
-- [Rake Tasks](#rake-tasks)
-- [Build and Release](#build-and-release)
-- [Tests](#tests)
+# Contributing
 
-# Setup
+## Setup
 
-## Requirements
+### Requirements
 
-1. Ruby 2.0.0 or later.
-2. Bundler for gem dependencies
-3. (optional) Brewdler for system dependencies (chromedriver, etc)
-4. Rake as task runner
-5. RSpec for unit and integration tests
-6. Cucumber for smoke tests
-7. Node/npm are necessary for pulling down the axe-core package
-8. Qt 4.8 or greater
-9. XCode
+-  Ruby 2.0.0 or later.
+-  Bundler for gem dependencies
+-  Rake as task runner
+-  RSpec for testing
+-  Cucumber for testing
+-  Node/npm are necessary for pulling down the [axe-core][] package
+- **(optional)** Brewdler for system dependencies (chromedriver, etc)
 
-## Ruby version management
+### Ruby version management
 
 [rbenv](https://github.com/rbenv/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice. 2.0.0-p481 is the official minimum version, as it is the default Ruby bundled with OS X Mavericks, but the gem *ought* to support 1.9 and above.
 
 The `.ruby-version` is intentionally ignored from the repo for the same reason that `Gemfile.lock` should not be committed. See http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/ for more clarification.
 
-## Node version management
+### Node version management
 
 Similar to rbenv, [nodenv](https://github.com/nodenv/nodenv) is the recommended node version manager if you have or need multiple versions of node installed simultaneously.
 
-## Bundler
+### Bundler
 
-    `gem install bundler` to install bundler
-    `bundle install` to install necessary gem dependencies
+```sh
+gem install bundler #to install bundler
+```
+
+Run `bundle install`  with in each of the packages  to install necessary gem dependencies.
 
 All subsequent commands (when invoking rake, rspec, cucumber, etc) must be prefixed with `bundle exec` unless you are using bundler binstubs or rbenv-bundle-exec or similar. (Elsewhere in this readme, the `bundle exec` prefix will be omitted.)
 
@@ -50,71 +48,28 @@ Additionally, to test against Safari, the SafariDriver extension is needed. Inst
 
 # Rake Tasks
 
-Rake is the standard task runner. For a list of configured tasks, run `rake -T`. Briefly:
+The repository follows a monorepo structure. A [Rakefile]('./Rakefile) has been setup to easily manage tasks from within each of the packages. For a list of configured tasks, run `rake -T`. 
 
-- `rake spec` to run unit tests
-- `rake cucumber` to run end to end tests
-- `rake build` to build and package the gem
+Briefly:
+- `rake bootstrap` to setup all packages
+- `rake build` to build all packages
+- `rake test` to build all packages
+- `rake format` to format all packages
 - `rake clobber` to clean up build assets
 
-# Build and Release
+To scope any of the above rake tasks to an individual package, an argument containing the package name can be passed to the rake task:
+- `rake test\[axe-core-selenium\]`
 
- - `rake build`: build gem into the pkg directory
- - `rake install`: build and install into system gems
- - `rake clobber`: remove generated files (pkg/, node_modules/)
-
-## Updating axe-core js lib
-
- - `rake npm:install`: install axe-core (and any other npm dependencies)
- - `rake npm:update`: update axe-core (and any other npm dependencies) to latest version allowed by package.json
- - `rake npm:upgrade`: upgrade axe-core dependency to latest version available, overwriting (and saving to) package.json
- - `rake npm:next`: upgrade axe-core dependency to latest prerelease version, overwriting (and saving to) package.json
+> Note: Refer individual packages and the respective README for further information on the lib, specs and rake tasks.
 
 ## Releasing
 
-When releasing a new build of axe-matchers to bump axe-core:
+When releasing a new version of `axe-core-gems`:
 
 1. Ensure a clean working directory
-2. Run `rake npm:update` or `rake npm:upgrade` as relevant and commit any package.json changes
-3. Bump and commit axe-matchers version in `lib/axe/version.rb`
-4. Run tests
-5. Release to rubygems: `rake release`
+2. Change version number in `version.rb` at the root level, & commit.
+3. Run `rake test` to ensure all tests pass.
+4. Run `rake build` to generate all gems.
+5. To manually release to rubygems: `rake release`.
 
-# Tests
-
-## RSpec Tests (unit and integration)
-
-These confirm the proper behavior of the matchers. These are located in the `spec` directory and may be run with `rake spec` or `rspec`.
-
-In addition to the full spec task,  there is `rake spec:ci`, which runs the full suite and generates xUnit output suitable for many CI runners.
-
-Additionally, a couple notable specs are tagged with `:slow`. To skip them and run just the fast suite, there is `rake spec:fast`
-
-see also: `rake -T spec`
-
-
-## Cucumber Features (smoke tests)
-
-There is a single feature that does a minimal test of the matchers + cucumber steps + axe js library. It is intended as a smoke test to validate against multiple webdrivers. Unless a specific profile is specified, cucumber will run the default profile which drives webkit (headless) with capybara. Alternatively, you may specify the driver and browser combination:
-
-```
-cucumber -p capybara -p chrome-headless
-cucumber -p capybara -p webkit
-cucumber -p capybara -p firefox
-cucumber -p watir -p chrome
-```
-
-First specify the driver (one of: `capybara`, `selenium` or `watir`), and choose the browser (`firefox`, `chrome`, `safari`). All three drivers support all four browsers. Capybara alone also supports `webkit` and `chrome-headless`.
-
-These profile configurations can also be run via rake: `rake cucumber:{driver}:{browser}`. For example:
-
-```
-rake cucumber:capybara:firefox
-rake cucumber:selenium:chrome
-```
-
-see `rake -T cucumber`
-
-You may omit the browser (`rake cucumber:capybara`) and it will run the features under every configured browser for the given driver. Alternatively, you may omit the driver (`rake cucumber:firefox`) and it will run the features with each driver for the given browser. Additionally, there are special options to run every driver/browser combination `rake cucumber:all`, or only the headless browsers `rake cucumber:headless`. (Headless combinations are capybara+chrome and capybara+webkit)
-
-The profiles are configured in `config/cucumber.yml`. Each profile explicitly requires the appropriate env file based on the driver. This overrides Cucumber's default behavior of automatically requiring the entire `features/support/*.rb` tree. Each of the driver-specific env files in turn requires the common `features/support/env.rb` file. The driver-specific files are intended to import, configure, and wrap each of the drivers such that the step definitions can interact with any of the drivers via the same commands.
+> Note: Releases are managed by the continuous integration run via Circle CI. See [configuration](./.circleci/config.yml)
