@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = "axe-core-cucumber"
   spec.summary = "Cucumber step definitions for Axe"
 
-  spec.version = Axe::Core::Gems::VERSION
+  spec.version = AxeCoreGems::VERSION
   spec.authors = ["Deque Systems"]
   spec.email = ["helpdesk@deque.com"]
   spec.homepage = "https://www.deque.com"
@@ -17,10 +17,10 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
   spec.require_paths = ["lib"]
   spec.files = Dir.glob %w[
-    lib/**/*
-    LICENSE
-    README.md
-  ]
+                          lib/**/*
+                          LICENSE
+                          README.md
+                        ]
 
   spec.add_dependency "dumb_delegator"
   spec.add_dependency "virtus"
