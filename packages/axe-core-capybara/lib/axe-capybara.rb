@@ -1,14 +1,12 @@
 require "capybara"
 require "selenium-webdriver"
-require_relative "../../../common/axe/configuration"
+require "axe/configuration"
 
 module AxeCapybara
-
   # configure method
   # - which takes an optional argument browser
   # - and a configuration block optional for Axe
   def self.configure(browser = :firefox)
-
     # instantiate axe configuration (singleton) with defaults or given config
     if !block_given?
       raise Exception.new "Please provide a configure block for AxeCapybara"

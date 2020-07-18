@@ -1,0 +1,6 @@
+# rubocop.yml
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+Layout/LineLength:
+  Exclude:
+    - lib/axe-cucumber.rb
