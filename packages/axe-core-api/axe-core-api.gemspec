@@ -3,8 +3,8 @@
 require_relative "../../version"
 
 Gem::Specification.new do |spec|
-  spec.name = "axe-core-rspec"
-  spec.summary = "RSpec custom matchers for Axe"
+  spec.name = "axe-core-api"
+  spec.summary = "Axe API utility methods"
 
   spec.version = AxeCoreGems::VERSION
   spec.authors = ["Deque Systems"]
@@ -18,16 +18,20 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.files = Dir.glob %w[
                           lib/**/*
+                          node_modules/axe-core/axe.min.js
                           LICENSE
                           README.md
                         ]
 
   spec.add_dependency "dumb_delegator"
-  spec.add_dependency "virtus"
-  spec.add_dependency "axe-core-api"
 
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-its"
+
+  spec.add_development_dependency "capybara"
+  spec.add_development_dependency "selenium-webdriver"
+  spec.add_development_dependency "watir"
+  spec.add_development_dependency "virtus"
 end
