@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+group :test, :development do
+  gem "rubocop"
+end
+
+gemspec

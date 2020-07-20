@@ -1,9 +1,17 @@
+require "rake/clean"
+require "bundler/gem_tasks"
 require "rspec/core/rake_task"
+
+# clean
+CLOBBER.include "pkg"
 
 RSpec::Core::RakeTask.new(:spec)
 
 # default task
 task :default => :spec
+
+# build
+Rake::Task[:build]
 
 # unit tests
 desc "Tests Unit"
@@ -13,7 +21,13 @@ end
 
 # all tests
 desc "Tests all"
-task :test_all => [
-       "test_unit",
-     ] do
+task :test => [
+  "test_unit",
+] do
+end
+
+# format code
+desc "Format code using rubocop"
+task :format => [] do
+  sh "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
 end

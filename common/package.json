@@ -1,9 +1,0 @@
-{
-  "name": "axe-core-gems-common",
-  "author": "Deque Systems",
-  "license": "MPL-2.0",
-  "private": true,
-  "dependencies": {
-    "axe-core": "^3.5.5"
-  }
-}

@@ -1,10 +1,17 @@
+require "rake/clean"
+require "bundler/gem_tasks"
 require "rspec/core/rake_task"
-require "rake/testtask"
+
+# clean
+CLOBBER.include "pkg"
 
 RSpec::Core::RakeTask.new(:spec)
 
 # default task
 task :default => :spec
+
+# build
+Rake::Task[:build]
 
 # unit tests
 desc "Tests Unit"
@@ -21,15 +28,21 @@ task :test_e2e_watir do
   sh "cd e2e/watir && bundle install && bundle exec cucumber"
 end
 task :test_e2e => [
-       "test_e2e_capybara",
-       "test_e2e_watir",
-     ] do
+  "test_e2e_capybara",
+  "test_e2e_watir",
+] do
 end
 
 # all tests
 desc "Tests all"
-task :test_all => [
-       "test_unit",
-       "test_e2e",
-     ] do
+task :test => [
+  "test_unit",
+  "test_e2e",
+] do
+end
+
+# format code
+desc "Format code using rubocop"
+task :format => [] do
+  sh "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
 end
