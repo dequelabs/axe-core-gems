@@ -1,39 +1,75 @@
-require "rake/clean"
-require "bundler/gem_tasks"
-
-CLOBBER.include "pkg", "node_modules"
-
-# add npm-install as pre-req for build
-Rake::Task[:build].enhance [:npm]
-
-###########
-# npm
-###########
-desc "alias for npm:install"
-task :npm => "npm:install"
-namespace :npm do
-  desc "Install npm dependencies"
-  task :install do
-    sh "npm install"
+# bootstrap
+desc "bootstrap all packages"
+task :bootstrap, [:pkg] do |t, args|
+  if args[:pkg].nil?
+    sh "
+    baseDir=$PWD
+    for dir in ./packages/*
+    do
+      cd $dir
+      bundle install
+      cd $baseDir
+    done
+    "
+  else
+    pkgDir = "./packages/#{args[:pkg]}"
+    sh "cd #{pkgDir} && bundle install"
   end
+end
 
-  desc "Update npm dependencies to latest version allowed by package.json"
-  task :update do
-    sh "npm update"
+# test
+desc "Test all packages"
+task :test, [:pkg] do |t, args|
+  if args[:pkg].nil?
+    sh "
+    baseDir=$PWD
+    for dir in ./packages/*
+    do
+      cd $dir
+      rake test
+      cd $baseDir
+    done
+    "
+  else
+    pkgDir = "./packages/#{args[:pkg]}"
+    sh "cd #{pkgDir} && rake test"
   end
+end
 
-  desc "Upgrade axe-core dependency to latest version available, overwriting package.json"
-  task :upgrade do
-    sh "npm install --save axe-core@latest"
+# build
+desc "Build all packages"
+task :build, [:pkg] do |t, args|
+  if args[:pkg].nil?
+    sh "
+    baseDir=$PWD
+    for dir in ./packages/*
+    do
+      cd $dir
+      rake build
+      cd $baseDir
+    done
+    "
+  else
+    pkgDir = "./packages/#{args[:pkg]}"
+    sh "cd #{pkgDir} && rake build"
   end
+end
 
-  desc "Upgrade axe-core dependency to latest prerelease version, overwriting package.json"
-  task :next do
-    sh "npm install --save axe-core@next"
-  end
-
-  desc "Display currently-installed and latest-available versions of axe-core lib"
-  task :status do
-    sh "npm view axe-core version && npm list axe-core"
+# format
+desc "format code in all packages"
+task :format, [:pkg] do |t, args|
+  if args[:pkg].nil?
+    sh "
+    baseDir=$PWD
+    for dir in ./packages/*
+    do
+      cd $dir
+      rake format
+      cd $baseDir
+    done
+    "
+  else
+    pkgDir = "./packages/#{args[:pkg]}"
+    sh "cd #{pkgDir} && rake format"
   end
 end
