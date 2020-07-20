@@ -73,28 +73,3 @@ task :format, [:pkg] do |t, args|
     sh "cd #{pkgDir} && rake format"
   end
 end
-
-# clobber
-desc "clobber/clean all packages"
-task :clobber, [:pkg] do |t, args|
-  if args[:pkg].nil?
-    sh "
-    baseDir=$PWD
-    for dir in ./packages/*
-    do
-      cd $dir
-      rake clobber
-      cd $baseDir
-    done
-    "
-  else
-    pkgDir = "./packages/#{args[:pkg]}"
-    sh "cd #{pkgDir} && rake clobber"
-  end
-end
-
-# format code
-desc "Format code using rubocop"
-task :format => [] do
-  sh "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
-end
