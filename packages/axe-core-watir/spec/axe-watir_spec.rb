@@ -20,8 +20,7 @@ describe AxeWatir do
   describe "#configure" do
     it "should yield default configuration" do
       actual = Axe::Configuration.instance
-      expect {
-        |stub_block|
+      expect { |stub_block|
         subject.configure(&stub_block)
       }.to yield_with_args(actual)
     end

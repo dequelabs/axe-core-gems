@@ -1,8 +1,8 @@
 require "yaml"
 
-require_relative "../../../common/axe/matchers/be_accessible"
-require_relative "../../../common/axe/finds_page"
-require_relative "../../../common/axe/expectation"
+require "axe/matchers/be_accessible"
+require "axe/finds_page"
+require "axe/expectation"
 
 # The purpose of this class is to support private helpers for argument parsing
 # without leaking the helper methods into the cucumber World object.
@@ -42,7 +42,16 @@ module AxeCucumber
       @page = page
     end
 
-    def assert_accessibility(negate = false, inclusion = "", exclusion = "", tags = "", run_only = false, run_rules = "", skip_rules = "", options = nil)
+    def assert_accessibility(
+      negate = false,
+      inclusion = "",
+      exclusion = "",
+      tags = "",
+      run_only = false,
+      run_rules = "",
+      skip_rules = "",
+      options = nil
+    )
       is_accessible = Axe::Matchers::BeAccessible.new.tap do |a|
         a.within(*selector(inclusion))
         a.excluding(*selector(exclusion))

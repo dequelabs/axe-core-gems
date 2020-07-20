@@ -1,2 +1,10 @@
 source "https://rubygems.org"
+
+group :test, :development do
+  gem "rubocop"
+  path ".." do
+    gem "axe-core-api"
+  end
+end
+
 gemspec
