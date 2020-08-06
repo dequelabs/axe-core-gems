@@ -13,6 +13,10 @@ commands:
           echo export BUNDLER_VERSION=2.1 >> $BASH_ENV
           source $BASH_ENV
           gem install bundler
+  setup-packages:
+    description: Bootstrap packages
+    steps:
+      - run: bundle exec rake bootstrap
 
 jobs:
   test: 
@@ -20,9 +24,8 @@ jobs:
     steps:
       - checkout
       - install-bundler
-      - run: |
-          rake bootstrap
-          rake test
+      - setup-packages
+      - run: bundle exec rake test
 
 workflows:
   version: 2
