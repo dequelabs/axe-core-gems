@@ -13,7 +13,7 @@ module Axe
       # Hence cannot do start_with("/*! aXe"), instead do a function we know should exist check
       it "should inject the axe-core lib" do
         described_class.new(page)
-        expect(page).to have_received(:execute_script).with(a_string_including ("axe.run=function("))
+        expect(page).to have_received(:execute_script).with(a_string_including ("axe.run="))
       end
 
       context "when axe-core exists in the page" do
