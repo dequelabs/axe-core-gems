@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 group :test, :development do
   gem "rubocop"
+  gem "capybara"
+  gem "watir"
+  gem "selenium-webdriver"
 end
 
 gemspec
