@@ -45,7 +45,6 @@ describe AxeWatir do
 
       actual = Axe::Configuration.instance
       expect(actual.page).not_to be_nil
-      puts actual.page
       expect(actual.page.to_s).to include("Watir::Browser")
     end
 
