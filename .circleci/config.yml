@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 defaults: &defaults
   docker:
@@ -6,11 +6,15 @@ defaults: &defaults
   working_directory: ~/axe-core-gems
 
 commands:
-  configure_bundler: 
-    description: Configure Bundler
+  install-bundler: 
+    description: Install bundler
+    parameters:
+      version:
+        type: string
+        default: "2.1"
     steps:
       - run: |
-          echo export BUNDLER_VERSION=2.1 >> $BASH_ENV
+          echo export BUNDLER_VERSION=<< parameters.version >> >> $BASH_ENV
           source $BASH_ENV
           gem install bundler
 
@@ -19,7 +23,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - configure_bundler
+      - install-bundler
       - run: |
           rake bootstrap
           rake test
