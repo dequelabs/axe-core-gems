@@ -7,6 +7,9 @@ task :bootstrap, [:pkg] do |t, args|
     for dir in ./packages/*
     do
       cd $dir
+      echo export BUNDLER_VERSION=2.1 >> $BASH_ENV
+      source $BASH_ENV
+      gem install bundler
       bundle install
       cd $baseDir
     done
