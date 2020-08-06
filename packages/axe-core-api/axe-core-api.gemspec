@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
                         ]
 
   spec.add_dependency "dumb_delegator"
+  spec.add_dependency "virtus"
 
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake"
@@ -33,5 +34,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "capybara"
   spec.add_development_dependency "selenium-webdriver"
   spec.add_development_dependency "watir"
-  spec.add_development_dependency "virtus"
 end
