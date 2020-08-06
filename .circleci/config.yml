@@ -17,6 +17,7 @@ commands:
           echo export BUNDLER_VERSION=<< parameters.version >> >> $BASH_ENV
           source $BASH_ENV
           gem install bundler
+          gem update --system
 
 jobs:
   test: 
