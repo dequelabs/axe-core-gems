@@ -12,7 +12,8 @@ commands:
       - run: |
           echo export BUNDLER_VERSION=2.1 >> $BASH_ENV
           source $BASH_ENV
-          gem install bundler
+          sudo gem install bundler
+          sudo gem update --system
   setup-packages:
     description: Bootstrap packages
     steps:
