@@ -9,6 +9,7 @@ jobs:
   test: 
     <<: *defaults
     steps:
+      - checkout
       - run: rake test
 
 workflows:
