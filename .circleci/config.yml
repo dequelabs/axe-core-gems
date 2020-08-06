@@ -17,7 +17,7 @@ commands:
   setup-packages:
     description: Bootstrap packages
     steps:
-      - run: bundle exec rake bootstrap
+      - run:  rake bootstrap
 
 jobs:
   test: 
@@ -26,7 +26,7 @@ jobs:
       - checkout
       - install-bundler
       - setup-packages
-      - run: bundle exec rake test
+      - run: rake test
 
 workflows:
   version: 2
