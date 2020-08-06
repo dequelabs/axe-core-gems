@@ -10,7 +10,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: rake test
+      - run: |
+          rake bootstrap
+          rake test
 
 workflows:
   version: 2
