@@ -6,13 +6,13 @@ The `axe-core-cucumber` gem provides a custom step defintions to evalaute the ac
 1. Install the required gem:
 
 ``` gemspec
-gem 'axe-core-cucumer'
+gem 'axe-core-cucumber'
 ```
 
 2. Require the step defintions:
 
 ``` rb
-require 'axe-cucumber-step-definitions'
+require 'axe-core-cucumber-step-definitions'
 ```
 
 3. Use with webdriver of choice.

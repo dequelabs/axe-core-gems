@@ -4,7 +4,7 @@ require "watir"
 require "axe-watir"
 # Requiring 'axe/cucumber/step_definitions' makes all of the axe-cucumber step
 # definitions available to be used directly in your cucumber features.
-require "axe-cucumber-step-definitions"
+require "axe-core-cucumber-step-definitions"
 
 Before do
   # configure AxeWatir
