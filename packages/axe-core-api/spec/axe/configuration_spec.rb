@@ -25,7 +25,7 @@ module Axe
 
     # check for contents of axe
     its(:jslib) {
-      is_expected.to include("axe.run=function(")
+      is_expected.to include("axe.run=")
     }
 
     # check if hooks (included)
