@@ -15,7 +15,7 @@ describe AxeSelenium do
       driver.page.navigate.to "https://google.com" # can navigate
       expect(driver).to respond_to :skip_iframes # can config
       expect(driver).to respond_to :jslib
-      expect(driver.jslib).to include("axe.run=function(") # has axe injected
+      expect(driver.jslib).to include("axe.run=") # has axe injected
     end
   end
 
