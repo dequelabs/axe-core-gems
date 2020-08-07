@@ -3,4 +3,5 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 Layout/LineLength:
   Exclude:
-    - lib/axe-cucumber.rb
+    - lib/axe-core-cucumber.rb
+    - spec/step_regex_spec.rb

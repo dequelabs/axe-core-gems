@@ -1,6 +1,6 @@
 require "spec_helper"
 
-require_relative "../lib/axe-cucumber"
+require_relative "../lib/axe-core-cucumber"
 
 module AxeCucumber
   describe Step do
