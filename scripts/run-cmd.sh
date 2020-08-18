@@ -10,6 +10,9 @@ if [[ -z ${SCOPED_PKG} ]]; then
   # run the given command on all packages
   for dir in ./packages/*; do
     cd $dir
+    echo '==========='
+    echo "Running command for $dir"
+    echo '==========='
     $CMD
     cd $BASE_DIR
   done
