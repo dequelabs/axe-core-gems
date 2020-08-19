@@ -3,21 +3,24 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: circleci/ruby:2.4.3-node-browsers
+      environment:
+        FIREFOX_VERSION: 68.0.1
+        GECKODRIVER_VERSION: 0.24.0
   working_directory: ~/axe-core-gems
 
 commands:
   install-bundler: 
     description: Install bundler
     steps:
-      - run: |
-          echo export BUNDLER_VERSION=2.1 >> $BASH_ENV
-          source $BASH_ENV
-          sudo gem install bundler
-          sudo gem update --system
+      - run: bash ./.circleci/install-bundler.sh
+  install-geckodriver:
+    description: Install Geckodriver
+    steps:
+      - run: bash ./.circleci/install-geckodriver.sh
   setup-packages:
     description: Bootstrap packages
     steps:
-      - run:  rake bootstrap
+      - run: rake bootstrap
 
 jobs:
   test: 
@@ -25,6 +28,7 @@ jobs:
     steps:
       - checkout
       - install-bundler
+      - install-geckodriver
       - setup-packages
       - run: rake test
 
