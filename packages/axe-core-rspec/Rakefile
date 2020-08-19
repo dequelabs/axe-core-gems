@@ -10,12 +10,6 @@ RSpec::Core::RakeTask.new(:spec)
 # default task
 task :default => :spec
 
-# bootstrap
-desc "Bootstrap"
-task :bootstrap do
-  sh "bundle install"
-end
-
 # build
 Rake::Task[:build]
 

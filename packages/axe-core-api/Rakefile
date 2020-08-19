@@ -56,12 +56,6 @@ task :test_unit do
   sh "bundle install --with=development && bundle exec rake"
 end
 
-# bootstrap
-desc "Bootstrap"
-task :bootstrap => ["npm"] do
-  sh "bundle install"
-end
-
 # all tests
 desc "Tests all"
 task :test => [

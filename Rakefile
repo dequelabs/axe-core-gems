@@ -1,7 +1,8 @@
 # bootstrap
 desc "bootstrap all packages"
 task :bootstrap, [:pkg] do |t, args|
-  sh "bash ./scripts/run-cmd.sh 'rake bootstrap' #{args[:pkg]}"
+  sh "bash ./scripts/run-cmd.sh 'bundle install' #{args[:pkg]}"
+  sh "rake npm:install\[axe-core-api\]"
 end
 
 # test
