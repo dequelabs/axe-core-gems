@@ -13,6 +13,12 @@ task :default => :spec
 # build
 Rake::Task[:build]
 
+# bootstrap
+desc "Bootstrap"
+task :bootstrap do
+  sh "bundle install"
+end
+
 # unit tests
 desc "Tests Unit"
 task :test_unit do

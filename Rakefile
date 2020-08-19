@@ -1,7 +1,7 @@
 # bootstrap
 desc "bootstrap all packages"
 task :bootstrap, [:pkg] do |t, args|
-  sh "bash ./scripts/run-cmd.sh 'bundle install' #{args[:pkg]}"
+  sh "bash ./scripts/run-cmd.sh 'rake bootstrap' #{args[:pkg]}"
 end
 
 # test
