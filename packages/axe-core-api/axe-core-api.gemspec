@@ -17,21 +17,20 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
   spec.require_paths = ["lib"]
   spec.files = Dir.glob %w[
-                          lib/**/*
-                          node_modules/axe-core/axe.min.js
-                          LICENSE
-                          README.md
-                        ]
+    lib/**/*
+    node_modules/axe-core/axe.min.js
+    LICENSE
+    README.md
+  ]
 
   spec.add_dependency "dumb_delegator"
+  spec.add_dependency "capybara"
+  spec.add_dependency "selenium-webdriver"
+  spec.add_dependency "watir"
+  spec.add_dependency "virtus"
 
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-its"
-
-  spec.add_development_dependency "capybara"
-  spec.add_development_dependency "selenium-webdriver"
-  spec.add_development_dependency "watir"
-  spec.add_development_dependency "virtus"
 end
