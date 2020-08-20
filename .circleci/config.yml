@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.4.3-node-browsers
+    - image: circleci/ruby:2.5.3-node-browsers
       environment:
         FIREFOX_VERSION: 68.0.1
         GECKODRIVER_VERSION: 0.24.0
@@ -27,11 +27,11 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - install-bundler
+      - run: gem install bundler
       - install-geckodriver
       - setup-packages
-      - run: |
-          rake test\[axe-core-api\]
+      - run: rake test\[axe-core-api\]
+      - run: rake test\[axe-core-selenium\]
 
 workflows:
   version: 2
