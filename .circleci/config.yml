@@ -23,7 +23,7 @@ commands:
       - run: rake bootstrap
 
 jobs:
-  test: 
+  test-unit: 
     <<: *defaults
     steps:
       - checkout
@@ -31,17 +31,17 @@ jobs:
       - install-geckodriver
       - setup-packages
       # test - API
-      - run: rake test\[axe-core-api\]
+      - run: rake test_unit\[axe-core-api\]
       # test - webdrivers
-      - run: rake test\[axe-core-selenium\]
-      - run: rake test\[axe-core-watir\]
-      - run: rake test\[axe-core-capybara\]
+      - run: rake test_unit\[axe-core-selenium\]
+      - run: rake test_unit\[axe-core-watir\]
+      - run: rake test_unit\[axe-core-capybara\]
       # test - framework integrations
-      - run: rake test\[axe-core-cucumber\]
-      - run: rake test\[axe-core-rspec\]
+      - run: rake test_unit\[axe-core-cucumber\]
+      - run: rake test_unit\[axe-core-rspec\]
 
 workflows:
   version: 2
   build:
     jobs:
-      - test
+      - test-unit
