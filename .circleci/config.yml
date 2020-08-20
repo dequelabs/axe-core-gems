@@ -9,39 +9,44 @@ defaults: &defaults
   working_directory: ~/axe-core-gems
 
 commands:
-  install-bundler: 
-    description: Install bundler
+  bootstrap:
+    description: Install dependencies and bootstrap packages
     steps:
-      - run: bash ./.circleci/install-bundler.sh
-  install-geckodriver:
-    description: Install Geckodriver
-    steps:
-      - run: bash ./.circleci/install-geckodriver.sh
-  setup-packages:
-    description: Bootstrap packages
-    steps:
-      - run: rake bootstrap
+      - checkout
+      - run: gem install bundler # setup bundler
+      - run: bash ./.circleci/install-geckodriver.sh # install geckodriver
+      - run: rake bootstrap # bootstrap packages
 
 jobs:
   test-unit: 
     <<: *defaults
     steps:
-      - checkout
-      - run: gem install bundler
-      - install-geckodriver
-      - setup-packages
-      # test - API
+      - bootstrap
+      # unit test - API
       - run: rake test_unit\[axe-core-api\]
-      # test - webdrivers
+      # unit test - webdrivers
       - run: rake test_unit\[axe-core-selenium\]
       - run: rake test_unit\[axe-core-watir\]
       - run: rake test_unit\[axe-core-capybara\]
-      # test - framework integrations
+      # unit test - framework integrations
       - run: rake test_unit\[axe-core-cucumber\]
       - run: rake test_unit\[axe-core-rspec\]
+  test-e2e:
+    <<: *defaults
+    steps:
+      - bootstrap
+      # e2e test - rspec
+      - run: |
+          cd packages/axe-core-rspec
+          rake test_e2e
+      # e2e test - cucumber
+      - run: |
+          cd packages/axe-core-cucumber
+          rake test_e2e
 
 workflows:
   version: 2
   build:
     jobs:
       - test-unit
+      - test-e2e
