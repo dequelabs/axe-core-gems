@@ -38,7 +38,7 @@ module Axe
     private
 
     def get_root
-      Dir.pwd
+      Gem::Specification.find_by_name('axe-core-api').gem_dir
     end
   end
 end
