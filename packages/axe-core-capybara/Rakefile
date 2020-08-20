@@ -16,7 +16,7 @@ Rake::Task[:build]
 # unit tests
 desc "Tests Unit"
 task :test_unit do
-  sh "bundle install && bundle exec rake"
+  sh "bundle exec rake"
 end
 
 # all tests
