@@ -31,22 +31,9 @@ jobs:
       # unit test - framework integrations
       - run: rake test_unit\[axe-core-cucumber\]
       - run: rake test_unit\[axe-core-rspec\]
-  test-e2e:
-    <<: *defaults
-    steps:
-      - bootstrap
-      # e2e test - rspec
-      - run: |
-          cd packages/axe-core-rspec
-          rake test_e2e
-      # e2e test - cucumber
-      - run: |
-          cd packages/axe-core-cucumber
-          rake test_e2e
 
 workflows:
   version: 2
   build:
     jobs:
       - test-unit
-      - test-e2e
