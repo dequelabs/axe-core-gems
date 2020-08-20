@@ -18,7 +18,7 @@ commands:
       - run: rake bootstrap # bootstrap packages
 
 jobs:
-  test-unit: 
+  test: 
     <<: *defaults
     steps:
       - bootstrap
@@ -31,9 +31,21 @@ jobs:
       # unit test - framework integrations
       - run: rake test_unit\[axe-core-cucumber\]
       - run: rake test_unit\[axe-core-rspec\]
+      # e2e test - rspec -> capybara
+      - run: |
+          cd packages/axe-core-rspec && cd e2e/capybara
+          bundle install && bundle exec rspec
+      # e2e test - cucumber -> capybara
+      - run: |
+          cd packages/axe-core-cucumber && cd e2e/capybara
+          bundle install && bundle exec cucumber
+      # e2e test - cucumber -> watir
+      - run: |
+          cd packages/axe-core-cucumber && cd e2e/watir
+          bundle install && bundle exec cucumber
 
 workflows:
   version: 2
   build:
     jobs:
-      - test-unit
+      - test
