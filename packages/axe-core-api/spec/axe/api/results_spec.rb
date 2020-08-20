@@ -7,33 +7,33 @@ module Axe::API
       context "when the results objects are complete" do
         subject {
           Results.new "violations" => [{
-                        "help" => "V1 help",
-                        "helpUrl" => "V1 url",
-                        "nodes" => [{
-                          "target" => ["#target-1-1"],
-                          "html" => "V1 html",
-                          "any" => [{ "message" => "Fix from any 1" }],
-                          "all" => [{ "message" => "Fix from all 1" }],
-                        }],
-                      }, {
-                        "help" => "V2 help",
-                        "helpUrl" => "V2 url",
-                        "nodes" => [{
-                          "target" => ["#target-2-1", "#target-2-2"],
-                          "html" => "V2 html",
-                          "any" => [{ "message" => "Fix from any 2" }],
-                          "all" => [{ "message" => "Fix from all 2" }],
-                        }],
-                      }, {
-                        "help" => "V3 help",
-                        "helpUrl" => "V3 url",
-                        "nodes" => [{
-                          "target" => [["#target-3-1", "#target-3-2"]],
-                          "html" => "V3 html",
-                          "any" => [{ "message" => "Fix from any 3" }],
-                          "all" => [{ "message" => "Fix from all 3" }],
-                        }],
-                      }]
+            "help" => "V1 help",
+            "helpUrl" => "V1 url",
+            "nodes" => [{
+              "target" => ["#target-1-1"],
+              "html" => "V1 html",
+              "any" => [{ "message" => "Fix from any 1" }],
+              "all" => [{ "message" => "Fix from all 1" }],
+            }],
+          }, {
+            "help" => "V2 help",
+            "helpUrl" => "V2 url",
+            "nodes" => [{
+              "target" => ["#target-2-1", "#target-2-2"],
+              "html" => "V2 html",
+              "any" => [{ "message" => "Fix from any 2" }],
+              "all" => [{ "message" => "Fix from all 2" }],
+            }],
+          }, {
+            "help" => "V3 help",
+            "helpUrl" => "V3 url",
+            "nodes" => [{
+              "target" => [["#target-3-1", "#target-3-2"]],
+              "html" => "V3 html",
+              "any" => [{ "message" => "Fix from any 3" }],
+              "all" => [{ "message" => "Fix from all 3" }],
+            }],
+          }]
         }
 
         it "should return formatted error message" do
@@ -55,25 +55,25 @@ module Axe::API
       context "when the results objects are incomplete" do
         subject {
           Results.new "violations" => [{
-                        "help" => nil,
-                        "helpUrl" => nil,
-                        "nodes" => nil,
-                      }, {
-                        "help" => "V2 help",
-                        "helpUrl" => "V2 url",
-                        "nodes" => [{
-                          "target" => nil,
-                          "html" => nil,
-                          "any" => nil,
-                          "all" => nil,
-                        }, {
-                          "target" => [nil],
-                          "html" => nil,
-                          "any" => [nil],
-                          "all" => [nil],
+            "help" => nil,
+            "helpUrl" => nil,
+            "nodes" => nil,
+          }, {
+            "help" => "V2 help",
+            "helpUrl" => "V2 url",
+            "nodes" => [{
+              "target" => nil,
+              "html" => nil,
+              "any" => nil,
+              "all" => nil,
+            }, {
+              "target" => [nil],
+              "html" => nil,
+              "any" => [nil],
+              "all" => [nil],
 
-                        }, nil],
-                      }]
+            }, nil],
+          }]
         }
 
         it "should gracefully handle formatting" do
