@@ -41,8 +41,8 @@ describe AxeCapybara do
       expect(actual.jslib_path).to eq different_axe_path
     end
 
-    it "should yield configuration with Safari driver" do
-      AxeCapybara.configure(:safari) do
+    it "should yield configuration with Chrome driver" do
+      AxeCapybara.configure(:chrome) do
       end
 
       actual = Axe::Configuration.instance
