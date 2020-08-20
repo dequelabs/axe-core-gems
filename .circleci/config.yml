@@ -30,8 +30,15 @@ jobs:
       - run: gem install bundler
       - install-geckodriver
       - setup-packages
+      # test - API
       - run: rake test\[axe-core-api\]
+      # test - webdrivers
       - run: rake test\[axe-core-selenium\]
+      - run: rake test\[axe-core-watir\]
+      - run: rake test\[axe-core-capybara\]
+      # test - framework integrations
+      - run: rake test\[axe-core-cucumber\]
+      - run: rake test\[axe-core-rspec\]
 
 workflows:
   version: 2
