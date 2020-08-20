@@ -17,6 +17,10 @@ commands:
     description: Install Geckodriver
     steps:
       - run: bash ./.circleci/install-geckodriver.sh
+  install-chromedriver:
+    description: Install Geckodriver
+    steps:
+      - run: bash ./.circleci/install-chromedriver.sh
   setup-packages:
     description: Bootstrap packages
     steps:
@@ -29,6 +33,7 @@ jobs:
       - checkout
       - install-bundler
       - install-geckodriver
+      - install-chromedriver
       - setup-packages
       - run: rake test
 
