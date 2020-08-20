@@ -8,7 +8,7 @@ require "axe-core-cucumber-step-definitions"
 
 Before do
   # configure AxeWatir
-  @driver = AxeWatir.configure("firefox") do |c|
+  @driver = AxeWatir.configure(:firefox) do |c|
   end
 end
 
