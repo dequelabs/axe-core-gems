@@ -33,7 +33,6 @@ jobs:
       - checkout
       - install-bundler
       - install-geckodriver
-      - install-chromedriver
       - setup-packages
       - run: rake test
 
