@@ -6,9 +6,9 @@ task :bootstrap, [:pkg] do |t, args|
 end
 
 # test
-desc "Test all packages"
-task :test, [:pkg] do |t, args|
-  sh "bash ./scripts/run-cmd.sh 'bundle exec rake test' #{args[:pkg]}"
+desc "Unit test all packages"
+task :test_unit, [:pkg] do |t, args|
+  sh "bash ./scripts/run-cmd.sh 'bundle exec rake test_unit' #{args[:pkg]}"
 end
 
 # build

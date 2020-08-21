@@ -30,14 +30,6 @@ task :test_e2e => [
 ] do
 end
 
-# all tests
-desc "Tests all"
-task :test => [
-  "test_unit",
-  "test_e2e",
-] do
-end
-
 # format code
 desc "Format code using rubocop"
 task :format => [] do

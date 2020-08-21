@@ -41,13 +41,13 @@ describe AxeSelenium do
       expect(actual.jslib_path).to eq different_axe_path
     end
 
-    it "should yield configuration with Safari driver" do
-      AxeSelenium.configure(:safari) do
+    it "should yield configuration with Chrome driver" do
+      AxeSelenium.configure(:chrome) do
       end
 
       actual = Axe::Configuration.instance
       expect(actual.page).not_to be_nil
-      expect(actual.page.to_s).to include("WebDriver::Safari")
+      expect(actual.page.to_s).to include("WebDriver::Chrome")
     end
 
     it "should yield configuration with Firefox driver" do

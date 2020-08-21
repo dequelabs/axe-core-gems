@@ -55,10 +55,3 @@ desc "Tests Unit"
 task :test_unit do
   sh "bundle exec rake"
 end
-
-# all tests
-desc "Tests all"
-task :test => [
-  "test_unit",
-] do
-end
