@@ -68,7 +68,6 @@ workflows:
             branches:
               only:
                 - develop
-                - ci/publish
       - production_release:
           requires:
             - test
