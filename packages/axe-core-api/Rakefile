@@ -55,3 +55,9 @@ desc "Tests Unit"
 task :test_unit do
   sh "bundle exec rake"
 end
+
+#  publish
+desc "publish package"
+task :publish => [:build] do
+  sh "gem push $(ls pkg/*.gem)"
+end

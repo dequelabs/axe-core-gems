@@ -24,3 +24,9 @@ desc "Format code using rubocop"
 task :format => [] do
   sh "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
 end
+
+#  publish
+desc "publish package"
+task :publish => [:build] do
+  sh "gem push $(ls pkg/*.gem)"
+end
