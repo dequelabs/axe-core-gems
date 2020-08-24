@@ -22,3 +22,9 @@ desc "format code in all packages"
 task :format, [:pkg] do |t, args|
   sh "bash ./scripts/run-cmd.sh 'bundle exec rake format' #{args[:pkg]}"
 end
+
+# pre publish
+desc "publish all packages"
+task :publish, [:pkg] do |t, args|
+  sh "bash ./scripts/run-cmd.sh 'bundle exec rake publish' #{args[:pkg]}"
+end

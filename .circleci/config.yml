@@ -44,8 +44,33 @@ jobs:
           cd packages/axe-core-cucumber && cd e2e/watir
           bundle install && bundle exec cucumber
 
+  canary_release:
+    <<: *defaults
+    steps:
+      - bootstrap
+      - run: bash .circleci/publish.sh pre.$(git rev-parse --short HEAD)
+
+  production_release:
+    <<: *defaults
+    steps:
+      - bootstrap
+      - run: bash .circleci/publish.sh
+
 workflows:
   version: 2
   build:
     jobs:
       - test
+      - canary_release:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - develop
+      - production_release:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
