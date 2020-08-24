@@ -17,10 +17,10 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
   spec.require_paths = ["lib"]
   spec.files = Dir.glob %w[
-                          lib/**/*
-                          LICENSE
-                          README.md
-                        ]
+    lib/**/*
+    LICENSE
+    README.md
+  ]
 
   spec.add_dependency "dumb_delegator"
   spec.add_dependency "axe-core-api"
