@@ -4,8 +4,18 @@ The `axe-core-selenium` gem provides a chainable [axe API][] for [Selenium WebDr
 
 ## Usage
 
+- In your Gemfile, add the `axe-core-selenium` gem.
+
+```Gemfile
+source "https://rubygems.org"
+
+gem 'axe-core-selenium'
+```
+
+- Require `axe-selenium` and use the exported member `AxeSelenium`.
+
 ```rb
-require 'axe-core-selenium'
+require 'axe-selenium'
 
 # configure `AxeSelenium`
 

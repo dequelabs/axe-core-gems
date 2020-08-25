@@ -6,11 +6,21 @@ The `axe-core-rspec` gem provides a custom matchers `BeAccessible` , which can b
 
 ## Usage
 
-Simply requring the gem `axe-core-rspec` extends `RSpec` with the custom matcher `BeAccessible` .
+- In your Gemfile, add the `axe-core-rspec` gem.
+
+```Gemfile
+source "https://rubygems.org"
+
+gem 'axe-core-rspec'
+```
+
+- Simply requrire `axe-rspec` which extends `RSpec` with the custom matcher `BeAccessible` .
 
 ``` rb
-require 'axe-core-rspec'
+require 'axe-rspec'
 ```
+
+- Use with webdriver of choice.
 
 ## Matcher
 
