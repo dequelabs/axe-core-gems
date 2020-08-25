@@ -4,8 +4,18 @@ The `axe-core-capybara` gem provides a chainable [axe API][] for [Capybara WebDr
 
 ## Usage
 
+- In your Gemfile, add the `axe-core-capybara` gem.
+
+```Gemfile
+source "https://rubygems.org"
+
+gem 'axe-core-capybara'
+```
+
+- Require `axe-capybara` and use the exported member `AxeCapybara`.
+
 ```rb
-require 'axe-core-capybara'
+require 'axe-capybara'
 
 # configure `AxeCapybara`
 driver = AxeCapybara.configure(:firefox) do |c|
