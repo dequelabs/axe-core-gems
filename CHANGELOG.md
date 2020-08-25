@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-# [2.6.0](https://github.com/dequelabs/axe-core-gems/compare/v2.5.0...v2.6.0) (2020-02-18)
+## [2.6.0](https://github.com/dequelabs/axe-core-gems/compare/v2.5.0...v2.6.0) (2020-02-18)
 
 
 ### Features
@@ -38,7 +38,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-# [2.5.0](https://github.com/dequelabs/axe-core-gems/compare/v2.4.0...v2.5.0) (2019-11-06)
+## [2.5.0](https://github.com/dequelabs/axe-core-gems/compare/v2.4.0...v2.5.0) (2019-11-06)
 
 
 ### Features
@@ -56,7 +56,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-# [2.4.0](https://github.com/dequelabs/axe-core-gems/compare/v2.3.0...v2.4.0) (2019-07-11)
+## [2.4.0](https://github.com/dequelabs/axe-core-gems/compare/v2.3.0...v2.4.0) (2019-07-11)
 
 ### Features
 
