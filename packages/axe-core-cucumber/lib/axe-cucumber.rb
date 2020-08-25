@@ -1,6 +1,6 @@
 require "yaml"
 
-require "axe/matchers/be_accessible"
+require "axe/matchers/be_axe_clean"
 require "axe/finds_page"
 require "axe/expectation"
 
@@ -16,7 +16,7 @@ module AxeCucumber
     # Extracting regex into variable to allow for easier consumption elsewhere
     ###############
     # require initial phrasing, with 'not' to negate the matcher
-    REGEX_CAPTURE_NEGATE = "(?-x:the page should( not)? be accessible)"
+    REGEX_CAPTURE_NEGATE = "(?-x:the page should( not)? be axe clean)"
     # optionally specify which subtree to check, via CSS selector
     REGEX_CAPTURE_INCLUSION = '(?-x:;? within "(.*?)")?'
     # optionally specify subtrees to be excluded, via CSS selector
@@ -52,7 +52,7 @@ module AxeCucumber
       skip_rules = "",
       options = nil
     )
-      is_accessible = Axe::Matchers::BeAccessible.new.tap do |a|
+      is_axe_clean = Axe::Matchers::BeAxeClean.new.tap do |a|
         a.within(*selector(inclusion))
         a.excluding(*selector(exclusion))
         a.according_to(*split(tags))
@@ -62,7 +62,7 @@ module AxeCucumber
         a.with_options to_hash(options)
       end
 
-      Axe::AccessibilityExpectation.create(negate).assert @page, is_accessible
+      Axe::AccessibilityExpectation.create(negate).assert @page, is_axe_clean
     end
 
     private

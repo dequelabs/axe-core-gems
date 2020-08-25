@@ -1,9 +1,9 @@
 require "timeout"
 
-require_relative "../../../lib/axe/matchers/be_accessible"
+require_relative "../../../lib/axe/matchers/be_axe_clean"
 
 module Axe::Matchers
-  describe BeAccessible do
+  describe BeAxeClean do
     let(:run) { spy("run", call: audit) }
     let(:audit) { spy("audit") }
     let(:page) { spy("page") }
