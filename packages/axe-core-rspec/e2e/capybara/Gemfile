@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+gem "rspec"
+gem "capybara"
+gem "selenium-webdriver"
+gem "axe-core-api", :path => "../../../axe-core-api"
+gem "axe-core-capybara", :path => "../../../axe-core-capybara"
+gem "axe-core-rspec", :path => "../../"

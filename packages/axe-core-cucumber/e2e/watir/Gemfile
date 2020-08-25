@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+gem "cucumber"
+gem "watir"
+gem "axe-core-api", :path => "../../../axe-core-api"
+gem "axe-core-watir", :path => "../../../axe-core-watir"
+gem "axe-core-cucumber", :path => "../../"

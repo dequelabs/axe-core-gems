@@ -1,0 +1,9 @@
+# rubocop.yml
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+Layout/LineLength:
+  Exclude:
+    - spec/webdriver_script_adapter/execute_async_script_adapter_spec.rb
+    - lib/axe/api/rules.rb
+    - spec/axe/api/results_spec.rb
