@@ -4,11 +4,20 @@ The `axe-core-watir` gem provides a chainable [axe API][] for [Watir][] and auto
 
 ## Usage
 
+- In your Gemfile, add the `axe-core-watir` gem.
+
+```Gemfile
+source "https://rubygems.org"
+
+gem 'axe-core-watir'
+```
+
+- Require `axe-watir` and use the exported member `AxeWatir`.
+
 ```rb
-require 'axe-core-watir'
+require 'axe-watir'
 
 # configure `AxeWatir`
-
 driver = AxeWatir.configure(:firefox) do |c|
   # see below for a full list of configuration 
   c.jslib_path = "next-version/axe.js"
