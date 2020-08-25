@@ -3,19 +3,21 @@ The `axe-core-cucumber` gem provides a custom step defintions to evalaute the ac
 
 ## Usage
 
-1. Install the required gem:
+- In your Gemfile, add the `axe-core-cucumber` gem.
 
-``` gemspec
+```Gemfile
+source "https://rubygems.org"
+
 gem 'axe-core-cucumber'
 ```
 
-2. Require the step defintions:
+- Require `axe-cucumber-steps` to makes all of the axe-cucumber step definitions available to be used directly in your cucumber features.
 
 ``` rb
-require 'axe-core-cucumber-step-definitions'
+require 'axe-cucumber-steps'
 ```
 
-3. Use with webdriver of choice.
+- Use with webdriver of choice.
 
 ## Cucumber Steps
 

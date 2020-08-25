@@ -12,7 +12,7 @@ describe AxeSelenium do
       end
 
       expect(driver).not_to be_nil
-      driver.page.navigate.to "https://google.com" # can navigate
+      driver.page.navigate.to "https://deque.com" # can navigate
       expect(driver).to respond_to :skip_iframes # can config
       expect(driver).to respond_to :jslib
       expect(driver.jslib).to include("axe.run=") # has axe injected
