@@ -27,6 +27,11 @@ All notable changes to this project will be documented in this file. See [standa
 - fix: allow to configure browser as a Symbol argument for webdrivers (#109) [9e116d7](https://github.com/dequelabs/axe-core-gems/commit/9e116d7b38fef5a77efbc503be8bc69c8ac0d9ff) 
 
 
+### BREAKING CHANGES
+
+- **axe-matchers** gem is deprecated. Refer [README](./README.md) for usage instructions on `axe-core-gems`
+
+
 
 ## [2.6.0](https://github.com/dequelabs/axe-core-gems/compare/v2.5.0...v2.6.0) (2020-02-18)
 
