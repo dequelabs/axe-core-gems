@@ -6,7 +6,7 @@ require_relative "../api/run"
 
 module Axe
   module Matchers
-    class BeAccessible
+    class BeAxeClean
       extend Forwardable
       def_delegators :@audit, :failure_message, :failure_message_when_negated
       def_delegators :@run, :within, :excluding, :according_to, :checking, :checking_only, :skipping, :with_options
@@ -29,8 +29,8 @@ module Axe
 
     module_function
 
-    def be_accessible
-      BeAccessible.new
+    def be_axe_clean
+      BeAxeClean.new
     end
   end
 end

@@ -8,7 +8,7 @@ Feature: Example using default Capybara setup
     When I visit "http://abcdcomputech.dequecloud.com/"
 
   Scenario: Test whole page (known to be inaccessible, should fail)
-    Then the page should not be accessible
+    Then the page should not be axe clean
 
   Scenario: Test working sub-tree (should pass)
-    Then the page should be accessible within "#intro"
+    Then the page should be axe clean within "#intro"

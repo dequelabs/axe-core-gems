@@ -21,15 +21,15 @@ require 'axe-core-cucumber-step-definitions'
 
 ### Base Step
 
-The base step `be accessible` is the core component of the step. It is a complete step on its own and will verify the currently loaded page is accessible using the default configuration of [axe.run][axe-run] (the entire document is checked using the default rules).
+The base step `be axe clean` is the core component of the step. It is a complete step on its own and will verify the currently loaded page is axe clean using the default configuration of [axe.run][axe-run] (the entire document is checked using the default rules).
 
 ```gherkin
-Then the page should be accessible
+Then the page should be axe clean
 ```
 
 #### Clauses
 
-Clauses are chainable methods for the `be accessible` custom step.Configurable clauses allows for greater granularity with testing and expectaions.
+Clauses are chainable methods for the `be axe clean` custom step.Configurable clauses allows for greater granularity with testing and expectaions.
 
 ##### `within` - Inclusion clause
 
@@ -37,7 +37,7 @@ The inclusion clause ( `within "#selector"` ) specifies which elements of the pa
 *see additional [context parameter documentation][context-param]*
 
 ``` gherkin
-Then the page should be accessible within "#selector"
+Then the page should be axe clean within "#selector"
 ```
 
 ##### `excluding` - Exclusion clause
@@ -46,14 +46,14 @@ The exclusion clause ( `excluding "#selector"` ) specifies which elements of the
 *see additional [context parameter documentation][context-param]*
 
 ``` gherkin
-Then the page should be accessible excluding "#selector"
+Then the page should be axe clean excluding "#selector"
 ```
 
 If desired, a semicolon ( `;` ) or the word `but` may be used to separate the exclusion clause from the inclusion clause (if present).
 
 ``` gherkin
-Then the page should be accessible within "main"; excluding "aside"
-Then the page should be accessible within "main" but excluding "aside"
+Then the page should be axe clean within "main"; excluding "aside"
+Then the page should be axe clean within "main" but excluding "aside"
 ```
 
 ##### `according to` - Accessibility Standard (Tag) clause
@@ -62,13 +62,13 @@ The tag clause specifies which accessibility standard (or standards) should be u
 The acceptable [tag names are documented][options-param] as well as a [complete listing of rules][rules] that correspond to each tag.
 
 ``` gherkin
-Then the page should be accessible according to: tag-name
+Then the page should be axe clean according to: tag-name
 ```
 
 If desired, a semicolon ( `;` ) may be used to separate the tag clause from the preceding clause.
 
 ``` gherkin
-Then the page should be accessible within "#header"; according to: best-practice
+Then the page should be axe clean within "#header"; according to: best-practice
 ```
 
 ##### `checking` - Checking Rules clause
@@ -76,7 +76,7 @@ Then the page should be accessible within "#header"; according to: best-practice
 The checking-rules clause specifies which *additional* rules to run (in addition to the specified tags, if any, or the default ruleset). The rules are specified by comma-separated rule IDs.
 
 ``` gherkin
-Then the page should be accessible checking: ruleId
+Then the page should be axe clean checking: ruleId
 ```
 
 *see [rules documentation][rules] for a list of valid rule IDs*
@@ -84,8 +84,8 @@ Then the page should be accessible checking: ruleId
 If desired, a semicolon ( `;` ) or the word `and` may be used to separate the checking-rules clause from the preceding clause.
 
 ``` gherkin
-Then the page should be accessible according to: wcag2a; checking: color-contrast
-Then the page should be accessible according to: wcag2a and checking: color-contrast
+Then the page should be axe clean according to: wcag2a; checking: color-contrast
+Then the page should be axe clean according to: wcag2a and checking: color-contrast
 ```
 
 ##### `checking only` - Exclusive Rules clause
@@ -93,7 +93,7 @@ Then the page should be accessible according to: wcag2a and checking: color-cont
 This clause is not really a separate clause. But rather, by adding the word `only` to the checking-rules clause, the meaning of the step can be changed. As described above, by default the checking-rules clause specifies *additional* rules to run. If the word `only` is used, then *only* the specified rules are checked.
 
 ``` gherkin
-Then the page should be accessible checking only: ruleId
+Then the page should be axe clean checking only: ruleId
 ```
 
 ##### `skipping` - Skipping Rules clause
@@ -101,7 +101,7 @@ Then the page should be accessible checking only: ruleId
 The skipping-rules clause specifies which rules to skip. This allows an accessibility standard to be provided (via the tag clause) while ignoring a particular rule. The rules are specified by comma-separated rule IDs.
 
 ``` gherkin
-Then the page should be accessible skipping: ruleId
+Then the page should be axe clean skipping: ruleId
 ```
 
 *see [rules documentation][rules] for a list of valid rule IDs*
@@ -109,8 +109,8 @@ Then the page should be accessible skipping: ruleId
 If desired, a semicolon ( `;` ) or the word `but` may be used to separate the skipping-rules clause from the preceding clause.
 
 ``` gherkin
-Then the page should be accessible according to: wcag2a; skipping: accesskeys
-Then the page should be accessible according to: wcag2a but skipping: accesskeys
+Then the page should be axe clean according to: wcag2a; skipping: accesskeys
+Then the page should be axe clean according to: wcag2a but skipping: accesskeys
 ```
 
 ##### Interoperability between clauses
@@ -118,13 +118,13 @@ Then the page should be accessible according to: wcag2a but skipping: accesskeys
 All of the described clauses may be mixed and matched with method chaining. Below are some examples.
 
 ``` gherkin
-Then the page should be accessible within "main, header" but excluding "footer"
+Then the page should be axe clean within "main, header" but excluding "footer"
 
-Then the page should be accessible excluding "#sidebar" according to: wcag2a, wcag2aa but skipping: color-contrast
+Then the page should be axe clean excluding "#sidebar" according to: wcag2a, wcag2aa but skipping: color-contrast
 
-Then the page should be accessible checking only: document-title, label
+Then the page should be axe clean checking only: document-title, label
 
-Then the page should be accessible according to: best-practice and checking: aria-roles, definition-list
+Then the page should be axe clean according to: best-practice and checking: aria-roles, definition-list
 ```
 
 [inclusion-clause]: #inclusion-clause
