@@ -11,7 +11,6 @@ commands:
     steps:
       - checkout
       - run: gem install bundler # setup bundler
-      - run: bash ./.circleci/install-geckodriver.sh # install geckodriver
       - run:
           name: Install geckodriver
           command: |
