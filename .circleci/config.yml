@@ -56,6 +56,19 @@ jobs:
       - bootstrap
       - run: bash .circleci/publish.sh
 
+  github_release:
+    docker:
+      - image: circleci/golang:1.8
+    steps:
+      - checkout
+      - run: go get gopkg.in/aktau/github-release.v0
+      - run:
+          name: Download and run GitHub release script
+          command: |
+            curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/ruby-github-release.sh -s -o ./ruby-github-release.sh
+            chmod +x ./ruby-github-release.sh
+            ./ruby-github-release.sh
+
 workflows:
   version: 2
   build:
@@ -71,6 +84,12 @@ workflows:
       - production_release:
           requires:
             - test
+          filters:
+            branches:
+              only: master
+      - github_release:
+          requires:
+            - production_release
           filters:
             branches:
               only: master
