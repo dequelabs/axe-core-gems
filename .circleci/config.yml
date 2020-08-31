@@ -3,9 +3,6 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: circleci/ruby:2.5.3-node-browsers
-      environment:
-        FIREFOX_VERSION: 68.0.1
-        GECKODRIVER_VERSION: 0.24.0
   working_directory: ~/axe-core-gems
 
 commands:
@@ -14,7 +11,12 @@ commands:
     steps:
       - checkout
       - run: gem install bundler # setup bundler
-      - run: bash ./.circleci/install-geckodriver.sh # install geckodriver
+      - run:
+          name: Install geckodriver
+          command: |
+            curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/install-geckodriver.sh -s -o ./install-geckodriver.sh
+            chmod +x ./install-geckodriver.sh
+            ./install-geckodriver.sh 0.24.0
       - run: rake bootstrap # bootstrap packages
 
 jobs:
