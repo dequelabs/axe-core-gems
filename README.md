@@ -1,6 +1,6 @@
 # axe-core-gems
 
-This repository contains 6 pacakges/ gems, which can be used for automated accesibility testing powered by [axe core][axe-core].
+This repository contains 6 packages/ gems, which can be used for automated accessibility testing powered by [axe core][axe-core].
 
 The gems are as below:
 - [`axe-core-api`](./packages/axe-core-api/README.md)
