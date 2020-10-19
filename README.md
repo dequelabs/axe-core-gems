@@ -1,5 +1,7 @@
 # axe-core-gems
 
+[![Join our Slack chat](https://img.shields.io/badge/slack-chat-purple.svg?logo=slack)](https://accessibility.deque.com/axe-community)
+
 This repository contains 6 pacakges/ gems, which can be used for automated accesibility testing powered by [axe core][axe-core].
 
 The gems are as below:
