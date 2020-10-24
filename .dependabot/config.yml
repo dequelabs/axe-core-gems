@@ -1,6 +1,16 @@
 version: 1
 update_configs:
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
   - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-api"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "javascript"
     directory: "/packages/axe-core-api"
     update_schedule: "weekly"
     default_labels:
