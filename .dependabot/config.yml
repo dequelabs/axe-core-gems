@@ -1,0 +1,57 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-api"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "javascript"
+    directory: "/packages/axe-core-api"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-capybara"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-cucumber"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-cucumber/e2e/capybara"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-cucumber/e2e/watir"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-rspec"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-rspec/e2e/capybara"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-selenium"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
+  - package_manager: "ruby:bundler"
+    directory: "/packages/axe-core-watir"
+    update_schedule: "weekly"
+    default_labels:
+      - "axe_api_deps_bot"
