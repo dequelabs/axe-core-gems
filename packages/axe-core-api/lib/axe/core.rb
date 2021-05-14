@@ -31,6 +31,7 @@ module Axe
     end
 
     def wrap_driver(driver)
+      driver = driver.driver if driver.respond_to? :driver
       ::WebDriverScriptAdapter::QuerySelectorAdapter.wrap(
         ::WebDriverScriptAdapter::FrameAdapter.wrap(
           ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap(
