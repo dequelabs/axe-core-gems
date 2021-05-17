@@ -26,7 +26,7 @@ module Axe
     # init
     def initialize
       @page = :page
-      @skip_iframes = :skip_iframes
+      @skip_iframes = nil
       @jslib_path = get_root + "/node_modules/axe-core/axe.min.js"
     end
 
