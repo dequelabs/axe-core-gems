@@ -12,8 +12,5 @@
   },
   "devDependencies": {
     "standard-version": "^9.0.0"
-  },
-  "dependencies": {
-    "axe-core": "^4.2.1"
   }
 }
