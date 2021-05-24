@@ -1,6 +1,29 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [4.1.0](https://github.com/dequelabs/axe-core-gems/compare/v4.0.0...v4.1.0) (2021-05-20)
+
+
+### Features
+
+* bump axe-core to 4.2.0 ([#181](https://github.com/dequelabs/axe-core-gems/issues/181)) ([2bf4a90](https://github.com/dequelabs/axe-core-gems/commit/2bf4a90c7785cd9245da6a0774903b940d05f87d))
+* bump axe-core to v4.1.2 ([#172](https://github.com/dequelabs/axe-core-gems/issues/172)) ([f26d625](https://github.com/dequelabs/axe-core-gems/commit/f26d6255712c2ccbb90ef77c129411ff432cb0cc))
+* update axe-core to 4.2.1 ([#187](https://github.com/dequelabs/axe-core-gems/issues/187)) ([a8e5044](https://github.com/dequelabs/axe-core-gems/commit/a8e5044acce9c4c758d5ba71a7f14fc14b62094d))
+
+
+### Bug Fixes
+
+* correctly run on iframes ([#185](https://github.com/dequelabs/axe-core-gems/issues/185)) ([c46720b](https://github.com/dequelabs/axe-core-gems/commit/c46720b72ac42a34d57cf14531e50ccf659914d3))
+
+## [4.1.0](https://github.com/dequelabs/axe-core-gems/compare/v4.0.0...v4.1.0) (2020-11-18)
+
+
+### Features
+
+* Update axe-core to v4.1.0
+
+
 
 # [4.0.0](https://github.com/dequelabs/axe-core-gems/compare/v2.6.0...v4.0.0) (2020-08-25)
 
