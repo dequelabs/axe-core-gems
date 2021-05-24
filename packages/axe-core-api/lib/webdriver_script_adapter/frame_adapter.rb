@@ -3,7 +3,7 @@ require "dumb_delegator"
 module WebDriverScriptAdapter
   class FrameAdapter < ::DumbDelegator
     def self.wrap(driver)
-      if driver.respond_to?(:within_frame)
+      if driver.respond_to?(:find_css)
         CapybaraAdapter.new driver
       elsif !driver.respond_to?(:switch_to)
         WatirAdapter.new driver
@@ -16,20 +16,19 @@ module WebDriverScriptAdapter
 
     private
 
-    class CapybaraAdapter < ::DumbDelegator
-      def find_frames
-        all(:css, "iframe")
-      end
-    end
-
     class WatirAdapter < ::DumbDelegator
+      def initialize(driver)
+        super(driver)
+        @driver = driver
+      end
+
       # delegate to Watir's Selenium #driver
       def within_frame(frame, &block)
-        SeleniumAdapter.instance_method(:within_frame).bind(FrameAdapter.wrap driver).call(frame, &block)
+        SeleniumAdapter.instance_method(:within_frame).bind(FrameAdapter.wrap @driver).call(frame, &block)
       end
 
       def find_frames
-        driver.find_elements(:css, "iframe")
+        find_elements(:css, "iframe")
       end
     end
 
@@ -56,6 +55,41 @@ module WebDriverScriptAdapter
         find_elements(:css, "iframe")
       end
     end
+
+    class CapybaraAdapter < ::DumbDelegator
+      def initialize(driver)
+        super(driver)
+        @driver = driver
+      end
+
+      def within_frame(frame)
+        # Patch the `Symbol` class to respond to the :native method.
+        # Will be fixed in https://github.com/teamcapybara/capybara/pull/2462
+        (:parent).class.define_method(:native) do
+          nil
+        end
+        switch_to_frame frame
+        yield
+      ensure
+        begin
+          switch_to_frame :parent
+        rescue => e
+          if /switchToParentFrame|frame\/parent/.match(e.message)
+            ::Kernel.warn "WARNING:
+            This browser only supports first-level iframes.
+            Second-level iframes and beyond will not be audited.
+            To skip auditing all iframes,
+            set Axe::Configuration#skip_iframes=true"
+          end
+          switch_to_frame :top
+        end
+      end
+
+      def find_frames
+        find_css("iframe")
+      end
+    end
+
 
     # Selenium Webdriver < 2.43 doesnt support moving back to the parent
     class ParentlessFrameAdapter < ::DumbDelegator

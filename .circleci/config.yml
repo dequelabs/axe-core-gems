@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.5.3-node-browsers
+    - image: circleci/ruby:2.6.1-node-browsers
   working_directory: ~/axe-core-gems
 
 commands:
@@ -60,7 +60,7 @@ jobs:
 
   github_release:
     docker:
-      - image: circleci/golang:1.8
+      - image: cimg/go:1.13
     steps:
       - checkout
       - run: go get gopkg.in/aktau/github-release.v0

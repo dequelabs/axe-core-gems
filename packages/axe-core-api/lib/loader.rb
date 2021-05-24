@@ -10,6 +10,7 @@ module Common
 
     def call(source)
       @page.execute_script source
+      @page.execute_script "axe.configure({ allowedOrigins: ['<unsafe_all_origins>'] });"
       Common::Hooks.run_after_load @lib
       load_into_iframes(source) unless Axe::Configuration.instance.skip_iframes
     end

@@ -5,5 +5,13 @@ require "axe-capybara"
 # definitions available to be used directly in your cucumber features.
 require "axe-cucumber-steps"
 # configure `AxeCapybara`
-@page = AxeCapybara.configure(:firefox) do |c|
+Before do
+  # configure AxeWatir
+  @driver = AxeCapybara.configure(:firefox) do |c|
+  end
+end
+
+# close browser when done
+After do
+  @driver.page.browser.close
 end
