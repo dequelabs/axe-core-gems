@@ -12,7 +12,7 @@ describe "ABCD CompuTech (RSpec DSL)",
   end
 
   it "is known to have an accessible sub-tree (should pass)" do
-    expect(page).to be_axe_clean.within "#header"
+    expect(page).to be_axe_clean.within "#topnav"
   end
 
   it "is known to have an inaccessible sub-tree (should fail)" do
