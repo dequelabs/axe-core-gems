@@ -11,4 +11,4 @@ Feature: Example using default Capybara setup
     Then the page should not be axe clean
 
   Scenario: Test working sub-tree (should pass)
-    Then the page should be axe clean within "#intro"
+    Then the page should be axe clean within "#topnav"
