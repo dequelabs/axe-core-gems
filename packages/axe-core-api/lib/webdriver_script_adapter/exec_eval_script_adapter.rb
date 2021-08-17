@@ -23,9 +23,10 @@ module WebDriverScriptAdapter
     end
 
     def execute_script_fixed(script, *args)
+      puts "EXEC SC FIX"
+      puts self.class.to_s
+      puts __getobj__.class.to_s
       page = __getobj__
-      page = page.driver if page.respond_to?("driver")
-      page = page.browser if page.respond_to?("browser")
       page.execute_script(script, *args)
     end
   end
@@ -33,7 +34,7 @@ module WebDriverScriptAdapter
     def execute_script_fixed(script, *args)
       page = __getobj__
       page = page.driver if page.respond_to?("driver")
-      page = page.browser if page.respond_to?("browser")
+      page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
       page.execute_script(script, *args)
     end
   end

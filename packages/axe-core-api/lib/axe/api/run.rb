@@ -50,20 +50,17 @@ module Axe
       end
 
       def switch_to_frame_by_handle(page, handle)
-        page = page.driver if page.respond_to?("driver")
-        page = page.browser if page.respond_to?("browser")
+        page = get_selenium page
         page.switch_to.frame handle
       end
 
       def switch_to_frame_by_handle(page)
-        page = page.driver if page.respond_to?("driver")
-        page = page.browser if page.respond_to?("browser")
+        page = get_selenium page
         page.switch_to.parent_frame
       end
 
       def within_about_blank_context(page)
-        page = page.driver if page.respond_to?("driver")
-        page = page.browser if page.respond_to?("browser")
+        page = get_selenium page
 
         page.execute_script("window.open('about:blank'), '_blank'")
         page.switch_to.window page.window_handles[-1]
@@ -77,9 +74,10 @@ module Axe
         ret
       end
       def window_handle(page)
-        page = page.driver if page.respond_to?("driver")
-        page = page.browser if page.respond_to?("browser")
-        page.window_handle
+        page = get_selenium page
+
+        return page.window_handle if page.respond_to?("window_handle")
+        page.current_window_handle
       end
 
       def run_partial_recursive(page, context, lib, top_level = false)
@@ -119,7 +117,7 @@ module Axe
           const partialResults = arguments[0];
           return axe.finishRun(partialResults);
         JS
-        page.execute_script script, partial_results
+        page.execute_script_fixed script, partial_results
       end
 
       def axe_shadow_select(page, frame_selector)
@@ -170,6 +168,11 @@ module Axe
         page.execute_script_fixed script, @context
       end
 
+      def get_selenium(page)
+        page = page.driver if page.respond_to?("driver")
+        page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
+        page
+      end
 
       def js_args
         [@context, @options]
