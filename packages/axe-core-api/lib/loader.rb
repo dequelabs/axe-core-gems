@@ -12,6 +12,7 @@ module Common
     def load_top_level(source)
       @page.execute_script source
       @loaded_top_level = true
+      Common::Hooks.run_after_load @lib
     end
 
     def call(source, is_top_level = true)
