@@ -17,12 +17,13 @@ module Axe
       end
 
       def to_hash
-        { include: @inclusion, exclude: @exclusion }
-          .reject { |k, v| v.empty? }
+        h = { exclude: @exclusion }
+        h["include"]= @inclusion unless @inclusion.empty?
+        h
       end
 
-      def to_json
-        to_hash.to_json
+      def to_json(options = nil)
+        to_hash.to_json options
       end
 
       def empty?

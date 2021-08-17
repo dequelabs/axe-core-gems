@@ -84,6 +84,13 @@ module WebDriverScriptAdapter
       execute_script ScriptWriter.async_wrapper(script, *args, ScriptWriter.callback(results))
       Patiently.wait_until { evaluate_script results }
     end
+
+    def execute_async_script_fixed(script, *args)
+      page = __getobj__
+      page = page.driver if page.respond_to?("driver")
+      page = page.browser if page.respond_to?("browser")
+      page.execute_async_script(script, *args)
+    end
   end
 
   configure do |c|
