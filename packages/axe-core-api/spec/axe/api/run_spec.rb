@@ -68,7 +68,7 @@ module Axe::API
 
       it "should execute the axe.run JS method" do
         subject.call(page)
-        expect(page).to have_received(:execute_async_script).with("axe.run.apply(axe, arguments)")
+        expect(page).to have_received(:execute_async_script).with(/axe.run/, anything)
       end
 
       it "should return an audit" do
@@ -82,7 +82,7 @@ module Axe::API
       end
 
       it "should include the original invocation string" do
-        expect(Audit).to receive(:new).with("axe.run(callback);", instance_of(Results))
+        expect(Audit).to receive(:new).with(/axe.run/, instance_of(Results))
         subject.call(page)
       end
     end
