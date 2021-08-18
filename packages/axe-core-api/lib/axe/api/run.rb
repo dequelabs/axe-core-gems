@@ -60,16 +60,16 @@ module Axe
       end
 
       def within_about_blank_context(page)
-        page = get_selenium page
+        driver = get_selenium page
 
-        page.execute_script("window.open('about:blank'), '_blank'")
-        page.switch_to.window page.window_handles[-1]
+        driver.execute_script("window.open('about:blank'), '_blank'")
+        driver.switch_to.window page.window_handles[-1]
 
         ret = yield page
 
-        page.switch_to.window page.window_handles[-1]
-        page.close
-        page.switch_to.window @original_window
+        driver.switch_to.window page.window_handles[-1]
+        driver.close
+        driver.switch_to.window @original_window
 
         ret
       end
