@@ -24,6 +24,7 @@ jobs:
     <<: *defaults
     steps:
       - bootstrap
+      - run: git submodule update --init --recursive
       # unit test - API
       - run: rake test_unit\[axe-core-api\]
       # unit test - webdrivers
@@ -45,6 +46,11 @@ jobs:
       - run: |
           cd packages/axe-core-cucumber && cd e2e/watir
           bundle install && bundle exec cucumber
+      # e2e test - selenium, axe 4.3.x
+      - run: |
+          cd packages/axe-core-api/e2e/selenium
+          cd axe-test-fixtures/fixtures && python -m http.server &
+          bundle install && bundle exec rspec
 
   canary_release:
     <<: *defaults
