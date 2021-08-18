@@ -23,9 +23,6 @@ module WebDriverScriptAdapter
     end
 
     def execute_script_fixed(script, *args)
-      puts "EXEC SC FIX"
-      puts self.class.to_s
-      puts __getobj__.class.to_s
       page = __getobj__
       page.execute_script(script, *args)
     end

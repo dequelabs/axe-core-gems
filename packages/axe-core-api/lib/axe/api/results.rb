@@ -10,6 +10,7 @@ module Axe
         attribute :incomplete, ::Array[Rule]
         attribute :passes, ::Array[Rule]
         attribute :timestamp
+        attribute :testEngine
         attribute :url, ::String
         attribute :violations, ::Array[Rule]
       end
@@ -28,6 +29,7 @@ module Axe
           inapplicable: inapplicable.map(&:to_h),
           incomplete: incomplete.map(&:to_h),
           passes: passes.map(&:to_h),
+          testEngine: testEngine,
           timestamp: timestamp,
           url: url,
           violations: violations.map(&:to_h),

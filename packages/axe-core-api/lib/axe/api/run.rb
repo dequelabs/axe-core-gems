@@ -54,7 +54,7 @@ module Axe
         page.switch_to.frame handle
       end
 
-      def switch_to_frame_by_handle(page)
+      def switch_to_parent_frame(page)
         page = get_selenium page
         page.switch_to.parent_frame
       end
@@ -81,34 +81,43 @@ module Axe
       end
 
       def run_partial_recursive(page, context, lib, top_level = false)
-        if not top_level
-          Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
-        end
+        begin
+          if not top_level
+            Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
+          end
 
-        frame_contexts = get_frame_context_script page
-        if frame_contexts.respond_to?("key?") and frame_contexts.key?("errorMessage")
-          throw frame_contexts if top_level
-          return [nil]
-        end
+          frame_contexts = get_frame_context_script page
+          puts "contexts"
+          puts frame_contexts
+          if frame_contexts.respond_to?("key?") and frame_contexts.key?("errorMessage")
+            throw frame_contexts if top_level
+            return [nil]
+          end
 
-        res = axe_run_partial page
-        if res.key?("errorMessage")
-          throw res if top_level
-          return [nil]
-        else
-          results = [res]
-        end
+          res = axe_run_partial page
+          if res.key?("errorMessage")
+            throw res if top_level
+            return [nil]
+          else
+            results = [res]
+          end
 
-        for frame_context in frame_contexts
-          frame_selector = frame_context["frameSelector"]
-          frame_context = frame_context["frameContext"]
-          frame = axe_shadow_select page, frame_selector
-          switch_to_frame_by_handle page, frame
-          res = run_partial_recursive page, frame_context, lib
-          results += res
-        end
+          puts "iterating over #{frame_contexts.length} contexts"
+          for frame_context in frame_contexts
+            frame_selector = frame_context["frameSelector"]
+            frame_context = frame_context["frameContext"]
+            puts 'selector'
+            puts frame_selector
+            frame = axe_shadow_select page, frame_selector
+            switch_to_frame_by_handle page, frame
+            res = run_partial_recursive page, frame_context, lib
+            results += res
+          end
 
-        switch_to_parent_frame if not top_level
+          puts "switching to parent"
+        ensure
+          switch_to_parent_frame page if not top_level
+        end
         return results
       end
 
@@ -125,7 +134,7 @@ module Axe
           const frameSelector = arguments[0];
           return axe.utils.shadowSelect(frameSelector);
         JS
-        page.execute_script_fixed page, script, frame_selector
+        page.execute_script_fixed script, frame_selector
       end
 
       def axe_run_partial(page)
