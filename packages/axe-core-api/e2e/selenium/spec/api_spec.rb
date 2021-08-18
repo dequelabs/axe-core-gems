@@ -2,7 +2,7 @@
 require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
-$driver = Selenium::WebDriver.for :chrome
+$driver = Selenium::WebDriver.for :firefox
 
 def run_axe
   Axe::Core.new($driver).call Axe::API::Run.new
