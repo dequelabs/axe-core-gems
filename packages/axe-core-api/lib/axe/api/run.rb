@@ -87,8 +87,6 @@ module Axe
           end
 
           frame_contexts = get_frame_context_script page
-          puts "contexts"
-          puts frame_contexts
           if frame_contexts.respond_to?("key?") and frame_contexts.key?("errorMessage")
             throw frame_contexts if top_level
             return [nil]
@@ -102,19 +100,15 @@ module Axe
             results = [res]
           end
 
-          puts "iterating over #{frame_contexts.length} contexts"
           for frame_context in frame_contexts
             frame_selector = frame_context["frameSelector"]
             frame_context = frame_context["frameContext"]
-            puts 'selector'
-            puts frame_selector
             frame = axe_shadow_select page, frame_selector
             switch_to_frame_by_handle page, frame
             res = run_partial_recursive page, frame_context, lib
             results += res
           end
 
-          puts "switching to parent"
         ensure
           switch_to_parent_frame page if not top_level
         end

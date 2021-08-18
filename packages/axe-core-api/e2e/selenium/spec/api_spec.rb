@@ -3,7 +3,6 @@ require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
 $driver = Selenium::WebDriver.for :chrome
-puts $driver.methods
 
 def run_axe
   Axe::Core.new($driver).call Axe::API::Run.new
@@ -113,7 +112,6 @@ describe "frame tests" do
     res = run_axe
     expect(res.results.violations).not_to be_empty
     label_vio = res.results.violations.find { |vio| vio.id == :label }
-    puts res.results.violations.map { |vio| vio.id }
     expect(label_vio).not_to be_nil
     expect(label_vio.nodes.length).to be 3
     expect(label_vio.nodes[0].target).to contain_exactly(
