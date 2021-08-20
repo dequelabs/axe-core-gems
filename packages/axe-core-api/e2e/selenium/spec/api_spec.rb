@@ -10,7 +10,7 @@ end
 
 axe_pre_43x_file = File.join __dir__, "..", "axe-4.2.3.js"
 $axe_pre_43x = File.read axe_pre_43x_file
-$fixture_root = File.join __dir__, "..", "axe-test-fixtures", "fixtures"
+$fixture_root = File.join __dir__, "..", "..", "..", "..", "..", "node_modules", "axe-test-fixtures", "fixtures"
 $axe_post_43x = Axe::Configuration.instance.jslib
 $crasher_js = File.read File.join($fixture_root, "axe-crasher.js")
 

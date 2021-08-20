@@ -1,3 +1,0 @@
-[submodule "packages/axe-core-api/e2e/selenium/axe-test-fixtures"]
-	path = packages/axe-core-api/e2e/selenium/axe-test-fixtures
-	url = git@github.com:dequelabs/axe-test-fixtures
