@@ -64,6 +64,7 @@ module Axe
 
         driver.execute_script("window.open('about:blank'), '_blank'")
         driver.switch_to.window page.window_handles[-1]
+        driver.get "about:blank"
 
         ret = yield page
 
