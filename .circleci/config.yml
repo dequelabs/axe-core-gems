@@ -48,6 +48,7 @@ jobs:
           bundle install && bundle exec cucumber
       # e2e test - selenium, axe 4.3.x
       - run: |
+          npm i
           cd packages/axe-core-api/e2e/selenium
           cd node_modules/axe-test-fixtures/fixtures && python3 -m http.server &
           sleep 1 # Just wait a bit for the http server to startup
