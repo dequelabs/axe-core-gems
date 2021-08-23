@@ -46,6 +46,11 @@ describe "Crashes" do
       expect { run_axe }.to raise_error /is not a function/
     }
   end
+
+  it "isolates axe.finishRun" do
+    $driver.get fixture "/isolated-finish.html"
+    expect { run_axe }.not_to raise_error
+  end
 end
 
 describe "frame tests" do
