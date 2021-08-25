@@ -84,7 +84,12 @@ module Axe
       def run_partial_recursive(page, context, lib, top_level = false)
         begin
           if not top_level
-            Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
+            begin
+              Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
+            rescue
+              return [nil]
+            end
+
           end
 
           frame_contexts = get_frame_context_script page
