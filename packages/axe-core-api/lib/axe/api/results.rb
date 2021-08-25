@@ -11,6 +11,9 @@ module Axe
         attribute :passes, ::Array[Rule]
         attribute :timestamp
         attribute :testEngine
+        attribute :testEnvironment
+        attribute :testRunner
+        attribute :toolOptions
         attribute :url, ::String
         attribute :violations, ::Array[Rule]
       end
