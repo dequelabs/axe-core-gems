@@ -9,7 +9,7 @@ module Axe
         attribute :inapplicable, ::Array[Rule]
         attribute :incomplete, ::Array[Rule]
         attribute :passes, ::Array[Rule]
-        attribute :timestamp
+        attribute :timestamp, :writer => :public
         attribute :testEngine
         attribute :testEnvironment
         attribute :testRunner
@@ -38,6 +38,11 @@ module Axe
           violations: violations.map(&:to_h),
         }
       end
+
+      def timestamp=(ts)
+        timestamp = ts
+      end
+
 
       private
 

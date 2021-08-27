@@ -24,7 +24,6 @@ jobs:
     <<: *defaults
     steps:
       - bootstrap
-      - run: git submodule update --init --recursive
       # unit test - API
       - run: rake test_unit\[axe-core-api\]
       # unit test - webdrivers
