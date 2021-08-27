@@ -9,7 +9,7 @@ module Axe
         attribute :inapplicable, ::Array[Rule]
         attribute :incomplete, ::Array[Rule]
         attribute :passes, ::Array[Rule]
-        attribute :timestamp, :writer => :public
+        attribute :timestamp
         attribute :testEngine
         attribute :testEnvironment
         attribute :testRunner
