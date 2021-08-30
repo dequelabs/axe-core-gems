@@ -213,3 +213,20 @@ describe "metadata" do
     expect(res.results.url).to eq(fixture "/index.html")
   end
 end
+
+describe "run vs runPartial" do
+  it "should return the same results" do
+    $driver.get fixture "/nested-iframes.html"
+    legacy_res = with_js($axe_post_43x + $force_legacy_js) { run_axe }
+    expect(legacy_res.results.testEngine["name"]).to eq "axe-legacy"
+
+    $driver.get fixture "/nested-iframes.html"
+    normal_res = with_js($axe_post_43x) { run_axe }
+    normal_res.results.timestamp = legacy_res.results.timestamp
+    normal_res.results.testEngine["name"] = legacy_res.results.testEngine["name"]
+
+    expect(normal_res.results.violations).to eq legacy_res.results.violations
+    expect(normal_res.results.passes).to eq legacy_res.results.passes
+
+  end
+end
