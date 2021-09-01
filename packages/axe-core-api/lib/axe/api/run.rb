@@ -50,16 +50,13 @@ module Axe
           var callback = arguments[arguments.length - 1];
           var context = arguments[0] || document;
           var options = arguments[1] || {};
-          var p = #{METHOD_NAME}(context, options);
-          if (p) {
-            p.then(res => callback(res));
-          }
+          #{METHOD_NAME}(context, options).then(callback);
         JS
           # var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
 
         # yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
         # "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)"
-        yield page.execute_async_script script, *js_args
+        yield page.execute_async_script_fixed script, @context.to_hash, @options.to_hash
       end
 
       def switch_to_frame_by_handle(page, handle)
@@ -198,8 +195,7 @@ module Axe
 
       def js_args
         [@context, @options]
-          .reject(&:empty?)
-          .map(&:to_json)
+          .map(&:to_hash)
       end
 
       def to_js
