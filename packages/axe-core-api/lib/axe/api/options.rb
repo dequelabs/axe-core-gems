@@ -14,6 +14,10 @@ module Axe
         @custom = {}
       end
 
+      def to_h
+        to_hash
+      end
+
       def to_hash
         @rules.to_hash.merge(@custom)
       end

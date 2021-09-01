@@ -27,9 +27,8 @@ module Axe
       end
 
       def call(page)
-        audit page do |results|
-          Audit.new to_js, Results.new(results)
-        end
+        results = audit page
+        Audit.new to_js, Results.new(results)
       end
 
       def analyze_post_43x(page, lib)
@@ -52,11 +51,7 @@ module Axe
           var options = arguments[1] || {};
           #{METHOD_NAME}(context, options).then(callback);
         JS
-          # var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
-
-        # yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
-        # "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)"
-        yield page.execute_async_script_fixed script, @context.to_hash, @options.to_hash
+        page.execute_async_script_fixed script, *js_args
       end
 
       def switch_to_frame_by_handle(page, handle)
@@ -195,7 +190,7 @@ module Axe
 
       def js_args
         [@context, @options]
-          .map(&:to_hash)
+          .map(&:to_h)
       end
 
       def to_js
