@@ -189,7 +189,7 @@ describe "frame tests" do
 end
 
 describe "for versions without axe.runPartial" do
-  it "can run" do
+  it "can run", :oldaxe => true do
     $driver.get fixture "/nested-iframes.html"
     res = with_js($axe_pre_43x) { run_axe }
 
@@ -200,14 +200,14 @@ describe "for versions without axe.runPartial" do
     expect(label_vio.nodes.length).to be 4
   end
 
-  it "throws if the top level errors" do
+  it "throws if the top level errors", :oldaxe => true do
     $driver.get fixture "/crash.html"
     with_js($axe_pre_43x + $crasher_js) {
       expect { run_axe }.to raise_error /Boom!/
     }
   end
 
-  it "reports frame-tested" do
+  it "reports frame-tested", :oldaxe => true do
     $driver.get fixture "/crash-parent.html"
     res = with_js($axe_pre_43x + $crasher_js) { run_axe }
 
@@ -244,11 +244,12 @@ end
 
 
 describe "run vs runPartial" do
-  it "should return the same results" do
+  it "should return the same results", :oldaxe => true do
     $driver.get fixture "/nested-iframes.html"
     legacy_res = with_js($axe_post_43x + $force_legacy_js) { run_axe }
     expect(legacy_res.results.testEngine["name"]).to eq "axe-legacy"
 
+    $driver.get "about:blank"
     $driver.get fixture "/nested-iframes.html"
     normal_res = with_js($axe_post_43x) { run_axe }
     normal_res.results.timestamp = legacy_res.results.timestamp

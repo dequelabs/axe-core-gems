@@ -52,7 +52,7 @@ module Axe
           var options = arguments[1];
           var p = #{METHOD_NAME}(context, options);
           if (p) {
-            p.then(callback);
+            p.then(res => callback(res));
           }
         JS
           # var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
