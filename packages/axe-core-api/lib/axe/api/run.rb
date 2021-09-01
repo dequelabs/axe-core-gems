@@ -48,14 +48,14 @@ module Axe
       def audit(page)
         script = <<-JS
           var callback = arguments[arguments.length - 1];
-          var callback = arguments[arguments.length - 1];
           context = arguments[0] || document;
           var options = arguments[1];
-          var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
+          var p = #{METHOD_NAME}(context, options);
           if (p) {
             p.then(callback);
           }
         JS
+          # var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
 
         # yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
         # "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)"
