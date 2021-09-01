@@ -3,7 +3,10 @@ require "json" #TODO: REMOVE
 require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
-$driver = Selenium::WebDriver.for :firefox
+
+options = Selenium::WebDriver::Firefox::Options.new
+options.add_argument('--headless')
+$driver = Selenium::WebDriver.for :firefox, options: options
 
 def run_axe
   Axe::Core.new($driver).call Axe::API::Run.new

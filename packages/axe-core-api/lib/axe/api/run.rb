@@ -122,7 +122,6 @@ module Axe
           for frame_context in frame_contexts
             frame_selector = frame_context["frameSelector"]
             frame_context = frame_context["frameContext"]
-            puts "ctxt", frame_context
             frame = axe_shadow_select page, frame_selector
             switch_to_frame_by_handle page, frame
             res = run_partial_recursive page, frame_context, lib
