@@ -1,4 +1,5 @@
 # Typical example using standard RSpec dsl
+require "json" #TODO: REMOVE
 require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
@@ -24,6 +25,30 @@ def with_js(axe_source)
   ret = yield
   Axe::Configuration.instance.jslib = $axe_post_43x
   ret
+end
+
+# The ruby selenium driver differentiates between a JS property on an object being
+# `undefined` and not existing at all (e.g. the property `shadowColor` in `{color: 'red'}` vs `{color: 'red', shadowColor: undefined}`).
+# When using `run` the axe-core inter-frame messaging removes the `{shadowColor: undefined}`
+# so that we don't even see them in ruby world.
+# `runPartail` on the other hand correctly gives us the `undefined` property (converted into `None`).
+# Since we don't use the difference between `undefined` and `null` in axe-core (both are converted into `None`),
+# just remove all `None`s so the `undefined` vs non-existent difference is removed.
+# https://stackoverflow.com/a/65082546
+def recursive_compact(thing)
+  if thing.is_a?(Array)
+    thing.each_with_object([]) do |v, a|
+      v = recursive_compact(v)
+      a << v unless [nil, [], {}].include?(v)
+    end
+  elsif thing.is_a?(Hash)
+    thing.each_with_object({}) do |(k,v), h|
+      v = recursive_compact(v)
+      h[k] = v unless [nil, [], {}].include?(v)
+    end
+  else
+    thing
+  end
 end
 
 describe "Crashes" do
@@ -214,6 +239,7 @@ describe "metadata" do
   end
 end
 
+
 describe "run vs runPartial" do
   it "should return the same results" do
     $driver.get fixture "/nested-iframes.html"
@@ -225,8 +251,6 @@ describe "run vs runPartial" do
     normal_res.results.timestamp = legacy_res.results.timestamp
     normal_res.results.testEngine["name"] = legacy_res.results.testEngine["name"]
 
-    expect(normal_res.results.violations).to eq legacy_res.results.violations
-    expect(normal_res.results.passes).to eq legacy_res.results.passes
-
+    expect(recursive_compact(normal_res.results.to_h)).to eq recursive_compact(legacy_res.results.to_h)
   end
 end

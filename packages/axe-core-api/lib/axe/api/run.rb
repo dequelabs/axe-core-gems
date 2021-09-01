@@ -46,7 +46,20 @@ module Axe
       private
 
       def audit(page)
-        yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
+        script = <<-JS
+          var callback = arguments[arguments.length - 1];
+          var callback = arguments[arguments.length - 1];
+          context = arguments[0] || document;
+          var options = arguments[1];
+          var p = #{METHOD_NAME}.apply(#{Core::JS_NAME}, [context, options]);
+          if (p) {
+            p.then(callback);
+          }
+        JS
+
+        # yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
+        # "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)"
+        yield page.execute_async_script script, *js_args
       end
 
       def switch_to_frame_by_handle(page, handle)
@@ -98,7 +111,7 @@ module Axe
             return [nil]
           end
 
-          res = axe_run_partial page
+          res = axe_run_partial page, context
           if res.key?("errorMessage")
             throw res if top_level
             return [nil]
@@ -109,6 +122,7 @@ module Axe
           for frame_context in frame_contexts
             frame_selector = frame_context["frameSelector"]
             frame_context = frame_context["frameContext"]
+            puts "ctxt", frame_context
             frame = axe_shadow_select page, frame_selector
             switch_to_frame_by_handle page, frame
             res = run_partial_recursive page, frame_context, lib
@@ -137,7 +151,7 @@ module Axe
         page.execute_script_fixed script, frame_selector
       end
 
-      def axe_run_partial(page)
+      def axe_run_partial(page, context)
         script = <<-JS
           const context = arguments[0];
           const options = arguments[1];
@@ -156,7 +170,7 @@ module Axe
             cb(ret);
           }
         JS
-        page.execute_async_script_fixed script, @context, @options
+        page.execute_async_script_fixed script, context, @options
       end
 
       def get_frame_context_script(page)
