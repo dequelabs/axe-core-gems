@@ -48,8 +48,8 @@ module Axe
       def audit(page)
         script = <<-JS
           var callback = arguments[arguments.length - 1];
-          context = arguments[0] || document;
-          var options = arguments[1];
+          var context = arguments[0] || document;
+          var options = arguments[1] || {};
           var p = #{METHOD_NAME}(context, options);
           if (p) {
             p.then(res => callback(res));
