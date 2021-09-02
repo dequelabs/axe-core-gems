@@ -3,6 +3,11 @@ require "securerandom"
 require "timeout"
 require_relative "./exec_eval_script_adapter"
 
+def get_selenium(page)
+  page = page.driver if page.respond_to?("driver")
+  page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(Symbol)
+  page
+end
 module WebDriverScriptAdapter
   class << self
     attr_accessor :async_results_identifier,
@@ -76,13 +81,20 @@ module WebDriverScriptAdapter
 
   class ExecuteAsyncScriptAdapter < ::DumbDelegator
     def self.wrap(driver)
-      new ExecEvalScriptAdapter.wrap driver
+      new driver
     end
 
     def execute_async_script(script, *args)
       results = ScriptWriter.async_results_identifier
       execute_script ScriptWriter.async_wrapper(script, *args, ScriptWriter.callback(results))
       Patiently.wait_until { evaluate_script results }
+    end
+
+    def execute_async_script_fixed(script, *args)
+      page = __getobj__
+      page = page.driver if page.respond_to?("driver")
+      page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
+      page.execute_async_script(script, *args)
     end
   end
 

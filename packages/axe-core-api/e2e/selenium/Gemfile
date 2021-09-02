@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+gem "selenium-webdriver"
+gem "rspec"
+gem "axe-core-api", :path => "../../../axe-core-api"
+gem "axe-core-watir", :path => "../../../axe-core-watir"

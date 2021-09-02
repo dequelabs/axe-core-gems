@@ -84,10 +84,10 @@ module Axe::API
 
     describe "#empty?" do
       context "without inclusion or exclusion rules" do
-        it "should be empty" do
+        it "should not be empty" do
           subject.instance_variable_set :@inclusion, []
           subject.instance_variable_set :@exclusion, []
-          expect(subject.empty?).to be(true)
+          expect(subject.empty?).to be(false)
         end
       end
 
@@ -111,8 +111,8 @@ module Axe::API
     describe "#to_json" do
       context "without an inclusion" do
         context "without an exclusion" do
-          it "should emit an empty document" do
-            expect(subject.to_json).to eq "{}"
+          it "should emit empty exclusion" do
+            expect(subject.to_json).to eq "{\"exclude\":[]}"
           end
         end
         context "with exclusions" do

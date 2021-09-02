@@ -16,13 +16,19 @@ module Axe
         @exclusion.concat selectors.map { |s| Array(Selector.new s) }
       end
 
+      def to_h
+        to_hash
+      end
       def to_hash
-        { include: @inclusion, exclude: @exclusion }
-          .reject { |k, v| v.empty? }
+        return { exclude: @exclusion } if @inclusion.empty?
+        h = {}
+        h["include"] = @inclusion unless @inclusion.empty?
+        h["exclude"] = @exclusion unless @exclusion.empty?
+        h
       end
 
-      def to_json
-        to_hash.to_json
+      def to_json(options = nil)
+        to_hash.to_json options
       end
 
       def empty?

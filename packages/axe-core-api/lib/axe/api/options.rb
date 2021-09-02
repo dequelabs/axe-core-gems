@@ -14,12 +14,16 @@ module Axe
         @custom = {}
       end
 
+      def to_h
+        to_hash
+      end
+
       def to_hash
         @rules.to_hash.merge(@custom)
       end
 
-      def to_json
-        to_hash.to_json
+      def to_json(options = nil)
+        to_hash.to_json options
       end
 
       def empty?

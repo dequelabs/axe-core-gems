@@ -4,7 +4,7 @@ require_relative "../../../lib/axe/matchers/be_axe_clean"
 
 module Axe::Matchers
   describe BeAxeClean do
-    let(:run) { spy("run", call: audit) }
+    let(:run) { spy("run", analyze_post_43x: audit) }
     let(:audit) { spy("audit") }
     let(:page) { spy("page") }
     let(:core) { spy("core") }

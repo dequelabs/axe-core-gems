@@ -46,9 +46,9 @@ module WebDriverScriptAdapter
       context "Capybara (already responds to #evaluate_script)" do
         let(:driver) { Capybara.current_session }
 
-        it "should return driver unmodified" do
-          expect(described_class).not_to receive(:new)
-          expect(described_class.wrap driver).to be driver
+        it "should not return driver unmodified" do
+          expect(ExecEvalScriptAdapter2).to receive(:new)
+          described_class.wrap driver
         end
       end
 
