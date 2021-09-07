@@ -35,5 +35,15 @@ module Axe
         expect(run).to have_received(:call).with(page)
       end
     end
+
+    describe "call_verbatim" do
+      let(:run) { spy("run") }
+
+      it "should invoke the callable in the page" do
+        core.call_verbatim(run)
+
+        expect(run).to have_received(:call).with(page)
+      end
+    end
   end
 end
