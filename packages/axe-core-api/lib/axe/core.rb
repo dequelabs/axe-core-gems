@@ -21,6 +21,10 @@ module Axe
       end
     end
 
+    def call_verbatim(callable)
+      callable.call @page
+    end
+
     private
 
     def load_axe_core(source)
