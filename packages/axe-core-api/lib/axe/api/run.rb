@@ -37,7 +37,11 @@ module Axe
         throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
         results = within_about_blank_context(page) { |page|
           Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
-          axe_finish_run page, partial_results
+          begin
+            axe_finish_run page, partial_results
+          rescue
+            raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/error-handling.md`"
+          end
         }
         Audit.new to_js, Results.new(results)
       end
@@ -67,8 +71,16 @@ module Axe
       def within_about_blank_context(page)
         driver = get_selenium page
 
-        driver.execute_script("window.open('about:blank'), '_blank'")
-        driver.switch_to.window page.window_handles[-1]
+        num_handles = page.window_handles.length
+        begin
+          driver.execute_script("window.open('about:blank'), '_blank'")
+          if num_handles == page.window_handles.length
+            raise StandardError.new "Could not open new window. Please make sure that you have popup blockers disabled."
+          end
+          driver.switch_to.window page.window_handles[-1]
+        rescue
+            raise StandardError.new "switchToWindow failed. Are you using updated browser drivers?"
+        end
         driver.get "about:blank"
 
         ret = yield page

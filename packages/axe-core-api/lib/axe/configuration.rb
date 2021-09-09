@@ -14,7 +14,8 @@ module Axe
     attr_writer :jslib
     attr_accessor :page,
                   :jslib_path,
-                  :skip_iframes
+                  :skip_iframes,
+                  :legacy_mode
     def_delegators ::WebDriverScriptAdapter,
                    :async_results_identifier,
                    :async_results_identifier=,

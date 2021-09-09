@@ -17,12 +17,18 @@ module Common
 
     def call(source, is_top_level = true)
       @page.execute_script source unless (@loaded_top_level and is_top_level)
-      @page.execute_script "axe.configure({ allowedOrigins: ['<unsafe_all_origins>'] });"
+      set_allowed_origins
       Common::Hooks.run_after_load @lib
       load_into_iframes(source) unless Axe::Configuration.instance.skip_iframes
     end
 
     private
+
+    def set_allowed_origins
+      allowed_origins = "<unsafe_all_origins>"
+      allowed_origins = "<same_origin>" if Axe::Configuration.instance.legacy_mode
+      @page.execute_script "axe.configure({ allowedOrigins: ['#{allowed_origins}'] });"
+    end
 
     def load_into_iframes(source)
       @page.find_frames.each do |iframe|
