@@ -30,6 +30,13 @@ def with_js(axe_source)
   ret
 end
 
+def with_legacy_mode
+  Axe::Configuration.instance.legacy_mode = true
+  ret = yield
+  Axe::Configuration.instance.legacy_mode = nil
+  ret
+end
+
 # The ruby selenium driver differentiates between a JS property on an object being
 # `undefined` and not existing at all (e.g. the property `shadowColor` in `{color: 'red'}` vs `{color: 'red', shadowColor: undefined}`).
 # When using `run` the axe-core inter-frame messaging removes the `{shadowColor: undefined}`
@@ -242,6 +249,25 @@ describe "metadata" do
   end
 end
 
+describe "axe.finishRun" do
+  window_open_throws = ";window.open = () => { throw new Error('No window.open')}"
+  finish_run_throws = ";axe.finishRun = () => { throw new Error('No finishRun')}"
+
+  it "throws an error if window.open throws" do
+    $driver.get fixture "/index.html"
+    with_js($axe_post_43x + window_open_throws) {
+      expect { run_axe }.to raise_error /switchToWindow failed/
+    }
+  end
+
+  it "throws an error if axe.finishRun throws" do
+    $driver.get fixture "/index.html"
+    with_js($axe_post_43x + finish_run_throws) {
+      expect { run_axe }.to raise_error /finishRun failed/
+    }
+  end
+end
+
 
 describe "run vs runPartial" do
   it "should return the same results", :oldaxe => true do
@@ -256,5 +282,42 @@ describe "run vs runPartial" do
     normal_res.results.testEngine["name"] = legacy_res.results.testEngine["name"]
 
     expect(recursive_compact(normal_res.results.to_h)).to eq recursive_compact(legacy_res.results.to_h)
+  end
+end
+
+describe "legacy_mode", :newt => true do
+  run_partial_throws = ";axe.runPartial = () => { throw new Error('No runPartial')}"
+
+  it "runs legacy mode when used" do
+    $driver.get fixture "/external/index.html"
+    res = with_legacy_mode {
+      with_js($axe_post_43x + run_partial_throws) {
+        run_axe
+      }
+    }
+    expect(res).not_to be_nil
+  end
+
+  it "prevents cross-origin frame testing" do
+    $driver.get fixture "/cross-origin.html"
+    res = with_legacy_mode {
+      with_js($axe_post_43x + run_partial_throws) {
+        run_axe
+      }
+    }
+
+    ft_inc = res.results.incomplete.find { |inc| inc.id == :'frame-tested' }
+    expect(ft_inc).not_to be_nil
+  end
+
+  it "can be disabled again" do
+    $driver.get fixture "/cross-origin.html"
+    res = with_legacy_mode {
+      Axe::Configuration.instance.legacy_mode = nil
+      run_axe
+    }
+    expect(res).not_to be_nil
+    ft_inc = res.results.incomplete.find { |inc| inc.id == :'frame-tested' }
+    expect(ft_inc).to be_nil
   end
 end

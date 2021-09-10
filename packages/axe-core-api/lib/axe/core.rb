@@ -14,7 +14,7 @@ module Axe
     end
 
     def call(callable)
-      if has_run_partial?
+      if use_run_partial
         callable.analyze_post_43x @page, self
       else
         callable.call @page
@@ -27,11 +27,15 @@ module Axe
 
     private
 
+    def use_run_partial
+      has_run_partial? and not Axe::Configuration.instance.legacy_mode
+    end
+
     def load_axe_core(source)
       return if already_loaded?
       loader = Common::Loader.new(@page, self)
       loader.load_top_level source
-      return if has_run_partial?
+      return if use_run_partial
 
       loader.call source
     end
