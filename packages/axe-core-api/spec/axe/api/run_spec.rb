@@ -62,13 +62,13 @@ module Axe::API
     end
 
     describe "#call" do
-      let(:page) { spy("page", execute_async_script: { "violations" => [] }) }
+      let(:page) { spy("page", execute_async_script_fixed: { "violations" => [] }) }
       let(:results) { spy("results") }
       let(:audit) { spy("audit") }
 
       it "should execute the axe.run JS method" do
         subject.call(page)
-        expect(page).to have_received(:execute_async_script).with("axe.run.apply(axe, arguments)")
+        expect(page).to have_received(:execute_async_script_fixed).with(/axe.run/, anything, anything)
       end
 
       it "should return an audit" do
@@ -82,7 +82,7 @@ module Axe::API
       end
 
       it "should include the original invocation string" do
-        expect(Audit).to receive(:new).with("axe.run(callback);", instance_of(Results))
+        expect(Audit).to receive(:new).with(/axe.run/, instance_of(Results))
         subject.call(page)
       end
     end

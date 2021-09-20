@@ -14,13 +14,36 @@ module Axe
     end
 
     def call(callable)
-      callable.call(@page)
+      if use_run_partial
+        callable.analyze_post_43x @page, self
+      else
+        callable.call @page
+      end
+    end
+
+    def call_verbatim(callable)
+      callable.call @page
     end
 
     private
 
+    def use_run_partial
+      has_run_partial? and not Axe::Configuration.instance.legacy_mode
+    end
+
     def load_axe_core(source)
-      Common::Loader.new(@page, self).call(source) unless already_loaded?
+      return if already_loaded?
+      loader = Common::Loader.new(@page, self)
+      loader.load_top_level source
+      return if use_run_partial
+
+      loader.call source
+    end
+
+    def has_run_partial?
+      @page.evaluate_script <<-JS
+          typeof window.axe.runPartial === 'function'
+      JS
     end
 
     def already_loaded?
