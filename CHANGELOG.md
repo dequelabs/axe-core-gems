@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.1](https://github.com/dequelabs/axe-core-gems/compare/v4.3.0...v4.3.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* update error-handling link to correct url ([#212](https://github.com/dequelabs/axe-core-gems/issues/212)) ([5d6d4c3](https://github.com/dequelabs/axe-core-gems/commit/5d6d4c3702eef4c80544b588b7b7352442045b85))
+
 ## [4.3.0](https://github.com/dequelabs/axe-core-gems/compare/v4.2.1...v4.3.0) (2021-09-20)
 
 

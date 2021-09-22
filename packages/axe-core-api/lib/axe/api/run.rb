@@ -40,7 +40,7 @@ module Axe
           begin
             axe_finish_run page, partial_results
           rescue
-            raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/error-handling.md`"
+            raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
           end
         }
         Audit.new to_js, Results.new(results)
@@ -79,7 +79,7 @@ module Axe
           end
           driver.switch_to.window page.window_handles[-1]
         rescue
-            raise StandardError.new "switchToWindow failed. Are you using updated browser drivers?"
+            raise StandardError.new "switchToWindow failed. Are you using updated browser drivers? Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
         end
         driver.get "about:blank"
 
