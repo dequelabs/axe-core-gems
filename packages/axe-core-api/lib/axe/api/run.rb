@@ -53,7 +53,7 @@ module Axe
           var callback = arguments[arguments.length - 1];
           var context = arguments[0] || document;
           var options = arguments[1] || {};
-          #{METHOD_NAME}(context, options).then(callback);
+          #{METHOD_NAME}(context, options).then(res => JSON.parse(JSON.stringify(res))).then(callback);
         JS
         page.execute_async_script_fixed script, *js_args
       end
@@ -160,7 +160,7 @@ module Axe
           const options = arguments[1];
           const cb = arguments[arguments.length - 1];
           try {
-            const ret = window.axe.runPartial(context, options);
+            const ret = window.axe.runPartial(context, options).then(res => JSON.parse(JSON.stringify(res)));
             cb(ret);
           } catch (err) {
             const ret = {
