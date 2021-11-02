@@ -16,7 +16,7 @@ commands:
           command: |
             curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/install-geckodriver.sh -s -o ./install-geckodriver.sh
             chmod +x ./install-geckodriver.sh
-            ./install-geckodriver.sh 0.24.0
+            ./install-geckodriver.sh 0.30.0
       - run: rake bootstrap # bootstrap packages
 
 jobs:
