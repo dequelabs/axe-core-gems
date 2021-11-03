@@ -12,6 +12,13 @@ commands:
       - checkout
       - run: gem install bundler # setup bundler
       - run:
+          name: Update chromedriver
+          command: |
+            version=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+            wget -qP /tmp/ "https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip"
+            sudo unzip -o /tmp/chromedriver_linux64.zip -d /usr/local/bin
+            sudo chmod 755 /usr/local/bin/chromedriver
+      - run:
           name: Install geckodriver
           command: |
             curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/install-geckodriver.sh -s -o ./install-geckodriver.sh
