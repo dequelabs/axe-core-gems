@@ -12,11 +12,25 @@ commands:
       - checkout
       - run: gem install bundler # setup bundler
       - run:
+          name: Update chromedriver
+          command: |
+            version=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+            wget -qP /tmp/ "https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip"
+            sudo unzip -o /tmp/chromedriver_linux64.zip -d /usr/local/bin
+            sudo chmod 755 /usr/local/bin/chromedriver
+      - run:
+          name: Update chrome
+          command: |
+            wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update
+            sudo apt-get install google-chrome-stable
+      - run:
           name: Install geckodriver
           command: |
             curl https://raw.githubusercontent.com/dequelabs/attest-release-scripts/develop/src/install-geckodriver.sh -s -o ./install-geckodriver.sh
             chmod +x ./install-geckodriver.sh
-            ./install-geckodriver.sh 0.24.0
+            ./install-geckodriver.sh 0.30.0
       - run: rake bootstrap # bootstrap packages
 
 jobs:
