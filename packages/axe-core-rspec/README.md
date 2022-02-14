@@ -189,11 +189,11 @@ All of the described clauses may be mixed and matched with method chaining. Belo
 ```rb
 expect(page).to be_axe_clean.within('.main', '.header').excluding('.footer')
 
-expect(page).to be_axe_clean.excluding('#sidebar').according_to(:wcag2a, :wcag2aa).skipping(:color-contrast)
+expect(page).to be_axe_clean.excluding('#sidebar').according_to(:wcag2a, :wcag2aa).skipping('color-contrast')
 
-expect(page).to be_axe_clean.within('.main').checking_only :document-title, :label
+expect(page).to be_axe_clean.within('.main').checking_only 'document-title', :label
 
-expect(page).to be_axe_clean.according_to(:best-practice).checking(:aria-roles, :definition-list)
+expect(page).to be_axe_clean.according_to(:best-practice).checking(:aria-roles, 'definition-list')
 ```
 
 [context-param]: https://github.com/dequelabs/axe-core/blob/master/doc/API.md#context-parameter
