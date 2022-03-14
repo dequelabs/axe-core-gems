@@ -2,11 +2,13 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: cimg/ruby:2.7.5-node
+    - image: cimg/ruby:2.7.5-browsers
   working_directory: ~/axe-core-gems
 
 orbs:
   browser-tools: circleci/browser-tools@1.2.4
+  node: circleci/node@5.0.0
+
 
 commands:
   bootstrap:
@@ -14,6 +16,8 @@ commands:
     steps:
       - checkout
       - browser-tools/install-browser-tools
+      - node/install:
+          node-version: '16.13'
       - run: gem install bundler # setup bundler
       - run: rake bootstrap # bootstrap packages
 
