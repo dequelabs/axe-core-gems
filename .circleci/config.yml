@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: cimg/ruby:2.6-node
+    - image: cimg/ruby:2.7.5-node
   working_directory: ~/axe-core-gems
 
 orbs:
