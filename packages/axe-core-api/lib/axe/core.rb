@@ -25,11 +25,11 @@ module Axe
       callable.call @page
     end
 
-    private
-
     def use_run_partial
       has_run_partial? and not Axe::Configuration.instance.legacy_mode
     end
+
+    private
 
     def load_axe_core(source)
       return if already_loaded?
