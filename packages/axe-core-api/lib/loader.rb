@@ -25,8 +25,8 @@ module Common
     private
 
     def set_allowed_origins
-      allowed_origins = "<unsafe_all_origins>"
-      allowed_origins = "<same_origin>" if Axe::Configuration.instance.legacy_mode
+      allowed_origins = ""
+      allowed_origins = "<unsafe_all_origins>" if Axe::Configuration.instance.legacy_mode && Axe::Core.has_run_partial? = false
       @page.execute_script "axe.configure({ allowedOrigins: ['#{allowed_origins}'] });"
     end
 
