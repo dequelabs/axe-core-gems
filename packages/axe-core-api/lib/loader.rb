@@ -1,4 +1,5 @@
 require_relative "./axe/configuration"
+require_relative "./axe/core"
 require_relative "./hooks"
 
 module Common
