@@ -25,8 +25,8 @@ module Axe
       callable.call @page
     end
 
-    def self.has_run_partial?
-      @page.evaluate_script <<-JS
+    def self.has_run_partial?(page)
+      page.evaluate_script <<-JS
           typeof window.axe.runPartial === 'function'
       JS
     end
@@ -34,7 +34,7 @@ module Axe
     private
 
     def use_run_partial
-      Core.has_run_partial? and not Axe::Configuration.instance.legacy_mode
+      Core.has_run_partial?(@page) and not Axe::Configuration.instance.legacy_mode
     end
 
     def load_axe_core(source)
