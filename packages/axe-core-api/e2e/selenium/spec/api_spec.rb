@@ -320,4 +320,42 @@ describe "legacy_mode", :newt => true do
     ft_inc = res.results.incomplete.find { |inc| inc.id == :'frame-tested' }
     expect(ft_inc).to be_nil
   end
+
+  describe "allowedOrigin" do
+    def get_allowed_origin
+      return $driver.execute_script("return axe._audit.allowedOrigins")
+    end
+
+    it "should not set when running runPartial and not legacy mode" do
+      $driver.get fixture "/index.html"
+      run_axe
+      allowed_origin = get_allowed_origin.first()
+      expect(allowed_origin).to eq "http://localhost:8000"
+    end
+
+    it "should set when running runPartial and legacy mode" do
+      $driver.get fixture "/index.html"
+      with_legacy_mode { run_axe }
+      allowed_origin = get_allowed_origin.first()
+      expect(allowed_origin).to eq "http://localhost:8000"
+    end
+
+    it "should not set when running legacy source and legacy mode" do
+      $driver.get fixture "/index.html"
+      with_legacy_mode {
+        with_js($axe_pre_43x + $force_legacy_js) {
+          run_axe
+        }
+      }
+      allowed_origin = get_allowed_origin.first()
+      expect(allowed_origin).to eq "http://localhost:8000"
+    end
+
+    it "should set when running legacy source and not legacy mode" do
+      $driver.get fixture "/index.html"
+      with_js($axe_pre_43x + $force_legacy_js) { run_axe }
+      allowed_origin = get_allowed_origin.first()
+      expect(allowed_origin).to eq "*"
+    end
+  end
 end
