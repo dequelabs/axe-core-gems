@@ -200,7 +200,7 @@ describe "for versions without axe.runPartial" do
     $driver.get fixture "/nested-iframes.html"
     res = with_js($axe_pre_43x) { run_axe }
 
-    expect(res.results.testEngine["version"]).to eq "4.0.3"
+    expect(res.results.testEngine["version"]).to eq "4.2.0"
 
     label_vio = res.results.violations.find { |vio| vio.id == :label }
     expect(label_vio).not_to be_nil
