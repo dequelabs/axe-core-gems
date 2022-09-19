@@ -343,7 +343,7 @@ describe "legacy_mode", :newt => true do
     it "should not set when running legacy source and legacy mode" do
       $driver.get fixture "/index.html"
       with_legacy_mode {
-        with_js($axe_pre_43x + $force_legacy_js) {
+        with_js($axe_pre_43x) {
           run_axe
         }
       }
@@ -353,7 +353,7 @@ describe "legacy_mode", :newt => true do
 
     it "should set when running legacy source and not legacy mode" do
       $driver.get fixture "/index.html"
-      with_js($axe_pre_43x + $force_legacy_js) { run_axe }
+      with_js($axe_pre_43x) { run_axe }
       allowed_origin = get_allowed_origin.first()
       expect(allowed_origin).to eq "*"
     end
