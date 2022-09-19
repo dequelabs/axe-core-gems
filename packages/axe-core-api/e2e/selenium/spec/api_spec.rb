@@ -329,15 +329,17 @@ describe "legacy_mode", :newt => true do
     it "should not set when running runPartial and not legacy mode" do
       $driver.get fixture "/index.html"
       run_axe
-      allowed_origin = get_allowed_origin.first()
-      expect(allowed_origin).to eq "http://localhost:8000"
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
     end
 
     it "should set when running runPartial and legacy mode" do
       $driver.get fixture "/index.html"
       with_legacy_mode { run_axe }
-      allowed_origin = get_allowed_origin.first()
-      expect(allowed_origin).to eq "http://localhost:8000"
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
     end
 
     it "should not set when running legacy source and legacy mode" do
@@ -347,15 +349,17 @@ describe "legacy_mode", :newt => true do
           run_axe
         }
       }
-      allowed_origin = get_allowed_origin.first()
-      expect(allowed_origin).to eq "http://localhost:8000"
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
     end
 
     it "should set when running legacy source and not legacy mode" do
       $driver.get fixture "/index.html"
       with_js($axe_pre_43x) { run_axe }
-      allowed_origin = get_allowed_origin.first()
-      expect(allowed_origin).to eq "*"
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["*"]
+      expect(allowed_origin.length).to eq 1
     end
   end
 end
