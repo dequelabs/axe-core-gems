@@ -5,7 +5,7 @@ require "axe/core"
 require "axe/api/run"
 
 options = Selenium::WebDriver::Firefox::Options.new
-# options.add_argument('--headless')
+options.add_argument('--headless')
 $driver = Selenium::WebDriver.for :firefox, options: options
 
 def run_axe
