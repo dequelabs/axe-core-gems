@@ -216,7 +216,7 @@ describe "for versions without axe.runPartial" do
 
   it "reports frame-tested", :oldaxe => true do
     $driver.get fixture "/crash-parent.html"
-    res = with_js($axe_post_43x + $crasher_js) { run_axe }
+    res = with_js($axe_pre_43x + $crasher_js) { run_axe }
 
     ft_inc = res.results.incomplete.find { |inc| inc.id == :'frame-tested' }
     expect(ft_inc).not_to be_nil
