@@ -1,4 +1,5 @@
 require_relative "./axe/configuration"
+require_relative "./axe/core"
 require_relative "./hooks"
 
 module Common
@@ -25,8 +26,8 @@ module Common
     private
 
     def set_allowed_origins
-      allowed_origins = "<unsafe_all_origins>"
-      allowed_origins = "<same_origin>" if Axe::Configuration.instance.legacy_mode
+      allowed_origins = "<same_origin>"
+      allowed_origins = "<unsafe_all_origins>" if !Axe::Configuration.instance.legacy_mode && !Axe::Core::has_run_partial?(@page)
       @page.execute_script "axe.configure({ allowedOrigins: ['#{allowed_origins}'] });"
     end
 

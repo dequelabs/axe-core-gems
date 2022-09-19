@@ -200,7 +200,7 @@ describe "for versions without axe.runPartial" do
     $driver.get fixture "/nested-iframes.html"
     res = with_js($axe_pre_43x) { run_axe }
 
-    expect(res.results.testEngine["version"]).to eq "4.0.3"
+    expect(res.results.testEngine["version"]).to eq "4.2.3"
 
     label_vio = res.results.violations.find { |vio| vio.id == :label }
     expect(label_vio).not_to be_nil
@@ -319,5 +319,47 @@ describe "legacy_mode", :newt => true do
     expect(res).not_to be_nil
     ft_inc = res.results.incomplete.find { |inc| inc.id == :'frame-tested' }
     expect(ft_inc).to be_nil
+  end
+
+  describe "allowedOrigin" do
+    def get_allowed_origin
+      return $driver.execute_script("return axe._audit.allowedOrigins")
+    end
+
+    it "should not set when running runPartial and not legacy mode" do
+      $driver.get fixture "/index.html"
+      run_axe
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
+    end
+
+    it "should set when running runPartial and legacy mode" do
+      $driver.get fixture "/index.html"
+      with_legacy_mode { run_axe }
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
+    end
+
+    it "should not set when running legacy source and legacy mode" do
+      $driver.get fixture "/index.html"
+      with_legacy_mode {
+        with_js($axe_pre_43x) {
+          run_axe
+        }
+      }
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["http://localhost:8000"]
+      expect(allowed_origin.length).to eq 1
+    end
+
+    it "should set when running legacy source and not legacy mode" do
+      $driver.get fixture "/index.html"
+      with_js($axe_pre_43x) { run_axe }
+      allowed_origin = get_allowed_origin
+      expect(allowed_origin).to eq ["*"]
+      expect(allowed_origin.length).to eq 1
+    end
   end
 end
