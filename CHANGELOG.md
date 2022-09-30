@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.2](https://github.com/dequelabs/axe-core-gems/compare/v4.4.1...v4.4.2) (2022-09-30)
+
+
+### Features
+
+* upgrade axe-core to 4.4.2 ([#237](https://github.com/dequelabs/axe-core-gems/issues/237)) ([ed207f7](https://github.com/dequelabs/axe-core-gems/commit/ed207f78b69b458dc1bde0265d48b3cc1482a36d))
+
+
+### Bug Fixes
+
+* Allow `none` values for ValueObject, since can be set by CheckedNode result type ([#228](https://github.com/dequelabs/axe-core-gems/issues/228)) ([d7f6d36](https://github.com/dequelabs/axe-core-gems/commit/d7f6d3635b876188432a10bf9db35933aa4f5bfb))
+* only set allowedOrigin when needed ([#248](https://github.com/dequelabs/axe-core-gems/issues/248)) ([8fa09ad](https://github.com/dequelabs/axe-core-gems/commit/8fa09ade10a3a9fa17681aea63742fe908675612))
+
 ## [4.4.1](https://github.com/dequelabs/axe-core-gems/compare/v4.4.0...v4.4.1) (2022-06-27)
 
 ### Features
