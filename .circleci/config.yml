@@ -20,7 +20,7 @@ commands:
       - run: rake bootstrap # bootstrap packages
 
 jobs:
-  test: 
+  test:
     <<: *defaults
     steps:
       - bootstrap
@@ -89,7 +89,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - chore/release/4.3.3
       - production_release:
           requires:
             - test
