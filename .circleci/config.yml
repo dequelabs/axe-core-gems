@@ -92,7 +92,7 @@ workflows:
                 - chore/release/4.3.3-1
       - production_release:
           requires:
-            - test
+            # - test
           filters:
             branches:
               only: master
