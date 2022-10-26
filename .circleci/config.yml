@@ -84,15 +84,15 @@ workflows:
     jobs:
       # - test
       - canary_release:
-          requires:
-            # - test
+          # requires:
+          # - test
           filters:
             branches:
               only:
                 - chore/release/4.3.3-1
       - production_release:
-          requires:
-            # - test
+          # requires:
+          # - test
           filters:
             branches:
               only: master
