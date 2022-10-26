@@ -82,7 +82,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - test
+      # - test
       - canary_release:
           requires:
             # - test
