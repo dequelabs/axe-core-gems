@@ -34,6 +34,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * finishRun stack overflow ([#220](https://github.com/dequelabs/axe-core-gems/issues/220)) ([75130b0](https://github.com/dequelabs/axe-core-gems/commit/75130b01192ab9b48b11596c157125f395251830))
 
+### [4.3.3](https://github.com/dequelabs/axe-core-gems/compare/v4.3.2...v4.3.3) (2021-10-26)
+
+
+### Bug Fixes
+
+* only set allowedOrigin when needed ([ff7226b](https://github.com/dequelabs/axe-core-gems/pull/260/commits/ff7226bde94263b7dae29a5815b9fbdb2a7aa680))
+
 ### [4.3.2](https://github.com/dequelabs/axe-core-gems/compare/v4.3.1...v4.3.2) (2021-09-27)
 
 
