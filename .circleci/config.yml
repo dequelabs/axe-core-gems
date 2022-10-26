@@ -2,19 +2,14 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: cimg/ruby:2.7.5-browsers
+    - image: circleci/ruby:2.6.1-node-browsers
   working_directory: ~/axe-core-gems
-
-orbs:
-  browser-tools: circleci/browser-tools@1.2.4
-  node: circleci/node@5.0.0
 
 commands:
   bootstrap:
     description: Install dependencies and bootstrap packages
     steps:
       - checkout
-      - browser-tools/install-browser-tools
       - run: gem install bundler # setup bundler
       - run:
           name: Install geckodriver
@@ -90,7 +85,7 @@ workflows:
       - test
       - canary_release:
           requires:
-            - test
+            # - test
           filters:
             branches:
               only:
