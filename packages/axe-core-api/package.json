@@ -2,6 +2,6 @@
   "name": "axe-core-api",
   "license": "MPL-2.0",
   "dependencies": {
-    "axe-core": "^4.4.3"
+    "axe-core": "^4.5.0"
   }
 }
