@@ -89,16 +89,16 @@ workflows:
           filters:
             branches:
               only:
-                - chore/release/4.3.3-1
+                - develop
       - production_release:
           # requires:
           # - test
           filters:
             branches:
-              only: master
+              only: chore/release/4.3.3-1
       - github_release:
           requires:
             - production_release
           filters:
             branches:
-              only: master
+              only: chore/release/4.3.3-1
