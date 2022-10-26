@@ -5,6 +5,10 @@ defaults: &defaults
     - image: cimg/ruby:2.7.5-browsers
   working_directory: ~/axe-core-gems
 
+orbs:
+  browser-tools: circleci/browser-tools@1.2.4
+  node: circleci/node@5.0.0
+
 commands:
   bootstrap:
     description: Install dependencies and bootstrap packages
