@@ -16,11 +16,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Run preparation script
-        run: bash .github/scripts/prepare_release.sh ${{ github.event.inputs.releaseLevel }}
+        run: .github/scripts/prepare_release.sh ${{ github.event.inputs.releaseLevel }}
 
       - name: Get version for later steps
         id: get-new-version

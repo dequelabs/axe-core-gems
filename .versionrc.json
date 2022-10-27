@@ -1,0 +1,9 @@
+{
+  "commitAll": true,
+  "bumpFiles": ["package.json", "selenium/package.json"],
+  "skip": {
+    "commit": true,
+    "tag": true,
+    "changelog": true
+  }
+}
