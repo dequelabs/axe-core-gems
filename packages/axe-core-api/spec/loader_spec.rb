@@ -7,6 +7,12 @@ module Common
     let(:page) { spy("page", evaluate_script: false) }
     let(:lib) { spy("lib") }
 
+    describe "test" do
+      it "should correctly fail ci" do
+        expect(1).to eq 2
+      end
+    end
+
     describe "call" do
       it "should evaluate lib's source in the context of the given page" do
         loader.call(:source)

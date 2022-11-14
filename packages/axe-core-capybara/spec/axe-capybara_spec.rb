@@ -6,6 +6,12 @@ require_relative "../lib/axe-capybara"
 describe AxeCapybara do
   subject { described_class }
 
+  describe "test" do
+    it "should correctly fail ci" do
+      expect(1).to eq 2
+    end
+  end
+
   describe "driver" do
     it "validate yielded configuration" do
       driver = AxeCapybara.configure(:firefox) do

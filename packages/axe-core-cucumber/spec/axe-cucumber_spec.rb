@@ -4,6 +4,13 @@ require_relative "../lib/axe-cucumber"
 
 module AxeCucumber
   describe Step do
+
+    describe "test" do
+      it "should correctly fail ci" do
+        expect(1).to eq 2
+      end
+    end
+
     describe "::create_for" do
       it "should create a Step" do
         allow(Axe::FindsPage).to receive_message_chain("in.page")
