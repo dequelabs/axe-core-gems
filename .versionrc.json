@@ -1,9 +1,10 @@
 {
   "commitAll": true,
-  "bumpFiles": ["package.json", "selenium/package.json"],
+  "bumpFiles": [
+    "package.json",
+    { "filename": "version.rb", "updater": "scripts/update-ruby-version.js" }
+  ],
   "skip": {
-    "commit": true,
-    "tag": true,
-    "changelog": true
+    "tag": true
   }
 }

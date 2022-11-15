@@ -14,40 +14,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Run preparation script
-        run: .github/scripts/prepare_release.sh ${{ github.event.inputs.releaseLevel }}
-
-      - name: Get version for later steps
-        id: get-new-version
-        run: echo ::set-output name=version::$(node -pe 'require("./package.json").version')
-
-      - name: Create release commit
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - name: Configure git
         run: |
-          git config user.name "${{ secrets.ADT_API_RELEASE_NAME }}"
-          git config user.email "${{ secrets.ADT_API_RELEASE_EMAIL }}"
-          git commit -am "chore: release v${{ steps.get-new-version.outputs.version }}"
-      # create-pull-request has no way of setting the target branch that won't also
-      # get rid of all commits (aside from the release commit).
-      # So, we have to be on master and manually grab all the changes.
-      # We do that by just telling git "master is now develop (+ the release commit)".
-      - name: Update local master from develop
+          git config user.name "API Team CI User"
+          git config user.email "aciattestteamci@deque.com"
+      - id: release
+        name: Release
         run: |
-          commitHash="$(git log -1 --format='%H')"
-          git checkout master
-          git reset --hard "$commitHash"
+          npx standard-version --release-as="${{ github.events.inputs.releaseLevel }}"
+          Version=$(jq -r .version package.json)
+          echo "::set-output name=Version::$Version"
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: release
           branch-suffix: timestamp
-          base: master
-          title: "chore: release v${{ steps.get-new-version.outputs.version }}"
+          title: 'chore: release v${{ steps.release.outputs.Version }}'
           # If there are any changes not already committed, they will be added to
           # a commit with this as the message.
           # If there are no changes no commit will be created.
-          commit-message: "chore: applying release changes"
+          commit-message: 'chore: applying release changes'
+          # Our default branch is `develop` but we want to create a PR into `master`
+          base: master
