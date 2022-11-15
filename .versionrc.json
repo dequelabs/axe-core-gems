@@ -1,0 +1,10 @@
+{
+  "commitAll": true,
+  "bumpFiles": [
+    "package.json",
+    { "filename": "version.rb", "updater": "scripts/update-ruby-version.js" }
+  ],
+  "skip": {
+    "tag": true
+  }
+}
