@@ -69,7 +69,7 @@ jobs:
 
   github_release:
     docker:
-      - image: cimg/go:1.13
+      - image: cimg/go:1.17.1
     steps:
       - checkout
       - run: go get gopkg.in/aktau/github-release.v0
