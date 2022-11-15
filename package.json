@@ -13,8 +13,5 @@
   "devDependencies": {
     "axe-test-fixtures": "github:dequelabs/axe-test-fixtures",
     "standard-version": "^9.0.0"
-  },
-  "dependencies": {
-    "axe-core": "^4.5.2"
   }
 }
