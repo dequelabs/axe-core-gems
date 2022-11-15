@@ -25,7 +25,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm ci
+        # There is no `package-lock.json` file
+      - run: npm install
       - name: Configure git
         run: |
           git config user.name "API Team CI User"
