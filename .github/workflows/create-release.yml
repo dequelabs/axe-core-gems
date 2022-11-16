@@ -48,5 +48,3 @@ jobs:
           # a commit with this as the message.
           # If there are no changes no commit will be created.
           commit-message: 'chore: applying release changes'
-          # Our default branch is `develop` but we want to create a PR into `master`
-          base: master
