@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/dequelabs/axe-core-gems/compare/v4.3.2...v4.6.0) (2022-11-16)
+
+
+### Features
+
+* update axe-core to v4.3.5 ([#225](https://github.com/dequelabs/axe-core-gems/issues/225)) ([17fb7c9](https://github.com/dequelabs/axe-core-gems/commit/17fb7c9f42de58c9b7bfebb771734835ac2a9c89))
+* upgrade axe-core to 4.4.1 ([#227](https://github.com/dequelabs/axe-core-gems/issues/227)) ([9952248](https://github.com/dequelabs/axe-core-gems/commit/995224841b30a87582dfce99fa5c27e8c8b09c49))
+* upgrade axe-core to 4.4.2 ([#237](https://github.com/dequelabs/axe-core-gems/issues/237)) ([ed207f7](https://github.com/dequelabs/axe-core-gems/commit/ed207f78b69b458dc1bde0265d48b3cc1482a36d))
+* upgrade to use axe-core@4.5.0 ([#259](https://github.com/dequelabs/axe-core-gems/issues/259)) ([0506e1f](https://github.com/dequelabs/axe-core-gems/commit/0506e1f69d38b7cc871128ad037aeb440fc8d1e4))
+
+
+### Bug Fixes
+
+* Allow `none` values for ValueObject, since can be set by CheckedNode result type ([#228](https://github.com/dequelabs/axe-core-gems/issues/228)) ([d7f6d36](https://github.com/dequelabs/axe-core-gems/commit/d7f6d3635b876188432a10bf9db35933aa4f5bfb))
+* only set allowedOrigin when needed ([#248](https://github.com/dequelabs/axe-core-gems/issues/248)) ([8fa09ad](https://github.com/dequelabs/axe-core-gems/commit/8fa09ade10a3a9fa17681aea63742fe908675612))
+* update to use axe-core 4.5.1 ([#263](https://github.com/dequelabs/axe-core-gems/issues/263)) ([abce5a5](https://github.com/dequelabs/axe-core-gems/commit/abce5a58975a0bbc837aa0547bb0072be44a36dc))
+* update to use axe-core 4.5.2 ([#269](https://github.com/dequelabs/axe-core-gems/issues/269)) ([6c1e542](https://github.com/dequelabs/axe-core-gems/commit/6c1e5421ed7b19578a11b7c03438ecaeae6438ca))
+
 ## [4.5.0](https://github.com/dequelabs/axe-core-gems/compare/v4.3.2...v4.5.0) (2022-11-04)
 
 
