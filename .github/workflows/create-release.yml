@@ -34,7 +34,7 @@ jobs:
       - id: release
         name: Release
         run: |
-          npx standard-version --release-as="${{ github.events.inputs.releaseLevel }}"
+          npx standard-version --release-as="${{ github.event.inputs.releaseLevel }}"
           Version=$(jq -r .version package.json)
           echo "::set-output name=Version::$Version"
       - name: Create pull request
