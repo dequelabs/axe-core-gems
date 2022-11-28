@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.5.1](https://github.com/dequelabs/axe-core-gems/compare/v4.4.1...v4.5.1) (2022-11-21)
+
+
+### Features
+
+* upgrade to use axe-core@4.5.0 ([#259](https://github.com/dequelabs/axe-core-gems/issues/259)) ([0506e1f](https://github.com/dequelabs/axe-core-gems/commit/0506e1f69d38b7cc871128ad037aeb440fc8d1e4))
+
+
+### Bug Fixes
+
+* only set allowedOrigin when needed ([#248](https://github.com/dequelabs/axe-core-gems/issues/248)) ([8fa09ad](https://github.com/dequelabs/axe-core-gems/commit/8fa09ade10a3a9fa17681aea63742fe908675612))
+* update to use axe-core 4.5.1 ([#263](https://github.com/dequelabs/axe-core-gems/issues/263)) ([abce5a5](https://github.com/dequelabs/axe-core-gems/commit/abce5a58975a0bbc837aa0547bb0072be44a36dc))
+* update to use axe-core 4.5.2 ([#269](https://github.com/dequelabs/axe-core-gems/issues/269)) ([6c1e542](https://github.com/dequelabs/axe-core-gems/commit/6c1e5421ed7b19578a11b7c03438ecaeae6438ca))
+
 ## [4.5.0](https://github.com/dequelabs/axe-core-gems/compare/v4.3.2...v4.5.0) (2022-11-04)
 
 
