@@ -9,7 +9,6 @@ orbs:
   browser-tools: circleci/browser-tools@1.2.4
   node: circleci/node@5.0.0
 
-
 commands:
   bootstrap:
     description: Install dependencies and bootstrap packages
@@ -22,7 +21,7 @@ commands:
       - run: rake bootstrap # bootstrap packages
 
 jobs:
-  test: 
+  test:
     <<: *defaults
     steps:
       - bootstrap
@@ -80,11 +79,22 @@ jobs:
             chmod +x ./ruby-github-release.sh
             ./ruby-github-release.sh
 
+  check_license:
+    <<: *defaults
+    steps:
+      - checkout
+      - node/install:
+          node-version: '16.13'
+      - bootstrap
+      - run: bash .circleci/print_license.sh
+
 workflows:
   version: 2
   build:
     jobs:
       - test
+      - check_license:
+          context: html-tools
       - canary_release:
           requires:
             - test
