@@ -1,6 +1,14 @@
 module Axe
   module API
     class Selector
+      def self.normalize(s)
+        if s.is_a? Hash
+          s
+        else
+          Array(Selector.new(s))
+        end
+      end
+
       def initialize(s)
         @selector = case s
                     when Array then s
