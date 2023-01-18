@@ -3,9 +3,13 @@ module Axe
     class Selector
       def self.normalize(s)
         if s.is_a? Hash
-          s
+          if s.key? :iframe and s.key? :selector
+            Array(Selector.new s)
+          else
+            s
+          end
         else
-          Array(Selector.new(s))
+          Array(Selector.new s)
         end
       end
 

@@ -305,12 +305,30 @@ describe "4.6 selectors" do
     targets
   end
 
+  it "with labelled frame", :newt => true do
+    $driver.get fixture "/context-include-exclude.html"
+
+    run = Run.new
+        .within({ "fromFrames" => ["#ifr-inc-excl", "html"] })
+        .excluding({ "fromFrames" => ["#ifr-inc-excl", "#foo-bar"] })
+        .within({ "fromFrames" => ["#ifr-inc-excl", "#foo-baz", "html"] })
+        .excluding({ "fromFrames" => ["#ifr-inc-excl", "#foo-baz", "input"] })
+    res = run_axe run
+
+    label_result = res.results.violations.find {|rule| rule.id == :label}
+
+    targets = flat_targets res.results.passes
+    expect(targets).not_to include "#foo-bar"
+    expect(targets).not_to include "input"
+    expect(label_result).to be_nil
+  end
+
   it "with include shadow DOM" do
     $driver.get fixture "/shadow-dom.html"
 
     run = Run.new
-      .within([['#shadow-root-1', '#shadow-button-1']])
-      .within([['#shadow-root-2', '#shadow-button-2']])
+      .within([["#shadow-root-1", "#shadow-button-1"]])
+      .within([["#shadow-root-2", "#shadow-button-2"]])
     res = run_axe run
 
     targets = flat_targets res.results.passes
@@ -323,8 +341,8 @@ describe "4.6 selectors" do
     $driver.get fixture "/shadow-dom.html"
 
     run = Run.new
-      .excluding([['#shadow-root-1', '#shadow-button-1']])
-      .excluding([['#shadow-root-2', '#shadow-button-2']])
+      .excluding([["#shadow-root-1", "#shadow-button-1"]])
+      .excluding([["#shadow-root-2", "#shadow-button-2"]])
     res = run_axe run
 
     targets = flat_targets res.results.passes
@@ -337,8 +355,8 @@ describe "4.6 selectors" do
     $driver.get fixture "/shadow-dom.html"
 
     run = Run.new
-      .within({ "fromShadowDom" => ['#shadow-root-1', '#shadow-button-1'] })
-      .excluding({ "fromShadowDom" => ['#shadow-root-2', '#shadow-button-2'] })
+      .within({ "fromShadowDom" => ["#shadow-root-1", "#shadow-button-1"] })
+      .excluding({ "fromShadowDom" => ["#shadow-root-2", "#shadow-button-2"] })
     res = run_axe run
 
     targets = flat_targets res.results.passes
