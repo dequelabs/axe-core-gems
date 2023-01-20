@@ -9,11 +9,11 @@ module Axe
       end
 
       def within(*selectors)
-        @inclusion.concat selectors.map { |s| Array(Selector.new s) }
+        @inclusion.concat selectors.map { |s| Selector::normalize s }
       end
 
       def excluding(*selectors)
-        @exclusion.concat selectors.map { |s| Array(Selector.new s) }
+        @exclusion.concat selectors.map { |s| Selector::normalize s }
       end
 
       def to_h
