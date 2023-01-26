@@ -8,8 +8,10 @@ options = Selenium::WebDriver::Firefox::Options.new
 options.add_argument('--headless')
 $driver = Selenium::WebDriver.for :firefox, options: options
 
-def run_axe
-  Axe::Core.new($driver).call Axe::API::Run.new
+Run = Axe::API::Run
+
+def run_axe(run = Run.new)
+  Axe::Core.new($driver).call run
 end
 
 $fixture_root = File.join __dir__, "..", "..", "..", "..", "..", "node_modules", "axe-test-fixtures", "fixtures"
@@ -270,7 +272,7 @@ end
 
 
 describe "run vs runPartial" do
-  it "should return the same results", :oldaxe => true do
+  it "should return the same results" do
     $driver.get fixture "/nested-iframes.html"
     legacy_res = with_js($axe_post_43x + $force_legacy_js) { run_axe }
     expect(legacy_res.results.testEngine["name"]).to eq "axe-legacy"
@@ -285,7 +287,107 @@ describe "run vs runPartial" do
   end
 end
 
-describe "legacy_mode", :newt => true do
+describe "4.6 selectors" do
+  def flat_targets(rules)
+    targets = []
+    rules.each do |rule|
+      rule.nodes.each do |node|
+        node["target"].each do |target|
+          if target.is_a? Array
+            targets.concat target
+          else
+            targets.append target
+          end
+        end
+      end
+    end
+
+    targets
+  end
+
+  it "with labelled frame", :newt => true do
+    $driver.get fixture "/context-include-exclude.html"
+
+    run = Run.new
+        .within({ "fromFrames" => ["#ifr-inc-excl", "html"] })
+        .excluding({ "fromFrames" => ["#ifr-inc-excl", "#foo-bar"] })
+        .within({ "fromFrames" => ["#ifr-inc-excl", "#foo-baz", "html"] })
+        .excluding({ "fromFrames" => ["#ifr-inc-excl", "#foo-baz", "input"] })
+    res = run_axe run
+
+    label_result = res.results.violations.find {|rule| rule.id == :label}
+
+    targets = flat_targets res.results.passes
+    expect(targets).not_to include "#foo-bar"
+    expect(targets).not_to include "input"
+    expect(label_result).to be_nil
+  end
+
+  it "with include shadow DOM" do
+    $driver.get fixture "/shadow-dom.html"
+
+    run = Run.new
+      .within([["#shadow-root-1", "#shadow-button-1"]])
+      .within([["#shadow-root-2", "#shadow-button-2"]])
+    res = run_axe run
+
+    targets = flat_targets res.results.passes
+    expect(targets).to include "#shadow-button-1"
+    expect(targets).to include "#shadow-button-2"
+    expect(targets).not_to include "#button"
+  end
+
+  it "with exclude shadow DOM" do
+    $driver.get fixture "/shadow-dom.html"
+
+    run = Run.new
+      .excluding([["#shadow-root-1", "#shadow-button-1"]])
+      .excluding([["#shadow-root-2", "#shadow-button-2"]])
+    res = run_axe run
+
+    targets = flat_targets res.results.passes
+    expect(targets).not_to include "#shadow-button-1"
+    expect(targets).not_to include "#shadow-button-2"
+    expect(targets).to include "#button"
+  end
+
+  it "with labelled shadow DOM" do
+    $driver.get fixture "/shadow-dom.html"
+
+    run = Run.new
+      .within({ "fromShadowDom" => ["#shadow-root-1", "#shadow-button-1"] })
+      .excluding({ "fromShadowDom" => ["#shadow-root-2", "#shadow-button-2"] })
+    res = run_axe run
+
+    targets = flat_targets res.results.passes
+    expect(targets).to include "#shadow-button-1"
+    expect(targets).not_to include "#shadow-button-2"
+  end
+
+  it "with labelled iframe and shadow DOM" do
+    $driver.get fixture "/shadow-frames.html"
+
+    run = Run.new
+      .with_options({ "runOnly" => "label"})
+      .excluding({
+            "fromFrames" => [{
+                "fromShadowDom" => ["#shadow-root", "#shadow-frame"]
+              },
+              "input"
+            ]
+          })
+    res = run_axe run
+
+    expect(res.results.violations[0].id).to eq :label
+    expect(res.results.violations[0].nodes.length).to eq 2
+
+    nodes = res.results.violations[0].nodes
+    expect(nodes[0].target).to eq ["#light-frame", "input"]
+    expect(nodes[1].target).to eq ["#slotted-frame", "input"]
+  end
+end
+
+describe "legacy_mode" do
   run_partial_throws = ";axe.runPartial = () => { throw new Error('No runPartial')}"
 
   it "runs legacy mode when used" do

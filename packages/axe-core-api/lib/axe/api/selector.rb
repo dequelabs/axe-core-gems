@@ -1,6 +1,18 @@
 module Axe
   module API
     class Selector
+      def self.normalize(s)
+        if s.is_a? Hash
+          if s.key? :iframe and s.key? :selector
+            Array(Selector.new s)
+          else
+            s
+          end
+        else
+          Array(Selector.new s)
+        end
+      end
+
       def initialize(s)
         @selector = case s
                     when Array then s
