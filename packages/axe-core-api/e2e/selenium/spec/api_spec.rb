@@ -92,7 +92,7 @@ describe "Crashes" do
 end
 
 describe "frame tests" do
-  it "injects into nested iframes" do
+  it "injects into nested iframes", :fo => true do
     $driver.get fixture "/nested-iframes.html"
     res = run_axe
     expect(res.results.violations).not_to be_empty
