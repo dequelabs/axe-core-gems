@@ -4,9 +4,11 @@ require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
 
-options = Selenium::WebDriver::Firefox::Options.new
+options = Selenium::WebDriver::Chrome::Options.new
 options.add_argument('--headless')
-$driver = Selenium::WebDriver.for :firefox, options: options
+$driver = Selenium::WebDriver.for :chrome, options: options
+$driver.manage.timeouts.implicit_wait = 300
+$driver.manage.timeouts.script_timeout = 300
 
 Run = Axe::API::Run
 
@@ -20,6 +22,7 @@ $axe_pre_43x = File.read axe_pre_43x_file
 $axe_post_43x = Axe::Configuration.instance.jslib
 $crasher_js = File.read File.join($fixture_root, "axe-crasher.js")
 $force_legacy_js = File.read File.join($fixture_root, "axe-force-legacy.js")
+$large_partial_js = File.read File.join($fixture_root, "axe-large-partial.js")
 
 def fixture(filename)
   "http://localhost:8000" + filename
@@ -267,6 +270,15 @@ describe "axe.finishRun" do
     with_js($axe_post_43x + finish_run_throws) {
       expect { run_axe }.to raise_error /finishRun failed/
     }
+  end
+
+  it "works with large results", :nt => true do
+    $driver.get fixture "/index.html"
+    res = with_js($axe_post_43x + $large_partial_js) { run_axe }
+
+
+    expect(res.results.passes.length).to eq 1
+    expect(res.results.passes[0].id).to eq :'duplicate-id'
   end
 end
 

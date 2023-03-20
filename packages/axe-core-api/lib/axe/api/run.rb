@@ -48,7 +48,7 @@ module Axe
 
           Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
           begin
-            axe_finish_run page, partial_results
+            axe_finish_run page
           rescue
             raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
           end
@@ -156,12 +156,12 @@ module Axe
         JS
         page.execute_script_fixed script, chunk
       end
-      def axe_finish_run(page, partial_results)
+      def axe_finish_run(page)
         script = <<-JS
           const partialResults = JSON.parse(window.partialResults || '[]');
           return axe.finishRun(partialResults);
         JS
-        page.execute_script_fixed script, partial_results
+        page.execute_script_fixed script
       end
 
       def axe_shadow_select(page, frame_selector)
