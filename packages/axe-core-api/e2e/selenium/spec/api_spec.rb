@@ -57,7 +57,7 @@ def recursive_compact(thing)
   elsif thing.is_a?(Hash)
     thing.each_with_object({}) do |(k,v), h|
       v = recursive_compact(v)
-      h[k] = v unless [nil, [], {}].include?(v)
+      h[k] = v unless ([nil, [], {}].include?(v) or k == :html)
     end
   else
     thing
