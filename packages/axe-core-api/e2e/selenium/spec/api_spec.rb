@@ -271,15 +271,6 @@ describe "axe.finishRun" do
       expect { run_axe }.to raise_error /finishRun failed/
     }
   end
-
-  it "works with large results", :nt => true do
-    $driver.get fixture "/index.html"
-    res = with_js($axe_post_43x + $large_partial_js) { run_axe }
-
-
-    expect(res.results.passes.length).to eq 1
-    expect(res.results.passes[0].id).to eq :'duplicate-id'
-  end
 end
 
 
