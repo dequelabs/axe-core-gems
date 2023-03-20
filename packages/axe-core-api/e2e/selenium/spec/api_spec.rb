@@ -4,9 +4,9 @@ require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
 
-options = Selenium::WebDriver::Firefox::Options.new
-options.add_argument('--headless')
-$driver = Selenium::WebDriver.for :firefox, options: options
+options = Selenium::WebDriver::Chrome::Options.new
+# options.add_argument('--headless')
+$driver = Selenium::WebDriver.for :chrome, options: options
 
 Run = Axe::API::Run
 
@@ -270,7 +270,7 @@ describe "axe.finishRun" do
     }
   end
 
-  it "works with large results" do
+  it "works with large results", :nt => true do
     $driver.get fixture "/index.html"
     res = with_js($axe_post_43x + $large_partial_js) { run_axe }
 

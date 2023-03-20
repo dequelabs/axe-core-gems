@@ -37,7 +37,7 @@ module Axe
         throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
         results = within_about_blank_context(page) { |page|
           partial_res_str = partial_results.to_json
-          size_limit = 60_000_000
+          size_limit = 20_000_000
           while not partial_res_str.empty? do
             chunk_size = size_limit
             chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
