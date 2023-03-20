@@ -7,8 +7,6 @@ require "axe/api/run"
 options = Selenium::WebDriver::Firefox::Options.new
 options.add_argument('--headless')
 $driver = Selenium::WebDriver.for :firefox, options: options
-$driver.manage.timeouts.implicit_wait = 300
-$driver.manage.timeouts.script_timeout = 300
 
 Run = Axe::API::Run
 
@@ -270,6 +268,15 @@ describe "axe.finishRun" do
     with_js($axe_post_43x + finish_run_throws) {
       expect { run_axe }.to raise_error /finishRun failed/
     }
+  end
+
+  it "works with large results" do
+    $driver.get fixture "/index.html"
+    res = with_js($axe_post_43x + $large_partial_js) { run_axe }
+
+
+    expect(res.results.passes.length).to eq 1
+    expect(res.results.passes[0].id).to eq :'duplicate-id'
   end
 end
 
