@@ -4,9 +4,9 @@ require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
 
-options = Selenium::WebDriver::Chrome::Options.new
+options = Selenium::WebDriver::Firefox::Options.new
 options.add_argument('--headless')
-$driver = Selenium::WebDriver.for :chrome, options: options
+$driver = Selenium::WebDriver.for :firefox, options: options
 $driver.manage.timeouts.implicit_wait = 300
 $driver.manage.timeouts.script_timeout = 300
 
