@@ -4,9 +4,9 @@ require "selenium-webdriver"
 require "axe/core"
 require "axe/api/run"
 
-options = Selenium::WebDriver::Firefox::Options.new
-options.add_argument('--headless')
-$driver = Selenium::WebDriver.for :firefox, options: options
+options = Selenium::WebDriver::Chrome::Options.new
+# options.add_argument('--headless')
+$driver = Selenium::WebDriver.for :chrome, options: options
 
 Run = Axe::API::Run
 
@@ -20,6 +20,7 @@ $axe_pre_43x = File.read axe_pre_43x_file
 $axe_post_43x = Axe::Configuration.instance.jslib
 $crasher_js = File.read File.join($fixture_root, "axe-crasher.js")
 $force_legacy_js = File.read File.join($fixture_root, "axe-force-legacy.js")
+$large_partial_js = File.read File.join($fixture_root, "axe-large-partial.js")
 
 def fixture(filename)
   "http://localhost:8000" + filename
@@ -56,7 +57,7 @@ def recursive_compact(thing)
   elsif thing.is_a?(Hash)
     thing.each_with_object({}) do |(k,v), h|
       v = recursive_compact(v)
-      h[k] = v unless [nil, [], {}].include?(v)
+      h[k] = v unless ([nil, [], {}].include?(v) or k == :html)
     end
   else
     thing
@@ -92,7 +93,7 @@ describe "Crashes" do
 end
 
 describe "frame tests" do
-  it "injects into nested iframes" do
+  it "injects into nested iframes", :fo => true do
     $driver.get fixture "/nested-iframes.html"
     res = run_axe
     expect(res.results.violations).not_to be_empty
@@ -267,6 +268,15 @@ describe "axe.finishRun" do
     with_js($axe_post_43x + finish_run_throws) {
       expect { run_axe }.to raise_error /finishRun failed/
     }
+  end
+
+  it "works with large results", :nt => true do
+    $driver.get fixture "/index.html"
+    res = with_js($axe_post_43x + $large_partial_js) { run_axe }
+
+
+    expect(res.results.passes.length).to eq 1
+    expect(res.results.passes[0].id).to eq :'duplicate-id'
   end
 end
 
