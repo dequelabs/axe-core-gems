@@ -40,7 +40,7 @@ module Axe
       end
 
       def timestamp=(ts)
-        timestamp = ts
+        @timestamp = ts
       end
 
 
