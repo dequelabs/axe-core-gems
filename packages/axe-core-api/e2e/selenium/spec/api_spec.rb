@@ -236,6 +236,7 @@ describe "metadata" do
     res = run_axe
     expect(res.results.testEngine["name"]).not_to be_nil
     expect(res.results.testEngine["version"]).not_to be_nil
+    expect(res.results.timestamp).not_to be_nil
 
     expect(res.results.testEnvironment["orientationAngle"]).not_to be_nil
     expect(res.results.testEnvironment["orientationType"]).not_to be_nil
