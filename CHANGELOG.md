@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.6.1](https://github.com/dequelabs/axe-core-gems/compare/v4.6.0...v4.6.1) (2023-04-10)
+
+
+### Bug Fixes
+
+* **api:** properly set timestamp ([#292](https://github.com/dequelabs/axe-core-gems/issues/292)) ([47f4589](https://github.com/dequelabs/axe-core-gems/commit/47f458921615995b4f27dab581438498c5623348))
+* work with extremely large results ([#291](https://github.com/dequelabs/axe-core-gems/issues/291)) ([761c828](https://github.com/dequelabs/axe-core-gems/commit/761c828cd0c61ad7fdb524d422ccb9c399571bea))
 
 ## [4.6.0](https://github.com/dequelabs/axe-core-gems/compare/v4.5.1...v4.6.0) (2023-01-19)
 
