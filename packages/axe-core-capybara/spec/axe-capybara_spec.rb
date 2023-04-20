@@ -8,7 +8,7 @@ describe AxeCapybara do
 
   describe "driver" do
     it "validate yielded configuration" do
-      driver = AxeCapybara.configure(:chrome) do
+      driver = AxeCapybara.configure(:firefox) do
       end
 
       expect(driver).not_to be_nil
