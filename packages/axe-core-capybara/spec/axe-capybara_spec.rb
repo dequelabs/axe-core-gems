@@ -29,6 +29,8 @@ describe AxeCapybara do
 
     # Default is firefox, so we can just check that we can override the default
     it "sets browser" do
+      driver = AxeCapybara.configure(:chrome) do
+      end
       is_chrome = driver.page.execute_script "return !!window.chrome"
       expect(is_chrome).to be true
     end
