@@ -25,6 +25,6 @@ module AxeCapybara
   private
 
   def self.get_driver(browserSymbol)
-    Capybara::Selenium::Driver.new(browserSymbol)
+    Capybara::Selenium::Driver.new nil, :browser => browserSymbol
   end
 end

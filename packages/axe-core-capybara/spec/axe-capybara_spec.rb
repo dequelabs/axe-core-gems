@@ -8,7 +8,7 @@ describe AxeCapybara do
 
   describe "driver" do
     it "validate yielded configuration" do
-      driver = AxeCapybara.configure(:firefox) do
+      driver = AxeCapybara.configure(:chrome) do
       end
 
       expect(driver).not_to be_nil
@@ -25,6 +25,12 @@ describe AxeCapybara do
       expect { |stub_block|
         subject.configure(&stub_block)
       }.to yield_with_args(actual)
+    end
+
+    # Default is firefox, so we can just check that we can override the default
+    it "sets browser" do
+      is_chrome = @driver.page.execute_script "return !!window.chrome"
+      expect(is_chrome).to be true
     end
 
     it "should yield configuration with specified jslib path" do
