@@ -24,6 +24,6 @@ module AxeWatir
   private
 
   def self.get_driver(browserSymbol)
-    Watir::Browser.new browserSymbol
+    Watir::Browser.new(browserSymbol)
   end
 end
