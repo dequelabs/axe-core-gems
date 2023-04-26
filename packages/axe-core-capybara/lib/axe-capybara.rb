@@ -14,8 +14,7 @@ module AxeCapybara
 
     config = Axe::Configuration.instance
 
-    # provide a capybara webdriver page object
-    config.page = get_driver(browser)
+    set_driver(browser)
 
     # await and return
     yield config
@@ -24,7 +23,13 @@ module AxeCapybara
 
   private
 
-  def self.get_driver(browserSymbol)
-    Capybara::Selenium::Driver.new(nil, browser: browserSymbol)
+  def self.set_driver(browserSymbol)
+    if browserSymbol == :chrome
+      Capybara.default_driver = :selenium_chrome
+      Capybara.javascript_driver = :selenium_chrome
+    else
+      Capybara.default_driver = :selenium
+      Capybara.javascript_driver = :selenium
+    end
   end
 end

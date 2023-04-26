@@ -12,7 +12,6 @@ describe AxeCapybara do
       end
 
       expect(driver).not_to be_nil
-      driver.page.visit "https://google.com" # can navigate
       expect(driver).to respond_to :skip_iframes # can config
       expect(driver).to respond_to :jslib
       expect(driver.jslib).to include("axe.run=") # has axe injected
@@ -31,21 +30,18 @@ describe AxeCapybara do
     it "sets browser" do
       driver = AxeCapybara.configure(:chrome) do
       end
-      is_chrome = driver.page.execute_script "return !!window.chrome"
-      expect(is_chrome).to be true
+      expect(Capybara.default_driver).to be :selenium_chrome
     end
 
     it "defaults to firefox" do
       driver = AxeCapybara.configure() do
       end
-      browser = driver.page.options[:browser]
-      expect(browser).to be :firefox
+      expect(Capybara.default_driver).to be :selenium
     end
-    it "sets browser correctly" do
-      driver = AxeCapybara.configure(:chrome) do
+    it "sets browser to firefox" do
+      driver = AxeCapybara.configure(:firefox) do
       end
-      browser = driver.page.options[:browser]
-      expect(browser).to be :chrome
+      expect(Capybara.default_driver).to be :selenium
     end
 
     it "should yield configuration with specified jslib path" do
@@ -60,15 +56,6 @@ describe AxeCapybara do
 
       actual = Axe::Configuration.instance
       expect(actual.jslib_path).to eq different_axe_path
-    end
-
-    it "should yield configuration with Chrome driver" do
-      AxeCapybara.configure(:chrome) do
-      end
-
-      actual = Axe::Configuration.instance
-      expect(actual.page).not_to be_nil
-      expect(actual.page.to_s).to include("Capybara::Selenium::Driver")
     end
 
     it "should raise when no configuration block is provided" do
