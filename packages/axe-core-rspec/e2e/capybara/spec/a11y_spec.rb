@@ -2,9 +2,9 @@ require "spec_helper"
 
 # Typical example using standard RSpec dsl
 describe "ABCD CompuTech (RSpec DSL)",
-         :type => :feature, :driver => :selenium do
+         :type => :feature do
   before :each do
-    visit "http://abcdcomputech.dequecloud.com/"
+    page.visit "http://abcdcomputech.dequecloud.com/"
   end
 
   it "is known to be inaccessible, should fail" do
