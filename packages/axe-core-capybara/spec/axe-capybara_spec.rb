@@ -27,6 +27,30 @@ describe AxeCapybara do
       }.to yield_with_args(actual)
     end
 
+    # Default is firefox, so we can just check that we can override the default
+    it "sets browser" do
+      driver = AxeCapybara.configure(:chrome) do
+      end
+      is_chrome = driver.page.execute_script "return !!window.chrome"
+      expect(is_chrome).to be true
+      expect(Capybara.default_driver).to be :selenium_chrome
+    end
+
+    it "defaults to firefox" do
+      driver = AxeCapybara.configure() do
+      end
+      browser = driver.page.options[:browser]
+      expect(browser).to be :firefox
+      expect(Capybara.default_driver).to be :selenium
+    end
+    it "sets browser correctly" do
+      driver = AxeCapybara.configure(:chrome) do
+      end
+      browser = driver.page.options[:browser]
+      expect(browser).to be :chrome
+      expect(Capybara.default_driver).to be :selenium_chrome
+    end
+
     it "should yield configuration with specified jslib path" do
       different_axe_path = "different-axe-path/axe.js"
 
