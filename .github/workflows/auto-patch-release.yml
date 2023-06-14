@@ -8,6 +8,6 @@ jobs:
     uses: dequelabs/axe-api-team/.github/workflows/auto-patch-release.yml
     secrets: inherit
     with:
-      release-command: bash .github/scripts/prepare_release.sh
+      release-command: npx standard-version --release-as="${{ github.event.inputs.releaseLevel }}"
       release-branch: master
       default-branch: develop
