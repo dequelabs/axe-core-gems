@@ -66,6 +66,11 @@ def recursive_compact(thing)
   end
 end
 
+
+def get_check_by_id(check_list, id)
+  return check_list.find { |check| check.id == id }
+end
+
 describe "Crashes" do
   it "throws if axe errors out on the top window" do
     $driver.get fixture "/crash.html"
@@ -95,6 +100,26 @@ describe "Crashes" do
 end
 
 describe "frame tests" do
+  it "works on pages with unloaded frames" do
+    $driver.get fixture "/lazy-loaded-iframe.html"
+    title = $driver.title
+    res = run_axe
+    expect(title).not_to eq "Error"
+    frame_tested = get_check_by_id res.results.incomplete, :'frame-tested'
+    expect(frame_tested.nodes.length).to be 1
+    expect(frame_tested.nodes[0].target).to contain_exactly(
+      "#ifr-lazy",
+      "#lazy-iframe"
+    )
+
+    label = get_check_by_id res.results.violations, :label
+    expect(label.nodes.length).to be 1
+    expect(label.nodes[0].target).to contain_exactly(
+      "#ifr-lazy",
+      "#lazy-baz",
+      "input"
+    )
+  end
   it "injects into nested iframes", :fo => true do
     $driver.get fixture "/nested-iframes.html"
     res = run_axe
