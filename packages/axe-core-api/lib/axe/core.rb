@@ -45,10 +45,10 @@ module Axe
             document.reradyState === 'complete'
           JS
         }
-      # rescue
-      #   ready = false
+      rescue
+        ready = false
       end
-      # raise Exception.new "Page/frame not ready" if not ready
+      raise Exception.new "Page/frame not ready" if not ready
     end
 
     def load_axe_core(source)
