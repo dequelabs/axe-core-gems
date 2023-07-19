@@ -40,12 +40,12 @@ module Axe
 
     def assert_frame_ready
       begin
-        ready = Timeout.timeout(1) {
+        ready = Timeout.timeout(10) {
           @page.evaluate_script <<-JS
-            document.reradyState === 'complete'
+            document.readyState === 'complete'
           JS
         }
-      rescue
+      rescue Timeout::Error
         ready = false
       end
       raise Exception.new "Page/frame not ready" if not ready

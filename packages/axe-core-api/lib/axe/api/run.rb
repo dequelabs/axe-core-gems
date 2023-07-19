@@ -32,7 +32,7 @@ module Axe
       end
 
       def analyze_post_43x(page, lib)
-        page.manage.timeouts.page_load = 1
+        (get_selenium page).manage.timeouts.page_load = 1
         @original_window = window_handle page
         partial_results = run_partial_recursive(page, @context, lib, true)
         throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
@@ -111,7 +111,7 @@ module Axe
 
       def run_partial_recursive(page, context, lib, top_level = false, frame_stack = [])
         begin
-          window_handle = page.window_handle
+          current_window_handle = window_handle page
           if not top_level
             begin
               Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
@@ -144,7 +144,7 @@ module Axe
               results += res
             rescue Selenium::WebDriver::Error::TimeoutError
               page = get_selenium page
-              page.switch_to.window window_handle
+              page.switch_to.window current_window_handle
               frame_stack.each {|frame| page.switch_to.frame frame }
               results.push nil
             end
