@@ -6,7 +6,7 @@ defaults: &defaults
   working_directory: ~/axe-core-gems
 
 orbs:
-  browser-tools: circleci/browser-tools@1.2.4
+  browser-tools: circleci/browser-tools@1.4.3
   node: circleci/node@5.0.0
 
 commands:
