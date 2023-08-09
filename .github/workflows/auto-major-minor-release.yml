@@ -1,9 +1,8 @@
 name: Automatically create major/minor release every night
 on:
-  pull_request
-  # schedule:
-  #   # Run every night right before midnight
-  #   - cron: '59 23 * * *'
+  schedule:
+    # Run every night right before midnight
+    - cron: '59 23 * * *'
 
 jobs:
   create_major_minor_release:
@@ -27,14 +26,13 @@ jobs:
             releaseType="minor"
           elif [ "${{ steps.update.outputs.patch_version_updated }}" == "true" ]; then
             echo "No major/minor updates available, cancelling.";
-            # gh run cancel ${{ github.run_id }};
-            # gh run watch ${{ github.run_id }};
+            gh run cancel ${{ github.run_id }};
+            gh run watch ${{ github.run_id }};
           else
             echo "No updates available, cancelling.";
-            # gh run cancel ${{ github.run_id }};
-            # gh run watch ${{ github.run_id }};
+            gh run cancel ${{ github.run_id }};
+            gh run watch ${{ github.run_id }};
           fi
-          releaseType=major
           echo "releaseType=$releaseType" >>"$GITHUB_OUTPUT"
 
       - name: Create release
