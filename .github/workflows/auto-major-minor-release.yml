@@ -1,0 +1,49 @@
+name: Automatically create major/minor release every night
+on:
+  pull_request
+  # schedule:
+  #   # Run every night right before midnight
+  #   - cron: '59 23 * * *'
+
+jobs:
+  create_major_minor_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - id: update
+        uses: dequelabs/update-axe-core@v1
+      - id: type
+        run: |
+          releaseType=""
+          if [ "${{ steps.update.outputs.major_version_updated }}" == "true" ]; then
+            releaseType="major"
+          elif [ "${{ steps.update.outputs.minor_version_updated }}" == "true" ]; then
+            releaseType="minor"
+          elif [ "${{ steps.update.outputs.patch_version_updated }}" == "true" ]; then
+            echo "No major/minor updates available, cancelling.";
+            # gh run cancel ${{ github.run_id }};
+            # gh run watch ${{ github.run_id }};
+          else
+            echo "No updates available, cancelling.";
+            # gh run cancel ${{ github.run_id }};
+            # gh run watch ${{ github.run_id }};
+          fi
+          releaseType=major
+          echo "releaseType=$releaseType" >>"$GITHUB_OUTPUT"
+
+      - name: Create release
+        uses: dequelabs/axe-api-team-public/.github/actions/auto-major-minor-release-v1@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          project_token: ${{ secrets.GH_PROJECT_TOKEN }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          release-command: bash .github/scripts/prepare_release.sh ${{ steps.type.outputs.releaseType }}
+          release-branch: master
+          default-branch: develop
+          axe-version: ${{ steps.update.outputs.version }}
