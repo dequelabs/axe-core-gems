@@ -34,6 +34,7 @@ jobs:
             # gh run cancel ${{ github.run_id }};
             # gh run watch ${{ github.run_id }};
           fi
+          releaseType=major
           echo "releaseType=$releaseType" >>"$GITHUB_OUTPUT"
 
       - name: Create release
