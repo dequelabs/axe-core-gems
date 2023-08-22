@@ -34,29 +34,32 @@ module Axe
       def analyze_post_43x(page, lib)
         user_page_load = (get_selenium page).manage.timeouts.page_load
         (get_selenium page).manage.timeouts.page_load = 1
-        @original_window = window_handle page
-        partial_results = run_partial_recursive(page, @context, lib, true)
-        throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
-        results = within_about_blank_context(page) { |page|
-          partial_res_str = partial_results.to_json
-          size_limit = 10_000_000
-          while not partial_res_str.empty? do
-            chunk_size = size_limit
-            chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
-            chunk = partial_res_str[0..chunk_size-1]
-            partial_res_str = partial_res_str[chunk_size..-1]
-            store_chunk page, chunk
-          end
-
-          Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
-          begin
-            axe_finish_run page
-          rescue
-            raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
-          end
-
-        }
-        (get_selenium page).manage.timeouts.page_load = user_page_load
+        begin
+          @original_window = window_handle page
+          partial_results = run_partial_recursive(page, @context, lib, true)
+          throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
+          results = within_about_blank_context(page) { |page|
+            partial_res_str = partial_results.to_json
+            size_limit = 10_000_000
+            while not partial_res_str.empty? do
+              chunk_size = size_limit
+              chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
+              chunk = partial_res_str[0..chunk_size-1]
+              partial_res_str = partial_res_str[chunk_size..-1]
+              store_chunk page, chunk
+            end
+  
+            Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
+            begin
+              axe_finish_run page
+            rescue
+              raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
+            end
+  
+          }
+        ensure
+          (get_selenium page).manage.timeouts.page_load = user_page_load
+        end
         Audit.new to_js, Results.new(results)
       end
 
