@@ -32,6 +32,7 @@ module Axe
       end
 
       def analyze_post_43x(page, lib)
+        user_page_load = (get_selenium page).manage.timeouts.page_load
         (get_selenium page).manage.timeouts.page_load = 1
         @original_window = window_handle page
         partial_results = run_partial_recursive(page, @context, lib, true)
@@ -53,7 +54,9 @@ module Axe
           rescue
             raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
           end
+
         }
+        (get_selenium page).manage.timeouts.page_load = user_page_load
         Audit.new to_js, Results.new(results)
       end
 

@@ -75,7 +75,7 @@ describe "Crashes" do
   it "throws if axe errors out on the top window" do
     $driver.get fixture "/crash.html"
     with_js($axe_post_43x + $crasher_js) {
-      expect { run_axe }.to raise_error /Boom!/ 
+      expect { run_axe }.to raise_error /Boom!/
     }
   end
 
@@ -277,6 +277,15 @@ describe "metadata" do
     expect(res.results.toolOptions["reporter"]).not_to be_nil
 
     expect(res.results.url).to eq(fixture "/index.html")
+  end
+
+  it "keeps selenium page-load to user-set" do
+    my_page_load = 3
+    $driver.manage.timeouts.page_load = my_page_load
+    $driver.get fixture "/index.html"
+    res = run_axe
+
+    expect($driver.manage.timeouts.page_load).to be my_page_load
   end
 end
 
