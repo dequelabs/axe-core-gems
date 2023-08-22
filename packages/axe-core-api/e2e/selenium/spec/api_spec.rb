@@ -280,7 +280,7 @@ describe "metadata" do
   end
 
   it "keeps selenium page-load to user-set" do
-    my_page_load = 3
+    my_page_load = 3.0
     $driver.manage.timeouts.page_load = my_page_load
     $driver.get fixture "/index.html"
     res = run_axe
