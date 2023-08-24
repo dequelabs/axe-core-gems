@@ -26,4 +26,4 @@ jobs:
           odd_release: 'true'
           release-command: bash .github/scripts/prepare_release.sh
           release-branch: master
-          default-branch: ci-patch-manual
+          default-branch: develop
