@@ -7,6 +7,7 @@ module Axe
     let(:page) {
       spy("page", evaluate_script: false)
     }
+    before { allow(page).to receive(:evaluate_script).and_return(false, true, false) }
 
     describe "initialize" do
       # We have removed comments from `axe.min.js`, so excluding this test
