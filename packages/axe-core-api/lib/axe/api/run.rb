@@ -133,8 +133,11 @@ module Axe
           end
 
           res = axe_run_partial page, context
-          if res.key?("errorMessage")
-            throw res if top_level
+          if res.nil? || res.key?("errorMessage")
+            if top_level
+              throw res unless res.nil?
+              throw "axe.runPartial returned null"
+            end
             return [nil]
           else
             results = [res]
