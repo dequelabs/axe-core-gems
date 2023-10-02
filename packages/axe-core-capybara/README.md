@@ -35,8 +35,7 @@ The configure method takes 1 optional argument as a [symbol][] and a  configurat
 
 The optional argument is a browser name for `capybara`. The valid browser names are:
 - `:firefox` (default)
-- `:chrome` 
-- `:safari`
+- `:chrome`
 
 > Note: Please ensure respective drivers (eg: [`geckodriver`][]) are installed in your machine.
 

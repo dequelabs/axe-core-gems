@@ -86,5 +86,40 @@ module Axe::API
         subject.call(page)
       end
     end
+
+    describe "#run_partial_recursive" do
+      let(:context) { spy("context") }
+      before :each do
+        allow(subject).to receive(:get_frame_context_script).and_return({ "key" => "doesn't matter"})
+        subject.instance_variable_set :@context, context
+      end
+      let(:lib) { "{}" }
+
+      it "should throw errorMessage if top level axe.runPartial errors" do
+        page = spy("page", execute_async_script_fixed: { "errorMessage" => "some error" }) 
+
+        expect {
+          subject.send :run_partial_recursive, page, context, lib, true
+        }.to  raise_error /some error/
+      end
+
+      it "should throw an error if top level axe.runPartial returns null" do
+        page = spy("page", execute_async_script_fixed: nil) 
+        expect {
+          subject.send :run_partial_recursive, page, context, lib, true
+        }.to  raise_error /returned null/
+      end
+
+      it "should return array of nil if not top level and axe.runPartial errors" do
+        page = spy("page", execute_async_script_fixed: nil) 
+        expect(subject.send :run_partial_recursive, page, context, lib, false).to eq [nil]
+      end
+
+      it "should return array of nil if not top level and axe.runPartial returns nil" do
+        page = spy("page", execute_async_script_fixed: { "errorMessage" => "some error" }) 
+        expect(subject.send :run_partial_recursive, page, context, lib, false).to eq [nil]
+      end
+
+    end
   end
 end

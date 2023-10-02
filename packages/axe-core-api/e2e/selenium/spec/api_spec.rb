@@ -6,6 +6,8 @@ require "axe/api/run"
 
 options = Selenium::WebDriver::Chrome::Options.new
 # options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 $driver = Selenium::WebDriver.for :chrome, options: options
 
 Run = Axe::API::Run
@@ -64,11 +66,16 @@ def recursive_compact(thing)
   end
 end
 
+
+def get_check_by_id(check_list, id)
+  return check_list.find { |check| check.id == id }
+end
+
 describe "Crashes" do
   it "throws if axe errors out on the top window" do
     $driver.get fixture "/crash.html"
     with_js($axe_post_43x + $crasher_js) {
-      expect { run_axe }.to raise_error /Boom!/ 
+      expect { run_axe }.to raise_error /Boom!/
     }
   end
 
@@ -93,6 +100,26 @@ describe "Crashes" do
 end
 
 describe "frame tests" do
+  it "works on pages with unloaded frames" do
+    $driver.get fixture "/lazy-loaded-iframe.html"
+    title = $driver.title
+    res = run_axe
+    expect(title).not_to eq "Error"
+    frame_tested = get_check_by_id res.results.incomplete, :'frame-tested'
+    expect(frame_tested.nodes.length).to be 1
+    expect(frame_tested.nodes[0].target).to contain_exactly(
+      "#ifr-lazy",
+      "#lazy-iframe"
+    )
+
+    label = get_check_by_id res.results.violations, :label
+    expect(label.nodes.length).to be 1
+    expect(label.nodes[0].target).to contain_exactly(
+      "#ifr-lazy",
+      "#lazy-baz",
+      "input"
+    )
+  end
   it "injects into nested iframes", :fo => true do
     $driver.get fixture "/nested-iframes.html"
     res = run_axe
@@ -250,6 +277,15 @@ describe "metadata" do
     expect(res.results.toolOptions["reporter"]).not_to be_nil
 
     expect(res.results.url).to eq(fixture "/index.html")
+  end
+
+  it "keeps selenium page-load to user-set" do
+    my_page_load = 3.0
+    $driver.manage.timeouts.page_load = my_page_load
+    $driver.get fixture "/index.html"
+    res = run_axe
+
+    expect($driver.manage.timeouts.page_load).to be my_page_load
   end
 end
 

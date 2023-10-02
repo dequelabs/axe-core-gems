@@ -32,27 +32,34 @@ module Axe
       end
 
       def analyze_post_43x(page, lib)
-        @original_window = window_handle page
-        partial_results = run_partial_recursive(page, @context, lib, true)
-        throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
-        results = within_about_blank_context(page) { |page|
-          partial_res_str = partial_results.to_json
-          size_limit = 20_000_000
-          while not partial_res_str.empty? do
-            chunk_size = size_limit
-            chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
-            chunk = partial_res_str[0..chunk_size-1]
-            partial_res_str = partial_res_str[chunk_size..-1]
-            store_chunk page, chunk
-          end
-
-          Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
-          begin
-            axe_finish_run page
-          rescue
-            raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
-          end
-        }
+        user_page_load = (get_selenium page).manage.timeouts.page_load
+        (get_selenium page).manage.timeouts.page_load = 1
+        begin
+          @original_window = window_handle page
+          partial_results = run_partial_recursive(page, @context, lib, true)
+          throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
+          results = within_about_blank_context(page) { |page|
+            partial_res_str = partial_results.to_json
+            size_limit = 10_000_000
+            while not partial_res_str.empty? do
+              chunk_size = size_limit
+              chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
+              chunk = partial_res_str[0..chunk_size-1]
+              partial_res_str = partial_res_str[chunk_size..-1]
+              store_chunk page, chunk
+            end
+  
+            Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
+            begin
+              axe_finish_run page
+            rescue
+              raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
+            end
+  
+          }
+        ensure
+          (get_selenium page).manage.timeouts.page_load = user_page_load
+        end
         Audit.new to_js, Results.new(results)
       end
 
@@ -108,15 +115,15 @@ module Axe
         page.current_window_handle
       end
 
-      def run_partial_recursive(page, context, lib, top_level = false)
+      def run_partial_recursive(page, context, lib, top_level = false, frame_stack = [])
         begin
+          current_window_handle = window_handle page
           if not top_level
             begin
               Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
             rescue
               return [nil]
             end
-
           end
 
           frame_contexts = get_frame_context_script page
@@ -126,20 +133,30 @@ module Axe
           end
 
           res = axe_run_partial page, context
-          if res.key?("errorMessage")
-            throw res if top_level
+          if res.nil? || res.key?("errorMessage")
+            if top_level
+              throw res unless res.nil?
+              throw "axe.runPartial returned null"
+            end
             return [nil]
           else
             results = [res]
           end
 
           for frame_context in frame_contexts
-            frame_selector = frame_context["frameSelector"]
-            frame_context = frame_context["frameContext"]
-            frame = axe_shadow_select page, frame_selector
-            switch_to_frame_by_handle page, frame
-            res = run_partial_recursive page, frame_context, lib
-            results += res
+            begin
+              frame_selector = frame_context["frameSelector"]
+              frame_context = frame_context["frameContext"]
+              frame = axe_shadow_select page, frame_selector
+              switch_to_frame_by_handle page, frame
+              res = run_partial_recursive page, frame_context, lib, false, [*frame_stack, frame]
+              results += res
+            rescue Selenium::WebDriver::Error::TimeoutError
+              page = get_selenium page
+              page.switch_to.window current_window_handle
+              frame_stack.each {|frame| page.switch_to.frame frame }
+              results.push nil
+            end
           end
 
         ensure
