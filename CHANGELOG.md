@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.0](https://github.com/dequelabs/axe-core-gems/compare/v4.6.1...v4.8.0) (2023-09-27)
+
+
+### Features
+
+* Update axe-core to v4.7.0 ([#299](https://github.com/dequelabs/axe-core-gems/issues/299)) ([81ca285](https://github.com/dequelabs/axe-core-gems/commit/81ca285e2a8ebda7414b5d0543b732141ea6512d))
+* Update axe-core to v4.8.1 ([#329](https://github.com/dequelabs/axe-core-gems/issues/329)) ([7fc5a48](https://github.com/dequelabs/axe-core-gems/commit/7fc5a4856c0d75e5b85e932c20bf1cb6207813a8))
+
+
+### Bug Fixes
+
+* **axe-core-api:** pin axe-core version to accept patch updates only ([#334](https://github.com/dequelabs/axe-core-gems/issues/334)) ([c204367](https://github.com/dequelabs/axe-core-gems/commit/c2043677fcfa8b2a37fa149398f4668ee485e7cb))
+* **capybara:** open browser based on passed symbol ([#303](https://github.com/dequelabs/axe-core-gems/issues/303)) ([c43ee49](https://github.com/dequelabs/axe-core-gems/commit/c43ee49744133ca22a32dde767d896b376c77b6c))
+* **capybara:** open selected browser ([#305](https://github.com/dequelabs/axe-core-gems/issues/305)) ([311e4da](https://github.com/dequelabs/axe-core-gems/commit/311e4dabfe711c6d2bb0e37e113a86d4c4edcf6a))
+* **capybara:** respect browser choice ([#307](https://github.com/dequelabs/axe-core-gems/issues/307)) ([bb0471d](https://github.com/dequelabs/axe-core-gems/commit/bb0471d6ce31c4accabe03de824053f644e6519a))
+* gracefully handle unloaded iframes ([#315](https://github.com/dequelabs/axe-core-gems/issues/315)) ([bef7d97](https://github.com/dequelabs/axe-core-gems/commit/bef7d97fc1185f7dad93b0ef01cb1ff71c7a7643))
+* handle spurious axe.runPartial returning null ([#324](https://github.com/dequelabs/axe-core-gems/issues/324)) ([3dca4c2](https://github.com/dequelabs/axe-core-gems/commit/3dca4c2cac19f2c5a1e6b5eb918c15c593ec9527))
+* Update axe-core to v4.6.3 ([#298](https://github.com/dequelabs/axe-core-gems/issues/298)) ([4dbab74](https://github.com/dequelabs/axe-core-gems/commit/4dbab7457b270180c1ae4d5917128dd330aaf0bb))
+* **watir:** spawn firefox windows on windows ([#306](https://github.com/dequelabs/axe-core-gems/issues/306)) ([74de72f](https://github.com/dequelabs/axe-core-gems/commit/74de72f3074559b0d9ab3b3f62e10017010ac20a))
+
 ## [4.7.0](https://github.com/dequelabs/axe-core-gems/compare/v4.6.1...v4.7.0) (2023-04-27)
 
 
