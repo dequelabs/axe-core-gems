@@ -1,0 +1,23 @@
+name: Create release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-locked:
+        type: boolean
+        description: Uncheck if you want to follow SemVer versioning rather than version-lock to axe-core.
+        default: true
+
+jobs:
+  create-release-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dequelabs/axe-api-team-public/.github/actions/create-release-candidate-v1@main
+        with:
+          token: ${{ secrets.GH_PROJECT_TOKEN }}
+          base: "master"
+          head: "develop"
+          release-script-path: "./.github/scripts/prepare_release.sh"
+          version-locked: ${{ inputs.version-locked }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PROJECT_TOKEN }}
