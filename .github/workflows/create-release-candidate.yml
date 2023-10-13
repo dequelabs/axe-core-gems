@@ -5,7 +5,7 @@ on:
     inputs:
       version-locked:
         type: boolean
-        description: Uncheck if you want to follow SemVer versioning rather than version-lock to axe-core.
+        description: Prevent this action from creating a minor or major release
         default: true
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: dequelabs/axe-api-team-public/.github/actions/create-release-candidate-v1@main
         with:
-          token: ${{ secrets.GH_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           base: "master"
           head: "develop"
           release-script-path: "./.github/scripts/prepare_release.sh"
