@@ -11,5 +11,6 @@ on:
 jobs:
   semantic-pr-footer:
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - uses: dequelabs/axe-api-team-public/.github/actions/semantic-pr-footer-v1@main
