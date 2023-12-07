@@ -11,6 +11,7 @@ on:
 jobs:
   create-release-candidate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: dequelabs/axe-api-team-public/.github/actions/create-release-candidate-v1@main
         with:

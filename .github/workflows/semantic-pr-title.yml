@@ -11,5 +11,6 @@ on:
 jobs:
   semantic-pr-title:
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
       - uses: dequelabs/semantic-pr-title@v1
