@@ -18,7 +18,7 @@ commands:
           # TODO: remove when chromedriver downloads are fixed
           chrome-version: 116.0.5845.96
       - node/install:
-          node-version: '16.13'
+          node-version: "16.13"
       - run: gem install bundler # setup bundler
       - run: rake bootstrap # bootstrap packages
 
@@ -86,7 +86,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '16.13'
+          node-version: "16.13"
       - bootstrap
       - run: bash .circleci/print_license.sh
 
@@ -104,6 +104,7 @@ workflows:
             branches:
               only:
                 - develop
+                - release
       - production_release:
           requires:
             - test
