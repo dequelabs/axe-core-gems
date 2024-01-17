@@ -1,6 +1,14 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [4.8.1](https://github.com/dequelabs/axe-core-gems/compare/v4.8.0...v4.8.1) (2024-01-15)
+
+### Bug Fixes
+
+* Update axe-core to v4.8.2 ([#332](https://github.com/dequelabs/axe-core-gems/issues/332)) ([b3789c4](https://github.com/dequelabs/axe-core-gems/commit/b3789c44e433c82743a84029d2bac7c529d32047))
+* Update axe-core to v4.8.3 ([#360](https://github.com/dequelabs/axe-core-gems/issues/360)) ([cb6338c](https://github.com/dequelabs/axe-core-gems/commit/cb6338c222a55825f4ec9f04699c775d76508a26))
+
 
 ## [4.8.0](https://github.com/dequelabs/axe-core-gems/compare/v4.6.1...v4.8.0) (2023-09-27)
 
