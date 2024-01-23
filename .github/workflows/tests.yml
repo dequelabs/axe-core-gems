@@ -15,14 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3
+          ruby-version: 2.7.5
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       # HACK: Force a TTY to enable browser-driver-manager to manipulate stdout.
       - shell: 'script -q -e -c "bash {0}"'
         run: npx browser-driver-manager install chromedriver --verbose
-      - run: gem install bundler
       - run: rake bootstrap
       # unit test - API
       - run: rake test_unit\[axe-core-api\]
@@ -58,10 +57,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3
+          ruby-version: 2.7.5
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: gem install bundler
       - run: rake bootstrap
-      - run: bash scripts/print_license.sh
+      - run: bash .github/scripts/print_license.sh
