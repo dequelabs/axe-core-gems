@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3
+          ruby-version: 2.7.5
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -52,3 +52,16 @@ jobs:
           sleep 1 # Just wait a bit for the http server to startup
           cd packages/axe-core-api/e2e/selenium
           bundle install && bundle exec rspec
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: gem install bundler
+      - run: rake bootstrap
+      - run: bash scripts/print_license.sh
