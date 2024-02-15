@@ -2,7 +2,7 @@
 
 [![Join our Slack chat](https://img.shields.io/badge/slack-chat-purple.svg?logo=slack)](https://accessibility.deque.com/axe-community)
 
-This repository contains 6 packages/gems, which can be used for automated accesibility testing powered by [axe core][axe-core].
+This repository contains 6 packages/gems, which can be used for automated accessibility testing powered by [axe core][axe-core].
 
 The gems are as below:
 - [`axe-core-api`](./packages/axe-core-api/README.md)
