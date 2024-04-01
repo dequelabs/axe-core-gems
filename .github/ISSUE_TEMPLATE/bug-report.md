@@ -35,7 +35,7 @@ If applicable, add screenshots to help explain your problem.
 List out any user story or bug ticket(s) related to this bug. 
 
 **Desktop (please complete the following information):**
-- Product: [e.g. axe-core] 
+- Product: [e.g. selenium] 
 - Product Version: [e.g. v4.7.4]
 - Latest Product Version it is NOT happening in: [e.g. v4.7.2]
 - OS: [e.g. iOS]
