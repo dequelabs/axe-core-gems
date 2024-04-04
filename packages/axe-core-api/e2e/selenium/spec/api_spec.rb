@@ -308,6 +308,10 @@ describe "axe.finishRun" do
   end
 
   it "throws an error if the window handle can't be found" do
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    $driver = Selenium::WebDriver.for :chrome, options: options
     # this is to cause execute_script to run twice, thus creating one extra window when it's called with `window.open` and making the handle undeterminable
     allow($driver).to receive(:execute_script).and_wrap_original do |original_method, *args, &block|
       original_method.call(*args, &block)
@@ -329,39 +333,6 @@ describe "axe.finishRun" do
     expect(res.results.passes[0].id).to eq :'duplicate-id'
   end
 end
-
-# describe "does not throw when given" do
-#   it "chromedriver" do
-#     options = Selenium::WebDriver::Chrome::Options.new
-#     options.add_argument('--no-sandbox')
-#     options.add_argument('--disable-dev-shm-usage')
-#     driver = Selenium::WebDriver.for :chrome, options: options
-#     expect do 
-#       driver.get fixture "/index.html"
-#       driver.get "about:blank"
-#     end.not_to raise_error
-#   end
-
-#   it "geckodriver" do
-#     options = Selenium::WebDriver::Firefox::Options.new
-#     options.add_argument('--headless')
-#     driver = Selenium::WebDriver.for :firefox, options: options
-#     expect do 
-#       driver.get fixture "/index.html"
-#       driver.get "about:blank"
-#     end.not_to raise_error
-#   end
-
-#   if Object::RUBY_PLATFORM =~ /darwin/i
-#     it "safaridriver" do
-#       driver = Selenium::WebDriver.for :safari
-#       expect do 
-#         driver.get fixture "/index.html"
-#         driver.get "about:blank"
-#       end.not_to raise_error
-#     end
-#   end
-# end
 
 describe "run vs runPartial" do
   it "should return the same results" do
@@ -554,6 +525,39 @@ describe "legacy_mode" do
       allowed_origin = get_allowed_origin
       expect(allowed_origin).to eq ["*"]
       expect(allowed_origin.length).to eq 1
+    end
+  end
+end
+
+describe "does not throw when given" do
+  it "chromedriver" do
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    driver = Selenium::WebDriver.for :chrome, options: options
+    expect do 
+      driver.get fixture "/index.html"
+      driver.get "about:blank"
+    end.not_to raise_error
+  end
+
+  it "geckodriver" do
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.add_argument('--headless')
+    driver = Selenium::WebDriver.for :firefox, options: options
+    expect do 
+      driver.get fixture "/index.html"
+      driver.get "about:blank"
+    end.not_to raise_error
+  end
+
+  if Object::RUBY_PLATFORM =~ /darwin/i
+    it "safaridriver" do
+      driver = Selenium::WebDriver.for :safari
+      expect do 
+        driver.get fixture "/index.html"
+        driver.get "about:blank"
+      end.not_to raise_error
     end
   end
 end

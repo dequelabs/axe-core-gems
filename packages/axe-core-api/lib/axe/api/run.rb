@@ -88,37 +88,27 @@ module Axe
       def within_about_blank_context(page)
         driver = get_selenium page
 
-        # This is a workaround to maintain Selenium 3 support
-        # Likely driver.switch_to.new_window(:tab) should be used instead, should we drop support, as per
-        # https://github.com/dequelabs/axe-core-gems/issues/352
-
-        before_handles = page.window_handles
+        num_handles = page.window_handles.length
         begin
           driver.execute_script("window.open('about:blank'), '_blank'")
+          if num_handles == page.window_handles.length
+            raise StandardError.new "Could not open new window. Please make sure that you have popup blockers disabled."
+          end
+          driver.switch_to.window page.window_handles[-1]
         rescue
-          raise StandardError.new "switchToWindow failed. Are you using updated browser drivers? Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
+            raise StandardError.new "switchToWindow failed. Are you using updated browser drivers? Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
         end
-        after_handles = page.window_handles
-        new_handles = after_handles.difference(before_handles)
-        if new_handles.length != 1
-          raise StandardError.new "Unable to determine window handle"
-        end
-        new_handle = new_handles[0]
-        driver.switch_to.window new_handle
-
         driver.get "about:blank"
 
         ret = yield page
 
-        driver.switch_to.window new_handle
+        driver.switch_to.window page.window_handles[-1]
         driver.close
         driver.switch_to.window @original_window
 
         ret
-      end
-
-        
-
+      end      
+      
       def window_handle(page)
         page = get_selenium page
 
