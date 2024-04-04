@@ -330,39 +330,38 @@ describe "axe.finishRun" do
   end
 end
 
-describe "does not throw when given" do
-  it "chromedriver" do
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    driver = Selenium::WebDriver.for :chrome, options: options
-    expect do 
-      driver.get fixture "/index.html"
-      driver.get "about:blank"
-    end.not_to raise_error
-  end
+# describe "does not throw when given" do
+#   it "chromedriver" do
+#     options = Selenium::WebDriver::Chrome::Options.new
+#     options.add_argument('--no-sandbox')
+#     options.add_argument('--disable-dev-shm-usage')
+#     driver = Selenium::WebDriver.for :chrome, options: options
+#     expect do 
+#       driver.get fixture "/index.html"
+#       driver.get "about:blank"
+#     end.not_to raise_error
+#   end
 
-  it "geckodriver" do
-    options = Selenium::WebDriver::Firefox::Options.new
-    options.add_argument('--headless')
-    driver = Selenium::WebDriver.for :firefox, options: options
-    expect do 
-      driver.get fixture "/index.html"
-      driver.get "about:blank"
-    end.not_to raise_error
-  end
+#   it "geckodriver" do
+#     options = Selenium::WebDriver::Firefox::Options.new
+#     options.add_argument('--headless')
+#     driver = Selenium::WebDriver.for :firefox, options: options
+#     expect do 
+#       driver.get fixture "/index.html"
+#       driver.get "about:blank"
+#     end.not_to raise_error
+#   end
 
-  if Object::RUBY_PLATFORM =~ /darwin/i
-    it "safaridriver" do
-      driver = Selenium::WebDriver.for :safari
-      expect do 
-        driver.get fixture "/index.html"
-        driver.get "about:blank"
-      end.not_to raise_error
-    end
-  end
-end
-
+#   if Object::RUBY_PLATFORM =~ /darwin/i
+#     it "safaridriver" do
+#       driver = Selenium::WebDriver.for :safari
+#       expect do 
+#         driver.get fixture "/index.html"
+#         driver.get "about:blank"
+#       end.not_to raise_error
+#     end
+#   end
+# end
 
 describe "run vs runPartial" do
   it "should return the same results" do

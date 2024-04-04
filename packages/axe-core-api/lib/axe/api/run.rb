@@ -104,6 +104,7 @@ module Axe
           raise StandardError.new "Unable to determine window handle"
         end
         new_handle = new_handles[0]
+        driver.switch_to.window new_handle
 
         driver.get "about:blank"
 
@@ -115,6 +116,9 @@ module Axe
 
         ret
       end
+
+        
+
       def window_handle(page)
         page = get_selenium page
 
