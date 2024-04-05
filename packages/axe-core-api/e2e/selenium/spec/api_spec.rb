@@ -307,6 +307,19 @@ describe "axe.finishRun" do
     }
   end
 
+  it "throws an error if the window handle can't be found" do
+    # this is to cause execute_script to run twice, thus creating one extra window when it's called with `window.open` and making the handle undeterminable
+    allow($driver).to receive(:execute_script).and_wrap_original do |original_method, *args, &block|
+      original_method.call(*args, &block)
+      original_method.call(*args, &block)
+    end
+    
+    $driver.get fixture "/index.html"
+    with_js($axe_post_43x) {
+      expect { run_axe }.to raise_error /Unable to determine window handle/
+    }
+  end
+
   it "works with large results", :nt => true do
     $driver.get fixture "/index.html"
     res = with_js($axe_post_43x + $large_partial_js) { run_axe }
