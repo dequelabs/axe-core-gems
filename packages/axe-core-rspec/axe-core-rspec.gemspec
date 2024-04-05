@@ -24,7 +24,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "dumb_delegator"
   spec.add_dependency "virtus"
-  spec.add_dependency "axe-core-api"
+  # pin to a specific version of axe-core-api
+  spec.add_dependency "axe-core-api", AxeCoreGems::VERSION
 
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake"
