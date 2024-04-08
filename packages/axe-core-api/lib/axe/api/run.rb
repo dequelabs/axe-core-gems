@@ -104,8 +104,6 @@ module Axe
         end
         new_handle = new_handles[0]
         driver.switch_to.window new_handle
-
-
         driver.get "about:blank"
 
         ret = yield page

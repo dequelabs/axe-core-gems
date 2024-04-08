@@ -40,14 +40,19 @@ module Axe
 
     def assert_frame_ready
       begin
-        ready = Timeout.timeout(10) {
-          @page.evaluate_script <<-JS
-            document.readyState === 'complete'
+        wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+        wait.until { 
+          puts "waiting"
+          readyState = @page.evaluate_script <<-JS
+            document.readyState
           JS
+          readyState == 'complete'
         }
-      rescue Timeout::Error
+        ready = true
+      rescue Selenium::WebDriver::Error::TimeoutError
         ready = false
       end
+
       raise Exception.new "Page/frame not ready" if not ready
     end
 
