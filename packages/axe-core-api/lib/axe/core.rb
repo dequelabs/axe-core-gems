@@ -42,7 +42,6 @@ module Axe
       begin
         wait = Selenium::WebDriver::Wait.new(:timeout => 10)
         wait.until { 
-          puts "waiting"
           readyState = @page.evaluate_script <<-JS
             document.readyState
           JS
