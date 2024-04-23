@@ -38,22 +38,8 @@ module Axe
       Core.has_run_partial?(@page) and not Axe::Configuration.instance.legacy_mode
     end
 
-    def assert_frame_ready
-      begin
-        ready = Timeout.timeout(10) {
-          @page.evaluate_script <<-JS
-            document.readyState === 'complete'
-          JS
-        }
-      rescue Timeout::Error
-        ready = false
-      end
-      raise Exception.new "Page/frame not ready" if not ready
-    end
-
     def load_axe_core(source)
       return if already_loaded?
-      assert_frame_ready
       loader = Common::Loader.new(@page, self)
       loader.load_top_level source
       return if use_run_partial
