@@ -7,8 +7,7 @@ module Axe
     let(:page) {
       spy("page", evaluate_script: false)
     }
-    before { allow(page).to receive(:evaluate_script).and_return(false, true, false) }
-
+    before { allow(page).to receive(:evaluate_script).and_return(false, 'complete', false) }
     describe "initialize" do
       # We have removed comments from `axe.min.js`, so excluding this test
       # Hence cannot do start_with("/*! aXe"), instead do a function we know should exist check
@@ -23,6 +22,14 @@ module Axe
         it "should not inject the axe-core lib" do
           described_class.new(page)
           expect(page).not_to have_received(:execute_script)
+        end
+      end
+
+      context "when document.readyState is interactive" do
+        before { allow(page).to receive(:evaluate_script).and_return(false, 'interactive', 'interactive', 'complete') }
+        it "should check ready frame until complete, then proceed" do
+          described_class.new(page)
+          expect(page).to have_received(:execute_script).with(a_string_including ("axe.run="))
         end
       end
     end

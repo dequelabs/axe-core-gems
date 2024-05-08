@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.9.1](https://github.com/dequelabs/axe-core-gems/compare/v4.9.0...v4.9.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* Safari noSuchWindowException and Page/Frame not ready ([#385](https://github.com/dequelabs/axe-core-gems/issues/385)) ([a02013a](https://github.com/dequelabs/axe-core-gems/commit/a02013a6bdbd78db7d1cd351ed66585072515f6c)), closes [#353](https://github.com/dequelabs/axe-core-gems/issues/353) [#352](https://github.com/dequelabs/axe-core-gems/issues/352) [#353](https://github.com/dequelabs/axe-core-gems/issues/353)
+* Update axe-core to v4.9.1 ([#387](https://github.com/dequelabs/axe-core-gems/issues/387)) ([0d32cea](https://github.com/dequelabs/axe-core-gems/commit/0d32ceaaee173a9cad4ae9b566e489ecb5c4a64a))
+
 ## [4.9.0](https://github.com/dequelabs/axe-core-gems/compare/v4.8.2...v4.9.0) (2024-03-26)
 
 
