@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: dequelabs/action-sync-branches@v1.0.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           pr-title: "chore: merge master into develop"
           pr-team-reviewers: axe-api-team
           pr-labels: chore
