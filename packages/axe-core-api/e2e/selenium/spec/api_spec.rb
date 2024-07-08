@@ -2,7 +2,7 @@
 require "json" #TODO: REMOVE
 require "selenium-webdriver"
 require "axe/core"
-require "axe/api/run"
+require "axe/api"
 
 options = Selenium::WebDriver::Chrome::Options.new
 # options.add_argument('--headless')
