@@ -6,7 +6,7 @@ defaults: &defaults
   working_directory: ~/axe-core-gems
 
 orbs:
-  browser-tools: circleci/browser-tools@1.4.8
+  browser-tools: circleci/browser-tools@1.4.4
   node: circleci/node@5.0.0
 
 commands:
@@ -17,7 +17,6 @@ commands:
       - browser-tools/install-browser-tools:
           # TODO: remove when chromedriver downloads are fixed
           chrome-version: 116.0.5845.96
-          replace-existing: true
       - node/install:
           node-version: "16.13"
       - run: gem install bundler # setup bundler
