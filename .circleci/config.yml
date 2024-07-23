@@ -17,7 +17,6 @@ commands:
       - browser-tools/install-browser-tools:
           # TODO: remove when chromedriver downloads are fixed
           chrome-version: 126.0.6478.182
-          replace-existing-chrome: true
       - node/install:
           node-version: "16.13"
       - run: gem install bundler # setup bundler
