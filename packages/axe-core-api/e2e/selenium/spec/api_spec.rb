@@ -5,7 +5,7 @@ require "axe/core"
 require "axe/api"
 
 options = Selenium::WebDriver::Chrome::Options.new
-# options.add_argument('--headless')
+options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 $driver = Selenium::WebDriver.for :chrome, options: options
@@ -345,7 +345,6 @@ describe "does not throw when given" do
   it "geckodriver" do
     options = Selenium::WebDriver::Firefox::Options.new
     options.add_argument('--headless')
-    options.add_argument('--disable-dev-shm-usage')
     driver = Selenium::WebDriver.for :firefox, options: options
     expect do 
       driver.get fixture "/index.html"
