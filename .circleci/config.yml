@@ -14,6 +14,7 @@ commands:
     description: Install dependencies and bootstrap packages
     steps:
       - checkout
+      - browser-tools/install-browser-tools
       - node/install:
           node-version: "16.13"
       - run: gem install bundler # setup bundler
