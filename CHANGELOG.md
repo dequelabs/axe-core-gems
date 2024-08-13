@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.10.0](https://github.com/dequelabs/axe-core-gems/compare/v4.9.1...v4.10.0) (2024-08-13)
+
+
+### Features
+
+* Update axe-core to v4.10.0 ([#397](https://github.com/dequelabs/axe-core-gems/issues/397)) ([09e659e](https://github.com/dequelabs/axe-core-gems/commit/09e659ecae87be2b3949d470795c214ad77407ec))
+
+
+### Bug Fixes
+
+* add `Lazy-load Axe::API::Run` to improve boot time ([#396](https://github.com/dequelabs/axe-core-gems/issues/396)) ([f16172e](https://github.com/dequelabs/axe-core-gems/commit/f16172ee3377e05fd08ca9c4fd55649457402cde))
+
 ## [4.9.1](https://github.com/dequelabs/axe-core-gems/compare/v4.9.0...v4.9.1) (2024-05-08)
 
 
