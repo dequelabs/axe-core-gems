@@ -2,7 +2,7 @@ require "forwardable"
 
 require_relative "../../chain_mail/chainable"
 require_relative "../core"
-require_relative "../api/run"
+require_relative "../api"
 
 module Axe
   module Matchers

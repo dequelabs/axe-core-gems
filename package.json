@@ -1,6 +1,6 @@
 {
   "name": "axe-core-gems",
-  "version": "4.9.1",
+  "version": "4.10.0",
   "license": "MPL-2.0",
   "private": true,
   "repository": {
@@ -11,7 +11,7 @@
     "changelog": "standard-version -a --skip.tag=true --skip.commit=true --skip.bump=true"
   },
   "devDependencies": {
-    "axe-test-fixtures": "github:dequelabs/axe-test-fixtures",
+    "axe-test-fixtures": "github:dequelabs/axe-test-fixtures#v1",
     "commit-and-tag-version": "^11.2.4",
     "conventional-changelog-cli": "^2.2.2"
   }
