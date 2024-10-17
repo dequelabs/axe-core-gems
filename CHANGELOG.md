@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.10.2](https://github.com/dequelabs/axe-core-gems/compare/v4.10.0...v4.10.2) (2024-10-17)
+
+
+### Bug Fixes
+
+* Update axe-core to v4.10.1 ([#412](https://github.com/dequelabs/axe-core-gems/issues/412)) ([53569f6](https://github.com/dequelabs/axe-core-gems/commit/53569f6914d1086eeedfee65128ed1611aab4254))
+
 ## [4.10.1](https://github.com/dequelabs/axe-core-gems/compare/v4.10.0...v4.10.1) (2024-10-07)
 
 ## [4.10.0](https://github.com/dequelabs/axe-core-gems/compare/v4.9.1...v4.10.0) (2024-08-13)
