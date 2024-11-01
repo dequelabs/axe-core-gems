@@ -3,6 +3,7 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: cimg/ruby:2.7.5-browsers
+  parallelism: 2 # selenium-webdriver with --disable-dev-shm-usage is maxing out resources
   working_directory: ~/axe-core-gems
 
 orbs:
