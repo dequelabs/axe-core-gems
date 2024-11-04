@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: cimg/ruby:2.7.5-browsers
+    - image: cimg/ruby:3.3.5-browsers
   working_directory: ~/axe-core-gems
 
 orbs:
@@ -14,7 +14,9 @@ commands:
     description: Install dependencies and bootstrap packages
     steps:
       - checkout
-      - browser-tools/install-browser-tools
+      - browser-tools/install-browser-tools:
+          chrome-version: 126.0.6478.182
+          replace-existing-chrome: true
       - node/install:
           node-version: "16.13"
       - run: gem install bundler # setup bundler
