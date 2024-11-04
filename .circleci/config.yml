@@ -15,7 +15,7 @@ commands:
     steps:
       - checkout
       - browser-tools/install-browser-tools:
-          chrome-version: 126.0.6478.182
+          chrome-version: 130.0.6723.91
           replace-existing-chrome: true
       - node/install:
           node-version: "16.13"
