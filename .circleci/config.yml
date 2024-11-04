@@ -4,6 +4,7 @@ defaults: &defaults
   docker:
     - image: cimg/ruby:2.7.5-browsers
   working_directory: ~/axe-core-gems
+  resource_class: large
 
 orbs:
   browser-tools: circleci/browser-tools@1.4.8
