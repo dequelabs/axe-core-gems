@@ -1,16 +1,18 @@
 PATH
   remote: ..
   specs:
-    axe-core-api (4.8.0)
+    axe-core-api (4.10.1)
       dumb_delegator
+      ostruct
       virtus
 
 PATH
   remote: .
   specs:
-    axe-core-cucumber (4.8.0)
-      axe-core-api
+    axe-core-cucumber (4.10.1)
+      axe-core-api (= 4.10.1)
       dumb_delegator
+      ostruct
       virtus
 
 GEM
@@ -58,6 +60,7 @@ GEM
     language_server-protocol (3.17.0.3)
     mini_mime (1.1.5)
     multi_test (1.1.0)
+    ostruct (0.6.0)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -108,6 +111,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-23
 
 DEPENDENCIES
   axe-core-api!

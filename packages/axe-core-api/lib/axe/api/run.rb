@@ -32,33 +32,34 @@ module Axe
       end
 
       def analyze_post_43x(page, lib)
-        user_page_load = (get_selenium page).manage.timeouts.page_load
-        (get_selenium page).manage.timeouts.page_load = 1
+        user_page_load = get_page_load_timeout(page)
+        set_page_load_timeout(page, timeout: 1)
+
         begin
           @original_window = window_handle page
           partial_results = run_partial_recursive(page, @context, lib, true)
           throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
+
           results = within_about_blank_context(page) { |page|
             partial_res_str = partial_results.to_json
             size_limit = 10_000_000
             while not partial_res_str.empty? do
               chunk_size = size_limit
               chunk_size = partial_res_str.length if chunk_size > partial_res_str.length
-              chunk = partial_res_str[0..chunk_size-1]
+              chunk = partial_res_str[0..chunk_size - 1]
               partial_res_str = partial_res_str[chunk_size..-1]
               store_chunk page, chunk
             end
-  
+
             Common::Loader.new(page, lib).load_top_level Axe::Configuration.instance.jslib
             begin
               axe_finish_run page
             rescue
               raise StandardError.new "axe.finishRun failed. Please check out https://github.com/dequelabs/axe-core-gems/blob/develop/error-handling.md"
             end
-  
           }
         ensure
-          (get_selenium page).manage.timeouts.page_load = user_page_load
+          set_page_load_timeout(page, timeout: user_page_load)
         end
         Audit.new to_js, Results.new(results)
       end
@@ -103,17 +104,30 @@ module Axe
           raise StandardError.new "Unable to determine window handle"
         end
         new_handle = new_handles[0]
-        driver.switch_to.window new_handle
-        driver.get "about:blank"
 
-        ret = yield page
+        if driver.respond_to?("switch_to")
+          driver.switch_to.window new_handle
 
-        driver.switch_to.window new_handle
-        driver.close
-        driver.switch_to.window @original_window
+          driver.get "about:blank"
+
+          ret = yield page
+
+          driver.switch_to.window new_handle
+
+          driver.close
+          driver.switch_to.window @original_window
+        else
+          driver.switch_to_window new_handle
+
+          ret = yield page
+
+          driver.close_window new_handle
+          driver.switch_to_window @original_window
+        end
 
         ret
       end
+
       def window_handle(page)
         page = get_selenium page
 
@@ -136,9 +150,12 @@ module Axe
           if frame_contexts.respond_to?("key?") and frame_contexts.key?("errorMessage")
             throw frame_contexts if top_level
             return [nil]
+          elsif frame_contexts.nil?
+            frame_contexts = []
           end
 
           res = axe_run_partial page, context
+
           if res.nil? || res.key?("errorMessage")
             if top_level
               throw res unless res.nil?
@@ -160,7 +177,7 @@ module Axe
             rescue Selenium::WebDriver::Error::TimeoutError
               page = get_selenium page
               page.switch_to.window current_window_handle
-              frame_stack.each {|frame| page.switch_to.frame frame }
+              frame_stack.each { |frame| page.switch_to.frame frame }
               results.push nil
             end
           end
@@ -179,12 +196,31 @@ module Axe
         JS
         page.execute_script_fixed script, chunk
       end
+
       def axe_finish_run(page)
         script = <<-JS
+          const cb = arguments[arguments.length - 1];
           const partialResults = JSON.parse(window.partialResults || '[]');
-          return axe.finishRun(partialResults);
+          
+          try {
+            cb(axe.finishRun(partialResults));
+          } catch (err) {
+            cb({
+              testEngine: {}, 
+              testRunner: {}, 
+              testEnvironment: {}, 
+              timestamp: new Date().toString(), 
+              url: '', 
+              toolOptions: {}, 
+              inapplicable: [], 
+              passes: [], 
+              incomplete: [], 
+              violations: [],
+              errorMessage: err.message
+            });
+          }
         JS
-        page.execute_script_fixed script
+        page.execute_async_script_fixed(script)
       end
 
       def axe_shadow_select(page, frame_selector)
@@ -236,9 +272,28 @@ module Axe
       end
 
       def get_selenium(page)
-        page = page.driver if page.respond_to?("driver")
-        page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
+        if page.class.to_s.include? 'Selenium'
+          page = page.driver if page.respond_to?("driver")
+          page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
+        end
+
         page
+      end
+
+      def get_page_load_timeout(page)
+        if page.class.to_s.include? 'Selenium'
+          get_selenium(page).manage.timeouts.page_load
+        else
+          page.timeout
+        end
+      end
+
+      def set_page_load_timeout(page, timeout: 1)
+        if page.class.to_s.include? 'Selenium'
+          get_selenium(page).manage.timeouts.page_load = timeout
+        else
+          page.timeout = timeout
+        end
       end
 
       def js_args

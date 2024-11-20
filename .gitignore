@@ -17,3 +17,4 @@ rdoc
 .ruby-version
 bin/
 node_modules/
+.idea/
