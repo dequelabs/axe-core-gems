@@ -3,11 +3,6 @@ require "securerandom"
 require "timeout"
 require_relative "./exec_eval_script_adapter"
 
-def get_selenium(page)
-  page = page.driver if page.respond_to?("driver")
-  page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(Symbol)
-  page
-end
 module WebDriverScriptAdapter
   class << self
     attr_accessor :async_results_identifier,
@@ -59,8 +54,8 @@ module WebDriverScriptAdapter
       "window['#{id.respond_to?(:call) ? id.call : id}']"
     end
 
-    def callback(resultsIdentifier)
-      "function(err, returnValue){ #{resultsIdentifier} = (err || returnValue); }"
+    def callback(results_identifier)
+      "function(err, returnValue){ #{results_identifier} = (err || returnValue); }"
     end
 
     def async_wrapper(script, *args)
@@ -91,10 +86,11 @@ module WebDriverScriptAdapter
     end
 
     def execute_async_script_fixed(script, *args)
-      page = __getobj__
-      page = page.driver if page.respond_to?("driver")
-      page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
-      page.execute_async_script(script, *args)
+      if __getobj__.respond_to?(:execute_async_script)
+        __getobj__.execute_async_script(script, *args)
+      else
+        __getobj__.evaluate_async_script(script, *args)
+      end
     end
   end
 

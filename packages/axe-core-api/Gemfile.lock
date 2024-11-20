@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    axe-core-api (4.8.0)
+    axe-core-api (4.10.1)
       dumb_delegator
+      ostruct
       virtus
 
 GEM
@@ -35,8 +36,11 @@ GEM
     language_server-protocol (3.17.0.3)
     matrix (0.4.2)
     mini_mime (1.1.5)
-    nokogiri (1.15.5-arm64-darwin)
+    mini_portile2 (2.8.7)
+    nokogiri (1.15.5)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    ostruct (0.6.0)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -100,6 +104,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-23
 
 DEPENDENCIES
   axe-core-api!

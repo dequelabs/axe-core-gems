@@ -23,16 +23,13 @@ module WebDriverScriptAdapter
     end
 
     def execute_script_fixed(script, *args)
-      page = __getobj__
-      page.execute_script(script, *args)
+      __getobj__.execute_script(script, *args)
     end
   end
+
   class ExecEvalScriptAdapter2 < ::DumbDelegator
     def execute_script_fixed(script, *args)
-      page = __getobj__
-      page = page.driver if page.respond_to?("driver")
-      page = page.browser if page.respond_to?("browser") and not page.browser.is_a?(::Symbol)
-      page.execute_script(script, *args)
+      __getobj__.execute_script(script, *args)
     end
   end
 

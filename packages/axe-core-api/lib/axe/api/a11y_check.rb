@@ -51,6 +51,7 @@ module Axe
       private
 
       def audit(page)
+        pp 'A11yCheck#audit'
         yield page.execute_async_script "#{METHOD_NAME}.apply(#{Core::JS_NAME}, arguments)", *js_args
       end
 
