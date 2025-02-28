@@ -21,7 +21,7 @@ describe AxeSelenium do
     it "gets passed configuration options" do
       options = Selenium::WebDriver::Options.firefox
       options.args << '-headless'
-      expect(Selenium::WebDriver).to receive(:for).with(:firefox, {options:})
+      expect(Selenium::WebDriver).to receive(:for).with(:firefox, {options: options})
       driver = AxeSelenium.configure(:firefox, options) do
       end
     end
