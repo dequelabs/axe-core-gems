@@ -17,6 +17,14 @@ describe AxeSelenium do
       expect(driver).to respond_to :jslib
       expect(driver.jslib).to include("axe.run=") # has axe injected
     end
+
+    it "gets passed configuration options" do
+      options = Selenium::WebDriver::Options.firefox
+      options.args << '-headless'
+      expect(Selenium::WebDriver).to receive(:for).with(:firefox, {options: options})
+      driver = AxeSelenium.configure(:firefox, options) do
+      end
+    end
   end
 
   describe "#configure" do
