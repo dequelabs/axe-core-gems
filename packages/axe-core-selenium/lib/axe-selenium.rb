@@ -24,7 +24,7 @@ module AxeSelenium
 
   private
 
-  def self.get_driver(browserSymbol, opts)
-    Selenium::WebDriver.for browserSymbol, options: opts
+  def self.get_driver(*args)
+    Selenium::WebDriver.for *args
   end
 end
