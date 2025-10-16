@@ -15,11 +15,9 @@ commands:
     description: Install dependencies and bootstrap packages
     steps:
       - checkout
-      - browser-tools/install-browser-tools:
-          chrome-version: 126.0.6478.182
-          replace-existing-chrome: true
+      - browser-tools/install-browser-tools
       - node/install:
-          node-version: "16.13"
+          node-version: "22"
       - run: gem install bundler # setup bundler
       - run: rake bootstrap # bootstrap packages
 
@@ -87,7 +85,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: "16.13"
+          node-version: "22"
       - bootstrap
       - run: bash .circleci/print_license.sh
 

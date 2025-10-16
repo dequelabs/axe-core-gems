@@ -20,7 +20,7 @@ require 'axe-selenium'
 # configure `AxeSelenium`
 
 driver = AxeSelenium.configure(:firefox) do |c|
-  # see below for a full list of configuration 
+  # see below for a full list of configuration
   c.jslib_path = "next-version/axe.js"
 end
 
@@ -28,7 +28,18 @@ end
 driver.page.navigate.to 'https://www.deque.com/'
 ```
 
-### API 
+Custom options can be passed to the underlying driver:
+
+```rb
+require 'axe-selenium'
+
+options = Selenium::WebDriver::Options.firefox
+options.args << '-headless'
+
+driver = AxeSelenium.configure(:firefox, options) {}
+```
+
+### API
 
 #### `AxeSelenium.configure`
 
@@ -36,7 +47,7 @@ The configure method takes 1 optional argument as a [symbol][] and a configurati
 
 The optional argument is a browser name for `selenium-webdriver`. The valid browser names are:
 - `:firefox` (default)
-- `:chrome` 
+- `:chrome`
 - `:safari`
 
 > Note: Please ensure respective drivers (eg: [`geckodriver`][]) are installed in your machine.
