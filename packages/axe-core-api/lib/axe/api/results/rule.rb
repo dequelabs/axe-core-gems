@@ -42,7 +42,7 @@ module Axe
         private
 
         def indent
-          ->(line) { line.prepend(" " * 4) unless line.nil? }
+          ->(line) { "#{" " * 4}#{line}" unless line.nil? }
         end
 
         def title_message(count)
