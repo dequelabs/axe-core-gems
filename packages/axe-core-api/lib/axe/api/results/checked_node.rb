@@ -42,7 +42,7 @@ module Axe
           valid_checks = checks.reject { |c| c.nil? }
           [
             (message unless valid_checks.empty?),
-            valid_checks.map(&:failure_message).map { |line| line.prepend("- ") },
+            valid_checks.map(&:failure_message).map { |line| "- #{line}" },
           ].compact
         end
       end
