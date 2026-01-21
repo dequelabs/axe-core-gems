@@ -1,0 +1,66 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+      - release-*
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: rake bootstrap
+      - run: bash .github/scripts/print_license.sh
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: browser-actions/setup-firefox@v1
+      - uses: browser-actions/setup-geckodriver@latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.5
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # HACK: Force a TTY to enable browser-driver-manager to manipulate stdout.
+      - shell: 'script -q -e -c "bash {0}"'
+        run: npx browser-driver-manager install chromedriver --verbose
+      - run: rake bootstrap
+      # unit test - API
+      - run: rake test_unit\[axe-core-api\]
+
+  selenium:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: browser-actions/setup-firefox@v1
+      - uses: browser-actions/setup-geckodriver@latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.5
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # HACK: Force a TTY to enable browser-driver-manager to manipulate stdout.
+      - shell: 'script -q -e -c "bash {0}"'
+        run: npx browser-driver-manager install chromedriver --verbose
+      - run: rake bootstrap
+      # unit test - API
+      - run: rake test_unit\[axe-core-selenium\]
