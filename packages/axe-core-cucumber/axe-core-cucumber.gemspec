@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
     README.md
   ]
 
-  spec.add_dependency "dumb_delegator"
   # used by virtus; including it to make sure we install the gem and do not
   # rely on the standard library version, which will be removed in 3.5.0
   spec.add_dependency "ostruct"
