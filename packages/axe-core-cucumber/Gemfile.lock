@@ -11,8 +11,6 @@ PATH
   specs:
     axe-core-cucumber (4.11.1)
       axe-core-api (= 4.11.1)
-      ostruct
-      virtus
 
 GEM
   remote: https://rubygems.org/
