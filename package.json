@@ -13,6 +13,6 @@
   "devDependencies": {
     "axe-test-fixtures": "github:dequelabs/axe-test-fixtures#v1",
     "commit-and-tag-version": "^11.2.4",
-    "conventional-changelog-cli": "^2.2.2"
+    "conventional-changelog-cli": "^5.0.0"
   }
 }
