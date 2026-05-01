@@ -1,16 +1,16 @@
 PATH
   remote: ..
   specs:
-    axe-core-api (4.8.0)
+    axe-core-api (4.11.1)
       dumb_delegator
+      ostruct
       virtus
 
 PATH
   remote: .
   specs:
-    axe-core-capybara (4.8.0)
-      axe-core-api
-      dumb_delegator
+    axe-core-capybara (4.11.1)
+      axe-core-api (= 4.11.1)
 
 GEM
   remote: https://rubygems.org/
@@ -42,8 +42,13 @@ GEM
     language_server-protocol (3.17.0.3)
     matrix (0.4.2)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
+    nokogiri (1.15.5)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.5-arm64-darwin)
       racc (~> 1.4)
+    ostruct (0.6.3)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -104,6 +109,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  x86_64-linux
 
 DEPENDENCIES
   axe-core-api!
@@ -117,4 +123,4 @@ DEPENDENCIES
   selenium-webdriver
 
 BUNDLED WITH
-   2.4.10
+   2.6.9
