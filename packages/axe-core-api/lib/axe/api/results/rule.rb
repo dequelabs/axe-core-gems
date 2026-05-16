@@ -11,8 +11,8 @@ module Axe
           attribute :help, ::String
           attribute :helpUrl, ::String
           attribute :impact, ::Symbol
-          attribute :tags, ::Array[::Symbol]
-          attribute :nodes, ::Array[CheckedNode]
+          attribute :tags, [::Symbol]
+          attribute :nodes, [CheckedNode]
         end
 
         def failure_messages(index)
