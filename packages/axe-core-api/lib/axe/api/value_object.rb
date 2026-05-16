@@ -19,32 +19,41 @@ module Axe
       def initialize(attrs = {})
         attrs ||= {}
         self.class.attributes.each do |name, type|
-          raw = if attrs.key?(name)
-                  attrs[name]
-                elsif attrs.key?(name.to_s)
-                  attrs[name.to_s]
+          raw = if attrs.respond_to?(:key?)
+                  if attrs.key?(name)
+                    attrs[name]
+                  elsif attrs.key?(name.to_s)
+                    attrs[name.to_s]
+                  end
+                elsif attrs.respond_to?(name)
+                  attrs.public_send(name)
                 end
           instance_variable_set("@#{name}", coerce(raw, type))
         end
       end
 
-      def to_h
+      def attributes
         self.class.attributes.each_key.each_with_object({}) do |name, hash|
           hash[name] = public_send(name)
         end
       end
 
+      def to_h
+        attributes
+      end
+      alias_method :to_hash, :to_h
+
       def ==(other)
-        other.instance_of?(self.class) && to_h == other.to_h
+        other.instance_of?(self.class) && attributes == other.attributes
       end
       alias_method :eql?, :==
 
       def hash
-        [self.class, to_h].hash
+        [self.class, attributes].hash
       end
 
       def inspect
-        pairs = self.class.attributes.each_key.map { |name| "#{name}=#{public_send(name).inspect}" }
+        pairs = attributes.map { |name, value| "#{name}=#{value.inspect}" }
         "#<#{self.class.name} #{pairs.join(" ")}>"
       end
 
@@ -75,8 +84,14 @@ module Axe
           value.to_sym
         elsif type == ::String
           value.to_s
+        elsif type == ::Integer
+          Integer(value)
+        elsif type == ::Float
+          Float(value)
+        elsif type == ::TrueClass || type == ::FalseClass
+          !!value
         elsif type <= ValueObject
-          value.is_a?(ValueObject) ? value : type.new(value)
+          value.is_a?(type) ? value : type.new(value)
         else
           value
         end
