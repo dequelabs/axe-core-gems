@@ -48,6 +48,11 @@ module Axe
         "#<#{self.class.name} #{pairs.join(" ")}>"
       end
 
+      def [](name)
+        key = name.to_sym
+        self.class.attributes.key?(key) ? public_send(key) : nil
+      end
+
       private
 
       def coerce(value, type)
