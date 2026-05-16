@@ -10,7 +10,7 @@ module Axe
           attribute :id, ::Symbol
           attribute :impact, ::Symbol
           attribute :message, ::String
-          attribute :relatedNodes, ::Array[Node]
+          attribute :relatedNodes, [Node]
         end
 
         def failure_message

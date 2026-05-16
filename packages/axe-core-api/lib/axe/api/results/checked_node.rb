@@ -7,9 +7,9 @@ module Axe
       class CheckedNode < Node
         values do
           attribute :impact, ::Symbol
-          attribute :any, ::Array[Check]
-          attribute :all, ::Array[Check]
-          attribute :none, ::Array[Check]
+          attribute :any, [Check]
+          attribute :all, [Check]
+          attribute :none, [Check]
           attribute :failureSummary, ::Symbol
           attribute :html, ::String
           attribute :target

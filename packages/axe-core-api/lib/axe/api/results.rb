@@ -6,16 +6,16 @@ module Axe
       require_relative "./results/rule"
 
       values do
-        attribute :inapplicable, ::Array[Rule]
-        attribute :incomplete, ::Array[Rule]
-        attribute :passes, ::Array[Rule]
+        attribute :inapplicable, [Rule]
+        attribute :incomplete, [Rule]
+        attribute :passes, [Rule]
         attribute :timestamp
         attribute :testEngine
         attribute :testEnvironment
         attribute :testRunner
         attribute :toolOptions
         attribute :url, ::String
-        attribute :violations, ::Array[Rule]
+        attribute :violations, [Rule]
       end
 
       def failure_message
