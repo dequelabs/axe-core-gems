@@ -35,12 +35,17 @@ module Axe
       end
 
       def ==(other)
-        other.is_a?(self.class) && to_h == other.to_h
+        other.instance_of?(self.class) && to_h == other.to_h
       end
       alias_method :eql?, :==
 
       def hash
         [self.class, to_h].hash
+      end
+
+      def inspect
+        pairs = self.class.attributes.each_key.map { |name| "#{name}=#{public_send(name).inspect}" }
+        "#<#{self.class.name} #{pairs.join(" ")}>"
       end
 
       private
