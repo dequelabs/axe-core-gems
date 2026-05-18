@@ -17,6 +17,7 @@ GEM
     diff-lcs (1.5.0)
     dumb_delegator (1.0.0)
     json (2.7.0)
+    language_server-protocol (3.17.0.3)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -42,14 +43,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.1)
-    rubocop (1.50.2)
+    rubocop (1.58.0)
       json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
-      parser (>= 3.2.0.0)
+      parser (>= 3.2.2.4)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.28.0, < 2.0)
+      rubocop-ast (>= 1.30.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
@@ -59,7 +61,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
-  arm64-darwin-25
   x86_64-linux
 
 DEPENDENCIES
@@ -72,4 +73,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.4.10
+   2.6.9

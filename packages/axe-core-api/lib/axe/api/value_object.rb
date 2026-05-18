@@ -41,7 +41,10 @@ module Axe
       def to_h
         attributes
       end
-      alias_method :to_hash, :to_h
+
+      def to_hash
+        to_h
+      end
 
       def ==(other)
         other.instance_of?(self.class) && attributes == other.attributes
@@ -54,13 +57,16 @@ module Axe
 
       def inspect
         pairs = attributes.map { |name, value| "#{name}=#{value.inspect}" }
-        "#<#{self.class.name} #{pairs.join(" ")}>"
+        pairs.empty? ? "#<#{self.class.name}>" : "#<#{self.class.name} #{pairs.join(" ")}>"
       end
 
       def [](name)
         key = name.to_sym
         self.class.attributes.key?(key) ? public_send(key) : nil
       end
+
+      BOOLEAN_TRUE_STRINGS = %w[1 t T true TRUE].freeze
+      BOOLEAN_FALSE_STRINGS = %w[0 f F false FALSE].freeze
 
       private
 
@@ -77,6 +83,8 @@ module Axe
         end
       end
 
+      # Virtus-compatible lenient coercion: returns the input unchanged when
+      # it can't be cleanly converted, rather than raising.
       def coerce_class(value, type)
         return nil if value.nil?
 
@@ -85,16 +93,36 @@ module Axe
         elsif type == ::String
           value.to_s
         elsif type == ::Integer
-          Integer(value)
+          coerce_integer(value)
         elsif type == ::Float
-          Float(value)
+          coerce_float(value)
         elsif type == ::TrueClass || type == ::FalseClass
-          !!value
+          coerce_boolean(value)
         elsif type <= ValueObject
           value.is_a?(type) ? value : type.new(value)
         else
           value
         end
+      end
+
+      def coerce_integer(value)
+        return value.to_i if value.is_a?(::Numeric)
+        return value.to_i if value.is_a?(::String) && value =~ /\A-?\d+\z/
+        value
+      end
+
+      def coerce_float(value)
+        return value.to_f if value.is_a?(::Numeric)
+        return value.to_f if value.is_a?(::String) && value =~ /\A-?(?:\d+\.?\d*|\.\d+)\z/
+        value
+      end
+
+      def coerce_boolean(value)
+        return value if value == true || value == false
+        str = value.to_s
+        return true if BOOLEAN_TRUE_STRINGS.include?(str)
+        return false if BOOLEAN_FALSE_STRINGS.include?(str)
+        value
       end
     end
   end
