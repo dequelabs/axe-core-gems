@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.12.0](https://github.com/dequelabs/axe-core-gems/compare/v4.11.3...v4.12.0) (2026-06-16)
+
+
+### Features
+
+* remove virtus dependency ([#494](https://github.com/dequelabs/axe-core-gems/issues/494)) ([aa0236f](https://github.com/dequelabs/axe-core-gems/commit/aa0236f93fa5cb249c03e59bbb2b3951908305d9)), closes [#493](https://github.com/dequelabs/axe-core-gems/issues/493)
+* Update axe-core to v4.12.1 ([#498](https://github.com/dequelabs/axe-core-gems/issues/498)) ([1acb374](https://github.com/dequelabs/axe-core-gems/commit/1acb374e913a757495de839cf61ea0b8d89a2fe0))
+
+
+### Bug Fixes
+
+* remove unneeded dependencies ([#492](https://github.com/dequelabs/axe-core-gems/issues/492)) ([4bc74e6](https://github.com/dequelabs/axe-core-gems/commit/4bc74e6d6c10316e1e1722678b2b3703320ce6bc)), closes [#481](https://github.com/dequelabs/axe-core-gems/issues/481) [/#diff-7f8ca1a6a00348dc0190b3d2f4d025e951680b14f76b81abebfa5c2f97d391c5L25](https://github.com/dequelabs///issues/diff-7f8ca1a6a00348dc0190b3d2f4d025e951680b14f76b81abebfa5c2f97d391c5L25) [/#diff-97e5ebc112ab6dd049826902e0231dd18d45291bfffa6ce153730a1323822dcbL25](https://github.com/dequelabs///issues/diff-97e5ebc112ab6dd049826902e0231dd18d45291bfffa6ce153730a1323822dcbL25) [/#diff-b66c067ba3fb5beb0ed7d95e27dd2fff7d428f8708501da3a667cbf267615574L25](https://github.com/dequelabs///issues/diff-b66c067ba3fb5beb0ed7d95e27dd2fff7d428f8708501da3a667cbf267615574L25) [/#diff-bd8695c1c5a10077f9804c4305dacda37f66978addb0ef22d4105a11467bf63dL25-L29](https://github.com/dequelabs///issues/diff-bd8695c1c5a10077f9804c4305dacda37f66978addb0ef22d4105a11467bf63dL25-L29) [/#diff-179c347b4ab40abb3e397a9c5f13ee0555432597468a8cc9788fc941844928caL25-L29](https://github.com/dequelabs///issues/diff-179c347b4ab40abb3e397a9c5f13ee0555432597468a8cc9788fc941844928caL25-L29)
+
 ## [4.11.3](https://github.com/dequelabs/axe-core-gems/compare/v4.11.2...v4.11.3) (2026-04-29)
 
 

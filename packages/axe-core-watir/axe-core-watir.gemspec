@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
     README.md
   ]
 
-  spec.add_dependency "dumb_delegator"
   # pin to a specific version of axe-core-api
   spec.add_dependency "axe-core-api", AxeCoreGems::VERSION
 
