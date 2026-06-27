@@ -1,0 +1,32 @@
+require "rake/clean"
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+
+# clean
+CLOBBER.include "pkg"
+
+RSpec::Core::RakeTask.new(:spec)
+
+# default task
+task :default => :spec
+
+# build
+Rake::Task[:build]
+
+# unit tests
+desc "Tests Unit"
+task :test_unit do
+  sh "bundle exec rake"
+end
+
+# format code
+desc "Format code using rubocop"
+task :format => [] do
+  sh "bundle exec rubocop --config rubocop.yml --auto-correct --fix-layout"
+end
+
+#  publish
+desc "publish package"
+task :publish => [:build] do
+  sh "gem push $(ls pkg/*.gem)"
+end

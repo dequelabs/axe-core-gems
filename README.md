@@ -2,11 +2,12 @@
 
 [![Join our Slack chat](https://img.shields.io/badge/slack-chat-purple.svg?logo=slack)](https://accessibility.deque.com/axe-community)
 
-This repository contains 6 packages/gems, which can be used for automated accessibility testing powered by [axe core][axe-core].
+This repository contains 7 packages/gems, which can be used for automated accessibility testing powered by [axe core][axe-core].
 
 The gems are as below:
 - [`axe-core-api`](./packages/axe-core-api/README.md)
 - [`axe-core-capybara`](./packages/axe-core-capybara/README.md)
+- [`axe-core-cuprite`](./packages/axe-core-cuprite/README.md)
 - [`axe-core-cucumber`](./packages/axe-core-cucumber/README.md)
 - [`axe-core-rspec`](./packages/axe-core-rspec/README.md)
 - [`axe-core-selenium`](./packages/axe-core-selenium/README.md)
@@ -15,7 +16,7 @@ The gems are as below:
 ## Getting Started
 
 Using `axe-core-gems` is a 2 step process.
-- Choosing and configuring a webdriver (Capybara, Watir or Selenium)
+- Choosing and configuring a webdriver (Capybara, Cuprite, Watir or Selenium)
 - Choose a testing framework (RSpec or Cucumber)
 
 Then, add the respective gems to your application:
