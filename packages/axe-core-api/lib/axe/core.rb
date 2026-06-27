@@ -1,6 +1,7 @@
 require_relative "../webdriver_script_adapter/execute_async_script_adapter"
 require_relative "../webdriver_script_adapter/frame_adapter"
 require_relative "../webdriver_script_adapter/query_selector_adapter"
+require_relative "../webdriver_script_adapter/cuprite_adapter"
 require_relative "../loader"
 require_relative "./configuration"
 require 'timeout'
@@ -56,7 +57,7 @@ module Axe
 
     def wrap_driver(driver)
       driver = driver.driver if driver.respond_to? :driver
-      ::WebDriverScriptAdapter::QuerySelectorAdapter.wrap(
+      wrapped = ::WebDriverScriptAdapter::QuerySelectorAdapter.wrap(
         ::WebDriverScriptAdapter::FrameAdapter.wrap(
           ::WebDriverScriptAdapter::ExecuteAsyncScriptAdapter.wrap(
             ::WebDriverScriptAdapter::ExecEvalScriptAdapter.wrap(
@@ -65,6 +66,11 @@ module Axe
           )
         )
       )
+      if ::WebDriverScriptAdapter::CupriteAdapter.cuprite_driver?(driver)
+        ::WebDriverScriptAdapter::CupriteAdapter.wrap(wrapped, driver)
+      else
+        wrapped
+      end
     end
   end
 end

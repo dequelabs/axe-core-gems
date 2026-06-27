@@ -87,6 +87,33 @@ module Axe::API
       end
     end
 
+    describe "#analyze_post_43x" do
+      let(:timeouts) { Struct.new(:page_load).new(10) }
+      let(:manage) { double("manage", timeouts: timeouts) }
+      let(:selenium) { double("selenium", manage: manage) }
+      let(:page) { double("page", assert_context_supported!: nil) }
+      let(:configuration) { double("configuration", skip_iframes: nil) }
+      let(:lib) { "{}" }
+
+      before do
+        allow(Axe::Configuration).to receive(:instance).and_return(configuration)
+        allow(subject).to receive(:get_selenium).and_return(selenium)
+        allow(subject).to receive(:window_handle).and_return("win-1")
+        allow(subject).to receive(:within_about_blank_context).and_return({ "violations" => [] })
+      end
+
+      it "asks Cuprite-like pages to validate iframe contexts before running partials" do
+        subject.within iframe: "#child", selector: "#bad"
+
+        expect(page).to receive(:assert_context_supported!)
+          .with({ "include" => [["#child", "#bad"]] }, configuration.skip_iframes)
+          .ordered
+        expect(subject).to receive(:run_partial_recursive).with(page, anything, lib, true).ordered.and_return([])
+
+        subject.analyze_post_43x(page, lib)
+      end
+    end
+
     describe "#run_partial_recursive" do
       let(:context) { spy("context") }
       before :each do
@@ -120,6 +147,18 @@ module Axe::API
         expect(subject.send :run_partial_recursive, page, context, lib, false).to eq [nil]
       end
 
+    end
+
+    describe "#get_frame_context_script" do
+      it "does not discover frame contexts when iframe auditing is skipped" do
+        page = spy("page")
+        configuration = double("configuration", skip_iframes: true)
+
+        allow(Axe::Configuration).to receive(:instance).and_return(configuration)
+
+        expect(subject.send(:get_frame_context_script, page)).to eq []
+        expect(page).not_to have_received(:execute_script_fixed)
+      end
     end
   end
 end

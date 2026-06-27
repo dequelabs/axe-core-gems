@@ -35,6 +35,7 @@ module Axe
         user_page_load = (get_selenium page).manage.timeouts.page_load
         (get_selenium page).manage.timeouts.page_load = 1
         begin
+          page.assert_context_supported!(@context.to_h, Axe::Configuration.instance.skip_iframes) if page.respond_to?(:assert_context_supported!)
           @original_window = window_handle page
           partial_results = run_partial_recursive(page, @context, lib, true)
           throw partial_results if partial_results.respond_to?("key?") and partial_results.key?("errorMessage")
@@ -218,6 +219,8 @@ module Axe
       end
 
       def get_frame_context_script(page)
+        return [] if Axe::Configuration.instance.skip_iframes
+
         script = <<-JS
           const context = arguments[0];
           try {
