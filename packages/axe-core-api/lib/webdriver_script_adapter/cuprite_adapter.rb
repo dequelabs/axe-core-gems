@@ -83,9 +83,24 @@ module WebDriverScriptAdapter
   # the RAW Cuprite driver (not the wrapped chain) so #browser and the *_fixed
   # methods bypass the Selenium-native assumptions baked into the inner chain.
   class CupriteAdapter < ::DumbDelegator
+    # Raised when the CURRENT document contains frames. skip_iframes DOES bypass
+    # this (it audits only the top-level document), so recommending it is correct.
     UNSUPPORTED_IFRAME_MESSAGE = "Cuprite iframe auditing is not supported yet. " \
       "Set Axe::Configuration#skip_iframes=true to audit only the top-level document, " \
       "or use a Selenium-backed driver for iframe audits."
+
+    # Raised for multi-element context selectors. axe uses the nested-array form for
+    # BOTH iframe chains and shadow-DOM piercing, so this rejection is conservative:
+    # it fires before the skip_iframes gate (a frame-targeting selector still can't
+    # be honoured under skip_iframes), which is why it must NOT recommend skip_iframes.
+    # Whole-page and single-selector audits already pierce open shadow DOM
+    # automatically; only element-scoped shadow targeting via this syntax is blocked.
+    UNSUPPORTED_IFRAME_SELECTOR_MESSAGE = "Multi-element selectors " \
+      "(e.g. [['#outer', '#inner']]) are treated as iframe selectors, which Cuprite " \
+      "cannot audit yet. axe still pierces open shadow DOM automatically for whole-page " \
+      "and single-selector audits; to scope to a specific shadow-DOM-nested element via " \
+      "this syntax, use a Selenium-backed driver for now. (skip_iframes does not bypass " \
+      "this check.)"
 
     def self.cuprite_driver?(driver)
       !!(defined?(::Capybara::Cuprite::Driver) && driver.is_a?(::Capybara::Cuprite::Driver))
@@ -113,6 +128,13 @@ module WebDriverScriptAdapter
     #     Promise.resolve, because Ferrum's evaluate_async uses awaitPromise:true.
     # The Ferrum template appends its resolve-callback as the last argument,
     # so we split user args from the callback before re-applying.
+    # Sentinel key for exceptions caught by the wrapper below. Deliberately
+    # distinct from axe's protocol "errorMessage" (which get_frame_context_script
+    # and axe_run_partial return as data the recursion inspects) so that a
+    # genuine JS throw here raises, while a legitimate {errorMessage: ...} result
+    # flows back to run.rb's throw/return-[nil] control flow unchanged.
+    WRAPPER_ERROR_KEY = "__cupriteWrapperError"
+
     def execute_script_fixed(script, *args)
       wrapper = <<~JS
         var __args = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
@@ -120,15 +142,15 @@ module WebDriverScriptAdapter
         try {
           var __result = (function() { #{script} }).apply(this, __args);
           Promise.resolve(__result).then(__cb).catch(function(e) {
-            __cb({ errorMessage: e.message });
+            __cb({ #{WRAPPER_ERROR_KEY}: e.message });
           });
         } catch(e) {
-          __cb({ errorMessage: e.message });
+          __cb({ #{WRAPPER_ERROR_KEY}: e.message });
         }
       JS
       result = @driver.evaluate_async_script(wrapper, *args)
-      if result.respond_to?(:key?) && result.key?("errorMessage")
-        raise WebDriverError, result["errorMessage"]
+      if result.respond_to?(:key?) && result.key?(WRAPPER_ERROR_KEY)
+        raise WebDriverError, result[WRAPPER_ERROR_KEY]
       end
 
       result
@@ -144,7 +166,7 @@ module WebDriverScriptAdapter
     end
 
     def assert_context_supported!(context, skip_iframes = false)
-      raise_unsupported_iframe! if iframe_context?(context)
+      raise_unsupported_iframe_selector! if iframe_context?(context)
       return if skip_iframes
 
       assert_current_document_has_no_frames!
@@ -168,6 +190,10 @@ module WebDriverScriptAdapter
 
     def raise_unsupported_iframe!
       raise WebDriverError, UNSUPPORTED_IFRAME_MESSAGE
+    end
+
+    def raise_unsupported_iframe_selector!
+      raise WebDriverError, UNSUPPORTED_IFRAME_SELECTOR_MESSAGE
     end
   end
 end

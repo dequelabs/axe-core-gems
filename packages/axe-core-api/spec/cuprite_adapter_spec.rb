@@ -67,11 +67,22 @@ RSpec.describe WebDriverScriptAdapter::CupriteAdapter do
       .with(a_string_including("return window.axe.utils.getFrameContexts(arguments[0]);"), { "include" => "#main" })
   end
 
-  it "raises when the sync wrapper returns an errorMessage" do
-    allow(raw_driver).to receive(:evaluate_async_script).and_return({ "errorMessage" => "boom" })
+  it "raises when the wrapper catches a JS exception" do
+    allow(raw_driver).to receive(:evaluate_async_script)
+      .and_return({ described_class::WRAPPER_ERROR_KEY => "boom" })
 
     expect { adapter.execute_script_fixed("throw new Error('boom');") }
       .to raise_error(WebDriverScriptAdapter::WebDriverError, /boom/)
+  end
+
+  it "passes a protocol errorMessage result through instead of raising" do
+    # axe's getFrameContexts/runPartial return {errorMessage: ...} as data the
+    # run.rb recursion inspects; the adapter must not intercept it.
+    payload = { "errorMessage" => "frame boom" }
+    allow(raw_driver).to receive(:evaluate_async_script).and_return(payload)
+
+    expect(adapter.execute_script_fixed("return window.axe.utils.getFrameContexts(arguments[0]);"))
+      .to eq(payload)
   end
 
   it "delegates execute_async_script_fixed directly to evaluate_async_script on the raw driver" do
@@ -85,16 +96,26 @@ RSpec.describe WebDriverScriptAdapter::CupriteAdapter do
   end
 
   describe "#assert_context_supported!" do
-    it "raises for explicit iframe inclusion contexts" do
+    it "raises for multi-element inclusion selectors" do
       expect {
         adapter.assert_context_supported!({ "include" => [["#child", "#bad"]] })
-      }.to raise_error(WebDriverScriptAdapter::WebDriverError, /iframe auditing is not supported/)
+      }.to raise_error(WebDriverScriptAdapter::WebDriverError, /Multi-element selectors/)
     end
 
-    it "raises for explicit iframe exclusion contexts with symbol keys" do
+    it "raises for multi-element exclusion selectors with symbol keys" do
       expect {
         adapter.assert_context_supported!({ exclude: [["#child", "#bad"]] })
-      }.to raise_error(WebDriverScriptAdapter::WebDriverError, /iframe auditing is not supported/)
+      }.to raise_error(WebDriverScriptAdapter::WebDriverError, /Multi-element selectors/)
+    end
+
+    it "does not recommend skip_iframes in the multi-element selector message" do
+      # The selector check fires BEFORE the skip_iframes gate, so skip_iframes
+      # cannot bypass it — the message must not suggest otherwise.
+      expect {
+        adapter.assert_context_supported!({ "include" => [["#child", "#bad"]] }, true)
+      }.to raise_error(WebDriverScriptAdapter::WebDriverError) { |e|
+        expect(e.message).not_to match(/skip_iframes=true to audit/)
+      }
     end
 
     it "allows top-level selector contexts when the document has no frames" do
