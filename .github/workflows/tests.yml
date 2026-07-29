@@ -1,0 +1,135 @@
+name: Tests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read # Needed to check out the repository.
+
+concurrency:
+  # The literal `tests-` prefix keeps this out of the caller's group when reached
+  # through `workflow_call`, where `github.workflow` resolves to the caller's
+  # name — sharing that group would deadlock against the caller.
+  group: tests-${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' && github.event_name != 'merge_group' }}
+
+jobs:
+  test:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    name: Test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      MOZ_HEADLESS: "1"
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set Up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: "3.3"
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Set Up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.x"
+
+      - name: Install npm Dependencies
+        run: npm ci
+
+      - name: Bootstrap Packages
+        run: rake bootstrap
+
+      # Capybara's `:selenium_chrome` driver is not headless, so Chrome needs a display.
+      - name: Start Xvfb
+        run: |
+          Xvfb :99 -screen 0 1920x1080x24 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+
+      - name: Unit Tests (axe-core-api)
+        run: rake "test_unit[axe-core-api]"
+
+      - name: Unit Tests (axe-core-selenium)
+        run: rake "test_unit[axe-core-selenium]"
+
+      - name: Unit Tests (axe-core-watir)
+        run: rake "test_unit[axe-core-watir]"
+
+      - name: Unit Tests (axe-core-capybara)
+        run: rake "test_unit[axe-core-capybara]"
+
+      - name: Unit Tests (axe-core-cucumber)
+        run: rake "test_unit[axe-core-cucumber]"
+
+      - name: Unit Tests (axe-core-rspec)
+        run: rake "test_unit[axe-core-rspec]"
+
+      - name: E2E Tests (rspec + capybara)
+        working-directory: packages/axe-core-rspec/e2e/capybara
+        run: |
+          bundle install
+          bundle exec rspec
+
+      - name: E2E Tests (cucumber + capybara)
+        working-directory: packages/axe-core-cucumber/e2e/capybara
+        run: |
+          bundle install
+          bundle exec cucumber
+
+      - name: E2E Tests (cucumber + watir)
+        working-directory: packages/axe-core-cucumber/e2e/watir
+        run: |
+          bundle install
+          bundle exec cucumber
+
+      # The selenium suite loads its fixtures over HTTP from localhost:8000.
+      # Output is discarded so the request log does not hold this step's stdout open.
+      - name: Start Fixture Server
+        working-directory: node_modules/axe-test-fixtures/fixtures
+        run: python3 -m http.server >/dev/null 2>&1 &
+
+      - name: E2E Tests (axe-core-api + selenium)
+        working-directory: packages/axe-core-api/e2e/selenium
+        run: |
+          bundle install
+          bundle exec rspec
+
+  check-license:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    name: Check License
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set Up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: "3.3"
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Bootstrap Packages
+        run: rake bootstrap
+
+      - name: Print Licenses
+        run: .github/scripts/tests/print-license.sh

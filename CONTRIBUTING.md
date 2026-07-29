@@ -21,7 +21,9 @@ The `.ruby-version` is intentionally ignored from the repo for the same reason t
 
 ### Node version management
 
-Similar to rbenv, [nodenv](https://github.com/nodenv/nodenv) is the recommended node version manager if you have or need multiple versions of node installed simultaneously.
+[nvm](https://github.com/nvm-sh/nvm) is the recommended node version manager if you have or need multiple versions of node installed simultaneously.
+The node version this project targets is pinned in `.nvmrc`, so `nvm use` from the repository root selects it (`nvm install` first if you do not have it yet).
+CI reads the same file.
 
 ### Bundler
 
@@ -72,4 +74,10 @@ When releasing a new version of `axe-core-gems`:
 4. Run `rake build` to generate all gems.
 5. To manually release to rubygems: `rake release`.
 
-> Note: Releases are managed by the continuous integration run via Circle CI. See [configuration](./.circleci/config.yml)
+> Note: Releases are managed by the continuous integration run via GitHub Actions. See [configuration](./.github/workflows/deploy.yml)
+
+### Publishing credentials
+
+Gems are pushed using [RubyGems trusted publishing](https://guides.rubygems.org/trusted-publishing/): CI exchanges a GitHub OIDC token for short-lived RubyGems.org credentials, so there is no API key stored anywhere.
+Each gem's trusted publisher on RubyGems.org is bound to the workflow filename `deploy.yml` and the `release` environment.
+Renaming either one stops all publishing until the six gems' publisher entries are updated to match.
