@@ -5,7 +5,7 @@
 
 ### Requirements
 
--  Ruby 2.0.0 or later.
+-  Ruby 3.3.0 or later.
 -  Bundler for gem dependencies
 -  Rake as task runner
 -  RSpec for testing
@@ -15,7 +15,8 @@
 
 ### Ruby version management
 
-[rbenv](https://github.com/rbenv/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice. 2.0.0-p481 is the official minimum version, as it is the default Ruby bundled with OS X Mavericks, but the gem *ought* to support 1.9 and above.
+[rbenv](https://github.com/rbenv/rbenv) is recommended but you may also use [rvm](https://rvm.io/), [chruby](https://github.com/postmodern/chruby) or other ruby version manager of your choice.
+3.3.0 is the minimum version, declared as `required_ruby_version` in each package's gemspec, and is what CI tests against.
 
 The `.ruby-version` is intentionally ignored from the repo for the same reason that `Gemfile.lock` should not be committed. See http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/ for more clarification.
 
@@ -55,12 +56,12 @@ The repository follows a monorepo structure. A [Rakefile]('./Rakefile) has been 
 Briefly:
 - `rake bootstrap` to setup all packages
 - `rake build` to build all packages
-- `rake test` to build all packages
+- `rake test_unit` to unit test all packages
 - `rake format` to format all packages
-- `rake clobber` to clean up build assets
+- `rake publish` to publish all packages
 
 To scope any of the above rake tasks to an individual package, an argument containing the package name can be passed to the rake task:
-- `rake test\[axe-core-selenium\]`
+- `rake test_unit\[axe-core-selenium\]`
 
 > Note: Refer individual packages and the respective README for further information on the lib, specs and rake tasks.
 
@@ -69,10 +70,10 @@ To scope any of the above rake tasks to an individual package, an argument conta
 When releasing a new version of `axe-core-gems`:
 
 1. Ensure a clean working directory
-2. Change version number in `version.rb` at the root level, & commit.
-3. Run `rake test` to ensure all tests pass.
+2. Change the version number in `package.json`, & commit. It is the source of truth; `version.rb` is generated from it.
+3. Run `rake test_unit` to ensure all tests pass.
 4. Run `rake build` to generate all gems.
-5. To manually release to rubygems: `rake release`.
+5. To manually release to rubygems: `rake publish`.
 
 > Note: Releases are managed by the continuous integration run via GitHub Actions. See [configuration](./.github/workflows/deploy.yml)
 
@@ -81,3 +82,6 @@ When releasing a new version of `axe-core-gems`:
 Gems are pushed using [RubyGems trusted publishing](https://guides.rubygems.org/trusted-publishing/): CI exchanges a GitHub OIDC token for short-lived RubyGems.org credentials, so there is no API key stored anywhere.
 Each gem's trusted publisher on RubyGems.org is bound to the workflow filename `deploy.yml` and the `release` environment.
 Renaming either one stops all publishing until the six gems' publisher entries are updated to match.
+
+Creating the GitHub release is separate and still needs a `PAT` Actions secret, because a tag-protection rule prevents `GITHUB_TOKEN` from creating `v*` tags.
+The same secret is used by `sync-master-develop.yml` and `update-axe-core.yml` to open their pull requests.

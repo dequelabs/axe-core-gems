@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set Up Ruby
         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
@@ -76,6 +78,8 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set Up Ruby
         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
@@ -104,12 +108,14 @@ jobs:
     needs: production-release
     name: GitHub Release
     permissions:
-      contents: write # Needed to create the release tag and the GitHub release.
+      contents: read # Needed to check out the repository; the release itself uses `secrets.PAT`.
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: Check Out Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Create GitHub Release
         env:

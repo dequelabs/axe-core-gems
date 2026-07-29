@@ -2,11 +2,6 @@ name: Tests
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
   workflow_call:
   workflow_dispatch:
 
@@ -22,7 +17,6 @@ concurrency:
 
 jobs:
   test:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     name: Test
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -31,6 +25,8 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set Up Ruby
         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
@@ -55,10 +51,20 @@ jobs:
         run: rake bootstrap
 
       # Capybara's `:selenium_chrome` driver is not headless, so Chrome needs a display.
+      # Backgrounding makes the step's exit status meaningless, so poll for the
+      # display rather than letting a failed Xvfb surface later as a browser error.
       - name: Start Xvfb
         run: |
-          Xvfb :99 -screen 0 1920x1080x24 &
-          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+          Xvfb :99 -screen 0 1920x1080x24 >/dev/null 2>&1 &
+          for _ in $(seq 1 30); do
+            if [ -e /tmp/.X11-unix/X99 ]; then
+              echo "DISPLAY=:99" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Xvfb failed to start on :99" >&2
+          exit 1
 
       - name: Unit Tests (axe-core-api)
         run: rake "test_unit[axe-core-api]"
@@ -97,10 +103,18 @@ jobs:
           bundle exec cucumber
 
       # The selenium suite loads its fixtures over HTTP from localhost:8000.
-      # Output is discarded so the request log does not hold this step's stdout open.
+      # Output is discarded so the request log does not hold this step's stdout open,
+      # and the port is polled because backgrounding makes the exit status meaningless.
       - name: Start Fixture Server
         working-directory: node_modules/axe-test-fixtures/fixtures
-        run: python3 -m http.server >/dev/null 2>&1 &
+        run: |
+          python3 -m http.server >/dev/null 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl -sfo /dev/null http://localhost:8000/; then exit 0; fi
+            sleep 1
+          done
+          echo "Fixture server failed to bind port 8000" >&2
+          exit 1
 
       - name: E2E Tests (axe-core-api + selenium)
         working-directory: packages/axe-core-api/e2e/selenium
@@ -109,13 +123,14 @@ jobs:
           bundle exec rspec
 
   check-license:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     name: Check License
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Check Out Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set Up Ruby
         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
