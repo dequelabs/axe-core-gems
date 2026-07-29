@@ -18,3 +18,6 @@ rdoc
 bin/
 node_modules/
 vendor/
+
+# Gem Gemfile.lock files are intentionally not committed; see CONTRIBUTING.md.
+packages/*/Gemfile.lock
