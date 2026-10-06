@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/dequelabs/axe-core-gems"
   spec.metadata["bug_tracker_uri"] = "https://github.com/dequelabs/axe-core-gems/issues"
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.3.0")
   spec.require_paths = ["lib"]
   spec.files = Dir.glob %w[
     lib/**/*

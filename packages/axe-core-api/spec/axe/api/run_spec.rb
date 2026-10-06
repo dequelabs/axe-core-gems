@@ -76,7 +76,7 @@ module Axe::API
       end
 
       it "should parse the results" do
-        expect(Results).to receive(:new).with("violations" => []).and_return results
+        expect(Results).to receive(:new).with({"violations" => []}).and_return results
         expect(Audit).to receive(:new).with(instance_of(String), results)
         subject.call(page)
       end
