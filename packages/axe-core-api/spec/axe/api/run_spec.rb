@@ -20,6 +20,32 @@ module Axe::API
       end
     end
 
+    describe "#iframes?" do
+      it "should be true when the iframes option is absent" do
+        expect(subject.iframes?).to be true
+      end
+
+      it "should be true when the iframes option is true" do
+        subject.with_options "iframes" => true
+        expect(subject.iframes?).to be true
+      end
+
+      it "should be true when only other options are set" do
+        subject.with_options "runOnly" => "label"
+        expect(subject.iframes?).to be true
+      end
+
+      it "should be false when the iframes option is false with a string key" do
+        subject.with_options "iframes" => false
+        expect(subject.iframes?).to be false
+      end
+
+      it "should be false when the iframes option is false with a symbol key" do
+        subject.with_options iframes: false
+        expect(subject.iframes?).to be false
+      end
+    end
+
     describe "@options" do
       let(:options) { spy("options") }
       before :each do

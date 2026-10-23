@@ -18,6 +18,7 @@ module Axe
       if use_run_partial
         callable.analyze_post_43x @page, self
       else
+        load_legacy callable
         callable.call @page
       end
     end
@@ -39,12 +40,22 @@ module Axe
     end
 
     def load_axe_core(source)
-      return if already_loaded?
-      loader = Common::Loader.new(@page, self)
-      loader.load_top_level source
-      return if use_run_partial
+      @source = source
+      loaded = already_loaded?
+      @loader = Common::Loader.new(@page, self, loaded_top_level: loaded)
+      @loader.load_top_level source unless loaded
+    end
 
-      loader.call source
+    def load_legacy(callable)
+      return if @frames_loaded || @loading_frames
+
+      iframes = !callable.respond_to?(:iframes?) || callable.iframes?
+      begin
+        @loading_frames = true
+        @frames_loaded = @loader.call @source, iframes: iframes
+      ensure
+        @loading_frames = false
+      end
     end
 
     def already_loaded?
