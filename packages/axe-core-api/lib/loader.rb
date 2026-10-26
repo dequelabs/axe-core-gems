@@ -4,6 +4,19 @@ require_relative "./hooks"
 
 module Common
   class Loader
+    # a frame that blocks scripts skips event listeners and never fires timers, so axe.runPartial would hang in it
+    ASSERT_SCRIPTS_RUN = <<-JS
+      (function () {
+        var ran = false;
+        var target = new EventTarget();
+        target.addEventListener('axe', function () { ran = true; });
+        target.dispatchEvent(new Event('axe'));
+        if (!ran) {
+          throw new Error('Frame cannot run scripts');
+        }
+      })();
+    JS
+
     def initialize(page, lib)
       @page = page
       @lib = lib
@@ -11,7 +24,7 @@ module Common
     end
 
     def load_top_level(source)
-      @page.execute_script source
+      @page.execute_script ASSERT_SCRIPTS_RUN + source
       @loaded_top_level = true
       Common::Hooks.run_after_load @lib
     end

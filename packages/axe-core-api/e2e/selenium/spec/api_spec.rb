@@ -1,6 +1,8 @@
 # Typical example using standard RSpec dsl
 require "json" #TODO: REMOVE
 require "selenium-webdriver"
+require "timeout"
+require "webrick"
 require "axe/core"
 require "axe/api"
 
@@ -223,6 +225,89 @@ describe "frame tests" do
       "#ifr-baz",
       "input"
     )
+  end
+
+  describe "with a frame that cannot run scripts" do
+    before(:all) do
+      $csp_server = WEBrick::HTTPServer.new(
+        Port: 0,
+        DocumentRoot: $fixture_root,
+        Logger: WEBrick::Log.new(File::NULL),
+        AccessLog: []
+      )
+      $csp_server.mount_proc "/csp-sandbox" do |req, res|
+        res["Content-Security-Policy"] = "sandbox allow-same-origin"
+        res["Content-Type"] = "text/html"
+        res.body = File.read File.join($fixture_root, req.path.delete_prefix("/csp-sandbox"))
+      end
+      Thread.new { $csp_server.start }
+    end
+
+    after(:all) do
+      $csp_server.shutdown
+    end
+
+    def add_frame(id, src, sandbox = nil)
+      $driver.execute_async_script <<-JS, id, src, sandbox
+        var done = arguments[arguments.length - 1];
+        var iframe = document.createElement('iframe');
+        iframe.id = arguments[0];
+        if (arguments[2] !== null) {
+          iframe.setAttribute('sandbox', arguments[2]);
+        }
+        iframe.src = arguments[1];
+        iframe.onload = function () { done(); };
+        document.body.appendChild(iframe);
+      JS
+    end
+
+    def run_frame_tested
+      Timeout.timeout(15) { run_axe Run.new.checking_only(:'frame-tested') }
+    end
+
+    def frame_tested_targets(rules)
+      rule = rules.find { |r| r.id == :'frame-tested' }
+      rule.nil? ? [] : rule.nodes.map(&:target)
+    end
+
+    it "reports a sandboxed frame as frame-tested" do
+      $driver.get fixture "/index.html"
+      add_frame "no-scripts", "/index.html", "allow-same-origin"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#no-scripts"]]
+    end
+
+    it "scans a sandboxed frame that allows scripts" do
+      $driver.get fixture "/index.html"
+      add_frame "scripts", "/index.html", "allow-same-origin allow-scripts"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to be_empty
+      expect(frame_tested_targets(res.results.passes)).to eq [["#scripts"]]
+    end
+
+    it "reports a frame sandboxed by a CSP header as frame-tested" do
+      $driver.get "http://localhost:#{$csp_server.config[:Port]}/index.html"
+      add_frame "csp-sandbox", "/csp-sandbox/index.html"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#csp-sandbox"]]
+    end
+
+    it "uses the sandbox a frame loaded with, not its current attribute" do
+      $driver.get fixture "/index.html"
+      add_frame "sandboxed-later", "/index.html"
+      add_frame "unsandboxed-later", "/index.html", "allow-same-origin"
+      $driver.execute_script <<-JS
+        document.getElementById('sandboxed-later').setAttribute('sandbox', 'allow-same-origin');
+        document.getElementById('unsandboxed-later').removeAttribute('sandbox');
+      JS
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.passes)).to eq [["#sandboxed-later"]]
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#unsandboxed-later"]]
+    end
   end
 end
 
