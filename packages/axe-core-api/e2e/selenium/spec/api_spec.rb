@@ -308,6 +308,18 @@ describe "frame tests" do
       expect(frame_tested_targets(res.results.passes)).to eq [["#sandboxed-later"]]
       expect(frame_tested_targets(res.results.incomplete)).to eq [["#unsandboxed-later"]]
     end
+
+    it "scans pages and frames that replace window.Event" do
+      $driver.get fixture "/index.html"
+      $driver.execute_script "window.Event = function () {};"
+      add_frame "replaced-event", "/index.html"
+      $driver.execute_script "document.getElementById('replaced-event').contentWindow.Event = function () {};"
+
+      res = nil
+      expect { res = run_frame_tested }.not_to raise_error
+      expect(frame_tested_targets(res.results.incomplete)).to be_empty
+      expect(frame_tested_targets(res.results.passes)).to eq [["#replaced-event"]]
+    end
   end
 end
 
