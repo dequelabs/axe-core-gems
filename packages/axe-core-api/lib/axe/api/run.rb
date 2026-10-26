@@ -32,8 +32,7 @@ module Axe
       end
 
       def iframes?
-        options = @options.to_h
-        options[:iframes] != false && options["iframes"] != false
+        JSON.parse(@options.to_json)["iframes"] != false
       end
 
       def analyze_post_43x(page, lib)

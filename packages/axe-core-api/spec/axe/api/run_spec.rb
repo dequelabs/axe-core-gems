@@ -40,6 +40,18 @@ module Axe::API
         expect(subject.iframes?).to be false
       end
 
+      it "should use the later value when a string key follows a symbol key" do
+        subject.with_options iframes: false
+        subject.with_options "iframes" => true
+        expect(subject.iframes?).to be true
+      end
+
+      it "should use the later value when a symbol key follows a string key" do
+        subject.with_options "iframes" => true
+        subject.with_options iframes: false
+        expect(subject.iframes?).to be false
+      end
+
       it "should be false when the iframes option is false with a symbol key" do
         subject.with_options iframes: false
         expect(subject.iframes?).to be false

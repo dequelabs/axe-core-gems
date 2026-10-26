@@ -104,6 +104,26 @@ module Axe
         expect(page).to have_received(:find_css).with("iframe").once
       end
 
+      context "with an after_load hook that calls call on a fresh page" do
+        let(:hook) { lambda { |lib| lib.call spy("hook run") } }
+        before { Common::Hooks.callbacks[:after_load] << hook }
+        after { Common::Hooks.callbacks[:after_load].delete hook }
+
+        it "should not load axe into frames when the outer call sets iframes false" do
+          no_frames = spy("run without frames", iframes?: false)
+          core.call(no_frames)
+
+          expect(page).not_to have_received(:find_css).with("iframe")
+          expect(no_frames).to have_received(:call).with(page)
+        end
+
+        it "should load axe into frames when the outer call does not set iframes false" do
+          core.call(run)
+
+          expect(page).to have_received(:find_css).with("iframe").once
+        end
+      end
+
       context "with an after_load hook that calls call" do
         let(:inner_run) { spy("inner run") }
         let(:hook) {

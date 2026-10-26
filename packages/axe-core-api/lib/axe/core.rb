@@ -43,7 +43,14 @@ module Axe
       @source = source
       loaded = already_loaded?
       @loader = Common::Loader.new(@page, self, loaded_top_level: loaded)
-      @loader.load_top_level source unless loaded
+      return if loaded
+
+      begin
+        @loading_frames = true
+        @loader.load_top_level source
+      ensure
+        @loading_frames = false
+      end
     end
 
     def load_legacy(callable)
