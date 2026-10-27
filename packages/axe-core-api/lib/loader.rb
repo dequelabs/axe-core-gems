@@ -6,6 +6,25 @@ module Common
   class Loader
     INJECTED = "axeCoreGemsInjected".freeze
 
+    # a frame that blocks scripts skips event listeners and never fires timers, so axe.runPartial would hang in it
+    ASSERT_SCRIPTS_RUN = <<-JS
+      (function () {
+        var ran = false;
+        try {
+          var target = document.createElement('div');
+          target.addEventListener('axe', function () { ran = true; });
+          var event = document.createEvent('Event');
+          event.initEvent('axe', false, false);
+          target.dispatchEvent(event);
+        } catch (e) {
+          return;
+        }
+        if (!ran) {
+          throw new Error('Frame cannot run scripts');
+        }
+      })();
+    JS
+
     def initialize(page, lib, loaded_top_level: false)
       @page = page
       @lib = lib
@@ -13,7 +32,7 @@ module Common
     end
 
     def load_top_level(source)
-      @page.execute_script source
+      @page.execute_script ASSERT_SCRIPTS_RUN + source
       @loaded_top_level = true
       Common::Hooks.run_after_load @lib
     end
