@@ -78,7 +78,7 @@ module Axe
         core.call(run)
 
         expect(page).to have_received(:find_css).with("iframe")
-        expect(page).not_to have_received(:execute_script).with(Axe::Configuration.instance.jslib)
+        expect(page).not_to have_received(:execute_script).with(a_string_including(Axe::Configuration.instance.jslib))
       end
 
       it "should load axe into frames only once for two calls" do
