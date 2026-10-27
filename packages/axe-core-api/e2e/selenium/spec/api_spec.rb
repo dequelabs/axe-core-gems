@@ -297,16 +297,16 @@ describe "frame tests" do
 
     it "uses the sandbox a frame loaded with, not its current attribute" do
       $driver.get fixture "/index.html"
-      add_frame "sandboxed-later", "/index.html"
-      add_frame "unsandboxed-later", "/index.html", "allow-same-origin"
+      add_frame "sandbox-added-after-load", "/index.html"
+      add_frame "sandbox-removed-after-load", "/index.html", "allow-same-origin"
       $driver.execute_script <<-JS
-        document.getElementById('sandboxed-later').setAttribute('sandbox', 'allow-same-origin');
-        document.getElementById('unsandboxed-later').removeAttribute('sandbox');
+        document.getElementById('sandbox-added-after-load').setAttribute('sandbox', 'allow-same-origin');
+        document.getElementById('sandbox-removed-after-load').removeAttribute('sandbox');
       JS
 
       res = run_frame_tested
-      expect(frame_tested_targets(res.results.passes)).to eq [["#sandboxed-later"]]
-      expect(frame_tested_targets(res.results.incomplete)).to eq [["#unsandboxed-later"]]
+      expect(frame_tested_targets(res.results.passes)).to eq [["#sandbox-added-after-load"]]
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#sandbox-removed-after-load"]]
     end
 
     it "scans pages and frames that replace window.Event" do
