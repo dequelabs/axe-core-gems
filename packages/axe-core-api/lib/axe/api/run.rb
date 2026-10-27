@@ -31,6 +31,10 @@ module Axe
         Audit.new to_js, Results.new(results)
       end
 
+      def iframes?
+        JSON.parse(@options.to_json)["iframes"] != false
+      end
+
       def analyze_post_43x(page, lib)
         user_page_load = (get_selenium page).manage.timeouts.page_load
         (get_selenium page).manage.timeouts.page_load = 1
@@ -220,8 +224,9 @@ module Axe
       def get_frame_context_script(page)
         script = <<-JS
           const context = arguments[0];
+          const options = arguments[1];
           try {
-            return window.axe.utils.getFrameContexts(context);
+            return window.axe.utils.getFrameContexts(context, options);
           } catch (err) {
             return {
               violations: [],
@@ -232,7 +237,7 @@ module Axe
             };
           }
         JS
-        page.execute_script_fixed script, @context
+        page.execute_script_fixed script, @context, @options
       end
 
       def get_selenium(page)

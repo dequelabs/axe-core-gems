@@ -40,9 +40,9 @@ end
 
 def with_legacy_mode
   Axe::Configuration.instance.legacy_mode = true
-  ret = yield
+  yield
+ensure
   Axe::Configuration.instance.legacy_mode = nil
-  ret
 end
 
 # The ruby selenium driver differentiates between a JS property on an object being
@@ -150,6 +150,120 @@ describe "frame tests" do
       "#ifr-baz",
       "input"
     )
+  end
+
+  describe "with iframes: false" do
+    def child_frame_axe_types
+      $driver.execute_script <<-JS
+        return (function walk(win) {
+          var found = [];
+          for (var i = 0; i < win.frames.length; i++) {
+            found.push(typeof win.frames[i].axe);
+            found = found.concat(walk(win.frames[i]));
+          }
+          return found;
+        })(window);
+      JS
+    end
+
+    def run_without_iframes
+      Run.new.with_options({ "runOnly" => "label", "iframes" => false })
+    end
+
+    it "does not test child frames" do
+      $driver.get fixture "/nested-iframes.html"
+      res = run_axe run_without_iframes
+
+      expect(res.results.violations).to be_empty
+      frames = child_frame_axe_types
+      expect(frames).not_to be_empty
+      expect(frames).to all(eq "undefined")
+    end
+
+    it "does not test child frames in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      res = with_legacy_mode { run_axe run_without_iframes }
+
+      expect(res.results.violations).to be_empty
+      frames = child_frame_axe_types
+      expect(frames).not_to be_empty
+      expect(frames).to all(eq "undefined")
+    end
+
+    it "does not inject axe into child frames again on a later check in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      with_legacy_mode { run_axe }
+      $driver.execute_script <<-JS
+        (function walk(win) {
+          for (var i = 0; i < win.frames.length; i++) {
+            win.frames[i].firstAxe = win.frames[i].axe;
+            walk(win.frames[i]);
+          }
+        })(window);
+      JS
+      res = with_legacy_mode { run_axe }
+
+      label_vio = res.results.violations.find { |vio| vio.id == :label }
+      expect(label_vio.nodes.length).to be 4
+      same_axe = $driver.execute_script <<-JS
+        return (function walk(win) {
+          var found = [];
+          for (var i = 0; i < win.frames.length; i++) {
+            found.push(win.frames[i].axe === win.frames[i].firstAxe);
+            found = found.concat(walk(win.frames[i]));
+          }
+          return found;
+        })(window);
+      JS
+      expect(same_axe).not_to be_empty
+      expect(same_axe).to all(be true)
+    end
+
+    it "still tests child frames on a later check in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      res = with_legacy_mode {
+        run_axe run_without_iframes
+        run_axe Run.new.with_options({ "runOnly" => "label" })
+      }
+
+      label_vio = res.results.violations.find { |vio| vio.id == :label }
+      expect(label_vio).not_to be_nil
+      expect(label_vio.nodes.length).to be 4
+      expect(child_frame_axe_types).to all(eq "object")
+    end
+  end
+
+  it "tests a child frame that loaded its own axe in legacy mode" do
+    $driver.get fixture "/nested-iframes.html"
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    $driver.execute_script $axe_pre_43x
+    $driver.switch_to.default_content
+
+    res = with_legacy_mode { run_axe Run.new.with_options({ "runOnly" => "label" }) }
+
+    label_vio = res.results.violations.find { |vio| vio.id == :label }
+    expect(label_vio).not_to be_nil
+    expect(label_vio.nodes.map(&:target)).to include(["#ifr-baz", "input"])
+    expect(label_vio.nodes.length).to be 4
+  end
+
+  it "tests a child frame whose page replaced the injected axe in legacy mode" do
+    $driver.get fixture "/nested-iframes.html"
+    with_legacy_mode { run_axe }
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    $driver.execute_script $axe_pre_43x
+    $driver.switch_to.default_content
+
+    res = with_legacy_mode { run_axe Run.new.with_options({ "runOnly" => "label" }) }
+
+    label_vio = res.results.violations.find { |vio| vio.id == :label }
+    expect(label_vio).not_to be_nil
+    expect(label_vio.nodes.map(&:target)).to include(["#ifr-baz", "input"])
+    expect(label_vio.nodes.length).to be 4
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    frame_axe_version = $driver.execute_script "return window.axe.version"
+    $driver.switch_to.default_content
+    expect(frame_axe_version).not_to eq "4.2.3"
   end
 
   it "injects into nested frameset" do
