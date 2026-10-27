@@ -24,6 +24,54 @@ module Common
         end
       end
 
+      context "when iframes is false" do
+        it "should not find iframes" do
+          loader.call(:source, iframes: false)
+          expect(page).not_to have_received(:find_frames)
+        end
+      end
+
+      context "in a child frame that already has the injected axe" do
+        before { allow(page).to receive(:evaluate_script).and_return(true) }
+
+        it "should not evaluate the source again" do
+          loader.call(:source, false)
+          expect(page).not_to have_received(:execute_script).with(:source)
+        end
+
+        it "should still find nested iframes" do
+          loader.call(:source, false)
+          expect(page).to have_received(:find_frames)
+        end
+      end
+
+      context "in a child frame whose page loaded its own axe" do
+        before do
+          allow(page).to receive(:evaluate_script) { |script| !script.include?("axeCoreGems") }
+        end
+
+        it "should evaluate the source" do
+          loader.call(:source, false)
+          expect(page).to have_received(:execute_script).with(:source)
+        end
+      end
+
+      context "in a child frame without axe" do
+        before { allow(page).to receive(:evaluate_script).and_return(false) }
+
+        it "should evaluate the source" do
+          loader.call(:source, false)
+          expect(page).to have_received(:execute_script).with(:source)
+        end
+      end
+
+      context "when iframes is true" do
+        it "should find iframes" do
+          loader.call(:source, iframes: true)
+          expect(page).to have_received(:find_frames)
+        end
+      end
+
       context "when not skipping iframes" do
         before do
           allow(Axe::Configuration.instance).to receive(:skip_iframes) { true }

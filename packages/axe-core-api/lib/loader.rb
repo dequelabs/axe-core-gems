@@ -4,10 +4,12 @@ require_relative "./hooks"
 
 module Common
   class Loader
-    def initialize(page, lib)
+    INJECTED = "axeCoreGemsInjected".freeze
+
+    def initialize(page, lib, loaded_top_level: false)
       @page = page
       @lib = lib
-      @loaded_top_level = false
+      @loaded_top_level = loaded_top_level
     end
 
     def load_top_level(source)
@@ -16,14 +18,29 @@ module Common
       Common::Hooks.run_after_load @lib
     end
 
-    def call(source, is_top_level = true)
-      @page.execute_script source unless (@loaded_top_level and is_top_level)
-      set_allowed_origins
-      Common::Hooks.run_after_load @lib
-      load_into_iframes(source) unless Axe::Configuration.instance.skip_iframes
+    def call(source, is_top_level = true, iframes: true)
+      if is_top_level || !injected?
+        unless @loaded_top_level and is_top_level
+          @page.execute_script source
+          mark_injected unless is_top_level
+        end
+        set_allowed_origins
+        Common::Hooks.run_after_load @lib
+      end
+      load_frames = iframes && !Axe::Configuration.instance.skip_iframes
+      load_into_iframes(source) if load_frames
+      load_frames
     end
 
     private
+
+    def injected?
+      @page.evaluate_script "window.#{INJECTED} !== undefined && window.#{INJECTED} === window.#{Axe::Core::JS_NAME}"
+    end
+
+    def mark_injected
+      @page.execute_script "window.#{INJECTED} = window.#{Axe::Core::JS_NAME};"
+    end
 
     def set_allowed_origins
       allowed_origins = "<same_origin>"
