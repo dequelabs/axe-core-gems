@@ -4,26 +4,62 @@ require_relative "./hooks"
 
 module Common
   class Loader
-    def initialize(page, lib)
+    INJECTED = "axeCoreGemsInjected".freeze
+
+    # a frame that blocks scripts skips event listeners and never fires timers, so axe.runPartial would hang in it
+    ASSERT_SCRIPTS_RUN = <<-JS
+      (function () {
+        var ran = false;
+        try {
+          var target = document.createElement('div');
+          target.addEventListener('axe', function () { ran = true; });
+          var event = document.createEvent('Event');
+          event.initEvent('axe', false, false);
+          target.dispatchEvent(event);
+        } catch (e) {
+          return;
+        }
+        if (!ran) {
+          throw new Error('Frame cannot run scripts');
+        }
+      })();
+    JS
+
+    def initialize(page, lib, loaded_top_level: false)
       @page = page
       @lib = lib
-      @loaded_top_level = false
+      @loaded_top_level = loaded_top_level
     end
 
     def load_top_level(source)
-      @page.execute_script source
+      @page.execute_script ASSERT_SCRIPTS_RUN + source
       @loaded_top_level = true
       Common::Hooks.run_after_load @lib
     end
 
-    def call(source, is_top_level = true)
-      @page.execute_script source unless (@loaded_top_level and is_top_level)
-      set_allowed_origins
-      Common::Hooks.run_after_load @lib
-      load_into_iframes(source) unless Axe::Configuration.instance.skip_iframes
+    def call(source, is_top_level = true, iframes: true)
+      if is_top_level || !injected?
+        unless @loaded_top_level and is_top_level
+          @page.execute_script source
+          mark_injected unless is_top_level
+        end
+        set_allowed_origins
+        Common::Hooks.run_after_load @lib
+      end
+      load_frames = iframes && !Axe::Configuration.instance.skip_iframes
+      load_into_iframes(source) if load_frames
+      load_frames
     end
 
     private
+
+    def injected?
+      @page.evaluate_script "window.#{INJECTED} !== undefined && window.#{INJECTED} === window.#{Axe::Core::JS_NAME}"
+    end
+
+    def mark_injected
+      @page.execute_script "window.#{INJECTED} = window.#{Axe::Core::JS_NAME};"
+    end
 
     def set_allowed_origins
       allowed_origins = "<same_origin>"

@@ -1,6 +1,8 @@
 # Typical example using standard RSpec dsl
 require "json" #TODO: REMOVE
 require "selenium-webdriver"
+require "timeout"
+require "webrick"
 require "axe/core"
 require "axe/api"
 
@@ -38,9 +40,9 @@ end
 
 def with_legacy_mode
   Axe::Configuration.instance.legacy_mode = true
-  ret = yield
+  yield
+ensure
   Axe::Configuration.instance.legacy_mode = nil
-  ret
 end
 
 # The ruby selenium driver differentiates between a JS property on an object being
@@ -150,6 +152,120 @@ describe "frame tests" do
     )
   end
 
+  describe "with iframes: false" do
+    def child_frame_axe_types
+      $driver.execute_script <<-JS
+        return (function walk(win) {
+          var found = [];
+          for (var i = 0; i < win.frames.length; i++) {
+            found.push(typeof win.frames[i].axe);
+            found = found.concat(walk(win.frames[i]));
+          }
+          return found;
+        })(window);
+      JS
+    end
+
+    def run_without_iframes
+      Run.new.with_options({ "runOnly" => "label", "iframes" => false })
+    end
+
+    it "does not test child frames" do
+      $driver.get fixture "/nested-iframes.html"
+      res = run_axe run_without_iframes
+
+      expect(res.results.violations).to be_empty
+      frames = child_frame_axe_types
+      expect(frames).not_to be_empty
+      expect(frames).to all(eq "undefined")
+    end
+
+    it "does not test child frames in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      res = with_legacy_mode { run_axe run_without_iframes }
+
+      expect(res.results.violations).to be_empty
+      frames = child_frame_axe_types
+      expect(frames).not_to be_empty
+      expect(frames).to all(eq "undefined")
+    end
+
+    it "does not inject axe into child frames again on a later check in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      with_legacy_mode { run_axe }
+      $driver.execute_script <<-JS
+        (function walk(win) {
+          for (var i = 0; i < win.frames.length; i++) {
+            win.frames[i].firstAxe = win.frames[i].axe;
+            walk(win.frames[i]);
+          }
+        })(window);
+      JS
+      res = with_legacy_mode { run_axe }
+
+      label_vio = res.results.violations.find { |vio| vio.id == :label }
+      expect(label_vio.nodes.length).to be 4
+      same_axe = $driver.execute_script <<-JS
+        return (function walk(win) {
+          var found = [];
+          for (var i = 0; i < win.frames.length; i++) {
+            found.push(win.frames[i].axe === win.frames[i].firstAxe);
+            found = found.concat(walk(win.frames[i]));
+          }
+          return found;
+        })(window);
+      JS
+      expect(same_axe).not_to be_empty
+      expect(same_axe).to all(be true)
+    end
+
+    it "still tests child frames on a later check in legacy mode" do
+      $driver.get fixture "/nested-iframes.html"
+      res = with_legacy_mode {
+        run_axe run_without_iframes
+        run_axe Run.new.with_options({ "runOnly" => "label" })
+      }
+
+      label_vio = res.results.violations.find { |vio| vio.id == :label }
+      expect(label_vio).not_to be_nil
+      expect(label_vio.nodes.length).to be 4
+      expect(child_frame_axe_types).to all(eq "object")
+    end
+  end
+
+  it "tests a child frame that loaded its own axe in legacy mode" do
+    $driver.get fixture "/nested-iframes.html"
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    $driver.execute_script $axe_pre_43x
+    $driver.switch_to.default_content
+
+    res = with_legacy_mode { run_axe Run.new.with_options({ "runOnly" => "label" }) }
+
+    label_vio = res.results.violations.find { |vio| vio.id == :label }
+    expect(label_vio).not_to be_nil
+    expect(label_vio.nodes.map(&:target)).to include(["#ifr-baz", "input"])
+    expect(label_vio.nodes.length).to be 4
+  end
+
+  it "tests a child frame whose page replaced the injected axe in legacy mode" do
+    $driver.get fixture "/nested-iframes.html"
+    with_legacy_mode { run_axe }
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    $driver.execute_script $axe_pre_43x
+    $driver.switch_to.default_content
+
+    res = with_legacy_mode { run_axe Run.new.with_options({ "runOnly" => "label" }) }
+
+    label_vio = res.results.violations.find { |vio| vio.id == :label }
+    expect(label_vio).not_to be_nil
+    expect(label_vio.nodes.map(&:target)).to include(["#ifr-baz", "input"])
+    expect(label_vio.nodes.length).to be 4
+    $driver.switch_to.frame $driver.find_element(:id, "ifr-baz")
+    frame_axe_version = $driver.execute_script "return window.axe.version"
+    $driver.switch_to.default_content
+    expect(frame_axe_version).not_to eq "4.2.3"
+  end
+
   it "injects into nested frameset" do
     $driver.get fixture "/nested-frameset.html"
     res = run_axe
@@ -223,6 +339,101 @@ describe "frame tests" do
       "#ifr-baz",
       "input"
     )
+  end
+
+  describe "with a frame that cannot run scripts" do
+    before(:all) do
+      $csp_server = WEBrick::HTTPServer.new(
+        Port: 0,
+        DocumentRoot: $fixture_root,
+        Logger: WEBrick::Log.new(File::NULL),
+        AccessLog: []
+      )
+      $csp_server.mount_proc "/csp-sandbox" do |req, res|
+        res["Content-Security-Policy"] = "sandbox allow-same-origin"
+        res["Content-Type"] = "text/html"
+        res.body = File.read File.join($fixture_root, req.path.delete_prefix("/csp-sandbox"))
+      end
+      Thread.new { $csp_server.start }
+    end
+
+    after(:all) do
+      $csp_server.shutdown
+    end
+
+    def add_frame(id, src, sandbox = nil)
+      $driver.execute_async_script <<-JS, id, src, sandbox
+        var done = arguments[arguments.length - 1];
+        var iframe = document.createElement('iframe');
+        iframe.id = arguments[0];
+        if (arguments[2] !== null) {
+          iframe.setAttribute('sandbox', arguments[2]);
+        }
+        iframe.src = arguments[1];
+        iframe.onload = function () { done(); };
+        document.body.appendChild(iframe);
+      JS
+    end
+
+    def run_frame_tested
+      Timeout.timeout(15) { run_axe Run.new.checking_only(:'frame-tested') }
+    end
+
+    def frame_tested_targets(rules)
+      rule = rules.find { |r| r.id == :'frame-tested' }
+      rule.nil? ? [] : rule.nodes.map(&:target)
+    end
+
+    it "reports a sandboxed frame as frame-tested" do
+      $driver.get fixture "/index.html"
+      add_frame "no-scripts", "/index.html", "allow-same-origin"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#no-scripts"]]
+    end
+
+    it "scans a sandboxed frame that allows scripts" do
+      $driver.get fixture "/index.html"
+      add_frame "scripts", "/index.html", "allow-same-origin allow-scripts"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to be_empty
+      expect(frame_tested_targets(res.results.passes)).to eq [["#scripts"]]
+    end
+
+    it "reports a frame sandboxed by a CSP header as frame-tested" do
+      $driver.get "http://localhost:#{$csp_server.config[:Port]}/index.html"
+      add_frame "csp-sandbox", "/csp-sandbox/index.html"
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#csp-sandbox"]]
+    end
+
+    it "uses the sandbox a frame loaded with, not its current attribute" do
+      $driver.get fixture "/index.html"
+      add_frame "sandbox-added-after-load", "/index.html"
+      add_frame "sandbox-removed-after-load", "/index.html", "allow-same-origin"
+      $driver.execute_script <<-JS
+        document.getElementById('sandbox-added-after-load').setAttribute('sandbox', 'allow-same-origin');
+        document.getElementById('sandbox-removed-after-load').removeAttribute('sandbox');
+      JS
+
+      res = run_frame_tested
+      expect(frame_tested_targets(res.results.passes)).to eq [["#sandbox-added-after-load"]]
+      expect(frame_tested_targets(res.results.incomplete)).to eq [["#sandbox-removed-after-load"]]
+    end
+
+    it "scans pages and frames that replace window.Event" do
+      $driver.get fixture "/index.html"
+      $driver.execute_script "window.Event = function () {};"
+      add_frame "replaced-event", "/index.html"
+      $driver.execute_script "document.getElementById('replaced-event').contentWindow.Event = function () {};"
+
+      res = nil
+      expect { res = run_frame_tested }.not_to raise_error
+      expect(frame_tested_targets(res.results.incomplete)).to be_empty
+      expect(frame_tested_targets(res.results.passes)).to eq [["#replaced-event"]]
+    end
   end
 end
 
