@@ -19,7 +19,7 @@ module Axe
       end
 
       def to_hash
-        @rules.to_hash.merge(@custom)
+        @rules.to_hash.merge(@custom).transform_keys(&:to_s)
       end
 
       def to_json(options = nil)

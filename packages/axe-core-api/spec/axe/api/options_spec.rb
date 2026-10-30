@@ -104,6 +104,32 @@ module Axe::API
           expect(subject.to_json).to eq '{"foo":"bar"}'
         end
       end
+
+      context "with a string key following a symbol key" do
+        before :each do
+          subject.instance_variable_set :@custom, {}
+          allow(rules).to receive(:to_hash).and_return({})
+          subject.with_options :foo => :bar
+          subject.with_options "foo" => :baz
+        end
+
+        it "should take the later value" do
+          expect(subject.to_json).to eq '{"foo":"baz"}'
+        end
+      end
+
+      context "with a symbol key following a string key" do
+        before :each do
+          subject.instance_variable_set :@custom, {}
+          allow(rules).to receive(:to_hash).and_return({})
+          subject.with_options "foo" => :baz
+          subject.with_options :foo => :bar
+        end
+
+        it "should take the later value" do
+          expect(subject.to_json).to eq '{"foo":"bar"}'
+        end
+      end
     end
   end
 end
