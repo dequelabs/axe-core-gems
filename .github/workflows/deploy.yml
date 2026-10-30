@@ -31,9 +31,9 @@ jobs:
     permissions:
       contents: read # Needed to check out the repository.
       id-token: write # Needed to exchange a GitHub OIDC token for short-lived RubyGems.org credentials.
-    # The RubyGems.org trusted publisher for each gem requires the `release`
+    # The RubyGems.org trusted publisher for each gem requires the `rubygems.org`
     # environment, so the OIDC token must carry that claim to be accepted.
-    environment: release
+    environment: rubygems.org
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -72,7 +72,7 @@ jobs:
     permissions:
       contents: read # Needed to check out the repository.
       id-token: write # Needed to exchange a GitHub OIDC token for short-lived RubyGems.org credentials.
-    environment: release
+    environment: rubygems.org
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
